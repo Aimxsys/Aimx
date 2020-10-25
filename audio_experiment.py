@@ -8,11 +8,7 @@ import numpy as np
 import scipy as sp
 import os
 from os import walk
-
 from audio_experiment_utils import *
-
-def quote(me):
-    return '\'' + me + '\''
 
 AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), "sounds")
 

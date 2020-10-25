@@ -4,6 +4,9 @@ import matplotlib.pyplot as pt
 import scipy as sp
 import numpy as np
 
+def quote(me):
+    return '\'' + me + '\''
+
 def print_stats(signal_pack):
     sample_duration = 1/signal_pack[1][1]
     signal_duration = sample_duration * len(signal_pack[1][0])
