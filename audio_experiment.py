@@ -29,7 +29,7 @@ args = parser.parse_args()
 
 ################# Command Argument Verification #################
 if args.file_path is not None and not args.file_path.exists():
-    raise FileNotFoundError("Proved path " + quote(str(args.file_path)) + " not found.")
+    raise FileNotFoundError("Provided path " + quote(str(args.file_path)) + " not found.")
 
 if not Path(AUDIO_FILES_DIR_DEFAULT).exists():
     raise FileNotFoundError("Default path 'sounds' not found.")
@@ -42,7 +42,7 @@ PAR_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
 PAR_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
 
 print("=============================================================================")
-print("Expecting audio files in CMDPAR_AUDIO_FILES_DIR =", PAR_AUDIO_FILES_DIR)
+print("Expecting audio files in PAR_AUDIO_FILES_DIR =", PAR_AUDIO_FILES_DIR)
 print("=============================================================================")
 
 (_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
