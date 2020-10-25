@@ -50,6 +50,7 @@ print("=========================================================================
 (_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
 
 signal_packs = []
+
 for filename in filenames:
     file = os.path.join(PAR_AUDIO_FILES_DIR, filename)
     print("Loading...", file)
