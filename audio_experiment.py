@@ -21,7 +21,7 @@ AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), "sounds")
 # Calling with   "-file_path mydir" will expect to find a           ./mydir  directory.
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-file_path", type=Path)
+parser.add_argument("-file_path", type = Path)
 parser.add_argument("-plot_all",         action='store_true')
 parser.add_argument("-plot_signals",     action='store_true')
 parser.add_argument("-plot_frequencies", action='store_true')
