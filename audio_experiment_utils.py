@@ -8,6 +8,7 @@ def quote(me):
     return '\'' + me + '\''
 
 def print_stats(signal_pack):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv stats")
     sample_duration = 1/signal_pack[1][1]
     signal_duration = sample_duration * len(signal_pack[1][0])
     ft = np.fft.fft(signal_pack[1][0])
@@ -19,6 +20,7 @@ def print_stats(signal_pack):
     print(f"{signal_pack[0]} FFT:              {ft[0]}")
 
 def plot_signals_single_chart(signal_packs):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_signals_single_chart()")
     pt.figure(figsize=(20, 12)).canvas.set_window_title("Signals")
     rows = len(signal_packs)
     for index, sigp in enumerate(signal_packs, start = 1):
@@ -28,6 +30,7 @@ def plot_signals_single_chart(signal_packs):
         pt.ylim((-1, 1))
 
 def plot_frequency_distribution(signal_pack, f_ratio=1):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_frequency_distribution()")
     ft   = sp.fft.fft(signal_pack[1][0])
     magn = np.abs(ft)
     freq = np.linspace(0, signal_pack[1][1], len(magn))
@@ -39,6 +42,7 @@ def plot_frequency_distribution(signal_pack, f_ratio=1):
     pt.ylabel("Magnitude")
 
 def plot_spectrogram(signal_pack, y_axis = "linear"):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_spectrogram()")
     FRAME_SIZE = 2048
     HOP_LENGTH = 512
     stft_scale = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
@@ -52,6 +56,7 @@ def plot_spectrogram(signal_pack, y_axis = "linear"):
     pt.colorbar(format = "%+2f")
 
 def plot_melspec(signal_pack):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_melspec()")
     mel_spectrogram = librosa.feature.melspectrogram(signal_pack[1][0], signal_pack[1][1], n_fft = 2048, hop_length = 512, n_mels = 90)
     print("mel_spectrogram.shape =", mel_spectrogram.shape)
     log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
@@ -61,6 +66,7 @@ def plot_melspec(signal_pack):
     pt.colorbar(format = "%+2.f")
 
 def plot_mfcc(signal_pack):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_mfcc()")
     mfccs = librosa.feature.mfcc(signal_pack[1][0], n_mfcc=20, sr = signal_pack[1][1])
     print("mfcc.shape =", mfccs.shape)
     pt.figure(figsize=(15,10)).canvas.set_window_title("MFCC")
