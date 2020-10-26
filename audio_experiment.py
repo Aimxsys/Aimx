@@ -29,12 +29,15 @@ parser.add_argument("-plot_mfccs",       action='store_true')
 
 args = parser.parse_args()
 
-################# Command Argument Verification #################
+############################## Command Argument Verification ##############################
+
 if args.file_path is not None and not args.file_path.exists():
     raise FileNotFoundError("Provided path " + quote(str(args.file_path)) + " not found.")
 
 if not Path(AUDIO_FILES_DIR_DEFAULT).exists():
     raise FileNotFoundError("Default path 'sounds' not found.")
+
+###########################################################################################
 
 PAR_AUDIO_FILES_DIR = args.file_path if args.file_path is not None else AUDIO_FILES_DIR_DEFAULT
 PAR_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
