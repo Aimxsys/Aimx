@@ -14,9 +14,9 @@ from audio_experiment_utils import *
 
 AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), "sounds")
 
-# TODO: Write a usage text and add these arguments there.
-# Calling without -files_path        will expect to find the default ./sounds directory.
-# Calling with   "-files_path mydir" will expect to find a           ./mydir  directory.
+# Calling without -files_path               will expect to find the default ./sounds directory.
+# Calling with   "-files_path mydir"        will expect to find a           ./mydir  directory.
+# Calling with   "-files_path /to/file.wav" will expect to find the wav file in ./to directory.
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-files_path", type = Path)
