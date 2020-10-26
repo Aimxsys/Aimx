@@ -72,13 +72,7 @@ if PAR_PLOT_SPECS:
 
 if PAR_PLOT_MELSPECS:
     for sigp in signal_packs:
-        mel_spectrogram = librosa.feature.melspectrogram(sigp[1][0], sigp[1][1], n_fft = 2048, hop_length = 512, n_mels = 90)
-        print(mel_spectrogram.shape)
-        log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
-        pt.figure(figsize = (15, 10)).canvas.set_window_title("MEL Spectrogram")
-        pt.title("MEL of " + str(sigp[0]))
-        librosa.display.specshow(log_mel_spectrogram, x_axis = "time", y_axis = "mel", sr = sigp[1][1])
-        pt.colorbar(format = "%+2.f")
+        plot_melspec(sigp)
 
 if PAR_PLOT_MFCCS:
     for sigp in signal_packs:
