@@ -73,3 +73,4 @@ def plot_mfcc(signal_pack):
     pt.title("MFCC of " + signal_pack[0])
     librosa.display.specshow(mfccs, x_axis="time", sr = signal_pack[1][1])
     pt.colorbar(format="%+2f")
+    pt.ylabel("Number of MFCCs")
