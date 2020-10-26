@@ -67,9 +67,9 @@ if PAR_PLOT_FREQUENCIES:
         plot_frequency_distribution(sigp)
 
 if PAR_PLOT_SPECS:
-    FRAME_SIZE = 2048
-    HOP_LENGTH = 512
     for sigp in signal_packs:
+        FRAME_SIZE = 2048
+        HOP_LENGTH = 512
         stft_scale = librosa.stft(sigp[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
         print(stft_scale.shape)
         print(type(stft_scale[0][0]))        
