@@ -76,11 +76,6 @@ if PAR_PLOT_MELSPECS:
 
 if PAR_PLOT_MFCCS:
     for sigp in signal_packs:
-        mfccs = librosa.feature.mfcc(sigp[1][0], n_mfcc=40, sr = sigp[1][1])
-        print("mfcc.shape = ", mfccs.shape)
-        pt.figure(figsize=(15,10)).canvas.set_window_title("MFCC")
-        pt.title("MFCC of " + sigp[0])
-        librosa.display.specshow(mfccs, x_axis="time", sr = sigp[1][1])
-        pt.colorbar(format="%+2f")
+        plot_mfcc(sigp)
 
 pt.show()

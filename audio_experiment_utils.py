@@ -59,3 +59,11 @@ def plot_melspec(signal_pack):
     pt.title("MEL Spec of " + str(signal_pack[0]))
     librosa.display.specshow(log_mel_spectrogram, x_axis = "time", y_axis = "mel", sr = signal_pack[1][1])
     pt.colorbar(format = "%+2.f")
+
+def plot_mfcc(signal_pack):
+    mfccs = librosa.feature.mfcc(signal_pack[1][0], n_mfcc=20, sr = signal_pack[1][1])
+    print("mfcc.shape =", mfccs.shape)
+    pt.figure(figsize=(15,10)).canvas.set_window_title("MFCC")
+    pt.title("MFCC of " + signal_pack[0])
+    librosa.display.specshow(mfccs, x_axis="time", sr = signal_pack[1][1])
+    pt.colorbar(format="%+2f")
