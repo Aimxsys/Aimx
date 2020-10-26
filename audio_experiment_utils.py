@@ -28,6 +28,7 @@ def plot_signals_single_chart(signal_packs):
         librosa.display.waveplot(sigp[1][0], alpha = 0.5)
         pt.title(sigp[0])
         pt.ylim((-1, 1))
+        pt.ylabel("Amplitude")
 
 def plot_frequency_distribution(signal_pack, f_ratio=1):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_frequency_distribution()")
