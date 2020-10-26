@@ -50,14 +50,18 @@ print("=========================================================================
 print("Expecting audio files in PAR_AUDIO_FILES_DIR =", PAR_AUDIO_FILES_DIR)
 print("=============================================================================")
 
-(_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
-
+path = Path(PAR_AUDIO_FILES_DIR)
 signal_packs = []
 
-for filename in filenames:
-    file = os.path.join(PAR_AUDIO_FILES_DIR, filename)
-    print("Loading...", file)
-    signal_packs.append((filename, librosa.load(file)))
+if path.is_file():
+    print("Loading...", path)
+    signal_packs.append((Path(path).name, librosa.load(path)))
+else: # directory
+    (_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
+    for filename in filenames:
+        file = os.path.join(PAR_AUDIO_FILES_DIR, filename)
+        print("Loading...", file)
+        signal_packs.append((filename, librosa.load(file)))
 
 for sigp in signal_packs:
     print_stats(sigp)
