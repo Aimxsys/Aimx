@@ -68,17 +68,7 @@ if PAR_PLOT_FREQUENCIES:
 
 if PAR_PLOT_SPECS:
     for sigp in signal_packs:
-        FRAME_SIZE = 2048
-        HOP_LENGTH = 512
-        stft_scale = librosa.stft(sigp[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
-        print(stft_scale.shape)
-        print(type(stft_scale[0][0]))        
-        y_scale = np.abs(stft_scale) ** 2
-        print(y_scale.shape)
-        print(type(y_scale[0][0]))
-        Y_log_scale = librosa.power_to_db(y_scale)
-    
-        plot_spectrogram(Y_log_scale, sigp, HOP_LENGTH, y_axis = "log")
+        plot_spectrogram(sigp, y_axis = "log")
 
 if PAR_PLOT_MELSPECS:
     for sigp in signal_packs:

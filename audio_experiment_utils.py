@@ -38,8 +38,17 @@ def plot_frequency_distribution(signal_pack, f_ratio=1):
     pt.xlabel("Frequency (Hz)")
     pt.ylabel("Magnitude")
 
-def plot_spectrogram(Y, signal_pack, hop_length, y_axis = "linear"):
+def plot_spectrogram(signal_pack, y_axis = "linear"):
+    FRAME_SIZE = 2048
+    HOP_LENGTH = 512
+    stft_scale = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
+    print(stft_scale.shape)
+    print(type(stft_scale[0][0]))        
+    y_scale = np.abs(stft_scale) ** 2
+    print(y_scale.shape)
+    print(type(y_scale[0][0]))
+    Y_log_scale = librosa.power_to_db(y_scale)
     pt.figure(figsize = (15, 8)).canvas.set_window_title("Spectrogram")
     pt.title(signal_pack[0])
-    librosa.display.specshow(Y, sr = signal_pack[1][1], hop_length = hop_length, x_axis = "time", y_axis = y_axis)
+    librosa.display.specshow(Y_log_scale, sr = signal_pack[1][1], hop_length = HOP_LENGTH, x_axis = "time", y_axis = y_axis)
     pt.colorbar(format = "%+2f")
