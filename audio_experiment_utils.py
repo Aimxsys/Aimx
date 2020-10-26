@@ -54,7 +54,7 @@ def plot_spectrogram(signal_pack, y_axis = "linear"):
     pt.figure(figsize = (15, 8)).canvas.set_window_title("Spectrogram")
     pt.title(signal_pack[0])
     librosa.display.specshow(y_log_scale, sr = signal_pack[1][1], hop_length = HOP_LENGTH, x_axis = "time", y_axis = y_axis)
-    pt.colorbar(format = "%+2f")
+    pt.colorbar()
 
 def plot_melspec(signal_pack):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_melspec()")
@@ -64,7 +64,7 @@ def plot_melspec(signal_pack):
     pt.figure(figsize = (15, 10)).canvas.set_window_title("MEL Spectrogram")
     pt.title("MEL Spec of " + str(signal_pack[0]))
     librosa.display.specshow(log_mel_spectrogram, x_axis = "time", y_axis = "mel", sr = signal_pack[1][1])
-    pt.colorbar(format = "%+2.f")
+    pt.colorbar()
 
 def plot_mfcc(signal_pack):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_mfcc()")
@@ -73,5 +73,5 @@ def plot_mfcc(signal_pack):
     pt.figure(figsize=(15,10)).canvas.set_window_title("MFCC")
     pt.title("MFCC of " + signal_pack[0])
     librosa.display.specshow(mfccs, x_axis="time", sr = signal_pack[1][1])
-    pt.colorbar(format="%+2f")
+    pt.colorbar()
     pt.ylabel("Number of MFCCs")
