@@ -131,3 +131,4 @@ dmypy.json
 # User's local
 .vs
 sounds/
+/Genre/Data
