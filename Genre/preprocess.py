@@ -3,6 +3,8 @@ import os
 import math
 import librosa
 
+# Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
+
 DATASET_PATH      = "path/to/marsyas/dataset"
 JSON_PATH         = "data_10.json"
 SAMPLE_RATE       = 22050
