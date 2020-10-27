@@ -4,12 +4,14 @@ import matplotlib.pyplot as pt
 import scipy as sp
 import numpy as np
 
+# Generic utility functions. TODO: Move to a separate module once they grow in count.
 def exists(x):
     return x is not None
 
 def quote(me):
     return '\'' + me + '\''
 
+# Audio experiments-related functions proper.
 def print_stats(signal_pack):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv stats")
     sample_duration = 1/signal_pack[1][1]
