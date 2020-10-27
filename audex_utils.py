@@ -1,8 +1,10 @@
 import librosa
 import pygame
+from pygame import mixer
 import matplotlib.pyplot as pt
 import scipy as sp
 import numpy as np
+from time import sleep
 
 # Generic utility functions. TODO: Move to a separate module once they grow in count.
 def exists(x):
@@ -10,6 +12,12 @@ def exists(x):
 
 def quote(me):
     return '\'' + me + '\''
+
+def play_sound(file_path, duration_s):
+    mixer.init()
+    mixer.music.load(file_path)
+    mixer.music.play()
+    sleep(duration_s)
 
 # Audio experiments-related functions proper.
 def print_stats(signal_pack):
