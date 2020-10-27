@@ -17,7 +17,8 @@ AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), "sounds")
 # Calling without -files_path               will expect to find the default ./sounds directory.
 # Calling with   "-files_path mydir"        will expect to find a           ./mydir  directory.
 # Calling with   "-files_path /to/file.wav" will expect to find the wav file in ./to directory.
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
+                                               ' audio files and their various spectrograms.')
 
 parser.add_argument("-files_path", type = Path)
 parser.add_argument("-plot_all",         action='store_true')
