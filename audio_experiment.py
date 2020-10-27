@@ -20,13 +20,13 @@ AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), "sounds")
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-files_path", type = Path)
-parser.add_argument("-plot_all",         action='store_true')
-parser.add_argument("-plot_signals",     action='store_true')
-parser.add_argument("-plot_frequencies", action='store_true')
-parser.add_argument("-plot_specs",       action='store_true')
-parser.add_argument("-plot_melspecs",    action='store_true')
-parser.add_argument("-plot_mfccs",       action='store_true')
+parser.add_argument("-files_path",       type = Path,          help = 'Path to a sound files directory or a single file.')
+parser.add_argument("-plot_all",         action ='store_true', help = 'Will plot all available charts and spectrograms')
+parser.add_argument("-plot_signals",     action ='store_true', help = 'Will plot time-domain signals of the sound files.')
+parser.add_argument("-plot_frequencies", action ='store_true', help = 'Will plot frequency domains of the sound files.')
+parser.add_argument("-plot_specs",       action ='store_true', help = 'Will plot spectrograms of the sound files.')
+parser.add_argument("-plot_melspecs",    action ='store_true', help = 'Will plot Mel spectrograms of the sound files.')
+parser.add_argument("-plot_mfccs",       action ='store_true', help = 'Will plot MFCCs of the sound files.')
 
 args = parser.parse_args()
 
