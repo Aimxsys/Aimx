@@ -13,7 +13,7 @@ def exists(x):
 def quote(me):
     return '\'' + me + '\''
 
-def play_sound(file_path, duration_s):
+def play_sound(file_path, duration_s = 1):
     mixer.init()
     mixer.music.load(file_path)
     mixer.music.play()
