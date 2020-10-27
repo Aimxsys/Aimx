@@ -4,6 +4,9 @@ import matplotlib.pyplot as pt
 import scipy as sp
 import numpy as np
 
+def exists(x):
+    return x is not None
+
 def quote(me):
     return '\'' + me + '\''
 
