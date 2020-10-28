@@ -2,10 +2,11 @@
 import os
 import math
 import librosa
+from pathlib import PurePath
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
-DATASET_PATH      = "path/to/marsyas/dataset"
+DATASET_PATH      = "dataset_3class_1file"
 JSON_PATH         = "data_10.json"
 SAMPLE_RATE       = 22050
 TRACK_DURATION    = 30 # measured in seconds
@@ -30,42 +31,43 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
     }
 
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
-    num_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length)
+    expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length)
 
     # loop through all genre sub-folder
-    for i, (dirpath, dirnames, filenames) in enumerate(os.walk(dataset_path)):
+    for dir_index, (dirpath, dirnames, filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing a genre sub-folder level
         if dirpath is not dataset_path:
 
             # save genre label (i.e., sub-folder name) in the mapping
-            semantic_label = dirpath.split("/")[-1]
+            semantic_label = PurePath(dirpath).name
             data["mapping"].append(semantic_label)
             print("\nProcessing: {}".format(semantic_label))
 
             # process all audio files in genre sub-dir
-            for f in filenames:
+            for genre_file in filenames:
 
 		        # load audio file
-                file_path = os.path.join(dirpath, f)
-                signal, sample_rate = librosa.load(file_path, sr=SAMPLE_RATE)
+                audio_file_path     = os.path.join(dirpath, genre_file)
+                signal, sample_rate = librosa.load(audio_file_path, sr=SAMPLE_RATE)
 
                 # process all segments of audio file
-                for d in range(num_segments):
+                for segment in range(num_segments):
 
                     # calculate start and finish sample for current segment
-                    start  = samples_per_segment * d
-                    finish = start + samples_per_segment
+                    start_sample  = samples_per_segment * segment
+                    finish_sample = start_sample + samples_per_segment
 
                     # extract mfcc
-                    mfcc = librosa.feature.mfcc(signal[start:finish], sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
+                    mfcc = librosa.feature.mfcc(signal[start_sample:finish_sample],
+                                                sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
                     mfcc = mfcc.T
 
                     # store only mfcc feature with expected number of vectors
-                    if len(mfcc) == num_mfcc_vectors_per_segment:
+                    if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                         data["mfcc"].append(mfcc.tolist())
-                        data["labels"].append(i-1)
-                        print("{}, segment:{}".format(file_path, d+1))
+                        data["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
+                        print("{}, segment:{}".format(audio_file_path, segment+1))
 
     # save MFCCs to json file
     with open(json_path, "w") as fp:
