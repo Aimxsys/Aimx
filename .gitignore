@@ -131,6 +131,7 @@ dmypy.json
 # User's local
 .vs
 sounds/
+data_*.json
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 /Genre/dataset_*
