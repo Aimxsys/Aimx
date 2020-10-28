@@ -24,7 +24,7 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
         """
 
     # dictionary to store mapping, labels, and MFCCs
-    data = {
+    datann = {
         "mapping": [],
         "labels": [],
         "mfcc": []
@@ -41,7 +41,7 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
 
             # save genre label (i.e., sub-folder name) in the mapping
             semantic_label = PurePath(dirpath).name
-            data["mapping"].append(semantic_label)
+            datann["mapping"].append(semantic_label)
             print("\nProcessing: {}".format(semantic_label))
 
             # process all audio files in genre sub-dir
@@ -65,13 +65,13 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
 
                     # store only mfcc feature with expected number of vectors
                     if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
-                        data["mfcc"].append(mfcc.tolist())
-                        data["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
+                        datann["mfcc"].append(mfcc.tolist())
+                        datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
                         print("{}, segment:{}".format(audio_file_path, segment+1))
 
     # save MFCCs to json file
     with open(json_path, "w") as fp:
-        json.dump(data, fp, indent=4)
+        json.dump(datann, fp, indent=4)
         
 if __name__ == "__main__":
     save_mfcc(DATASET_PATH, JSON_PATH, num_segments=10)
