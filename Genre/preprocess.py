@@ -13,12 +13,12 @@ SAMPLE_RATE       = 22050
 TRACK_DURATION    = 30 # measured in seconds
 SAMPLES_PER_TRACK = SAMPLE_RATE * TRACK_DURATION
 
-def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, num_segments=5):
+def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, num_segments=5):
     """
     Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
         :param     json_path (str): Path to json file used to save MFCCs.
-        :param      num_mfcc (int): Number of MFCCs to extract.
+        :param        n_mfcc (int): Number of MFCCs to extract.
         :param         n_fft (int): Interval we consider to apply FFT. Measured in # of samples.
         :param    hop_length (int): Sliding window for FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
@@ -61,7 +61,7 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
 
                     # extract mfcc
                     mfcc = librosa.feature.mfcc(signal[start_sample:finish_sample],
-                                                sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
+                                                sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
                     mfcc = mfcc.T
 
                     # store only mfcc feature with expected number of vectors
