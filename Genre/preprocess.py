@@ -34,13 +34,13 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length)
 
-    # loop through all genre sub-folder
+    # loop through all genre subfolder
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
-        # ensure we're processing a genre sub-folder level
+        # ensure we're processing a genre subfolder level
         if dirpath is not dataset_path:
 
-            # save genre label (i.e., sub-folder name) in the mapping
+            # save genre label (i.e., subfolder name) in the mapping
             semantic_label = PurePath(dirpath).name
             datann["mapping"].append(semantic_label)
             print("\nProcessing: {}".format(semantic_label))
