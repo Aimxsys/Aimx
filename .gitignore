@@ -133,4 +133,4 @@ dmypy.json
 sounds/
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
-/Genre/Data
+/Genre/dataset
