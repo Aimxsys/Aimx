@@ -35,7 +35,7 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length)
 
     # loop through all genre sub-folder
-    for dir_index, (dirpath, dirnames, filenames) in enumerate(os.walk(dataset_path)):
+    for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing a genre sub-folder level
         if dirpath is not dataset_path:
@@ -46,10 +46,10 @@ def save_mfcc(dataset_path, json_path, num_mfcc=13, n_fft=2048, hop_length=512, 
             print("\nProcessing: {}".format(semantic_label))
 
             # process all audio files in genre sub-dir
-            for genre_file in filenames:
+            for audio_filename in audio_filenames:
 
 		        # load audio file
-                audio_file_path     = os.path.join(dirpath, genre_file)
+                audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr=SAMPLE_RATE)
 
                 # process all segments of audio file
