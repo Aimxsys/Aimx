@@ -36,8 +36,8 @@ def plot_signals_single_chart(signal_packs):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_signals_single_chart()")
     pt.figure(figsize=(20, 12)).canvas.set_window_title("Signals")
     rows = len(signal_packs)
-    for index, sigp in enumerate(signal_packs, start = 1):
-        pt.subplot(rows, 1, index)
+    for i, sigp in enumerate(signal_packs, start = 1):
+        pt.subplot(rows, 1, i)
         librosa.display.waveplot(sigp[1][0], alpha = 0.5)
         pt.title(sigp[0])
         pt.ylim((-1, 1))
