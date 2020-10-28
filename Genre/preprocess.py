@@ -6,6 +6,7 @@ from pathlib import PurePath
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
+# TODO: Turn these into command line arguments.
 DATASET_PATH      = "dataset_3class_1file"
 JSON_PATH         = "data_10.json"
 SAMPLE_RATE       = 22050
