@@ -52,7 +52,8 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
                 audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr=SAMPLE_RATE)
 
-                # process all segments of audio file
+                # process all segments of the audio file, extract mfccs
+                # and store the data to be fed to the for NN processing
                 for segment in range(num_segments):
 
                     # calculate start and finish sample for current segment
