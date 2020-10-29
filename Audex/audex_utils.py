@@ -6,7 +6,6 @@ import scipy as sp
 import numpy as np
 from time import sleep
 
-# Generic utility functions. TODO: Move to a separate module once they grow in count.
 def exists(x):
     return x is not None
 
