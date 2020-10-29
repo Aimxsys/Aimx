@@ -13,14 +13,14 @@ SAMPLE_RATE       = 22050 # Hz
 TRACK_DURATION    = 30    # seconds
 SAMPLES_PER_TRACK = SAMPLE_RATE * TRACK_DURATION
 
-def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, num_segments=5):
+def save_mfcc(dataset_path, json_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5):
     """
     Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
         :param     json_path (str): Path to json file used to save MFCCs.
         :param        n_mfcc (int): Number of MFCCs to extract.
-        :param         n_fft (int): Interval we consider to apply FFT. Measured in # of samples.
-        :param    hop_length (int): Sliding window for FFT. Measured in # of samples.
+        :param         n_fft (int): Length of the FFT window. Measured in # of samples.
+        :param    hop_length (int): Sliding window for FFT.   Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
 
@@ -76,4 +76,4 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
         json.dump(datann, fp, indent=4)
         
 if __name__ == "__main__":
-    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=10)
+    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=5)
