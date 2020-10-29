@@ -57,11 +57,11 @@ def save_mfcc(dataset_path, json_path, n_mfcc = 13, n_fft = 2048, hop_length = 5
                 for segment in range(num_segments):
 
                     # calculate first and last sample for the current segment
-                    first_sample = samples_per_segment * segment
-                    last_sample  = first_sample + samples_per_segment
+                    seg_first_sample = samples_per_segment * segment
+                    seg_last_sample  = seg_first_sample + samples_per_segment
 
                     # extract mfcc
-                    mfcc = librosa.feature.mfcc(signal[first_sample:last_sample],
+                    mfcc = librosa.feature.mfcc(signal[seg_first_sample:seg_last_sample],
                                                 sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
                     mfcc = mfcc.T
 
