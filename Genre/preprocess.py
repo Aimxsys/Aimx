@@ -6,15 +6,7 @@ import math
 import librosa
 from pathlib import PurePath
 
-# TODO: Move these to Common/utils.py
-def exists(x):
-    return x is not None
-
-def provided(cmd_arg):
-    return cmd_arg is not None
-
-def quote(me):
-    return '\'' + me + '\''
+from preprocess_utils import *
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
