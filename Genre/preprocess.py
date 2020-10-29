@@ -56,12 +56,12 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
                 # and store the data to be fed to the for NN processing
                 for segment in range(num_segments):
 
-                    # calculate start and finish sample for current segment
-                    first_segment_sample = samples_per_segment * segment
-                    last_segment_sample  = first_segment_sample + samples_per_segment
+                    # calculate first and last sample for the current segment
+                    first_sample = samples_per_segment * segment
+                    last_sample  = first_sample + samples_per_segment
 
                     # extract mfcc
-                    mfcc = librosa.feature.mfcc(signal[first_segment_sample:last_segment_sample],
+                    mfcc = librosa.feature.mfcc(signal[first_sample:last_sample],
                                                 sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
                     mfcc = mfcc.T
 
