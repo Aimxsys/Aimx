@@ -12,7 +12,8 @@ from os import walk
 # Module imports from this project
 from audex_utils import *
 
-AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), "sounds")
+AUDIO_FILES_DIR_DEFAULT_NAME = "sounds"
+AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), AUDIO_FILES_DIR_DEFAULT_NAME)
 
 # Calling without -files_path               will expect to find the default ./sounds directory.
 # Calling with   "-files_path mydir"        will expect to find a           ./mydir  directory.
@@ -36,7 +37,7 @@ if exists(args.files_path) and not args.files_path.exists():
     raise FileNotFoundError("Provided directory " + quote(str(args.files_path)) + " not found.")
 
 if not Path(AUDIO_FILES_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Default directory 'sounds' not found.")
+    raise FileNotFoundError("Default directory " + AUDIO_FILES_DIR_DEFAULT_NAME + " not found.")
 
 ###########################################################################################
 
