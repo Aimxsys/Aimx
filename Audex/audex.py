@@ -33,11 +33,11 @@ args = parser.parse_args()
 
 ############################## Command Argument Verification ##############################
 
-if exists(args.files_path) and not args.files_path.exists():
+if provided(args.files_path) and not args.files_path.exists():
     raise FileNotFoundError("Provided directory " + quote(str(args.files_path)) + " not found.")
 
-if not Path(AUDIO_FILES_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Default directory " + AUDIO_FILES_DIR_DEFAULT_NAME + " not found.")
+if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
+    raise FileNotFoundError("Default directory " + quote(AUDIO_FILES_DIR_DEFAULT_NAME) + " not found.")
 
 ###########################################################################################
 
