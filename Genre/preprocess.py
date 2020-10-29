@@ -9,8 +9,8 @@ from pathlib import PurePath
 # TODO: Turn these into command line arguments.
 DATASET_PATH      = "dataset_3class_1file"
 JSON_PATH         = "data_10.json"
-SAMPLE_RATE       = 22050
-TRACK_DURATION    = 30 # measured in seconds
+SAMPLE_RATE       = 22050 # Hz
+TRACK_DURATION    = 30    # seconds
 SAMPLES_PER_TRACK = SAMPLE_RATE * TRACK_DURATION
 
 def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, num_segments=5):
