@@ -107,7 +107,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
-                signal, sample_rate = librosa.load(audio_file_path, sr=PAR_SAMPLE_RATE)
+                signal, sample_rate = librosa.load(audio_file_path, sr = PAR_SAMPLE_RATE)
                 print("Total samples in the signal (audio track) =", len(signal))
 
                 # process all segments of the audio file, extract mfccs
@@ -120,7 +120,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
                     # extract mfccs for each segment
                     mfcc = librosa.feature.mfcc(signal[seg_first_sample:seg_last_sample],
-                                                sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+                                                sample_rate, n_mfcc = n_mfcc, n_fft = n_fft, hop_length = hop_length)
                     mfcc = mfcc.T
 
                     # store only mfcc feature with expected number of vectors
