@@ -32,7 +32,7 @@ def save_mfcc(dataset_path, json_path, n_mfcc = 13, n_fft = 2048, hop_length = 5
     }
 
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
-    expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length)
+    expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     # loop through all genre subfolder
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
