@@ -67,7 +67,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
     json_path = PurePath(dataset_path).name
-    if provided(args.jcut):
+    if args.jcut:
         json_path += "_cut"
     else:
         json_path += "_" + str(n_mfcc)         + "m" \
