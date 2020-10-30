@@ -19,12 +19,13 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' preprocessing audio files to extract the dataset'
                                                ' later to be fed into a neural network for training.')
 
-parser.add_argument("-dataset_path", type = Path,               help = 'Path to a dataset of sound files.')
-parser.add_argument("-n_mfcc",       default = 13,    type=int, help = 'Number of MFCCs to extract.')
-parser.add_argument("-n_fft",        default = 2048,  type=int, help = 'Length of the FFT window.   Measured in # of samples.')
-parser.add_argument("-hop_length",   default = 512,   type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
-parser.add_argument("-num_segments", default = 5,     type=int, help = 'Number of segments we want to divide sample tracks into.')
-parser.add_argument("-sample_rate",  default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
+parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
+parser.add_argument("-n_mfcc",         default = 13,    type=int, help = 'Number of MFCCs to extract.')
+parser.add_argument("-n_fft",          default = 2048,  type=int, help = 'Length of the FFT window.   Measured in # of samples.')
+parser.add_argument("-hop_length",     default = 512,   type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
+parser.add_argument("-num_segments",   default = 5,     type=int, help = 'Number of segments we want to divide sample tracks into.')
+parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
+parser.add_argument("-track_duration", default = 30,    type=int, help = 'Only load up to this much audio (in seconds).')
 
 args = parser.parse_args()
 
@@ -41,20 +42,20 @@ if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exist
 # preprocess.py -dataset_path dataset_1class_1file -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5
 
 PAR_AUDIO_DATASET_FILES_DIR  = args.dataset_path if exists(args.dataset_path) else AUDIO_DATASET_DIR_DEFAULT
-PAR_N_MFCC                   = args.n_mfcc       # default: 13
-PAR_N_FFT                    = args.n_fft        # default: 2048
-PAR_HOP_LENGTH               = args.hop_length   # default: 512
-PAR_NUM_SEGMENTS             = args.num_segments # default: 5
-PAR_SAMPLE_RATE              = args.sample_rate  # default: 22050
+PAR_N_MFCC                   = args.n_mfcc         # default: 13    - number of MFCCs to extract
+PAR_N_FFT                    = args.n_fft          # default: 2048  - length of the FFT window   (in # of samples) 
+PAR_HOP_LENGTH               = args.hop_length     # default: 512   - sliding window for the FFT (in # of samples)
+PAR_NUM_SEGMENTS             = args.num_segments   # default: 5     - number of segments we want to divide sample tracks into
+PAR_SAMPLE_RATE              = args.sample_rate    # default: 22050 - sample rate at which to read the audio files
+PAR_TRACK_DURATION           = args.track_duration # default: 30    - only load up to this much audio (in seconds)
 
-TRACK_DURATION    = 30    # seconds
-SAMPLES_PER_TRACK = PAR_SAMPLE_RATE * TRACK_DURATION
+SAMPLES_PER_TRACK = PAR_SAMPLE_RATE * PAR_TRACK_DURATION
 
 print("=============================================================================")
 print("Expecting audio files in PAR_AUDIO_DATASET_FILES_DIR =", PAR_AUDIO_DATASET_FILES_DIR)
 print("=============================================================================")
 
-def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050):
+def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
     """
     Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
@@ -77,12 +78,13 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv save_mfcc()")
-    print("json_path    =", json_path)
-    print("n_mfcc       =", n_mfcc)
-    print("n_fft        =", n_fft)
-    print("hop_length   =", hop_length)
-    print("num_segments =", num_segments)
-    print("sample_rate  =", sample_rate)
+    print("json_path      =", json_path)
+    print("n_mfcc         =", n_mfcc)
+    print("n_fft          =", n_fft)
+    print("hop_length     =", hop_length)
+    print("num_segments   =", num_segments)
+    print("sample_rate    =", sample_rate)
+    print("track_duration =", track_duration)
 
     # loop through all genre subfolder
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
@@ -100,7 +102,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
-                signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate)
+                signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
                 print("Total samples in the signal (audio track) =", len(signal))
 
                 # process all segments of the audio file, extract mfccs
