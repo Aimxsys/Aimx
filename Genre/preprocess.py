@@ -39,7 +39,7 @@ if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exist
 
 ###########################################################################################
 # Example command:
-# preprocess.py -dataset_path dataset_1class_1file -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5
+# preprocess.py -dataset_path dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
 PAR_AUDIO_DATASET_FILES_DIR  = args.dataset_path if exists(args.dataset_path) else AUDIO_DATASET_DIR_DEFAULT
 PAR_N_MFCC                   = args.n_mfcc         # default: 13    - number of MFCCs to extract
