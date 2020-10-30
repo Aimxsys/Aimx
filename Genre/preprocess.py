@@ -65,7 +65,13 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    json_path = PurePath(dataset_path).name + ".json"
+    json_path = PurePath(dataset_path).name + "_" + str(n_mfcc)         + "m" \
+                                            + "_" + str(n_fft)          + "w" \
+                                            + "_" + str(hop_length)     + "h" \
+                                            + "_" + str(num_segments)   + "n" \
+                                            + "_" + str(sample_rate)    + "r" \
+                                            + "_" + str(track_duration) + "s" \
+                                            + ".json"
 
     # dictionary to store mapping, labels, and MFCCs
     datann = {
