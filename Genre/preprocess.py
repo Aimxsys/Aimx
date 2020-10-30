@@ -54,7 +54,7 @@ print("=========================================================================
 print("Expecting audio files in PAR_AUDIO_DATASET_FILES_DIR =", PAR_AUDIO_DATASET_FILES_DIR)
 print("=============================================================================")
 
-def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5):
+def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050):
     """
     Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
@@ -82,6 +82,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     print("n_fft        =", n_fft)
     print("hop_length   =", hop_length)
     print("num_segments =", num_segments)
+    print("sample_rate  =", sample_rate)
 
     # loop through all genre subfolder
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
@@ -99,7 +100,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
-                signal, sample_rate = librosa.load(audio_file_path, sr = PAR_SAMPLE_RATE)
+                signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate)
                 print("Total samples in the signal (audio track) =", len(signal))
 
                 # process all segments of the audio file, extract mfccs
@@ -129,4 +130,5 @@ if __name__ == "__main__":
     save_mfcc(PAR_AUDIO_DATASET_FILES_DIR, n_mfcc = PAR_N_MFCC,
                                             n_fft = PAR_N_FFT,
                                        hop_length = PAR_HOP_LENGTH,
-                                     num_segments = PAR_NUM_SEGMENTS)
+                                     num_segments = PAR_NUM_SEGMENTS,
+                                      sample_rate = PAR_SAMPLE_RATE)
