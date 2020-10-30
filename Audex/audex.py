@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' audio files and their various spectrograms.')
 
 parser.add_argument("-files_path",       type = Path,          help = 'Path to a sound files directory or a single file.')
-parser.add_argument("-plot_all",         action ='store_true', help = 'Will plot all available charts and spectrograms')
+parser.add_argument("-plot_all",         action ='store_true', help = 'Will plot all available charts and spectrograms.')
 parser.add_argument("-plot_signals",     action ='store_true', help = 'Will plot time-domain signals of the sound files.')
 parser.add_argument("-plot_frequencies", action ='store_true', help = 'Will plot frequency domains of the sound files.')
 parser.add_argument("-plot_specs",       action ='store_true', help = 'Will plot spectrograms of the sound files.')
