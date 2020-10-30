@@ -112,7 +112,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                 print("Total samples in the signal (audio track) =", len(signal))
 
                 # process all segments of the audio file, extract mfccs
-                # and store the data to be fed to the for NN processing
+                # and store the data to be fed to the NN for processing
                 for segment in range(num_segments):
 
                     # calculate first and last sample for the current segment
