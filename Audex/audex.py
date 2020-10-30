@@ -41,7 +41,7 @@ if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
 
 ###########################################################################################
 
-PAR_AUDIO_FILES_DIR  = args.files_path if exists(args.files_path) else AUDIO_FILES_DIR_DEFAULT
+PAR_AUDIO_FILES_DIR  = args.files_path if provided(args.files_path) else AUDIO_FILES_DIR_DEFAULT
 PAR_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
 PAR_PLOT_SIGNALS     = args.plot_all or args.plot_signals
 PAR_PLOT_SPECS       = args.plot_all or args.plot_specs
