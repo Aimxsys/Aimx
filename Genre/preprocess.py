@@ -20,6 +20,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' later to be fed into a neural network for training.')
 
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
+parser.add_argument("-jcut",           action ='store_true',      help = 'Will generate a json name with no details (cut).')
 parser.add_argument("-n_mfcc",         default = 13,    type=int, help = 'Number of MFCCs to extract.')
 parser.add_argument("-n_fft",          default = 2048,  type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default = 512,   type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
@@ -65,13 +66,17 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    json_path = PurePath(dataset_path).name + "_" + str(n_mfcc)         + "m" \
-                                            + "_" + str(n_fft)          + "w" \
-                                            + "_" + str(hop_length)     + "h" \
-                                            + "_" + str(num_segments)   + "i" \
-                                            + "_" + str(sample_rate)    + "r" \
-                                            + "_" + str(track_duration) + "s" \
-                                            + ".json"
+    json_path = PurePath(dataset_path).name
+    if provided(args.jcut):
+        json_path += "_cut"
+    else:
+        json_path += "_" + str(n_mfcc)         + "m" \
+                  +  "_" + str(n_fft)          + "w" \
+                  +  "_" + str(hop_length)     + "h" \
+                  +  "_" + str(num_segments)   + "i" \
+                  +  "_" + str(sample_rate)    + "r" \
+                  +  "_" + str(track_duration) + "s"
+    json_path += ".json"
 
     # dictionary to store mapping, labels, and MFCCs
     datann = {
