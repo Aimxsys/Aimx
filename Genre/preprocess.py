@@ -139,4 +139,5 @@ if __name__ == "__main__":
                                             n_fft = PAR_N_FFT,
                                        hop_length = PAR_HOP_LENGTH,
                                      num_segments = PAR_NUM_SEGMENTS,
-                                      sample_rate = PAR_SAMPLE_RATE)
+                                      sample_rate = PAR_SAMPLE_RATE,
+                                   track_duration = PAR_TRACK_DURATION)
