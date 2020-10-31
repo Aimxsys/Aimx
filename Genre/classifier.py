@@ -29,7 +29,7 @@ if __name__ == "__main__":
     inputs, labels = load_data(DATA_PATH)
 
     # create train/test split
-    x_train, x_test, y_train, y_test = train_test_split(inputs, labels, test_size = 0.3)
+    inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
 
     # build network topology
     model = keras.Sequential([
@@ -48,4 +48,4 @@ if __name__ == "__main__":
     model.summary()
 
     # train model
-    history = model.fit(x_train, y_train, validation_data = (x_test, y_test), batch_size = 32, epochs = 50)
+    history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test), batch_size = 32, epochs = 50)
