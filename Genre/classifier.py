@@ -1,10 +1,33 @@
-﻿import json
+﻿from pathlib import Path
+from pathlib import PurePath
+import argparse
+import json
+import os
+import math
+import librosa
 import numpy as np
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 
+from preprocess_utils import *
+
+# Calling with "-data_path /to/file" will expect to find the file in ./to directory.
+parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
+                                               ' audio files and their various spectrograms.')
+
+parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN.')
+
+args = parser.parse_args()
+
+############################## Command Argument Verification ##############################
+
+if provided(args.data_path) and not args.data_path.exists():
+    raise FileNotFoundError("Provided file " + quote(str(args.data_path)) + " not found.")
+
+###########################################################################################
+
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "dataset_c1_f1.json"
+PAR_DATA_PATH  = args.data_path if provided(args.data_path) else ""
 
 def load_data(dataset_path):
     """
@@ -13,20 +36,22 @@ def load_data(dataset_path):
         :return X (ndarray): Inputs
         :return y (ndarray): Targets
     """
-    with open(dataset_path, "r") as file:
-        data = json.load(file)
+    try:
+        with open(dataset_path, "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        print("Provided dataset file " + quote(dataset_path) + " not found.")
+        exit()
 
     # convert lists to numpy arrays
     inputs = np.array(data["mfcc"])
     labels = np.array(data["labels"])
-
     print("Data loaded succesfully.")
-
     return  inputs, labels
 
 if __name__ == "__main__":
 
-    inputs, labels = load_data(DATA_PATH)
+    inputs, labels = load_data(PAR_DATA_PATH)
 
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
