@@ -34,7 +34,7 @@ if provided(args.data_path) and not args.data_path.exists():
 # path to json file that stores MFCCs and genre labels for each processed segment
 PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
 if str(PAR_DATA_PATH) == "recent_json":
-    PAR_DATA_PATH = mydir_most_recent_data("json")
+    PAR_DATA_PATH = get_most_recent_file_in_dir("data_json", "json")
 
 PAR_BATCH_SIZE = args.batch_size # default: 32 - batch size
 PAR_EPOCHS     = args.epochs     # default: 50 - number of epochs to train

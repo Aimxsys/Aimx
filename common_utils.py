@@ -11,6 +11,6 @@ def provided(cmd_arg):
 def quote(me):
     return '\'' + str(me) + '\''
 
-def mydir_most_recent_data(ext):
-    files = glob.glob('./dataset*.' + ext)
+def get_most_recent_file_in_dir(data_json_path, ext):
+    files = glob.glob(data_json_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
