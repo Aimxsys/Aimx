@@ -114,7 +114,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
-                print("Total samples in the signal (audio track) =", len(signal))
+                print("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)))
 
                 # process all segments of the audio file, extract mfccs
                 # and store the data to be fed to the NN for processing
@@ -137,7 +137,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
     # save MFCCs to json file
     with open(json_path, "w") as data_file:
-        print("<<<<<< Writing data file...", end="")
+        print("\n<<<<<< Writing data file...", end="")
         json.dump(datann, data_file, indent=4)
         print("[DONE].")
         
