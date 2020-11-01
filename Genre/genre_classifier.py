@@ -33,25 +33,25 @@ if provided(args.data_path) and not args.data_path.exists():
 # path to json file that stores MFCCs and genre labels for each processed segment
 PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
 if str(PAR_DATA_PATH) == "recent_json":
-    PAR_DATA_PATH = mydir_most_recent_dataset("json")
+    PAR_DATA_PATH = mydir_most_recent_data("json")
 
 PAR_BATCH_SIZE = args.batch_size # default: 32 - batch size
 PAR_EPOCHS     = args.epochs     # default: 50 - number of epochs to train
 
-def load_data(dataset_path):
+def load_data(data_path):
     """
-    Loads training dataset from json file.
+    Loads training data from json file.
         :param data_path (str): Path to json file containing data
         :return inputs (ndarray)
         :return labels (ndarray)
     """
     try:
-        with open(dataset_path, "r") as file:
-            print("\n>>>>>> Loading dataset file " + quote(dataset_path) + "...", end="")
+        with open(data_path, "r") as file:
+            print("\n>>>>>> Loading data file " + quote(data_path) + "...", end="")
             data = json.load(file)
             print(" [DONE].")
     except FileNotFoundError:
-        print("Dataset file " + quote(dataset_path) + " not provided or not found. Exiting...")
+        print("Data file " + quote(data_path) + " not provided or not found. Exiting...")
         exit()
 
     # convert lists to numpy arrays
