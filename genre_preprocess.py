@@ -139,7 +139,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     with open(json_path, "w") as data_file:
         print("\n<<<<<< Writing data file", json_path, "... ", end="")
         json.dump(datann, data_file, indent=4)
-        print("[DONE].")
+        print("[DONE]")
         
 if __name__ == "__main__":
     save_mfcc(PAR_AUDIO_DATASET_FILES_DIR, n_mfcc = PAR_N_MFCC,

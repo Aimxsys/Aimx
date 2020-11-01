@@ -49,7 +49,7 @@ def load_data(data_path):
         with open(data_path, "r") as file:
             print("\n>>>>>> Loading data file " + quote(data_path) + "...", end="")
             data = json.load(file)
-            print(" [DONE].")
+            print(" [DONE]")
     except FileNotFoundError:
         print("Data file " + quote(data_path) + " not provided or not found. Exiting...")
         exit()
@@ -58,7 +58,7 @@ def load_data(data_path):
     print("Reading data...", end="")
     inputs = np.array(data["mfcc"])
     labels = np.array(data["labels"])
-    print(" [DONE].\n")
+    print(" [DONE]\n")
     return inputs, labels
 
 if __name__ == "__main__":
