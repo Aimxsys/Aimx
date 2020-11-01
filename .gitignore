@@ -135,3 +135,4 @@ data_*.json
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 /dataset_*
+/data_json/*
