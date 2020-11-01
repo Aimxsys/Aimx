@@ -47,7 +47,7 @@ def load_data(dataset_path):
     """
     try:
         with open(dataset_path, "r") as file:
-            print("Loading dataset file " + quote(dataset_path) + "...", end="")
+            print("\n>>>>>> Loading dataset file " + quote(dataset_path) + "...", end="")
             data = json.load(file)
             print(" [DONE].")
     except FileNotFoundError:
@@ -55,10 +55,10 @@ def load_data(dataset_path):
         exit()
 
     # convert lists to numpy arrays
-    print("Reading data...", end="")
+    print(">>>>>> Reading data...", end="")
     inputs = np.array(data["mfcc"])
     labels = np.array(data["labels"])
-    print(" [DONE].")
+    print(" [DONE].\n")
     return inputs, labels
 
 if __name__ == "__main__":
