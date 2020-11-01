@@ -137,7 +137,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
     # save MFCCs to json file
     with open(json_path, "w") as data_file:
-        print("\n<<<<<< Writing data file...", end="")
+        print("\n<<<<<< Writing data file", json_path, "... ", end="")
         json.dump(datann, data_file, indent=4)
         print("[DONE].")
         
