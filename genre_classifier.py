@@ -47,7 +47,9 @@ def load_data(data_path):
     """
     try:
         with open(data_path, "r") as file:
-            print("\n>>>>>> Loading data file " + quote(data_path) + "...", end="")
+            print(str(args.data_path))
+            m = "most recent " if str(args.data_path) == "recent_json" else ""
+            print("\n>>>>>> Loading " + m + "data file " + quote(data_path) + "...", end="")
             data = json.load(file)
             print(" [DONE]")
     except FileNotFoundError:
