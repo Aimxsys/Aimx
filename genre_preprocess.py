@@ -6,7 +6,7 @@ import os
 import math
 import librosa
 
-from genre_utils import *
+from common_utils import *
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 

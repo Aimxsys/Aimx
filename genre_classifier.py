@@ -9,7 +9,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 
-from genre_utils import *
+from common_utils import *
 
 # Calling with "-data_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
