@@ -9,7 +9,7 @@ def provided(cmd_arg):
     return cmd_arg is not None
 
 def quote(me):
-    return '\'' + me + '\''
+    return '\'' + str(me) + '\''
 
 def mydir_most_recent_data(ext):
     files = glob.glob('./dataset*.' + ext)
