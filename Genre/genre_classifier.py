@@ -55,7 +55,7 @@ def load_data(data_path):
         exit()
 
     # convert lists to numpy arrays
-    print(">>>>>> Reading data...", end="")
+    print("Reading data...", end="")
     inputs = np.array(data["mfcc"])
     labels = np.array(data["labels"])
     print(" [DONE].\n")
