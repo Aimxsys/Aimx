@@ -134,4 +134,4 @@ sounds/
 data_*.json
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
-/Genre/dataset_*
+/dataset_*
