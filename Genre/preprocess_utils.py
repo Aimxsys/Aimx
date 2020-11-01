@@ -1,3 +1,6 @@
+import glob
+import os
+
 # TODO: Move these to common utils module
 def exists(x):
     return x is not None
@@ -7,3 +10,7 @@ def provided(cmd_arg):
 
 def quote(me):
     return '\'' + me + '\''
+
+def mydir_most_recent_dataset(ext):
+    files = glob.glob('./dataset*.' + ext)
+    return max(files, key = os.path.getctime)

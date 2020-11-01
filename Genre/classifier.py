@@ -15,39 +15,45 @@ from preprocess_utils import *
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN.')
-
+parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use "recent_json", which'
+                                                      ' is usually the output of the previous step of dataset preprocessing.')
 args = parser.parse_args()
 
 ############################## Command Argument Verification ##############################
 
 if provided(args.data_path) and not args.data_path.exists():
-    raise FileNotFoundError("Provided file " + quote(str(args.data_path)) + " not found.")
+    if str(args.data_path) is not "recent_json":
+        raise FileNotFoundError("Provided file " + quote(str(args.data_path)) + " not found.")
 
 ###########################################################################################
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-PAR_DATA_PATH  = args.data_path if provided(args.data_path) else ""
+PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
+if str(PAR_DATA_PATH) == "recent_json":
+    PAR_DATA_PATH = mydir_most_recent_dataset("json")
 
 def load_data(dataset_path):
     """
     Loads training dataset from json file.
         :param data_path (str): Path to json file containing data
-        :return X (ndarray): Inputs
-        :return y (ndarray): Targets
+        :return inputs (ndarray)
+        :return labels (ndarray)
     """
     try:
         with open(dataset_path, "r") as file:
+            print("Loading dataset file " + quote(dataset_path) + "...", end="")
             data = json.load(file)
+            print(" [DONE].")
     except FileNotFoundError:
-        print("Provided dataset file " + quote(dataset_path) + " not found.")
+        print("Dataset file " + quote(dataset_path) + " not provided or not found. Exiting...")
         exit()
 
     # convert lists to numpy arrays
+    print("Reading data...", end="")
     inputs = np.array(data["mfcc"])
     labels = np.array(data["labels"])
-    print("Data loaded succesfully.")
-    return  inputs, labels
+    print(" [DONE].")
+    return inputs, labels
 
 if __name__ == "__main__":
 
