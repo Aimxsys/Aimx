@@ -6,15 +6,6 @@ import scipy as sp
 import numpy as np
 from time import sleep
 
-def exists(x):
-    return x is not None
-
-def provided(cmd_arg):
-    return cmd_arg is not None
-
-def quote(me):
-    return '\'' + me + '\''
-
 def play_sound(file_path, duration_s = 1):
     mixer.init()
     mixer.music.load(file_path)
