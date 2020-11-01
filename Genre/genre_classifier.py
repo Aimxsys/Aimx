@@ -17,6 +17,9 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
 
 parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use "recent_json", which'
                                                       ' is usually the output of the previous step of dataset preprocessing.')
+parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
+parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
+
 args = parser.parse_args()
 
 ############################## Command Argument Verification ##############################
@@ -31,6 +34,9 @@ if provided(args.data_path) and not args.data_path.exists():
 PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
 if str(PAR_DATA_PATH) == "recent_json":
     PAR_DATA_PATH = mydir_most_recent_dataset("json")
+
+PAR_BATCH_SIZE = args.batch_size # default: 32 - batch size
+PAR_EPOCHS     = args.epochs     # default: 50 - number of epochs to train
 
 def load_data(dataset_path):
     """
@@ -79,4 +85,6 @@ if __name__ == "__main__":
     model.summary()
 
     # train model
-    history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test), batch_size = 32, epochs = 50)
+    history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test),
+                        batch_size = PAR_BATCH_SIZE,
+                        epochs     = PAR_EPOCHS)
