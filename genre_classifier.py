@@ -56,7 +56,7 @@ def load_data(data_path):
             print(" [DONE]")
     except FileNotFoundError:
         print("Data file " + quote(data_path) + " not provided or not found. Exiting...")
-        exit()
+        exit() # cannot proceed without data file
 
     # convert lists to numpy arrays
     print("Reading data...", end="")
