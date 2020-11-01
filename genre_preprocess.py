@@ -65,17 +65,17 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    json_path = PurePath(dataset_path).name
+    json_filename = PurePath(dataset_path).name
     if args.jcut:
-        json_path += "_cut"
+        json_filename += "_cut"
     else:
-        json_path += "_" + str(n_mfcc)         + "m" \
+        json_filename += "_" + str(n_mfcc)         + "m" \
                   +  "_" + str(n_fft)          + "w" \
                   +  "_" + str(hop_length)     + "h" \
                   +  "_" + str(num_segments)   + "i" \
                   +  "_" + str(sample_rate)    + "r" \
                   +  "_" + str(track_duration) + "s"
-    json_path += ".json"
+    json_filename += ".json"
 
     # dictionary to store mapping, labels, and MFCCs
     datann = {
@@ -88,7 +88,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv save_mfcc()")
-    print("json_path      =", json_path)
+    print("json_filename  =", json_filename)
     print("n_mfcc         =", n_mfcc)
     print("n_fft          =", n_fft)
     print("hop_length     =", hop_length)
@@ -135,8 +135,10 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                         print("{}, segment:{}".format(audio_file_path, segment+1))
 
     # save MFCCs to json file
-    with open(json_path, "w") as data_file:
-        print("\n<<<<<< Writing data file", json_path, "... ", end="")
+    Path("data_json").mkdir(parents=True, exist_ok=True)
+    data_json_fullpath = os.path.join("data_json", json_filename)
+    with open(data_json_fullpath, "w") as data_file:
+        print("\n<<<<<< Writing data file", data_json_fullpath, "... ", end="")
         json.dump(datann, data_file, indent=4)
         print("[DONE]")
         
