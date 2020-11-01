@@ -60,7 +60,6 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     """
     Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
-        :param     json_path (str): Path to json file used to save MFCCs.
         :param        n_mfcc (int): Number of MFCCs to extract.
         :param         n_fft (int): Length of the FFT window.   Measured in # of samples.
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
