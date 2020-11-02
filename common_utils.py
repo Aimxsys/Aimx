@@ -88,5 +88,6 @@ def printg(s, *args, **kwargs):
     print(colored(s, 'green'), *args, **kwargs)
 
 # Semantic print functions
-def print_info(s, *args, **kwargs):
-    printy(s, *args, **kwargs)
+def print_info(s, *args, verbose = True, **kwargs):
+    if verbose:
+        printy(s, *args, **kwargs)
