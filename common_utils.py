@@ -30,17 +30,17 @@ Example:
     colored('Hello, World!', 'red', 'on_grey', ['blue', 'blink'])
     colored('Hello, World!', 'green')
 """
-def printy(s, **kwargs):
-    print(colored(s, 'yellow'), **kwargs)
+def printy(s, *args, **kwargs):
+    print(colored(s, 'yellow'), *args, **kwargs)
 
-def printm(s, **kwargs):
-    print(colored(s, 'magenta'), **kwargs)
+def printm(s, *args, **kwargs):
+    print(colored(s, 'magenta'), *args, **kwargs)
 
-def printc(s, **kwargs):
-    print(colored(s, 'cyan'), **kwargs)
+def printc(s, *args, **kwargs):
+    print(colored(s, 'cyan'), *args, **kwargs)
 
-def printw(s, **kwargs):
-    print(colored(s, 'white'), **kwargs)
+def printw(s, *args, **kwargs):
+    print(colored(s, 'white'), *args, **kwargs)
 
-def printr(s, **kwargs):
-    print(colored(s, 'red'), **kwargs)
+def printr(s, *args, **kwargs):
+    print(colored(s, 'red'), *args, **kwargs)
