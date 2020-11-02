@@ -13,8 +13,10 @@ def provided(cmd_arg):
 def quote(me):
     return '\'' + str(me) + '\''
 
+# TODO: This function seems to not always return as expected
+# Currently disabled, but kept as it looks useful if perfected.
 def get_most_recent_file_in_dir(data_json_path, ext):
-    files = glob.glob(data_json_path + '/*.' + ext)
+    files = glob.iglob(data_json_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
 
 def get_recent_preprocess_result_metadata():
