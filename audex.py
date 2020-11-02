@@ -57,13 +57,13 @@ path = Path(PAR_AUDIO_FILES_DIR)
 signal_packs = []
 
 if path.is_file():
-    print_info("|||||| Loading...", path)
+    print_info("|||||| Loading...", cyansky(path))
     signal_packs.append((Path(path).name, librosa.load(path)))
 else: # directory
     (_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
     for filename in filenames:
         file = os.path.join(PAR_AUDIO_FILES_DIR, filename)
-        print_info("|||||| Loading...", file)
+        print_info("|||||| Loading...", cyansky(file))
         signal_packs.append((filename, librosa.load(file)))
 
 for sigp in signal_packs:
