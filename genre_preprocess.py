@@ -52,9 +52,9 @@ PAR_TRACK_DURATION           = args.track_duration # default: 30    - only load 
 
 SAMPLES_PER_TRACK = PAR_SAMPLE_RATE * PAR_TRACK_DURATION
 
-print("=============================================================================")
-print("Expecting audio files in PAR_AUDIO_DATASET_FILES_DIR =", PAR_AUDIO_DATASET_FILES_DIR)
-print("=============================================================================")
+print_info("=============================================================================")
+print_info("Expecting audio files in PAR_AUDIO_DATASET_FILES_DIR =", PAR_AUDIO_DATASET_FILES_DIR)
+print_info("=============================================================================")
 
 def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
     """
@@ -87,14 +87,14 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
-    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv save_mfcc()")
-    print("json_filename  =", json_filename)
-    print("n_mfcc         =", n_mfcc)
-    print("n_fft          =", n_fft)
-    print("hop_length     =", hop_length)
-    print("num_segments   =", num_segments)
-    print("sample_rate    =", sample_rate)
-    print("track_duration =", track_duration)
+    print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv save_mfcc()")
+    print_info("json_filename  =", json_filename)
+    print_info("n_mfcc         =", n_mfcc)
+    print_info("n_fft          =", n_fft)
+    print_info("hop_length     =", hop_length)
+    print_info("num_segments   =", num_segments)
+    print_info("sample_rate    =", sample_rate)
+    print_info("track_duration =", track_duration)
 
     # loop through all genre subfolder
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
@@ -105,7 +105,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
             # save genre label (i.e. subfolder name) in the mapping
             semantic_label = PurePath(dirpath).name
             datann["mapping"].append(semantic_label)
-            print("\nProcessing: {}".format(semantic_label))
+            print_info("\nProcessing: {}".format(semantic_label))
 
             # process all audio files in genre sub-dir
             for audio_filename in audio_filenames:
@@ -113,7 +113,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
-                print("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)))
+                print_info("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)))
 
                 # process all segments of the audio file, extract mfccs
                 # and store the data to be fed to the NN for processing
@@ -132,15 +132,15 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                     if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                         datann["mfcc"].append(mfcc.tolist())
                         datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
-                        print("{}, segment:{}".format(audio_file_path, segment+1))
+                        print_info("{}, segment:{}".format(audio_file_path, segment+1))
 
     # save MFCCs to json file
     Path("data_json").mkdir(parents=True, exist_ok=True)
     data_json_fullpath = os.path.join("data_json", json_filename)
     with open(data_json_fullpath, "w") as data_file:
-        print("\n<<<<<< Writing data file", data_json_fullpath, "... ", end="")
+        print_info("\n<<<<<< Writing data file", data_json_fullpath, "... ", end="")
         json.dump(datann, data_file, indent=4)
-        print("[DONE]")
+        print_info("[DONE]")
         
 if __name__ == "__main__":
     save_mfcc(PAR_AUDIO_DATASET_FILES_DIR, n_mfcc = PAR_N_MFCC,

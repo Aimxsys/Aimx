@@ -51,18 +51,18 @@ def load_data(data_path):
         with open(data_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(data_path)))
             m = "most recent [" + timestamp + "] " if str(args.data_path) == "recent_json" else ""
-            print("\n>>>>>> Loading " + m + "data file " + quote(data_path) + "...", end="")
+            print_info("\n>>>>>> Loading " + m + "data file " + quote(data_path) + "...", end="")
             data = json.load(file)
-            print(" [DONE]")
+            print_info(" [DONE]")
     except FileNotFoundError:
-        print("Data file " + quote(data_path) + " not provided or not found. Exiting...")
+        print_info("Data file " + quote(data_path) + " not provided or not found. Exiting...")
         exit() # cannot proceed without data file
 
     # convert lists to numpy arrays
-    print("Reading data...", end="")
+    print_info("Reading data...", end="")
     inputs = np.array(data["mfcc"])
     labels = np.array(data["labels"])
-    print(" [DONE]\n")
+    print_info(" [DONE]\n")
     return inputs, labels
 
 if __name__ == "__main__":
