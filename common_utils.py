@@ -32,9 +32,9 @@ class Colors:
     PURPLE      = '\033[95m'
     BLUE        = '\033[94m'
     CYAN        = '\033[96m'
-    GREEN       = '\033[92m'
+    GREENBRIGHT = '\033[92m'
     LIGHTYELLOW = '\033[93m'
-    PINK        = '\033[91m'
+    PINKRED     = '\033[91m'
     ENDC        = '\033[0m'
     BOLD        = '\033[1m'
     UNDERLINE   = '\033[4m'
@@ -42,9 +42,9 @@ class Colors:
     def disable(self):
         self.PURPLE      = ''
         self.BLUE        = ''
-        self.GREEN       = ''
+        self.GREENBRIGHT = ''
         self.LIGHTYELLOW = ''
-        self.PINK        = ''
+        self.PINKRED     = ''
         self.ENDC        = ''
 
 # Forwarding colored print functions using ASCII escape sequences
@@ -58,13 +58,13 @@ def printC(s, *args, **kwargs):
     print(f"{Colors.CYAN}" + s + f"{Colors.ENDC}", *args, **kwargs)
 
 def printG(s, *args, **kwargs):
-    print(f"{Colors.GREEN}" + s + f"{Colors.ENDC}", *args, **kwargs)
+    print(f"{Colors.GREENBRIGHT}" + s + f"{Colors.ENDC}", *args, **kwargs)
 
 def printL(s, *args, **kwargs):
     print(f"{Colors.LIGHTYELLOW}" + s + f"{Colors.ENDC}", *args, **kwargs)
 
 def printK(s, *args, **kwargs):
-    print(f"{Colors.PINK}" + s + f"{Colors.ENDC}", *args, **kwargs)
+    print(f"{Colors.PINKRED}" + s + f"{Colors.ENDC}", *args, **kwargs)
 
 # Forwarding colored print functions using termcolor Python module
 """
@@ -98,6 +98,43 @@ def printr(s, *args, **kwargs):
 
 def printg(s, *args, **kwargs):
     print(colored(s, 'green'), *args, **kwargs)
+
+# Forwarding text string coloring functions
+def yellow(s):
+    return colored(s, 'yellow')
+
+def magenta(s):
+    return colored(s, 'magenta')
+
+def cyansky(s):
+    return colored(s, 'cyan')
+
+def white(s):
+    return colored(s, 'white')
+
+def red(s):
+    return colored(s, 'red')
+
+def green(s):
+    return colored(s, 'green')
+
+def purple(s):
+    return f"{Colors.PURPLE}" + s + f"{Colors.ENDC}"
+
+def blue(s):
+    return f"{Colors.BLUE}" + s + f"{Colors.ENDC}"
+
+def cyan(s):
+    return f"{Colors.CYAN}" + s + f"{Colors.ENDC}"
+
+def greenbright(s):
+    return f"{Colors.GREENBRIGHT}" + s + f"{Colors.ENDC}"
+
+def lightyellow(s):
+    return f"{Colors.LIGHTYELLOW}" + s + f"{Colors.ENDC}"
+
+def pinkred(s):
+    return f"{Colors.PINKRED}" + s + f"{Colors.ENDC}"
 
 # Semantic print functions
 def print_info(s, *args, verbose = True, **kwargs):
