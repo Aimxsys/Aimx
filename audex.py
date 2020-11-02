@@ -49,21 +49,21 @@ PAR_PLOT_SPECS       = args.plot_all or args.plot_specs
 PAR_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
 PAR_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
 
-print("=============================================================================")
-print("Expecting audio files in PAR_AUDIO_FILES_DIR =", PAR_AUDIO_FILES_DIR)
-print("=============================================================================")
+print_info("=============================================================================")
+print_info("Expecting audio files in PAR_AUDIO_FILES_DIR =", PAR_AUDIO_FILES_DIR)
+print_info("=============================================================================")
 
 path = Path(PAR_AUDIO_FILES_DIR)
 signal_packs = []
 
 if path.is_file():
-    print(">>>>>> Loading...", path)
+    print_info(">>>>>> Loading...", path)
     signal_packs.append((Path(path).name, librosa.load(path)))
 else: # directory
     (_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
     for filename in filenames:
         file = os.path.join(PAR_AUDIO_FILES_DIR, filename)
-        print(">>>>>> Loading...", file)
+        print_info(">>>>>> Loading...", file)
         signal_packs.append((filename, librosa.load(file)))
 
 for sigp in signal_packs:
