@@ -133,7 +133,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                     if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                         datann["mfcc"].append(mfcc.tolist())
                         datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
-                        print_info("{}, segment:{}".format(audio_file_path, segment+1), verbose = False)
+                        print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = True)
 
     # save MFCCs to json file
     Path("data_json").mkdir(parents=True, exist_ok=True)
