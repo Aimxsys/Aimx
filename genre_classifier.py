@@ -28,7 +28,7 @@ args = parser.parse_args()
 
 if provided(args.data_path) and not args.data_path.exists():
     if str(args.data_path) is not "recent_json":
-        raise FileNotFoundError("Provided file " + quote(str(args.data_path)) + " not found.")
+        raise FileNotFoundError("Provided file " + quote(pinkred(str(args.data_path))) + " not found.")
 
 ###########################################################################################
 
@@ -51,7 +51,7 @@ def load_data(data_path):
         with open(data_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(data_path)))
             m = "most recent [" + timestamp + "] " if str(args.data_path) == "recent_json" else ""
-            print_info("\n|||||| Loading " + m + "data file " + quote(data_path) + "...", end="")
+            print_info("\n|||||| Loading " + m + "data file " + quote(cyansky(data_path)) + "...", end="")
             data = json.load(file)
             print_info(" [DONE]")
     except FileNotFoundError:

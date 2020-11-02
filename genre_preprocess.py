@@ -33,10 +33,10 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.dataset_path) and not args.dataset_path.exists():
-    raise FileNotFoundError("Provided dataset directory " + quote(str(args.dataset_path)) + " not found.")
+    raise FileNotFoundError("Provided dataset directory " + quote(pinkred(str(args.dataset_path))) + " not found.")
 
 if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Default dataset directory " + quote(AUDIO_DATASET_DIR_DEFAULT_NAME) + " not found.")
+    raise FileNotFoundError("Default dataset directory " + quote(pinkred(AUDIO_DATASET_DIR_DEFAULT_NAME)) + " not found.")
 
 ###########################################################################################
 # Example command:
@@ -139,7 +139,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     Path("data_json").mkdir(parents=True, exist_ok=True)
     data_json_fullpath = os.path.join("data_json", json_filename)
     with open(data_json_fullpath, "w") as data_file:
-        print_info("\n|||||| Writing data file", data_json_fullpath, "... ", end="")
+        print_info("\n|||||| Writing data file", cyansky(data_json_fullpath), "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
