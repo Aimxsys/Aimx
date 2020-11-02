@@ -145,7 +145,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
     prep_result_meta["most_recent_output"] = data_json_fullpath
-    with open('preprocess_result_meta.json', 'w') as fp: 
+    with open(DATA_PREPROCESS_RESULT_METADATA_FILENAME, 'w') as fp: 
         json.dump(prep_result_meta, fp)
         
 if __name__ == "__main__":
