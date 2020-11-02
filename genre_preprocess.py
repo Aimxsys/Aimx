@@ -113,7 +113,8 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
-                print_info("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)))
+                print_info("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
+                           verbose = False)
 
                 # process all segments of the audio file, extract mfccs
                 # and store the data to be fed to the NN for processing
@@ -132,7 +133,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                     if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                         datann["mfcc"].append(mfcc.tolist())
                         datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
-                        print_info("{}, segment:{}".format(audio_file_path, segment+1))
+                        print_info("{}, segment:{}".format(audio_file_path, segment+1), verbose = False)
 
     # save MFCCs to json file
     Path("data_json").mkdir(parents=True, exist_ok=True)
