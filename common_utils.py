@@ -1,3 +1,4 @@
+import json
 import glob
 import os
 from termcolor import colored
@@ -15,6 +16,14 @@ def quote(me):
 def get_most_recent_file_in_dir(data_json_path, ext):
     files = glob.glob(data_json_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
+
+def get_recent_preprocess_result_metadata():
+    filename = "preprocess_result_meta.json"
+    with open(filename, "r") as file:
+        print_info("\n>>>>>> Loading file " + colored(filename, 'white') + "...", end="")
+        data = json.load(file)
+        print_info(" [DONE]")
+    return data["most_recent_output"]
 
 class Colors:
     PURPLE      = '\033[95m'

@@ -142,6 +142,11 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         print_info("\n<<<<<< Writing data file", data_json_fullpath, "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
+
+    prep_result_meta = {"most_recent_output": {}, "duration": {} }
+    prep_result_meta["most_recent_output"] = data_json_fullpath
+    with open('preprocess_result_meta.json', 'w') as fp: 
+        json.dump(prep_result_meta, fp)
         
 if __name__ == "__main__":
     save_mfcc(PAR_AUDIO_DATASET_FILES_DIR, n_mfcc = PAR_N_MFCC,
