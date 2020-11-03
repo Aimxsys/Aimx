@@ -13,20 +13,11 @@ def provided(cmd_arg):
 def quote(me):
     return '\'' + str(me) + '\''
 
-DATA_PREPROCESS_RESULT_METADATA_FILENAME = "preprocess_result_meta.json"
-
 # TODO: This function seems to not always return as expected
 # Currently disabled, but kept as it looks useful if perfected.
 def get_most_recent_file_in_dir(data_json_path, ext):
     files = glob.iglob(data_json_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
-
-def get_recent_preprocess_result_metadata():
-    with open(DATA_PREPROCESS_RESULT_METADATA_FILENAME, "r") as file:
-        print_info("\n|||||| Loading file " + cyansky(DATA_PREPROCESS_RESULT_METADATA_FILENAME) + "...", end="")
-        data = json.load(file)
-        print_info(" [DONE]")
-    return data["most_recent_output"]
 
 class Colors:
     PURPLE      = '\033[95m'
