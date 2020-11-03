@@ -42,49 +42,49 @@ if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
 
 ###########################################################################################
 
-PAR_AUDIO_FILES_DIR  = args.files_path if provided(args.files_path) else AUDIO_FILES_DIR_DEFAULT
-PAR_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
-PAR_PLOT_SIGNALS     = args.plot_all or args.plot_signals
-PAR_PLOT_SPECS       = args.plot_all or args.plot_specs
-PAR_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
-PAR_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
+ARG_AUDIO_FILES_DIR  = args.files_path if provided(args.files_path) else AUDIO_FILES_DIR_DEFAULT
+ARG_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
+ARG_PLOT_SIGNALS     = args.plot_all or args.plot_signals
+ARG_PLOT_SPECS       = args.plot_all or args.plot_specs
+ARG_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
+ARG_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
 
 print_info("=============================================================================")
-print_info("Expecting audio files in PAR_AUDIO_FILES_DIR =", PAR_AUDIO_FILES_DIR)
+print_info("Expecting audio files in ARG_AUDIO_FILES_DIR =", ARG_AUDIO_FILES_DIR)
 print_info("=============================================================================")
 
-path = Path(PAR_AUDIO_FILES_DIR)
+path = Path(ARG_AUDIO_FILES_DIR)
 signal_packs = []
 
 if path.is_file():
     print_info("|||||| Loading...", cyansky(path))
     signal_packs.append((Path(path).name, librosa.load(path)))
 else: # directory
-    (_, _, filenames) = next(os.walk(PAR_AUDIO_FILES_DIR)) # works
+    (_, _, filenames) = next(os.walk(ARG_AUDIO_FILES_DIR)) # works
     for filename in filenames:
-        file = os.path.join(PAR_AUDIO_FILES_DIR, filename)
+        file = os.path.join(ARG_AUDIO_FILES_DIR, filename)
         print_info("|||||| Loading...", cyansky(file))
         signal_packs.append((filename, librosa.load(file)))
 
 for sigp in signal_packs:
     print_stats(sigp)
 
-if PAR_PLOT_SIGNALS:
+if ARG_PLOT_SIGNALS:
     plot_signals_single_chart(signal_packs)
 
-if PAR_PLOT_FREQUENCIES:
+if ARG_PLOT_FREQUENCIES:
     for sigp in signal_packs:
         plot_frequency_distribution(sigp)
 
-if PAR_PLOT_SPECS:
+if ARG_PLOT_SPECS:
     for sigp in signal_packs:
         plot_spectrogram(sigp, y_axis = "log")
 
-if PAR_PLOT_MELSPECS:
+if ARG_PLOT_MELSPECS:
     for sigp in signal_packs:
         plot_melspec(sigp)
 
-if PAR_PLOT_MFCCS:
+if ARG_PLOT_MFCCS:
     for sigp in signal_packs:
         plot_mfcc(sigp)
 

@@ -35,9 +35,9 @@ if provided(args.data_path) and not args.data_path.exists():
 ###########################################################################################
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
-if str(PAR_DATA_PATH) == "recent_json":
-    PAR_DATA_PATH = get_recent_preprocess_result_metadata()["most_recent_output"]
+ARG_DATA_PATH = args.data_path if provided(args.data_path) else ""
+if str(ARG_DATA_PATH) == "recent_json":
+    ARG_DATA_PATH = get_recent_preprocess_result_metadata()["most_recent_output"]
 
 def load_data(data_path):
     """
@@ -66,7 +66,7 @@ def load_data(data_path):
 
 if __name__ == "__main__":
 
-    inputs, labels = load_data(PAR_DATA_PATH)
+    inputs, labels = load_data(ARG_DATA_PATH)
 
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
