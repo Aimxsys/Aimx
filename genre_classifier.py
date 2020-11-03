@@ -21,7 +21,8 @@ parser.add_argument("-data_path", type = Path, help = 'Path to the data file to 
                                                       ' is usually the output of the previous step of dataset preprocessing.')
 parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
 parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
-
+parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
+                                                                  ' or 2 (one line per epoch). Default is 1.')
 args = parser.parse_args()
 
 ############################## Command Argument Verification ##############################
@@ -91,4 +92,5 @@ if __name__ == "__main__":
     # train model
     history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test),
                         batch_size = PAR_BATCH_SIZE,
-                        epochs     = PAR_EPOCHS)
+                        epochs     = PAR_EPOCHS,
+                        verbose    = args.verbose)
