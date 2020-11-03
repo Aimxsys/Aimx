@@ -3,7 +3,6 @@ import glob
 import os
 from termcolor import colored
 
-# TODO: Move these to common utils module
 def exists(x):
     return x is not None
 
