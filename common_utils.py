@@ -2,6 +2,8 @@ import json
 import glob
 import os
 from termcolor import colored
+import sys
+from time import sleep
 
 def exists(x):
     return x is not None
@@ -17,6 +19,12 @@ def quote(me):
 def get_most_recent_file_in_dir(data_json_path, ext):
     files = glob.iglob(data_json_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
+
+def progress_bar(current, total):
+     j = (current + 1) / total
+     sys.stdout.write('\r')
+     sys.stdout.write("[%-20s] %d%%" % ('='*int(20*j), 100*j))
+     sys.stdout.flush()
 
 class Colors:
     PURPLE      = '\033[95m'
