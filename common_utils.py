@@ -1,9 +1,9 @@
+from termcolor import colored
+from time      import sleep
 import json
 import glob
-import os
-from termcolor import colored
 import sys
-from time import sleep
+import os
 
 def exists(x):
     return x is not None
