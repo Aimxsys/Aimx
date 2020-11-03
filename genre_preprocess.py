@@ -104,7 +104,9 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
             print_info("\nProcessing: {}".format(semantic_label))
 
             # process all audio files in genre sub-dir
-            for audio_filename in audio_filenames:
+            for i, audio_filename in enumerate(audio_filenames):
+                
+                progress_bar(i, len(audio_filenames))
 
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
