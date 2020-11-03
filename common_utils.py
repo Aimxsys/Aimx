@@ -23,7 +23,7 @@ def get_most_recent_file_in_dir(data_json_path, ext):
 def progress_bar(current, total):
      j = (current + 1) / total
      sys.stdout.write('\r')
-     sys.stdout.write("[%-20s] %d%%" % ('='*int(20*j), 100*j))
+     sys.stdout.write("[%-20s] %d%%" % ('█'*int(20*j), 100*j))
      sys.stdout.flush()
 
 class Colors:
