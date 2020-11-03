@@ -7,6 +7,7 @@ import math
 import librosa
 
 from common_utils import *
+from genre_utils import DATA_PREPROCESS_RESULT_METADATA_FILENAME
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
@@ -44,14 +45,8 @@ if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exist
 # preprocess.py -dataset_path dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
 PAR_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else AUDIO_DATASET_DIR_DEFAULT
-PAR_N_MFCC                   = args.n_mfcc         # default: 13    - number of MFCCs to extract
-PAR_N_FFT                    = args.n_fft          # default: 2048  - length of the FFT window   (in # of samples) 
-PAR_HOP_LENGTH               = args.hop_length     # default: 512   - sliding window for the FFT (in # of samples)
-PAR_NUM_SEGMENTS             = args.num_segments   # default: 5     - number of segments we want to divide sample tracks into
-PAR_SAMPLE_RATE              = args.sample_rate    # default: 22050 - sample rate at which to read the audio files
-PAR_TRACK_DURATION           = args.track_duration # default: 30    - only load up to this much audio (in seconds)
 
-SAMPLES_PER_TRACK = PAR_SAMPLE_RATE * PAR_TRACK_DURATION
+SAMPLES_PER_TRACK = args.sample_rate * args.track_duration
 
 print_info("=============================================================================")
 print_info("Expecting audio files in PAR_AUDIO_DATASET_FILES_DIR =", PAR_AUDIO_DATASET_FILES_DIR)
@@ -151,9 +146,9 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         json.dump(prep_result_meta, fp)
         
 if __name__ == "__main__":
-    save_mfcc(PAR_AUDIO_DATASET_FILES_DIR, n_mfcc = PAR_N_MFCC,
-                                            n_fft = PAR_N_FFT,
-                                       hop_length = PAR_HOP_LENGTH,
-                                     num_segments = PAR_NUM_SEGMENTS,
-                                      sample_rate = PAR_SAMPLE_RATE,
-                                   track_duration = PAR_TRACK_DURATION)
+    save_mfcc(PAR_AUDIO_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
+                                            n_fft = args.n_fft,         
+                                       hop_length = args.hop_length,
+                                     num_segments = args.num_segments,
+                                      sample_rate = args.sample_rate, 
+                                   track_duration = args.track_duration)

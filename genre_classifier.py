@@ -39,9 +39,6 @@ PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
 if str(PAR_DATA_PATH) == "recent_json":
     PAR_DATA_PATH = get_recent_preprocess_result_metadata()
 
-PAR_BATCH_SIZE = args.batch_size # default: 32 - batch size
-PAR_EPOCHS     = args.epochs     # default: 50 - number of epochs to train
-
 def load_data(data_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
@@ -92,6 +89,6 @@ if __name__ == "__main__":
 
     # train model
     history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test),
-                        batch_size = PAR_BATCH_SIZE,
-                        epochs     = PAR_EPOCHS,
+                        batch_size = args.batch_size,
+                        epochs     = args.epochs,
                         verbose    = args.verbose)
