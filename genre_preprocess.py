@@ -21,6 +21,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
 
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
 parser.add_argument("-jcut",           action ='store_true',      help = 'Will generate a json name with no details (cut).')
+parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCCs to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
@@ -114,7 +115,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                 audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
                 print_info("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
-                           verbose = False)
+                           verbose = args.verbose)
 
                 # process all segments of the audio file, extract mfccs
                 # and store the data to be fed to the NN for processing
@@ -133,7 +134,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                     if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                         datann["mfcc"].append(mfcc.tolist())
                         datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
-                        print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = True)
+                        print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
     # save MFCCs to json file
     Path("data_json").mkdir(parents=True, exist_ok=True)
