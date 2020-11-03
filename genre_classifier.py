@@ -37,7 +37,7 @@ if provided(args.data_path) and not args.data_path.exists():
 # path to json file that stores MFCCs and genre labels for each processed segment
 PAR_DATA_PATH = args.data_path if provided(args.data_path) else ""
 if str(PAR_DATA_PATH) == "recent_json":
-    PAR_DATA_PATH = get_recent_preprocess_result_metadata()
+    PAR_DATA_PATH = get_recent_preprocess_result_metadata()["most_recent_output"]
 
 def load_data(data_path):
     """
