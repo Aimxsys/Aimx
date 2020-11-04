@@ -1,3 +1,3 @@
 # Audio
 
-Various audio experiments with librosa (spectrograms, etc.).
+Various audio experiments.
