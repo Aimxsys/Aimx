@@ -1,18 +1,19 @@
-﻿from pathlib import Path
-from pathlib import PurePath
+﻿from pathlib import PurePath
+from pathlib import Path
 import argparse
-import json
-import os
-import time
-import math
 import librosa
 import numpy as np
+import time
+import json
+import math
+import os
+
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 from termcolor import colored
 
 from common_utils import *
-from genre_utils import *
+from  genre_utils import *
 
 # Calling with "-data_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'

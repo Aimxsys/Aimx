@@ -1,10 +1,11 @@
 import librosa
-import pygame
-from pygame import mixer
-import matplotlib.pyplot as pt
 import scipy as sp
 import numpy as np
 from time import sleep
+
+import pygame
+from   pygame import mixer
+import matplotlib.pyplot as pt
 
 from common_utils import *
 

@@ -1,13 +1,13 @@
-﻿from pathlib import Path
-from pathlib import PurePath
+﻿from pathlib import PurePath
+from pathlib import Path
 import argparse
-import json
-import os
-import math
 import librosa
+import json
+import math
+import os
 
 from common_utils import *
-from genre_utils import DATA_PREPROCESS_RESULT_METADATA_FILENAME
+from  genre_utils import DATA_PREPROCESS_RESULT_METADATA_FILENAME
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
