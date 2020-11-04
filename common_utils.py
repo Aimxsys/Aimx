@@ -80,22 +80,22 @@ Example:
     colored('Hello, World!', 'green')
 """
 def printy(s, *args, **kwargs):
-    print(colored(s, 'yellow'), *args, **kwargs)
+    print(yellow(s), *args, **kwargs)
 
 def printm(s, *args, **kwargs):
-    print(colored(s, 'magenta'), *args, **kwargs)
+    print(magenta(s), *args, **kwargs)
 
 def printc(s, *args, **kwargs):
-    print(colored(s, 'cyan'), *args, **kwargs)
+    print(cyan(s), *args, **kwargs)
 
 def printw(s, *args, **kwargs):
-    print(colored(s, 'white'), *args, **kwargs)
+    print(white(s), *args, **kwargs)
 
 def printr(s, *args, **kwargs):
-    print(colored(s, 'red'), *args, **kwargs)
+    print(red(s), *args, **kwargs)
 
 def printg(s, *args, **kwargs):
-    print(colored(s, 'green'), *args, **kwargs)
+    print(green(s), *args, **kwargs)
 
 # Forwarding text string coloring functions
 def yellow(s):
