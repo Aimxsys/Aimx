@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' later to be fed into a neural network for training.')
 
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
-parser.add_argument("-jcut",           action ='store_true',      help = 'Will generate a json name with no details (cut).')
+parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCCs to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
@@ -62,7 +62,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
     json_filename = PurePath(dataset_path).name # the data json file name
-    if args.jcut:
+    if args.cutname:
         json_filename += "_cut"
     else:
         json_filename += "_" + str(n_mfcc)         + "m" \
