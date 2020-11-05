@@ -44,7 +44,7 @@ def plot_frequency_distribution(signal_pack, f_ratio=1):
     ft   = sp.fft.fft(signal_pack[1][0])
     magn = np.abs(ft)
     freq = np.linspace(0, signal_pack[1][1], len(magn))
-    num_freq_bins = int(len(freq) * f_ratio)
+    num_freq_bins = int(len(freq) * f_ratio) # TODO: Hoist f_ration into cmd arg
     pt.figure(figsize = (18, 4)).canvas.set_window_title("Frequency Distribution")
     pt.title(signal_pack[0])
     pt.plot(freq[:num_freq_bins], magn[:num_freq_bins]) # magnitude spectrum
@@ -53,8 +53,8 @@ def plot_frequency_distribution(signal_pack, f_ratio=1):
 
 def plot_spectrogram(signal_pack, y_axis = "linear"):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_spectrogram()")
-    FRAME_SIZE = 2048
-    HOP_LENGTH = 512
+    FRAME_SIZE = 2048 # TODO: Hoist FRAME_SIZE into cmd arg (this is the same argument as in the function below)
+    HOP_LENGTH = 512  # TODO: Hoist HOP_LENGTH into cmd arg (this is the same argument as in the function below)
     stft_scale = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
     print_info("stft.shape =", stft_scale.shape, "of type", type(stft_scale[0][0]))        
     y_scale = np.abs(stft_scale) ** 2
@@ -67,7 +67,13 @@ def plot_spectrogram(signal_pack, y_axis = "linear"):
 
 def plot_melspec(signal_pack):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_melspec()")
-    mel_spectrogram = librosa.feature.melspectrogram(signal_pack[1][0], signal_pack[1][1], n_fft = 2048, hop_length = 512, n_mels = 90)
+    FRAME_SIZE = 2048 # TODO: Hoist FRAME_SIZE into cmd arg (as  first value for -plot_specs)
+    HOP_LENGTH = 512  # TODO: Hoist HOP_LENGTH into cmd arg (as second value for -plot_specs)
+    # TODO: Hoist n_fft into cmd arg (this is the same argument as in the above function)
+    # TODO: Hoist n_fft into cmd arg (this is the same argument as in the above function)
+    # TODO: Hoist n_fft into cmd arg (this is the same argument as in the above function)
+    # TODO: Hoist n_mels into cmd arg as value for -plot_melspecs (help message: number of Mel bands to generate)
+    mel_spectrogram = librosa.feature.melspectrogram(signal_pack[1][0], signal_pack[1][1], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH, n_mels = 90)
     print_info("mel_spectrogram.shape =", mel_spectrogram.shape)
     log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
     pt.figure(figsize = (15, 10)).canvas.set_window_title("MEL Spectrogram")
@@ -77,6 +83,7 @@ def plot_melspec(signal_pack):
 
 def plot_mfcc(signal_pack):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_mfcc()")
+    # TODO: Hoist n_mfcc into cmd arg (as argument for -plot_mfccs)
     mfccs = librosa.feature.mfcc(signal_pack[1][0], n_mfcc=20, sr = signal_pack[1][1])
     print_info("mfcc.shape =", mfccs.shape)
     pt.figure(figsize=(15,10)).canvas.set_window_title("MFCC")
