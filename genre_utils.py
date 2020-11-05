@@ -17,7 +17,7 @@ def get_recent_preprocess_result_metadata():
     return preprocess_result_metadata
 
 def plot_history(history):
-    """ Plots accuracy/loss for training/validation set as a function of the epochs
+    """ Plots accuracy/loss for training/validation set as a function of epochs
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
