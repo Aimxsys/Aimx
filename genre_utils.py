@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import json
 import os
 
@@ -19,7 +21,9 @@ def plot_history(history):
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
-    fig.canvas.set_window_title("Accuracy and Error")
+    dataset_json_filename = get_recent_preprocess_result_metadata()["most_recent_output"]
+    dataset_json_filename = Path(dataset_json_filename).stem[8:] # keep only the dataset code
+    fig.canvas.set_window_title("Accuracy and Error - " + dataset_json_filename)
     #pt.figure(figsize=(20, 12)).canvas.set_window_title("Signals")
 
     # create accuracy sublpot
