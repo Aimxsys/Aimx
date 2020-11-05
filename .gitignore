@@ -131,7 +131,6 @@ dmypy.json
 # User's local
 .vs
 sounds/
-data_*.json
 
 # Download the dataset from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 # Create these local folders (used by the scripts) in the project root directory
