@@ -1,4 +1,5 @@
 from termcolor import colored
+from pathlib   import Path
 from time      import sleep
 import json
 import glob
@@ -19,6 +20,9 @@ def quote(me):
 def get_most_recent_file_in_dir(data_json_path, ext):
     files = glob.iglob(data_json_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
+
+def get_dataset_code(dataset_json_filepath):
+    return Path(dataset_json_filepath).stem[8:]
 
 def progress_bar(current, total):
      j = (current + 1) / total
