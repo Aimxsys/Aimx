@@ -85,8 +85,8 @@ def printy(s, *args, **kwargs):
 def printm(s, *args, **kwargs):
     print(magenta(s), *args, **kwargs)
 
-def printc(s, *args, **kwargs):
-    print(cyan(s), *args, **kwargs)
+def prints(s, *args, **kwargs):
+    print(cyansky(s), *args, **kwargs)
 
 def printw(s, *args, **kwargs):
     print(white(s), *args, **kwargs)
@@ -96,6 +96,15 @@ def printr(s, *args, **kwargs):
 
 def printg(s, *args, **kwargs):
     print(green(s), *args, **kwargs)
+
+def printp(s, *args, **kwargs):
+    print(purple(s), *args, **kwargs)
+
+def printb(s, *args, **kwargs):
+    print(blue(s), *args, **kwargs)
+
+def printc(s, *args, **kwargs):
+    print(cyan(s), *args, **kwargs)
 
 # Forwarding text string coloring functions
 def yellow(s):
