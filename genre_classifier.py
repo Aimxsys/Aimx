@@ -44,8 +44,8 @@ def load_data(data_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
         :param data_path (str): Path to json file containing data
-        :return inputs (ndarray)
-        :return labels (ndarray)
+        :return inputs (ndarray: the "mfcc"   section in the json data) 
+        :return labels (ndarray: the "labels" section in the json data, one label per segment)
     """
     try:
         with open(data_path, "r") as file:
