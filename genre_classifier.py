@@ -10,7 +10,6 @@ import os
 
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
-import matplotlib.pyplot as pt
 from termcolor import colored
 
 from common_utils import *
@@ -40,29 +39,6 @@ if provided(args.data_path) and not args.data_path.exists():
 ARG_DATA_PATH = args.data_path if provided(args.data_path) else ""
 if str(ARG_DATA_PATH) == "recent_json":
     ARG_DATA_PATH = get_recent_preprocess_result_metadata()["most_recent_output"]
-
-def plot_history(history):
-    """ Plots accuracy/loss for training/validation set as a function of the epochs
-        :param history: Training history of model
-    """
-    fig, axs = pt.subplots(2, figsize=(10, 8))
-    fig.canvas.set_window_title("Accuracy and Error")
-    #pt.figure(figsize=(20, 12)).canvas.set_window_title("Signals")
-
-    # create accuracy sublpot
-    axs[0].plot(history.history["accuracy"],     label="train")
-    axs[0].plot(history.history["val_accuracy"], label="test")
-    axs[0].set_ylabel("Accuracy")
-    axs[0].legend(loc="lower right")
-
-    # create error sublpot
-    axs[1].plot(history.history["loss"],     label="train")
-    axs[1].plot(history.history["val_loss"], label="test")
-    axs[1].set_ylabel("Error")
-    axs[1].set_xlabel("Epoch")
-    axs[1].legend(loc="upper right")
-
-    pt.show()
 
 def load_data(data_path):
     """
