@@ -24,7 +24,6 @@ def plot_history(history):
     dataset_json_filename = get_recent_preprocess_result_metadata()["most_recent_output"]
     dataset_json_filename = Path(dataset_json_filename).stem[8:] # keep only the dataset code
     fig.canvas.set_window_title("Accuracy and Error - " + dataset_json_filename)
-    #pt.figure(figsize=(20, 12)).canvas.set_window_title("Signals")
 
     # create accuracy sublpot
     axs[0].plot(history.history["accuracy"],     label="train")
