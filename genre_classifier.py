@@ -32,7 +32,7 @@ args = parser.parse_args()
 
 if provided(args.data_path) and not args.data_path.exists():
     if str(args.data_path) is not "recent_json":
-        raise FileNotFoundError("Provided file " + quote(pinkred(str(args.data_path))) + " not found.")
+        raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain requested path " + quote(pinkred(str(args.data_path))))
 
 ###########################################################################################
 
