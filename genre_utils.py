@@ -18,7 +18,7 @@ def plot_history(history):
     """ Plots accuracy/loss for training/validation set as a function of the epochs
         :param history: Training history of model
     """
-    fig, axs = pt.subplots(2, figsize=(10, 8))
+    fig, axs = pt.subplots(2, figsize=(8, 6))
     fig.canvas.set_window_title("Accuracy and Error")
     #pt.figure(figsize=(20, 12)).canvas.set_window_title("Signals")
 
