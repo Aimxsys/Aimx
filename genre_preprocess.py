@@ -145,8 +145,10 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
     prep_result_meta["most_recent_output"] = data_json_fullpath
     with open(DATA_PREPROCESS_RESULT_METADATA_FILENAME, 'w') as fp: 
+        print_info("\n|||||| Writing data file", cyansky(DATA_PREPROCESS_RESULT_METADATA_FILENAME), "... ", end="")
         json.dump(prep_result_meta, fp)
-        
+        print_info("[DONE]")
+                
 if __name__ == "__main__":
     save_mfcc(ARG_AUDIO_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
                                             n_fft = args.n_fft,         
