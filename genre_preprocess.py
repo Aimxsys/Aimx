@@ -7,7 +7,7 @@ import math
 import os
 
 from common_utils import *
-from  genre_utils import DATA_PREPROCESS_RESULT_METADATA_FILENAME
+from  genre_utils import PREPROCESS_RESULT_META_FILENAME
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
@@ -144,8 +144,8 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     # save recent data preprocess result metadata
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
     prep_result_meta["most_recent_output"] = data_json_fullpath
-    with open(DATA_PREPROCESS_RESULT_METADATA_FILENAME, 'w') as fp: 
-        print_info("\n|||||| Writing data file", cyansky(DATA_PREPROCESS_RESULT_METADATA_FILENAME), "... ", end="")
+    with open(PREPROCESS_RESULT_META_FILENAME, 'w') as fp: 
+        print_info("\n|||||| Writing data file", cyansky(PREPROCESS_RESULT_META_FILENAME), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
                 

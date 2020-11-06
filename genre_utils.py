@@ -7,12 +7,12 @@ import matplotlib.pyplot as pt
 
 from common_utils import *
 
-DATA_PREPROCESS_RESULT_METADATA_FILENAME = "preprocess_result_meta.json"
+PREPROCESS_RESULT_META_FILENAME = "preprocess_result_meta.json"
 
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):        
-        with open(DATA_PREPROCESS_RESULT_METADATA_FILENAME, "r") as file:
-            print_info("\n|||||| Loading file " + cyansky(DATA_PREPROCESS_RESULT_METADATA_FILENAME) + "...", end="")
+        with open(PREPROCESS_RESULT_META_FILENAME, "r") as file:
+            print_info("\n|||||| Loading file " + cyansky(PREPROCESS_RESULT_META_FILENAME) + "...", end="")
             preprocess_result_metadata = json.load(file)
             print_info(" [DONE]")
         get_preprocess_result_meta.cached = preprocess_result_metadata
