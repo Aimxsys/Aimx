@@ -23,6 +23,7 @@ def plot_history(history):
     fig, axs = pt.subplots(2, figsize=(8, 6))
     dataset_json_filename = get_recent_preprocess_result_metadata()["most_recent_output"]
     fig.canvas.set_window_title("Accuracy & Error - " + get_dataset_code(dataset_json_filename))
+    fig.suptitle(get_dataset_code(dataset_json_filename), fontsize=14)
 
     # create accuracy sublpot
     axs[0].plot(history.history["accuracy"],     label="train")
