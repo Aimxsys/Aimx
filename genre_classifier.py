@@ -19,8 +19,8 @@ from  genre_utils import *
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use "recent_json", which'
-                                                      ' is usually the output of the previous step of dataset preprocessing.')
+parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use "most_recent_output", which'
+                                                      ' by design is the output of the previous step of dataset preprocessing.')
 parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
 parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
 parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
@@ -30,14 +30,14 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.data_path) and not args.data_path.exists():
-    if str(args.data_path) is not "recent_json":
+    if str(args.data_path) is not "most_recent_output":
         raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain requested path " + quote(pinkred(str(args.data_path))))
 
 ###########################################################################################
 
 # path to json file that stores MFCCs and genre labels for each processed segment
 ARG_DATA_PATH = args.data_path if provided(args.data_path) else ""
-if str(ARG_DATA_PATH) == "recent_json":
+if str(ARG_DATA_PATH) == "most_recent_output":
     ARG_DATA_PATH = get_recent_preprocess_result_metadata()["most_recent_output"]
 
 def load_data(data_path):
@@ -50,7 +50,7 @@ def load_data(data_path):
     try:
         with open(data_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(data_path)))
-            m = "most recent [" + timestamp + "] " if str(args.data_path) == "recent_json" else ""
+            m = "most recent [" + timestamp + "] " if str(args.data_path) == "most_recent_output" else ""
             print_info("\n|||||| Loading " + m + "data file " + quote(cyansky(data_path)) + "...", end="")
             data = json.load(file)
             print_info(" [DONE]")
