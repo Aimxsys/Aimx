@@ -49,26 +49,7 @@ class Colors:
         self.PINKRED     = ''
         self.ENDC        = ''
 
-# Forwarding colored print functions using ASCII escape sequences
-def printP(s, *args, **kwargs):
-    print(f"{Colors.PURPLE}" + s + f"{Colors.ENDC}", *args, **kwargs)
-
-def printB(s, *args, **kwargs):
-    print(f"{Colors.BLUE}" + s + f"{Colors.ENDC}", *args, **kwargs)
-
-def printC(s, *args, **kwargs):
-    print(f"{Colors.CYAN}" + s + f"{Colors.ENDC}", *args, **kwargs)
-
-def printG(s, *args, **kwargs):
-    print(f"{Colors.GREENBRIGHT}" + s + f"{Colors.ENDC}", *args, **kwargs)
-
-def printL(s, *args, **kwargs):
-    print(f"{Colors.LIGHTYELLOW}" + s + f"{Colors.ENDC}", *args, **kwargs)
-
-def printK(s, *args, **kwargs):
-    print(f"{Colors.PINKRED}" + s + f"{Colors.ENDC}", *args, **kwargs)
-
-# Forwarding colored print functions using termcolor Python module
+# Forwarding string colorization functions using termcolor Python module
 """
 Available text colors:
     red, green, yellow, blue, magenta, cyan, white.
@@ -83,34 +64,6 @@ Example:
     colored('Hello, World!', 'red', 'on_grey', ['blue', 'blink'])
     colored('Hello, World!', 'green')
 """
-def printy(s, *args, **kwargs):
-    print(yellow(s), *args, **kwargs)
-
-def printm(s, *args, **kwargs):
-    print(magenta(s), *args, **kwargs)
-
-def prints(s, *args, **kwargs):
-    print(cyansky(s), *args, **kwargs)
-
-def printw(s, *args, **kwargs):
-    print(white(s), *args, **kwargs)
-
-def printr(s, *args, **kwargs):
-    print(red(s), *args, **kwargs)
-
-def printg(s, *args, **kwargs):
-    print(green(s), *args, **kwargs)
-
-def printp(s, *args, **kwargs):
-    print(purple(s), *args, **kwargs)
-
-def printb(s, *args, **kwargs):
-    print(blue(s), *args, **kwargs)
-
-def printc(s, *args, **kwargs):
-    print(cyan(s), *args, **kwargs)
-
-# Forwarding text string coloring functions
 def yellow(s):
     return colored(s, 'yellow')
 
@@ -129,6 +82,7 @@ def red(s):
 def green(s):
     return colored(s, 'green')
 
+# Forwarding string colorization functions using ASCII escape sequences
 def purple(s):
     return f"{Colors.PURPLE}" + s + f"{Colors.ENDC}"
 
@@ -150,4 +104,4 @@ def pinkred(s):
 # Semantic print functions
 def print_info(s, *args, verbose = True, **kwargs):
     if verbose:
-        printy(s, *args, **kwargs)
+        print(yellow(s), *args, **kwargs)
