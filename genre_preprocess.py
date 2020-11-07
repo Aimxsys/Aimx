@@ -35,10 +35,10 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.dataset_path) and not args.dataset_path.exists():
-    raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain requested path " + quote(pinkred(str(args.dataset_path))))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(str(args.dataset_path))))
 
 if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain default dataset directory " + quote(pinkred(AUDIO_DATASET_DIR_DEFAULT_NAME)))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(AUDIO_DATASET_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
 # Example command:
@@ -137,7 +137,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     Path("data_json").mkdir(parents=True, exist_ok=True)
     data_json_fullpath = os.path.join("data_json", json_filename)
     with open(data_json_fullpath, "w") as data_file:
-        print_info("\n|||||| Writing data file", cyansky(data_json_fullpath), "... ", end="")
+        print_info("\n|||||| Writing data file", quote(cyansky(data_json_fullpath)), "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
@@ -145,7 +145,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
     prep_result_meta["most_recent_output"] = data_json_fullpath
     with open(PREPROCESS_RESULT_META_FILENAME, 'w') as fp: 
-        print_info("\n|||||| Writing data file", cyansky(PREPROCESS_RESULT_META_FILENAME), "... ", end="")
+        print_info("\n|||||| Writing data file", quote(cyansky(PREPROCESS_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
                 

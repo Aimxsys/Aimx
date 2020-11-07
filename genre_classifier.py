@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 if provided(args.data_path) and not args.data_path.exists():
     if str(args.data_path) is not "most_recent_output":
-        raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain requested path " + quote(pinkred(str(args.data_path))))
+        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(str(args.data_path))))
 
 ###########################################################################################
 

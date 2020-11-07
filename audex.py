@@ -34,10 +34,10 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.files_path) and not args.files_path.exists():
-    raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain requested path " + quote(pinkred(str(args.files_path))))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(str(args.files_path))))
 
 if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Directory " + pinkred(os.getcwd()) + " does not contain default audio directory " + quote(pinkred(AUDIO_FILES_DIR_DEFAULT_NAME)))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default audio directory " + quote(pinkred(AUDIO_FILES_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
 
@@ -56,13 +56,13 @@ path = Path(ARG_AUDIO_FILES_DIR)
 signal_packs = []
 
 if path.is_file():
-    print_info("|||||| Loading...", cyansky(path))
+    print_info("|||||| Loading...", quote(cyansky(path)))
     signal_packs.append((Path(path).name, librosa.load(path)))
 else: # directory
     (_, _, filenames) = next(os.walk(ARG_AUDIO_FILES_DIR)) # works
     for filename in filenames:
         file = os.path.join(ARG_AUDIO_FILES_DIR, filename)
-        print_info("|||||| Loading...", cyansky(file))
+        print_info("|||||| Loading...", quote(cyansky(file)))
         signal_packs.append((filename, librosa.load(file)))
 
 for sigp in signal_packs:
