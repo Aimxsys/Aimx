@@ -9,8 +9,8 @@ import os
 from   os import walk
 
 # Module imports from this project
-from common_utils import *
-from  audex_utils import *
+from     common_utils import *
+from plot_sound_utils import *
 
 AUDIO_FILES_DIR_DEFAULT_NAME = "sounds"
 AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), AUDIO_FILES_DIR_DEFAULT_NAME)

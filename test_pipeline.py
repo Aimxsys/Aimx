@@ -9,10 +9,10 @@ from common_utils import *
 # which can result in arbitrary command execution. For this reason, the use of shell=True
 # is strongly discouraged in cases where the command string is constructed from external input
 
-# Audex
-subprocess.call(['audex.py', '-files_path', 'sounds/two'], shell=True)
+# Sound plots
+subprocess.call(['plot_sound.py', '-files_path', 'sounds/two'], shell=True)
 
-print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT audex.py OK"))
+print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
 # Data preprocessing
 subprocess.call(['genre_preprocess.py', '-dataset_path', 'dataset_c10_f3'], shell=True)
