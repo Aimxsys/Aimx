@@ -3,7 +3,6 @@ from pathlib import Path
 import librosa
 import librosa.display
 import matplotlib.pyplot as pt
-import IPython.display
 import numpy as np
 import scipy as sp
 import os
