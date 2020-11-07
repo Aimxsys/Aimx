@@ -111,7 +111,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
                 signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
-                print_info("Total samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
+                print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
                            verbose = args.verbose)
 
                 # process all segments of the audio file, extract mfccs
