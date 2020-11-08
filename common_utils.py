@@ -84,22 +84,22 @@ def green(s):
 
 # Forwarding string colorization functions using ASCII escape sequences
 def purple(s):
-    return f"{Colors.PURPLE}" + s + f"{Colors.ENDC}"
+    return f"{Colors.PURPLE}" + str(s) + f"{Colors.ENDC}"
 
 def blue(s):
-    return f"{Colors.BLUE}" + s + f"{Colors.ENDC}"
+    return f"{Colors.BLUE}" + str(s) + f"{Colors.ENDC}"
 
 def cyan(s):
-    return f"{Colors.CYAN}" + s + f"{Colors.ENDC}"
+    return f"{Colors.CYAN}" + str(s) + f"{Colors.ENDC}"
 
 def greenbright(s):
-    return f"{Colors.GREENBRIGHT}" + s + f"{Colors.ENDC}"
+    return f"{Colors.GREENBRIGHT}" + str(s) + f"{Colors.ENDC}"
 
 def lightyellow(s):
-    return f"{Colors.LIGHTYELLOW}" + s + f"{Colors.ENDC}"
+    return f"{Colors.LIGHTYELLOW}" + str(s) + f"{Colors.ENDC}"
 
 def pinkred(s):
-    return f"{Colors.PINKRED}" + s + f"{Colors.ENDC}"
+    return f"{Colors.PINKRED}" + str(s) + f"{Colors.ENDC}"
 
 # Semantic print functions
 def print_info(s, *args, verbose = True, **kwargs):
