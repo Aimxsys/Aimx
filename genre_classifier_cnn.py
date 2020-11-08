@@ -124,7 +124,7 @@ def predict(model, X, y):
 if __name__ == "__main__":
 
     # get train, validation, test splits
-    x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_datasets(0.25, 0.2)
+    x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_datasets(test_size = 0.25, valid_size = 0.2)
 
     # create network
     model = build_model(input_shape = (x_train.shape[1], x_train.shape[2], 1))
