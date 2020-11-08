@@ -59,10 +59,14 @@ def prepare_datasets(test_size, valid_size):
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)
     x_train, x_valid, y_train, y_valid = train_test_split(x_train, y_train, test_size = valid_size)
 
-    # add an axis to input sets; example result: (89, 259, 13, 1)
+    # add an axis to input sets; example resulting shape: (89, 259, 13, 1)
     x_train = x_train[..., np.newaxis]
     x_valid = x_valid[..., np.newaxis]
     x_test  =  x_test[..., np.newaxis]
+
+    print_info("Extended x_train (input) shape: " + str(x_train.shape))
+    print_info("Extended x_valid (input) shape: " + str(x_valid.shape))
+    print_info("Extended x_test  (input) shape: " + str(x_test.shape))
 
     return x_train, x_valid, x_test, y_train, y_valid, y_test
 
@@ -135,7 +139,8 @@ if __name__ == "__main__":
     history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid), batch_size=args.batch_size, epochs=args.epochs)
 
     # plot accuracy/error for training and validation
-    plot_history(history)
+    if not args.noplot:
+        plot_history(history)
 
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
