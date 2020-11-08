@@ -127,6 +127,7 @@ def predict(model, x, y):
     # get index with max value
     predicted_index = np.argmax(prediction, axis=1)
 
+    print("Prediction: ", prediction)
     print("Target: {}, Predicted label: {}".format(y, predicted_index))
 
 if __name__ == "__main__":
