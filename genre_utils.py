@@ -54,4 +54,7 @@ def plot_history(history):
     axs[1].set_xlabel("Epoch")
     axs[1].legend(loc="upper right")
 
+    # TODO: Finish this later
+    #pt.savefig(get_dataset_code(dataset_json_filename) + ".png")
+
     pt.show()
