@@ -34,7 +34,7 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.files_path) and not args.files_path.exists():
-    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(str(args.files_path))))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.files_path)))
 
 if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default audio directory " + quote(pinkred(AUDIO_FILES_DIR_DEFAULT_NAME)))
