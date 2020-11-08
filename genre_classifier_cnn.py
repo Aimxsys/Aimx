@@ -128,7 +128,7 @@ def predict(model, x, y):
     predicted_index = np.argmax(prediction, axis=1)
 
     print_info("Prediction: ", prediction)
-    print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index, to_genre_name(predicted_index[0])))
+    print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
 if __name__ == "__main__":
 
