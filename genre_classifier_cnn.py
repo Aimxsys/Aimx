@@ -127,8 +127,8 @@ def predict(model, x, y):
     # get index with max value
     predicted_index = np.argmax(prediction, axis=1)
 
-    print("Prediction: ", prediction)
-    print("Target: {}, Predicted label: {}".format(y, predicted_index))
+    print_info("Prediction: ", prediction)
+    print_info("Target: {}, Predicted label: {}".format(y, predicted_index))
 
 if __name__ == "__main__":
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
-    print('\nTest accuracy:', test_acc)
+    print_info('\nTest accuracy:', test_acc)
 
     # pick a sample to predict from the test set
     x_to_predict = x_test[30]
