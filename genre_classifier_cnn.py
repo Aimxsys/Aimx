@@ -117,15 +117,11 @@ def predict(model, x, y):
         x: Input data
         y (int): Target
     """
-
     # add a dimension to input data for sample - model.predict() expects a 4d array in this case
     x = x[np.newaxis, ...] # array shape (1, 130, 13, 1)
 
-    # perform prediction
     prediction = model.predict(x)
-
-    # get index with max value
-    predicted_index = np.argmax(prediction, axis=1)
+    predicted_index = np.argmax(prediction, axis=1) # index with max value
 
     print_info("Prediction: ", prediction)
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
@@ -152,7 +148,7 @@ if __name__ == "__main__":
         plot_history(history)
 
     # evaluate model on test set
-    test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose = 1)
     print_info('\nTest accuracy:', test_acc)
 
     # pick a sample to predict from the test set
