@@ -43,7 +43,8 @@ if str(ARG_DATA_PATH) == "most_recent_output":
     ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
 def prepare_datasets(test_size, valid_size):
-    """Loads data and splits it into train, validation and test sets.
+    """
+    Loads data and splits it into train, validation and test sets.
     :param  test_size (float): Value in [0, 1] indicating percentage of dataset to allocate to test split
     :param valid_size (float): Value in [0, 1] indicating percentage of dataset to allocate to validation split
     :return x_train (ndarray): Input training set
@@ -71,7 +72,8 @@ def prepare_datasets(test_size, valid_size):
     return x_train, x_valid, x_test, y_train, y_valid, y_test
 
 def build_model(input_shape):
-    """Generates CNN model
+    """
+    Generates CNN model
     :param input_shape (tuple): Shape of input set
     :return model: CNN model
     """
@@ -104,7 +106,8 @@ def build_model(input_shape):
 
 
 def predict(model, X, y):
-    """Predict a single sample using the trained model
+    """
+    Predict a single sample using the trained model
     :param model: Trained classifier
     :param X: Input data
     :param y (int): Target
