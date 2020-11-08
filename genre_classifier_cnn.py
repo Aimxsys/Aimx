@@ -46,7 +46,7 @@ def prepare_datasets(test_size, valid_size):
     """
     Loads data and splits it into train, validation and test sets.
     Params:
-         test_size (float): Value in [0, 1] indicating percentage of dataset to allocate to test split
+         test_size (float): Value in [0, 1] indicating percentage of dataset to allocate to test       split
         valid_size (float): Value in [0, 1] indicating percentage of dataset to allocate to validation split
     Returns:
         x_train (ndarray): Input training set
