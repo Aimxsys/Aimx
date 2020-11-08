@@ -35,7 +35,7 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.dataset_path) and not args.dataset_path.exists():
-    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(str(args.dataset_path))))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.dataset_path)))
 
 if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(AUDIO_DATASET_DIR_DEFAULT_NAME)))
