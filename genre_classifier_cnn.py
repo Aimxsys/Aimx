@@ -59,7 +59,7 @@ def prepare_datasets(test_size, valid_size):
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)
     x_train, x_valid, y_train, y_valid = train_test_split(x_train, y_train, test_size = valid_size)
 
-    # add an axis to input sets
+    # add an axis to input sets; example result: (89, 259, 13, 1)
     x_train = x_train[..., np.newaxis]
     x_valid = x_valid[..., np.newaxis]
     x_test  =  x_test[..., np.newaxis]
