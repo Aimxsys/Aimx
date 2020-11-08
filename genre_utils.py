@@ -9,6 +9,20 @@ from common_utils import *
 
 PREPROCESS_RESULT_META_FILENAME = "preprocess_result_meta.json"
 
+def to_genre_name(label_id):
+    return [
+        'blues'     ,
+        'classical' ,
+        'country'   ,
+        'disco'     ,
+        'hiphop'    ,
+        'jazz'      ,
+        'metal'     ,
+        'pop'       ,
+        'reggae'    ,
+        'rock'      
+    ][label_id]
+
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):        
         with open(PREPROCESS_RESULT_META_FILENAME, "r") as file:
