@@ -45,14 +45,16 @@ if str(ARG_DATA_PATH) == "most_recent_output":
 def prepare_datasets(test_size, valid_size):
     """
     Loads data and splits it into train, validation and test sets.
-    :param  test_size (float): Value in [0, 1] indicating percentage of dataset to allocate to test split
-    :param valid_size (float): Value in [0, 1] indicating percentage of dataset to allocate to validation split
-    :return x_train (ndarray): Input training set
-    :return x_valid (ndarray): Input valid set
-    :return x_test  (ndarray): Input test set
-    :return y_train (ndarray): Target training set
-    :return y_valid (ndarray): Target valid set
-    :return y_test  (ndarray): Target test set
+    Params:
+         test_size (float): Value in [0, 1] indicating percentage of dataset to allocate to test split
+        valid_size (float): Value in [0, 1] indicating percentage of dataset to allocate to validation split
+    Returns:
+        x_train (ndarray): Input training set
+        x_valid (ndarray): Input valid set
+        x_test  (ndarray): Input test set
+        y_train (ndarray): Target training set
+        y_valid (ndarray): Target valid set
+        y_test  (ndarray): Target test set
     """
     x, y = load_data(ARG_DATA_PATH)
 
@@ -74,8 +76,10 @@ def prepare_datasets(test_size, valid_size):
 def build_model(input_shape):
     """
     Generates CNN model
-    :param input_shape (tuple): Shape of input set
-    :return model: CNN model
+    Param:
+        input_shape (tuple): Shape of input set
+    Returns:
+        model: CNN model
     """
     model = keras.Sequential()
 
@@ -108,9 +112,10 @@ def build_model(input_shape):
 def predict(model, X, y):
     """
     Predict a single sample using the trained model
-    :param model: Trained classifier
-    :param X: Input data
-    :param y (int): Target
+    Params:
+        model: Trained classifier
+        X: Input data
+        y (int): Target
     """
 
     # add a dimension to input data for sample - model.predict() expects a 4d array in this case
