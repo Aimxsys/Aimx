@@ -118,7 +118,7 @@ def predict(model, x, y):
         y (int): Target
     """
     # add a dimension to input data for sample - model.predict() expects a 4d array in this case
-    x = x[np.newaxis, ...] # array shape (1, 130, 13, 1)
+    x = x[np.newaxis, ...] # change array shape from (130, 13, 1) to (1, 130, 13, 1)
 
     prediction = model.predict(x)
     predicted_index = np.argmax(prediction, axis=1) # index with max value
