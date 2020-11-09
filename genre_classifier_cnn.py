@@ -143,17 +143,17 @@ if __name__ == "__main__":
     # train model
     history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid), batch_size=args.batch_size, epochs=args.epochs)
 
-    # plot accuracy/error for training and validation
-    if not args.noplot:
-        plot_history(history)
-
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose = 1)
     print_info('\nTest accuracy:', test_acc)
-
+        
     # pick a sample to predict from the test set
     x_to_predict = x_test[30]
     y_to_predict = y_test[30] # target
 
     # predict sample
     predict(model, x_to_predict, y_to_predict)
+
+    # plot accuracy/error for training and validation
+    if not args.noplot:
+        plot_history(history)
