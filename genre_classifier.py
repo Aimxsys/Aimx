@@ -99,6 +99,9 @@ if __name__ == "__main__":
     history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test),
                         batch_size = args.batch_size,
                         epochs     = args.epochs,
-                        verbose    = args.verbose)        
+                        verbose    = args.verbose)
+    
+    save_current_model(model, extract_filename(os.path.basename(__file__)))
+
     if not args.noplotshow:
         plot_history(history) # plot accuracy and error as a function of epochs

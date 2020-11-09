@@ -62,3 +62,10 @@ def plot_history(history):
     print_info("[DONE]")
 
     pt.show()
+
+def save_current_model(model, model_id):
+    Path("saved_models").mkdir(parents=True, exist_ok=True)
+    mr_model_fullpath = os.path.join("saved_models", "most_recent_model_" + model_id)
+    print_info("\n|||||| Saving model ", quote(cyansky(mr_model_fullpath)), "... ", end="")
+    model.save(mr_model_fullpath)
+    print_info("[DONE]")

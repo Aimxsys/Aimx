@@ -154,6 +154,8 @@ if __name__ == "__main__":
     # predict sample
     predict(model, x_to_predict, y_to_predict)
 
+    save_current_model(model, extract_filename(os.path.basename(__file__)))
+
     # plot accuracy/error for training and validation
     if not args.noplotshow:
         plot_history(history)
