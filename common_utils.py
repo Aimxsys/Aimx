@@ -30,6 +30,12 @@ def progress_bar(current, total):
      sys.stdout.write("[%-20s] %d%%" % ('█'*int(20*j), 100*j))
      sys.stdout.flush()
 
+def extract_filename(fullpath):
+    return os.path.splitext(fullpath)[0]
+
+def extract_fileext(fullpath):
+    return os.path.splitext(fullpath)[1]
+
 class Colors:
     PURPLE      = '\033[95m'
     BLUE        = '\033[94m'
