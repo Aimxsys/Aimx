@@ -54,7 +54,11 @@ def plot_history(history):
     axs[1].set_xlabel("Epoch")
     axs[1].legend(loc="upper right")
 
-    # TODO: Finish this later
-    #pt.savefig(get_dataset_code(dataset_json_filename) + ".png")
+    # save the plot as most recent (often useful when comparing to a next NN run)
+    Path("plots").mkdir(parents=True, exist_ok=True)
+    mr_plot_fullpath = os.path.join("plots", "most_recent_plot_" + get_dataset_code(dataset_json_filename) + ".png")
+    print_info("\n|||||| Saving image file", quote(cyansky(mr_plot_fullpath)), "... ", end="")
+    pt.savefig(mr_plot_fullpath)
+    print_info("[DONE]")
 
     pt.show()
