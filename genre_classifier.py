@@ -24,7 +24,7 @@ parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
 parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
 parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                   ' or 2 (one line per epoch). Default is 1.')
-parser.add_argument("-noplot",     action ='store_true',   help = 'Will not show any plots (useful for certain test automation).')
+parser.add_argument("-noplotshow",     action ='store_true',   help = 'Will not show any plots (useful for certain test automation).')
 
 args = parser.parse_args()
 
@@ -100,5 +100,5 @@ if __name__ == "__main__":
                         batch_size = args.batch_size,
                         epochs     = args.epochs,
                         verbose    = args.verbose)        
-    if not args.noplot:
+    if not args.noplotshow:
         plot_history(history) # plot accuracy and error as a function of epochs
