@@ -136,7 +136,8 @@ if __name__ == "__main__":
     # predict sample
     predict(model, x_to_predict, y_to_predict)
 
-    save_current_model(model, extract_filename(os.path.basename(__file__)))
+    trainid = "cnn_e" + str(args.epochs) + "_"
 
-    # plot accuracy/error for training and validation
-    plot_history(history, args.showplot)
+    save_current_model(model, trainid + extract_filename(os.path.basename(__file__)))
+
+    plot_history(history, trainid, args.showplot) # plot accuracy/error for training and validation

@@ -50,7 +50,7 @@ def predict(model, x, y):
     print_info("Prediction: ", prediction)
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
-def plot_history(history, show_interactive):
+def plot_history(history, trainid, show_interactive):
     """ Plots accuracy/loss for training/validation set as a function of epochs
         :param history: Training history of model
     """
@@ -74,7 +74,7 @@ def plot_history(history, show_interactive):
 
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path("gen_plots").mkdir(parents=True, exist_ok=True)
-    mr_plot_fullpath = os.path.join("gen_plots", "most_recent_plot_" + get_dataset_code(dataset_json_filename) + ".png")
+    mr_plot_fullpath = os.path.join("gen_plots", "most_recent_plot_" + trainid + get_dataset_code(dataset_json_filename) + ".png")
     print_info("\n|||||| Saving image file", quote(cyansky(mr_plot_fullpath)), "... ", end="")
     pt.savefig(mr_plot_fullpath)
     print_info("[DONE]")

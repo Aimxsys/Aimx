@@ -101,6 +101,8 @@ if __name__ == "__main__":
                         epochs     = args.epochs,
                         verbose    = args.verbose)
     
-    save_current_model(model, extract_filename(os.path.basename(__file__)))
+    trainid = "ann_e" + str(args.epochs) + "_"
 
-    plot_history(history, args.showplot) # plot accuracy and error as a function of epochs
+    save_current_model(model, trainid + extract_filename(os.path.basename(__file__)))
+
+    plot_history(history, trainid, args.showplot) # accuracy and error as a function of epochs
