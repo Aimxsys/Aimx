@@ -50,7 +50,7 @@ def predict(model, x, y):
     print_info("Prediction: ", prediction)
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
-def plot_history(history):
+def plot_history(history, show_interactive):
     """ Plots accuracy/loss for training/validation set as a function of epochs
         :param history: Training history of model
     """
@@ -79,7 +79,8 @@ def plot_history(history):
     pt.savefig(mr_plot_fullpath)
     print_info("[DONE]")
 
-    pt.show()
+    if show_interactive:
+        pt.show()
 
 def save_current_model(model, model_id):
     mr_model_fullpath = os.path.join("gen_saved_models", "most_recent_model_" + model_id)

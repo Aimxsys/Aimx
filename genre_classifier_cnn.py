@@ -139,5 +139,4 @@ if __name__ == "__main__":
     save_current_model(model, extract_filename(os.path.basename(__file__)))
 
     # plot accuracy/error for training and validation
-    if not args.noplotshow:
-        plot_history(history)
+    plot_history(history, not args.noplotshow)
