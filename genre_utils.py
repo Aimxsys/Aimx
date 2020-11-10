@@ -55,8 +55,8 @@ def plot_history(history):
     axs[1].legend(loc="upper right")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path("plots").mkdir(parents=True, exist_ok=True)
-    mr_plot_fullpath = os.path.join("plots", "most_recent_plot_" + get_dataset_code(dataset_json_filename) + ".png")
+    Path("gen_plots").mkdir(parents=True, exist_ok=True)
+    mr_plot_fullpath = os.path.join("gen_plots", "most_recent_plot_" + get_dataset_code(dataset_json_filename) + ".png")
     print_info("\n|||||| Saving image file", quote(cyansky(mr_plot_fullpath)), "... ", end="")
     pt.savefig(mr_plot_fullpath)
     print_info("[DONE]")
@@ -64,7 +64,7 @@ def plot_history(history):
     pt.show()
 
 def save_current_model(model, model_id):
-    mr_model_fullpath = os.path.join("saved_models", "most_recent_model_" + model_id)
+    mr_model_fullpath = os.path.join("gen_saved_models", "most_recent_model_" + model_id)
     print_info("\n|||||| Saving model ", quote(cyansky(mr_model_fullpath)), "... ", end="")
     model.save(mr_model_fullpath)
     print_info("[DONE]")
