@@ -108,7 +108,6 @@ def build_model(input_shape):
 
     return model
 
-
 def predict(model, x, y):
     """
     Predict a single sample using the trained model
