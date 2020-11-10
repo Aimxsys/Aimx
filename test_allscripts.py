@@ -23,17 +23,17 @@ subprocess.call(['genre_preprocess.py', '-dataset_path', 'dataset_c10_f3'], shel
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess.py OK"))
 
 # Genre classification using vanilla NN (no CNN or anything)
-subprocess.call(['genre_classifier.py', '-data_path', 'most_recent_output', '-epochs', '5', '-showplot'], shell=True)
+subprocess.call(['genre_classifier.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier.py OK"))
 
 # Genre classification using CNN
-subprocess.call(['genre_classifier_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5', '-showplot'], shell=True)
+subprocess.call(['genre_classifier_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier_cnn.py OK"))
 
 # Genre classification using RNN
-subprocess.call(['genre_classifier_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5', '-showplot'], shell=True)
+subprocess.call(['genre_classifier_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier_rnn.py OK"))
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE TEST OK"))
