@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 import json
 import os
 
@@ -31,6 +32,23 @@ def get_preprocess_result_meta():
             print_info(" [DONE]")
         get_preprocess_result_meta.cached = preprocess_result_meta
     return get_preprocess_result_meta.cached
+
+def predict(model, x, y):
+    """
+    Predict a single sample using the trained model
+    Params:
+        model: Trained classifier
+        x: Input data
+        y (int): Target
+    """
+    # add a dimension to input data for sample - model.predict() expects a 4d array in this case
+    x = x[np.newaxis, ...] # change array shape from (130, 13, 1) to (1, 130, 13, 1)
+
+    prediction = model.predict(x)
+    predicted_index = np.argmax(prediction, axis=1) # index with max value
+
+    print_info("Prediction: ", prediction)
+    print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
 def plot_history(history):
     """ Plots accuracy/loss for training/validation set as a function of epochs
