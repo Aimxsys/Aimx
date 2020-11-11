@@ -19,15 +19,16 @@ parser.add_argument("-dataprep",   action ='store_true', help = 'Will test data 
 parser.add_argument("-ann",        action ='store_true', help = 'Will test the vanilla ANN.')
 parser.add_argument("-cnn",        action ='store_true', help = 'Will test the CNN.')
 parser.add_argument("-rnn",        action ='store_true', help = 'Will test the RNN.')
+parser.add_argument("-nns",        action ='store_true', help = 'Will test all NNs only.')
 parser.add_argument("-all",        action ='store_true', help = 'Will test all scripts in the solution.')
 
 args = parser.parse_args()
 
 ARG_TEST_PLOT_SOUND = args.all or args.plot_sound
 ARG_TEST_DATAPREP   = args.all or args.dataprep
-ARG_TEST_ANN        = args.all or args.ann
-ARG_TEST_CNN        = args.all or args.cnn
-ARG_TEST_RNN        = args.all or args.rnn
+ARG_TEST_ANN        = args.all or args.nns or args.ann
+ARG_TEST_CNN        = args.all or args.nns or args.cnn
+ARG_TEST_RNN        = args.all or args.nns or args.rnn
 
 if ARG_TEST_DATAPREP: # Sound plots
     subprocess.call(['plot_sound.py', '-files_path', 'sounds/two'], shell=True)
