@@ -6,7 +6,9 @@ import glob
 import sys
 import os
 
-WORKDIR = os.path.join(Path('.').parent, "workdir")
+WORKDIR          = os.path.join(Path('.').parent, "workdir")
+GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
+GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
 
 def exists(x):
     return x is not None
