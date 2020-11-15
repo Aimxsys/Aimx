@@ -134,7 +134,6 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                         print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
     # save MFCCs to json file
-    DATA_JSON = os.path.join(WORKDIR, "data_json")
     Path(DATA_JSON).mkdir(parents=True, exist_ok=True)
     data_json_fullpath = os.path.join(DATA_JSON, json_filename)
     with open(data_json_fullpath, "w") as data_file:
