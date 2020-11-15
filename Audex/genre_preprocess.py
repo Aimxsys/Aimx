@@ -135,15 +135,15 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
 
     # save MFCCs to json file
     Path(AimxPath.DATA_JSON).mkdir(parents=True, exist_ok=True)
-    data_json_fullpath = os.path.join(AimxPath.DATA_JSON, json_filename)
-    with open(data_json_fullpath, "w") as data_file:
-        print_info("\n|||||| Writing data file", quote(cyansky(data_json_fullpath)), "... ", end="")
+    DATA_JSON_FULLPATH = os.path.join(AimxPath.DATA_JSON, json_filename)
+    with open(DATA_JSON_FULLPATH, "w") as data_file:
+        print_info("\n|||||| Writing data file", quote(cyansky(DATA_JSON_FULLPATH)), "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
     # save recent data preprocess result metadata
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
-    prep_result_meta["most_recent_output"] = data_json_fullpath
+    prep_result_meta["most_recent_output"] = DATA_JSON_FULLPATH
     with open(os.path.join(AimxPath.WORKDIR, PREPROCESS_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing data file", quote(cyansky(PREPROCESS_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
