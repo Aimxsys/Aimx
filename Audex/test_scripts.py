@@ -31,13 +31,13 @@ ARG_TEST_CNN        = args.all or args.nns or args.cnn
 ARG_TEST_RNN        = args.all or args.nns or args.rnn
 
 if ARG_TEST_DATAPREP: # Sound plots
-    # plot_sound.py -files_path sounds/two
-    subprocess.call([os.path.join('Audex', 'plot_sound.py'), '-files_path', 'sounds/two'], shell=True)
+    # plot_sound.py -files_path ../workdir/sounds/two
+    subprocess.call([os.path.join('Audex', 'plot_sound.py'), '-files_path', 'workdir/sounds/two'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
 if ARG_TEST_DATAPREP: # Data preprocessing
-    # genre_preprocess.py -dataset_path dataset_c10_f3
-    subprocess.call([os.path.join('Audex', 'genre_preprocess.py'), '-dataset_path', 'dataset_c10_f3'], shell=True)
+    # genre_preprocess.py -dataset_path ../workdir/dataset_c10_f3
+    subprocess.call([os.path.join('Audex', 'genre_preprocess.py'), '-dataset_path', 'workdir/dataset_c10_f3'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess.py OK"))
 
 if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)

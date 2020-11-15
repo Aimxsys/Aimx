@@ -6,6 +6,8 @@ import glob
 import sys
 import os
 
+WORKDIR = os.path.join(Path('.').parent, "workdir")
+
 def exists(x):
     return x is not None
 
