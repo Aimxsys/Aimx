@@ -31,22 +31,27 @@ ARG_TEST_CNN        = args.all or args.nns or args.cnn
 ARG_TEST_RNN        = args.all or args.nns or args.rnn
 
 if ARG_TEST_DATAPREP: # Sound plots
+    # plot_sound.py -files_path sounds/two
     subprocess.call(['plot_sound.py', '-files_path', 'sounds/two'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
 if ARG_TEST_DATAPREP: # Data preprocessing
+    # genre_preprocess.py -dataset_path dataset_c10_f3
     subprocess.call(['genre_preprocess.py', '-dataset_path', 'dataset_c10_f3'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess.py OK"))
 
 if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)
+    # genre_classifier.py -data_path most_recent_output -epochs 5
     subprocess.call(['genre_classifier.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier.py OK"))
 
 if ARG_TEST_CNN: # Genre classification using CNN
+    # genre_classifier_cnn.py -data_path most_recent_output -epochs 5
     subprocess.call(['genre_classifier_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier_cnn.py OK"))
 
 if ARG_TEST_RNN: # Genre classification using RNN
+    # genre_classifier_rnn.py -data_path most_recent_output -epochs 5
     subprocess.call(['genre_classifier_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier_rnn.py OK"))
 
