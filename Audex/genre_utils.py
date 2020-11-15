@@ -26,7 +26,7 @@ def to_genre_name(label_id):
 
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):        
-        with open(os.path.join(WORKDIR, PREPROCESS_RESULT_META_FILENAME), "r") as file:
+        with open(os.path.join(AimxPath.WORKDIR, PREPROCESS_RESULT_META_FILENAME), "r") as file:
             print_info("\n|||||| Loading file " + quote(cyansky(PREPROCESS_RESULT_META_FILENAME)) + "...", end="")
             preprocess_result_meta = json.load(file)
             print_info(" [DONE]")
@@ -73,8 +73,8 @@ def plot_history(history, trainid, show_interactive):
     axs[1].legend(loc="upper right")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    mr_plot_fullpath = os.path.join(GEN_PLOTS, trainid + get_dataset_code(dataset_json_filename) + ".png")
+    Path(AimxPath.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
+    mr_plot_fullpath = os.path.join(AimxPath.GEN_PLOTS, trainid + get_dataset_code(dataset_json_filename) + ".png")
     print_info("\n|||||| Saving image file", quote(cyansky(mr_plot_fullpath)), "... ", end="")
     pt.savefig(mr_plot_fullpath)
     print_info("[DONE]")
@@ -83,7 +83,7 @@ def plot_history(history, trainid, show_interactive):
         pt.show()
 
 def save_current_model(model, model_id):
-    mr_model_fullpath = os.path.join(GEN_SAVED_MODELS, "model_" + model_id)
+    mr_model_fullpath = os.path.join(AimxPath.GEN_SAVED_MODELS, "model_" + model_id)
     print_info("\n|||||| Saving model ", quote(cyansky(mr_model_fullpath)), "... ", end="")
     model.save(mr_model_fullpath)
     print_info("[DONE]")

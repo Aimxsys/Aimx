@@ -134,8 +134,8 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
                         print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
     # save MFCCs to json file
-    Path(DATA_JSON).mkdir(parents=True, exist_ok=True)
-    data_json_fullpath = os.path.join(DATA_JSON, json_filename)
+    Path(AimxPath.DATA_JSON).mkdir(parents=True, exist_ok=True)
+    data_json_fullpath = os.path.join(AimxPath.DATA_JSON, json_filename)
     with open(data_json_fullpath, "w") as data_file:
         print_info("\n|||||| Writing data file", quote(cyansky(data_json_fullpath)), "... ", end="")
         json.dump(datann, data_file, indent=4)
@@ -144,7 +144,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     # save recent data preprocess result metadata
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
     prep_result_meta["most_recent_output"] = data_json_fullpath
-    with open(os.path.join(WORKDIR, PREPROCESS_RESULT_META_FILENAME), 'w') as fp: 
+    with open(os.path.join(AimxPath.WORKDIR, PREPROCESS_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing data file", quote(cyansky(PREPROCESS_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")

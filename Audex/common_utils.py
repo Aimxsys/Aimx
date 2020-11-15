@@ -6,10 +6,11 @@ import glob
 import sys
 import os
 
-WORKDIR          = os.path.join(Path('.').parent, "workdir")
-GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
-GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
-DATA_JSON        = os.path.join(WORKDIR, "data_json")
+class AimxPath:
+    WORKDIR          = os.path.join(Path('.').parent, "workdir")
+    GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
+    GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
+    DATA_JSON        = os.path.join(WORKDIR, "data_json")
 
 def exists(x):
     return x is not None
