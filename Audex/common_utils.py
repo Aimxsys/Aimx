@@ -7,7 +7,7 @@ import sys
 import os
 
 class AimxPath:
-    WORKDIR          = os.path.join(Path('.').parent, "workdir")
+    WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
     GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
     GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
     DATA_JSON        = os.path.join(WORKDIR, "data_json")
