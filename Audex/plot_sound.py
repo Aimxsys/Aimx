@@ -52,12 +52,12 @@ print_info("====================================================================
 print_info("Expecting audio files in ARG_AUDIO_FILES_DIR =", ARG_AUDIO_FILES_DIR)
 print_info("=============================================================================")
 
-path = Path(ARG_AUDIO_FILES_DIR)
+audiofiles_path = Path(ARG_AUDIO_FILES_DIR)
 signal_packs = []
 
-if path.is_file():
-    print_info("|||||| Loading...", quote(cyansky(path)))
-    signal_packs.append((Path(path).name, librosa.load(path)))
+if audiofiles_path.is_file():
+    print_info("|||||| Loading...", quote(cyansky(audiofiles_path)))
+    signal_packs.append((Path(audiofiles_path).name, librosa.load(audiofiles_path)))
 else: # directory
     (_, _, filenames) = next(os.walk(ARG_AUDIO_FILES_DIR)) # works
     for filename in filenames:
