@@ -1,3 +1,3 @@
-# Audio
+# Aimx
 
-Various audio experiments.
+Various DL AI audio experiments & exploration.
