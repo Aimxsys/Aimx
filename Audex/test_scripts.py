@@ -32,27 +32,27 @@ ARG_TEST_RNN        = args.all or args.nns or args.rnn
 
 if ARG_TEST_DATAPREP: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
-    subprocess.call([os.path.join('Audex', 'plot_sound.py'), '-files_path', 'workdir/sounds/two'], shell=True)
+    subprocess.call(['plot_sound.py', '-files_path', '../workdir/sounds/two'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
 if ARG_TEST_DATAPREP: # Data preprocessing
     # genre_preprocess.py -dataset_path ../workdir/dataset_c10_f3
-    subprocess.call([os.path.join('Audex', 'genre_preprocess.py'), '-dataset_path', 'workdir/dataset_c10_f3'], shell=True)
+    subprocess.call(['genre_preprocess.py', '-dataset_path', '../workdir/dataset_c10_f3'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess.py OK"))
 
 if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # genre_classifier.py -data_path most_recent_output -epochs 5
-    subprocess.call([os.path.join('Audex', 'genre_classifier.py'), '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    subprocess.call(['genre_classifier.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier.py OK"))
 
 if ARG_TEST_CNN: # Genre classification using CNN
     # genre_classifier_cnn.py -data_path most_recent_output -epochs 5
-    subprocess.call([os.path.join('Audex', 'genre_classifier_cnn.py'), '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    subprocess.call(['genre_classifier_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier_cnn.py OK"))
 
 if ARG_TEST_RNN: # Genre classification using RNN
     # genre_classifier_rnn.py -data_path most_recent_output -epochs 5
-    subprocess.call([os.path.join('Audex', 'genre_classifier_rnn.py'), '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    subprocess.call(['genre_classifier_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_classifier_rnn.py OK"))
 
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE TEST OK"))
