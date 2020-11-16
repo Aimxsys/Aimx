@@ -91,7 +91,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     print_info("sample_rate    =", sample_rate)
     print_info("track_duration =", track_duration)
 
-    # loop through all genre subfolder
+    # loop through all genre subfolders
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing a genre subfolder level
