@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
 parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
-parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCCs to extract.')
+parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
 parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
@@ -53,9 +53,9 @@ print_info("====================================================================
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
     """
-    Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
+    Extracts MFCC from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
-        :param        n_mfcc (int): Number of MFCCs to extract.
+        :param        n_mfcc (int): Number of MFCC to extract.
         :param         n_fft (int): Length of the FFT window.   Measured in # of samples.
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
@@ -72,7 +72,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                       +  "_" + str(track_duration) + "s"
     json_filename += ".json"
 
-    # dictionary to store mapping, labels, and MFCCs
+    # dictionary to store mapping, labels, and MFCC
     datann = {
         "mapping": [],
          "labels": [],
@@ -132,7 +132,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                         datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
                         print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
-    # save MFCCs to json file
+    # save MFCC to json file
     Path(AimxPath.DATA_JSON).mkdir(parents=True, exist_ok=True)
     DATA_JSON_FULLPATH = os.path.join(AimxPath.DATA_JSON, json_filename)
     with open(DATA_JSON_FULLPATH, "w") as data_file:
