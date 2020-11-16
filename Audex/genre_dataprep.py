@@ -93,7 +93,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     print_info("sample_rate    =", sample_rate)
     print_info("track_duration =", track_duration)
 
-    # loop through all genre subfolders
+    # loop through all subfolders
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing at subfolder level
