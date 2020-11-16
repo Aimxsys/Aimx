@@ -51,7 +51,7 @@ print_info("====================================================================
 print_info("Expecting audio files in ARG_AUDIO_DATASET_FILES_DIR =", ARG_AUDIO_DATASET_FILES_DIR)
 print_info("=============================================================================")
 
-def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
+def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
     """
     Extracts MFCCs from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
@@ -82,7 +82,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
-    print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv save_mfcc()")
+    print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv preprocess_dataset()")
     print_info("json_filename  =", json_filename)
     print_info("n_mfcc         =", n_mfcc)
     print_info("n_fft          =", n_fft)
@@ -149,7 +149,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
         print_info("[DONE]")
                 
 if __name__ == "__main__":
-    save_mfcc(ARG_AUDIO_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
+    preprocess_dataset(ARG_AUDIO_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
                                             n_fft = args.n_fft,         
                                        hop_length = args.hop_length,
                                      num_segments = args.num_segments,
