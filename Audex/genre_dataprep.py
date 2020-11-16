@@ -41,7 +41,7 @@ if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exist
 
 ###########################################################################################
 # Example command:
-# preprocess.py -dataset_path dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
+# genre_dataprep.py -dataset_path dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
 ARG_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else AUDIO_DATASET_DIR_DEFAULT
 
@@ -94,7 +94,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
     # loop through all genre subfolders
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
-        # ensure we're processing a genre subfolder level
+        # ensure we're processing at subfolder level
         if dirpath is not PurePath(dataset_path).name:
 
             # save genre label (i.e. subfolder name) in the mapping
@@ -102,7 +102,7 @@ def save_mfcc(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_seg
             datann["mapping"].append(semantic_label)
             print_info("\nProcessing: {}".format(semantic_label))
 
-            # process all audio files in genre sub-dir
+            # process all audio files in subfolders
             for i, audio_filename in enumerate(audio_filenames):
                 
                 progress_bar(i, len(audio_filenames))
