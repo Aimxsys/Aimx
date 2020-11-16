@@ -1,4 +1,5 @@
-﻿from pathlib import PurePath
+﻿from itertools import islice
+from pathlib import PurePath
 from pathlib import Path
 import argparse
 import librosa
@@ -22,6 +23,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
 parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
+parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
@@ -103,9 +105,9 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
             print_info("\nProcessing: {}".format(category_label))
 
             # process all audio files in subfolders
-            for i, audio_filename in enumerate(audio_filenames):
+            for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
                 
-                progress_bar(i, len(audio_filenames))
+                progress_bar(i, min(len(audio_filenames), args.dataset_depth))
 
 		        # load audio file
                 audio_file_path     = os.path.join(dirpath, audio_filename)
