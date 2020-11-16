@@ -24,8 +24,8 @@ def to_genre_name(label_id):
 
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):        
-        with open(os.path.join(AimxPath.WORKDIR, AimxPath.PREPROCESS_RESULT_META_FILENAME), "r") as file:
-            print_info("\n|||||| Loading file " + quote(cyansky(AimxPath.PREPROCESS_RESULT_META_FILENAME)) + "...", end="")
+        with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), "r") as file:
+            print_info("\n|||||| Loading file " + quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)) + "...", end="")
             preprocess_result_meta = json.load(file)
             print_info(" [DONE]")
         get_preprocess_result_meta.cached = preprocess_result_meta

@@ -11,7 +11,7 @@ class AimxPath:
     GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
     GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
     DATA_JSON        = os.path.join(WORKDIR, "data_json")
-    PREPROCESS_RESULT_META_FILENAME = "preprocess_result_meta.json"
+    DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
 
 def exists(x):
     return x is not None
