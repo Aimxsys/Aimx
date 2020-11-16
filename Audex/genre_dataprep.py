@@ -107,6 +107,9 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
             # process all audio files in subfolders
             for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
                 
+                if not audio_filename.endswith(".wav"):
+                    continue
+                
                 progress_bar(i, min(len(audio_filenames), args.dataset_depth))
 
 		        # load audio file
