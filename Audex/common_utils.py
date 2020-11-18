@@ -1,5 +1,6 @@
 from termcolor import colored
 from pathlib   import Path
+from pathlib   import PurePath
 from time      import sleep
 import json
 import glob
@@ -12,6 +13,17 @@ class AimxPath:
     GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
     DATA_JSON        = os.path.join(WORKDIR, "data_json")
     DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
+
+def compose_json_filename(prefix, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+    filename = str(prefix) + "_"
+    filename += PurePath(dataset_path).name # the data json file name
+    filename += "_" + str(n_mfcc)         + "m" \
+             +  "_" + str(n_fft)          + "w" \
+             +  "_" + str(hop_length)     + "h" \
+             +  "_" + str(num_segments)   + "i" \
+             +  "_" + str(sample_rate)    + "r" \
+             +  "_" + str(track_duration) + "s"
+    return filename + ".json"
 
 def exists(x):
     return x is not None
