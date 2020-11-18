@@ -65,7 +65,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     json_filename = compose_json_filename(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
 
     # dictionary to store mapping, labels, and MFCC
-    datann = {
+    traindata = {
         "mapping": [],
          "labels": [],
            "mfcc": []
@@ -91,7 +91,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
             # save genre label (i.e. subfolder name) in the mapping
             category_label = PurePath(dirpath).name
-            datann["mapping"].append(category_label)
+            traindata["mapping"].append(category_label)
             print_info("\nProcessing: {}".format(category_label))
 
             # process all audio files in subfolders
@@ -123,12 +123,12 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
                     # store only mfcc feature with expected number of vectors
                     if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
-                        datann["mfcc"].append(mfcc.tolist())
-                        datann["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
+                        traindata["mfcc"].append(mfcc.tolist())
+                        traindata["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
                         print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
     # save MFCCs to json file
-    save_traindata_as_json(datann, json_filename)
+    save_traindata_as_json(traindata, json_filename)
 
     # save recent data preprocess result metadata
     save_dataprep_result_meta(json_filename)

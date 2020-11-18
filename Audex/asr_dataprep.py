@@ -63,7 +63,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     json_filename = compose_json_filename(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
 
     # dictionary to store mapping, labels, and MFCC
-    datann = {
+    traindata = {
         "mapping": [],
          "labels": [],
            "mfcc": [],
@@ -90,7 +90,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
             # save genre label (i.e. subfolder name) in the mapping
             category_label = PurePath(dirpath).name
-            datann["mapping"].append(category_label)
+            traindata["mapping"].append(category_label)
             print_info("\nProcessing: {}".format(category_label))
 
             # process all audio files in subfolders
@@ -117,13 +117,13 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                     mfcc = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
                     # store data for analysed track
-                    datann["mfcc" ].append(mfcc.T.tolist())
-                    datann["labels"].append(i-1)
-                    datann["files" ].append(audio_file_path)
+                    traindata["mfcc" ].append(mfcc.T.tolist())
+                    traindata["labels"].append(i-1)
+                    traindata["files" ].append(audio_file_path)
                     print_info("{}: {}".format(cyansky(audio_file_path), i-1), verbose = args.verbose)
 
     # save MFCCs to json file
-    save_traindata_as_json(datann, json_filename)
+    save_traindata_as_json(traindata, json_filename)
 
     # save recent data preprocess result metadata
     save_dataprep_result_meta(json_filename)
