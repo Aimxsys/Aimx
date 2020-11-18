@@ -14,28 +14,28 @@ from common_utils import *
 
 parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
 
-parser.add_argument("-plot_sound", action ='store_true', help = 'Will test plotting the sound.')
-parser.add_argument("-dataprep",   action ='store_true', help = 'Will test data preprocessing.')
-parser.add_argument("-ann",        action ='store_true', help = 'Will test the vanilla ANN.')
-parser.add_argument("-cnn",        action ='store_true', help = 'Will test the CNN.')
-parser.add_argument("-rnn",        action ='store_true', help = 'Will test the RNN.')
-parser.add_argument("-nns",        action ='store_true', help = 'Will test all NNs only.')
-parser.add_argument("-all",        action ='store_true', help = 'Will test all scripts in the solution.')
+parser.add_argument("-plot_sound",     action ='store_true', help = 'Will test plotting the sound.')
+parser.add_argument("-dataprep_genre", action ='store_true', help = 'Will test data preprocessing.')
+parser.add_argument("-ann",            action ='store_true', help = 'Will test the vanilla ANN.')
+parser.add_argument("-cnn",            action ='store_true', help = 'Will test the CNN.')
+parser.add_argument("-rnn",            action ='store_true', help = 'Will test the RNN.')
+parser.add_argument("-nns",            action ='store_true', help = 'Will test all NNs only.')
+parser.add_argument("-all",            action ='store_true', help = 'Will test all scripts in the solution.')
 
 args = parser.parse_args()
 
-ARG_TEST_PLOT_SOUND = args.all or args.plot_sound
-ARG_TEST_DATAPREP   = args.all or args.dataprep
-ARG_TEST_ANN        = args.all or args.nns or args.ann
-ARG_TEST_CNN        = args.all or args.nns or args.cnn
-ARG_TEST_RNN        = args.all or args.nns or args.rnn
+ARG_TEST_PLOT_SOUND     = args.all or args.plot_sound
+ARG_TEST_DATAPREP_GENRE = args.all or args.dataprep_genre
+ARG_TEST_ANN            = args.all or args.nns or args.ann
+ARG_TEST_CNN            = args.all or args.nns or args.cnn
+ARG_TEST_RNN            = args.all or args.nns or args.rnn
 
-if ARG_TEST_DATAPREP: # Sound plots
+if ARG_TEST_PLOT_SOUND: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
     subprocess.call(['plot_sound.py', '-files_path', '../workdir/sounds/two'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
-if ARG_TEST_DATAPREP: # Data preprocessing
+if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     # genre_dataprep.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
     subprocess.call(['genre_dataprep.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess.py OK"))
