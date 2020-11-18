@@ -62,7 +62,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    json_filename = PurePath(dataset_path).name # the data json file name
+    json_filename = str(args.dataset_depth) + "_"
+    json_filename += PurePath(dataset_path).name # the data json file name
     if args.cutname:
         json_filename += "_cut"
     else:
