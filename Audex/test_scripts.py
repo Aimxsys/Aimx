@@ -38,13 +38,13 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
-    # asr_dataprep.py -dataset_path ../workdir/speech_commands_v0.01 -dataset_depth 5
-    subprocess.call(['asr_dataprep.py', '-dataset_path', '../workdir/speech_commands_v0.01', '-dataset_depth', '5'], shell=True)
+    # dataprep_asr.py -dataset_path ../workdir/speech_commands_v0.01 -dataset_depth 5
+    subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v0.01', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess_asr.py OK"))
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
-    # genre_dataprep.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
-    subprocess.call(['genre_dataprep.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
+    # dataprep_genre.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
+    subprocess.call(['dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess_genre.py OK"))
 
 if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)
@@ -62,4 +62,4 @@ if ARG_TEST_RNN: # Genre classification using RNN
     subprocess.call(['genre_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_rnn.py OK"))
 
-print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE TEST OK"))
+print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE SANITY TEST OK"))
