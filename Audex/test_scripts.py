@@ -36,8 +36,8 @@ if ARG_TEST_DATAPREP: # Sound plots
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py OK"))
 
 if ARG_TEST_DATAPREP: # Data preprocessing
-    # genre_dataprep.py -dataset_path ../workdir/dataset_c10_f3
-    subprocess.call(['genre_dataprep.py', '-dataset_path', '../workdir/dataset_c10_f3'], shell=True)
+    # genre_dataprep.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
+    subprocess.call(['genre_dataprep.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess.py OK"))
 
 if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)
