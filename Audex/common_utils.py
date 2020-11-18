@@ -25,6 +25,22 @@ def compose_json_filename(prefix, dataset_path, n_mfcc, n_fft, hop_length, num_s
              +  "_" + str(track_duration) + "s"
     return filename + ".json"
 
+def save_traindata_as_json(datann, json_filename):
+    Path(AimxPath.DATA_JSON).mkdir(parents=True, exist_ok=True)
+    DATA_JSON_FULLPATH = os.path.join(AimxPath.DATA_JSON, json_filename)
+    with open(DATA_JSON_FULLPATH, "w") as data_file:
+        print_info("\n|||||| Writing data file", quote(cyansky(DATA_JSON_FULLPATH)), "... ", end="")
+        json.dump(datann, data_file, indent=4)
+        print_info("[DONE]")
+
+def save_dataprep_result_meta(json_filename):
+    prep_result_meta = {"most_recent_output": {}, "duration": {} }
+    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.DATA_JSON, json_filename)
+    with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
+        print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+        json.dump(prep_result_meta, fp)
+        print_info("[DONE]")
+
 def exists(x):
     return x is not None
 

@@ -123,20 +123,10 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                     print_info("{}: {}".format(cyansky(audio_file_path), i-1), verbose = args.verbose)
 
     # save MFCCs to json file
-    Path(AimxPath.DATA_JSON).mkdir(parents=True, exist_ok=True)
-    DATA_JSON_FULLPATH = os.path.join(AimxPath.DATA_JSON, json_filename)
-    with open(DATA_JSON_FULLPATH, "w") as data_file:
-        print_info("\n|||||| Writing data file", quote(cyansky(DATA_JSON_FULLPATH)), "... ", end="")
-        json.dump(datann, data_file, indent=4)
-        print_info("[DONE]")
+    save_traindata_as_json(datann, json_filename)
 
     # save recent data preprocess result metadata
-    prep_result_meta = {"most_recent_output": {}, "duration": {} }
-    prep_result_meta["most_recent_output"] = DATA_JSON_FULLPATH
-    with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
-        print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
-        json.dump(prep_result_meta, fp)
-        print_info("[DONE]")
+    save_dataprep_result_meta(json_filename)
                 
 if __name__ == "__main__":
     preprocess_dataset(ARG_AUDIO_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
