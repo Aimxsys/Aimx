@@ -86,7 +86,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing at subfolder level
-        if dirpath is not PurePath(dataset_path).name:
+        if PurePath(dirpath).name is not PurePath(dataset_path).name:
 
             # save genre label (i.e. subfolder name) in the mapping
             category_label = PurePath(dirpath).name
