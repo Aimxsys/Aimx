@@ -40,26 +40,26 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     # dataprep_asr.py -dataset_path ../workdir/speech_commands_v0.01 -dataset_depth 5
     subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v0.01', '-dataset_depth', '5'], shell=True)
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess_asr.py OK"))
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     # dataprep_genre.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
     subprocess.call(['dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_preprocess_genre.py OK"))
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py OK"))
 
 if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)
-    # genre_ann.py -data_path most_recent_output -epochs 5
-    subprocess.call(['genre_ann.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_ann.py OK"))
+    # train_genre_ann.py -data_path most_recent_output -epochs 5
+    subprocess.call(['train_genre_ann.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py OK"))
 
 if ARG_TEST_CNN: # Genre classification using CNN
-    # genre_cnn.py -data_path most_recent_output -epochs 5
-    subprocess.call(['genre_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_cnn.py OK"))
+    # train_genre_cnn.py -data_path most_recent_output -epochs 5
+    subprocess.call(['train_genre_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py OK"))
 
 if ARG_TEST_RNN: # Genre classification using RNN
-    # genre_rnn.py -data_path most_recent_output -epochs 5
-    subprocess.call(['genre_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_rnn.py OK"))
+    # train_genre_rnn.py -data_path most_recent_output -epochs 5
+    subprocess.call(['train_genre_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py OK"))
 
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE SANITY TEST OK"))

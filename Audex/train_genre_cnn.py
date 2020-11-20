@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 from termcolor import colored
 
-from genre_ann   import load_data
+from train_genre_ann import load_data
 from genre_utils import *
 
 # Calling with "-data_path /to/file" will expect to find the file in ./to directory.
