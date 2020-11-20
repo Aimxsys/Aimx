@@ -66,8 +66,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     traindata = {
         "mapping": [],
          "labels": [],
-           "mfcc": [],
-          "files": []
+          "files": [],
+           "mfcc": []
     }
 
 #    samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
