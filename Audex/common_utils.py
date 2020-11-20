@@ -57,7 +57,7 @@ def get_most_recent_file_in_dir(data_json_path, ext):
     return max(files, key = os.path.getctime)
 
 def get_dataset_code(dataset_json_filepath):
-    return Path(dataset_json_filepath).stem[8:]
+    return Path(dataset_json_filepath).name
 
 def progress_bar(current, total):
      j = (current + 1) / total
