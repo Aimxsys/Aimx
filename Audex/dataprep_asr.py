@@ -95,12 +95,12 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         print_info("\nProcessing: {}".format(category_label))
 
         # process all audio files in subfolders
-        for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
+        for pbi, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
 
             if not audio_filename.endswith(".wav"):
                 continue
             
-            progress_bar(i, min(len(audio_filenames), args.dataset_depth))
+            progress_bar(pbi, min(len(audio_filenames), args.dataset_depth))
 
 		    # load audio file
             audio_file_path     = os.path.join(dirpath, audio_filename)
@@ -119,9 +119,9 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
                 # store data for analysed track
                 traindata["mfcc" ].append(mfcc.T.tolist())
-                traindata["labels"].append(i-1)
+                traindata["labels"].append(dir_index-1)
                 traindata["files" ].append(audio_file_path)
-                print_info("{}: {}".format(cyansky(audio_file_path), i-1), verbose = args.verbose)
+                print_info("{}: {}".format(cyansky(audio_file_path), dir_index-1), verbose = args.verbose)
 
     # save MFCCs to json file
     save_traindata_as_json(traindata, json_filename)
