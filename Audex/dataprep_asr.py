@@ -86,41 +86,42 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing at subfolder level
-        if PurePath(dirpath).name is not PurePath(dataset_path).name:
+        if PurePath(dirpath).name is PurePath(dataset_path).name:
+            continue
 
-            # save genre label (i.e. subfolder name) in the mapping
-            category_label = PurePath(dirpath).name
-            traindata["mapping"].append(category_label)
-            print_info("\nProcessing: {}".format(category_label))
+        # save genre label (i.e. subfolder name) in the mapping
+        category_label = PurePath(dirpath).name
+        traindata["mapping"].append(category_label)
+        print_info("\nProcessing: {}".format(category_label))
 
-            # process all audio files in subfolders
-            for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
+        # process all audio files in subfolders
+        for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
 
-                if not audio_filename.endswith(".wav"):
-                    continue
-                
-                progress_bar(i, min(len(audio_filenames), args.dataset_depth))
+            if not audio_filename.endswith(".wav"):
+                continue
+            
+            progress_bar(i, min(len(audio_filenames), args.dataset_depth))
 
-		        # load audio file
-                audio_file_path     = os.path.join(dirpath, audio_filename)
-                signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
-                print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
-                           verbose = args.verbose)
+		    # load audio file
+            audio_file_path     = os.path.join(dirpath, audio_filename)
+            signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
+            print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
+                       verbose = args.verbose)
 
-                # drop audio files with less than pre-decided number of samples
-                if len(signal) >= args.sample_rate: # i.e. only those longer than 1 sec
+            # drop audio files with less than pre-decided number of samples
+            if len(signal) >= args.sample_rate: # i.e. only those longer than 1 sec
 
-                    # ensure strict consistency of the length of the signal (exactly 1 second)
-                    signal = signal[:args.sample_rate]
+                # ensure strict consistency of the length of the signal (exactly 1 second)
+                signal = signal[:args.sample_rate]
 
-                    # extract MFCCs
-                    mfcc = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+                # extract MFCCs
+                mfcc = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
-                    # store data for analysed track
-                    traindata["mfcc" ].append(mfcc.T.tolist())
-                    traindata["labels"].append(i-1)
-                    traindata["files" ].append(audio_file_path)
-                    print_info("{}: {}".format(cyansky(audio_file_path), i-1), verbose = args.verbose)
+                # store data for analysed track
+                traindata["mfcc" ].append(mfcc.T.tolist())
+                traindata["labels"].append(i-1)
+                traindata["files" ].append(audio_file_path)
+                print_info("{}: {}".format(cyansky(audio_file_path), i-1), verbose = args.verbose)
 
     # save MFCCs to json file
     save_traindata_as_json(traindata, json_filename)

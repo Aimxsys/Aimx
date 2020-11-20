@@ -87,45 +87,46 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing at subfolder level
-        if PurePath(dirpath).name is not PurePath(dataset_path).name:
+        if PurePath(dirpath).name is PurePath(dataset_path).name:
+            continue
 
-            # save genre label (i.e. subfolder name) in the mapping
-            category_label = PurePath(dirpath).name
-            traindata["mapping"].append(category_label)
-            print_info("\nProcessing: {}".format(category_label))
+        # save genre label (i.e. subfolder name) in the mapping
+        category_label = PurePath(dirpath).name
+        traindata["mapping"].append(category_label)
+        print_info("\nProcessing: {}".format(category_label))
 
-            # process all audio files in subfolders
-            for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
+        # process all audio files in subfolders
+        for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
                 
-                if not audio_filename.endswith(".wav"):
-                    continue
+            if not audio_filename.endswith(".wav"):
+                continue
                 
-                progress_bar(i, min(len(audio_filenames), args.dataset_depth))
+            progress_bar(i, min(len(audio_filenames), args.dataset_depth))
 
-		        # load audio file
-                audio_file_path     = os.path.join(dirpath, audio_filename)
-                signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
-                print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
-                           verbose = args.verbose)
+		    # load audio file
+            audio_file_path     = os.path.join(dirpath, audio_filename)
+            signal, sample_rate = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
+            print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
+                        verbose = args.verbose)
 
-                # process all segments of the audio file, extract mfccs
-                # and store the data to be fed to the NN for processing
-                for segment in range(num_segments):
+            # process all segments of the audio file, extract mfccs
+            # and store the data to be fed to the NN for processing
+            for segment in range(num_segments):
 
-                    # calculate first and last sample for the current segment
-                    seg_first_sample = samples_per_segment * segment
-                    seg_last_sample  = seg_first_sample + samples_per_segment
+                # calculate first and last sample for the current segment
+                seg_first_sample = samples_per_segment * segment
+                seg_last_sample  = seg_first_sample + samples_per_segment
 
-                    # extract mfccs for each segment
-                    mfcc = librosa.feature.mfcc(signal[seg_first_sample:seg_last_sample],
-                                                sample_rate, n_mfcc = n_mfcc, n_fft = n_fft, hop_length = hop_length)
-                    mfcc = mfcc.T
+                # extract mfccs for each segment
+                mfcc = librosa.feature.mfcc(signal[seg_first_sample:seg_last_sample],
+                                            sample_rate, n_mfcc = n_mfcc, n_fft = n_fft, hop_length = hop_length)
+                mfcc = mfcc.T
 
-                    # store only mfcc feature with expected number of vectors
-                    if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
-                        traindata["mfcc"].append(mfcc.tolist())
-                        traindata["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
-                        print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
+                # store only mfcc feature with expected number of vectors
+                if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
+                    traindata["mfcc"].append(mfcc.tolist())
+                    traindata["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
+                    print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
     # save MFCCs to json file
     save_traindata_as_json(traindata, json_filename)
