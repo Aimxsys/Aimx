@@ -6,7 +6,7 @@ import json
 import glob
 import sys
 import os
-
+ # Test commit for Slack GitHub
 class AimxPath:
     WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
     GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
