@@ -14,8 +14,8 @@ class AimxPath:
     DATA_JSON        = os.path.join(WORKDIR, "data_json")
     DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
 
-def compose_json_filename(prefix, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
-    filename = str(prefix) + "_"
+def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+    filename = "d" + str(dataset_depth) + "_"
     filename += PurePath(dataset_path).name # the data json file name
     filename += "_" + str(n_mfcc)         + "m" \
              +  "_" + str(n_fft)          + "w" \
