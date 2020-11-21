@@ -24,18 +24,16 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' later to be fed into a neural network for training.')
 
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
-parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
-parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
-parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
-
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
-
+parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
 parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
 parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
 parser.add_argument("-track_duration", default =    30, type=int, help = 'Only load up to this much audio (in seconds).')
+parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
+parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
 
 args = parser.parse_args()
 
