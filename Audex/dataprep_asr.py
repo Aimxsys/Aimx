@@ -14,22 +14,28 @@ from common_utils import *
 AUDIO_DATASET_DIR_DEFAULT_NAME = "dataset"
 AUDIO_DATASET_DIR_DEFAULT      = os.path.join(os.getcwd(), AUDIO_DATASET_DIR_DEFAULT_NAME)
 
+# TODO: Replace the hard-coded line below with automatically extracted dirlabels
+DATASET_VIEW_DEFAULT = ['down', 'go', 'left', 'no', 'off', 'on', 'right', 'stop', 'up', 'yes'] # video's set (to compare)
+
 # Calling without -dataset_path               will expect to find the default ./dataset directory.
 # Calling with   "-dataset_path mydir"        will expect to find a           ./mydir   directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' preprocessing audio files to extract the dataset'
                                                ' later to be fed into a neural network for training.')
 
-parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
-parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
-parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
-parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
-parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
-parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
-parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
-parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
-parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
-parser.add_argument("-track_duration", default =     1, type=int, help = 'Only load up to this much audio (in seconds).')
+parser.add_argument("-dataset_path",   type = Path,                    help = 'Path to a dataset of sound files.')
+parser.add_argument("-cutname",        action ='store_true',           help = 'Will generate a json name with no details (cut).')
+parser.add_argument("-verbose",        action ='store_true',           help = 'Will print more detailed output messages.')
+parser.add_argument("-dataset_depth",  default =     5, type=int,      help = 'Number of files to consider from each category.')
+
+parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
+
+parser.add_argument("-n_mfcc",         default =    13, type=int,      help = 'Number of MFCC to extract.')
+parser.add_argument("-n_fft",          default =  2048, type=int,      help = 'Length of the FFT window.   Measured in # of samples.')
+parser.add_argument("-hop_length",     default =   512, type=int,      help = 'Sliding window for the FFT. Measured in # of samples.')
+parser.add_argument("-num_segments",   default =     5, type=int,      help = 'Number of segments we want to divide sample tracks into.')
+parser.add_argument("-sample_rate",    default = 22050, type=int,      help = 'Sample rate at which to read the audio files.')
+parser.add_argument("-track_duration", default =     1, type=int,      help = 'Only load up to this much audio (in seconds).')
 
 args = parser.parse_args()
 
@@ -87,6 +93,9 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
         # ensure we're processing at subfolder level
         if PurePath(dirpath).name is PurePath(dataset_path).name:
+            continue
+
+        if PurePath(dirpath).stem not in args.dataset_view:
             continue
 
         # save genre label (i.e. subfolder name) in the mapping
