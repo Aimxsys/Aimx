@@ -25,12 +25,12 @@ parser.add_argument("-all",            action ='store_true', help = 'Will test a
 
 args = parser.parse_args()
 
-ARG_TEST_PLOT_SOUND     = args.all or args.plot_sound
-ARG_TEST_DATAPREP_GENRE = args.all or args.dataprep_genre
-ARG_TEST_DATAPREP_ASR   = args.all or args.dataprep_asr
-ARG_TEST_ANN            = args.all or args.nns or args.ann
-ARG_TEST_CNN            = args.all or args.nns or args.cnn
-ARG_TEST_RNN            = args.all or args.nns or args.rnn
+ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
+ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep_genre
+ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep_asr
+ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann
+ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn
+ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn
 
 if ARG_TEST_PLOT_SOUND: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
@@ -47,17 +47,17 @@ if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     subprocess.call(['dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py OK"))
 
-if ARG_TEST_ANN: # Genre classification using vanilla NN (no CNN or anything)
+if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -data_path most_recent_output -epochs 5
     subprocess.call(['train_genre_ann.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py OK"))
 
-if ARG_TEST_CNN: # Genre classification using CNN
+if ARG_TEST_TRAIN_GENRE_CNN: # Genre classification using CNN
     # train_genre_cnn.py -data_path most_recent_output -epochs 5
     subprocess.call(['train_genre_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py OK"))
 
-if ARG_TEST_RNN: # Genre classification using RNN
+if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
     # train_genre_rnn.py -data_path most_recent_output -epochs 5
     subprocess.call(['train_genre_rnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py OK"))
