@@ -60,12 +60,12 @@ def load_data(data_path):
     except FileNotFoundError:
         print_info("Data file " + quote(data_path) + " not provided or not found. Exiting...")
         exit() # cannot proceed without data file
-
-    # convert lists to numpy arrays
+    
     print_info("Reading data...", end="")
-    inputs = np.array(data["mfcc"])
-    labels = np.array(data["labels"])
+    inputs = np.array(data["mfcc"])   # convert the list to numpy array
+    labels = np.array(data["labels"]) # convert the list to numpy array
     print_info(" [DONE]\n")
+
     return inputs, labels
 
 if __name__ == "__main__":
