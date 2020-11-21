@@ -49,10 +49,10 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 # Example command:
 # dataprep_asr.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
-ARG_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
+ARG_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 
 print_info("=============================================================================")
-print_info("Expecting audio files in ARG_AUDIO_DATASET_FILES_DIR =", ARG_AUDIO_DATASET_FILES_DIR)
+print_info("Expecting audio files in ARG_AUDIO_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)
 print_info("=============================================================================")
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
@@ -137,7 +137,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     save_dataprep_result_meta(json_filename)
                 
 if __name__ == "__main__":
-    preprocess_dataset(ARG_AUDIO_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
+    preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
                                             n_fft = args.n_fft,         
                                        hop_length = args.hop_length,
                                      num_segments = args.num_segments,
