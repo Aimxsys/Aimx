@@ -49,7 +49,7 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 # Example command:
 # dataprep_asr.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
-ARG_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
+ARG_DATASET_FILES_DIR = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 
 print_info("=============================================================================")
 print_info("Expecting audio files in ARG_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)
