@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 from termcolor import colored
 
-from train_genre_ann import load_data
+from train_genre_ann import load_traindata
 from genre_utils import *
 
 # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
@@ -44,7 +44,7 @@ ARG_DATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
 if str(ARG_DATA_PATH) == "most_recent_output":
     ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
-def prepare_datasets(test_size, valid_size):
+def prepare_traindata(test_size, valid_size):
     """
     Loads data and splits it into train, validation and test sets.
     Params:
@@ -58,7 +58,7 @@ def prepare_datasets(test_size, valid_size):
         y_valid (ndarray): Target valid set
         y_test  (ndarray): Target test set
     """
-    x, y = load_data(ARG_DATA_PATH)
+    x, y = load_traindata(ARG_DATA_PATH)
 
     # create train, validation and test split
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)
@@ -96,7 +96,7 @@ def build_model(input_shape):
 if __name__ == "__main__":
 
     # get train, validation, test splits
-    x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_datasets(test_size = 0.25, valid_size = 0.2)
+    x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_traindata(test_size = 0.25, valid_size = 0.2)
 
     # create network
     model = build_model(input_shape = (x_train.shape[1], x_train.shape[2])) # 130, 13

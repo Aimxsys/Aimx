@@ -43,7 +43,7 @@ ARG_DATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
 if str(ARG_DATA_PATH) == "most_recent_output":
     ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
-def load_data(data_path):
+def load_traindata(data_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
         :param data_path (str): Path to json file containing data
@@ -70,7 +70,7 @@ def load_data(data_path):
 
 if __name__ == "__main__":
 
-    inputs, labels = load_data(ARG_DATA_PATH)
+    inputs, labels = load_traindata(ARG_DATA_PATH)
 
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
