@@ -52,7 +52,7 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 ARG_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 
 print_info("=============================================================================")
-print_info("Expecting audio files in ARG_AUDIO_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)
+print_info("Expecting audio files in ARG_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)
 print_info("=============================================================================")
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
