@@ -11,7 +11,7 @@ class AimxPath:
     WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
     GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
     GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
-    TRAINDATA        = os.path.join(WORKDIR, "traindata")
+    GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
     DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
 
 def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
@@ -26,16 +26,16 @@ def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length
     return filename + ".json"
 
 def save_traindata(datann, traindata_filename):
-    Path(AimxPath.TRAINDATA).mkdir(parents=True, exist_ok=True)
-    TRAINDATA_FULLPATH = os.path.join(AimxPath.TRAINDATA, traindata_filename)
-    with open(TRAINDATA_FULLPATH, "w") as data_file:
-        print_info("\n|||||| Writing data file", quote(cyansky(TRAINDATA_FULLPATH)), "... ", end="")
+    Path(AimxPath.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
+    GEN_TRAINDATA_FULLPATH = os.path.join(AimxPath.GEN_TRAINDATA, traindata_filename)
+    with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
+        print_info("\n|||||| Writing data file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
 def save_dataprep_result_meta(json_filename):
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
-    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.TRAINDATA, json_filename)
+    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.GEN_TRAINDATA, json_filename)
     with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
