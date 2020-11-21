@@ -128,7 +128,7 @@ if __name__ == "__main__":
     history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid), batch_size=args.batch_size, epochs=args.epochs)
 
     # evaluate model on test set
-    test_loss, test_acc = model.evaluate(x_test, y_test, verbose = 1)
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose = args.verbose)
     print_info('\nTest accuracy:', test_acc)
         
     # pick a sample to predict from the test set

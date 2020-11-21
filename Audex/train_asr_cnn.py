@@ -135,7 +135,7 @@ if __name__ == "__main__":
                         callbacks  = [earlystop_callback])
 
     # evaluate model on test set
-    test_loss, test_acc = model.evaluate(x_test, y_test, verbose = 1)
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose = args.verbose)
     print_info('\nTest accuracy:', test_acc)
         
     trainid = "cnn_e" + str(args.epochs) + "_"
