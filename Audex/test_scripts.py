@@ -28,6 +28,7 @@ args = parser.parse_args()
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
 
 ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep_asr
+ARG_TEST_TRAIN_ASR_CNN   = args.all or args.cnn
 
 ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep_genre
 ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann
@@ -43,6 +44,11 @@ if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     # dataprep_asr.py -dataset_path ../workdir/speech_commands_v0.01 -dataset_depth 5
     subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v0.01', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
+
+if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
+    # train_asr_cnn.py -data_path most_recent_output -epochs 5
+    subprocess.call(['train_asr_cnn.py', '-data_path', 'most_recent_output', '-epochs', '5'], shell=True)
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     # dataprep_genre.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
