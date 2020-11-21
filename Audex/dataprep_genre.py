@@ -129,7 +129,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                     print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
     # save MFCCs to json file
-    save_traindata_as_json(traindata, json_filename)
+    save_traindata(traindata, json_filename)
 
     # save recent data preprocess result metadata
     save_dataprep_result_meta(json_filename)

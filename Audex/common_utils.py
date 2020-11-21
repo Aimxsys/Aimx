@@ -11,7 +11,7 @@ class AimxPath:
     WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
     GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
     GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
-    DATA_JSON        = os.path.join(WORKDIR, "data_json")
+    TRAINDATA        = os.path.join(WORKDIR, "traindata")
     DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
 
 def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
@@ -25,17 +25,17 @@ def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length
              +  "_" + str(track_duration) + "s"
     return filename + ".json"
 
-def save_traindata_as_json(datann, json_filename):
-    Path(AimxPath.DATA_JSON).mkdir(parents=True, exist_ok=True)
-    DATA_JSON_FULLPATH = os.path.join(AimxPath.DATA_JSON, json_filename)
-    with open(DATA_JSON_FULLPATH, "w") as data_file:
-        print_info("\n|||||| Writing data file", quote(cyansky(DATA_JSON_FULLPATH)), "... ", end="")
+def save_traindata(datann, traindata_filename):
+    Path(AimxPath.TRAINDATA).mkdir(parents=True, exist_ok=True)
+    TRAINDATA_FULLPATH = os.path.join(AimxPath.TRAINDATA, traindata_filename)
+    with open(TRAINDATA_FULLPATH, "w") as data_file:
+        print_info("\n|||||| Writing data file", quote(cyansky(TRAINDATA_FULLPATH)), "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
 def save_dataprep_result_meta(json_filename):
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
-    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.DATA_JSON, json_filename)
+    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.TRAINDATA, json_filename)
     with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
@@ -52,8 +52,8 @@ def quote(me):
 
 # TODO: This function seems to not always return as expected
 # Currently disabled, but kept as it looks useful if perfected.
-def get_most_recent_file_in_dir(data_json_path, ext):
-    files = glob.iglob(data_json_path + '/*.' + ext)
+def get_most_recent_file_in_dir(traindata_path, ext):
+    files = glob.iglob(traindata_path + '/*.' + ext)
     return max(files, key = os.path.getctime)
 
 def get_dataset_code(dataset_json_filepath):
