@@ -11,8 +11,8 @@ from common_utils import *
 
 # Download from https://ai.googleblog.com/2017/08/launching-speech-commands-dataset.html
 
-AUDIO_DATASET_DIR_DEFAULT_NAME = "dataset"
-AUDIO_DATASET_DIR_DEFAULT      = os.path.join(os.getcwd(), AUDIO_DATASET_DIR_DEFAULT_NAME)
+DATASET_DIR_DEFAULT_NAME = "dataset"
+DATASET_DIR_DEFAULT      = os.path.join(os.getcwd(), DATASET_DIR_DEFAULT_NAME)
 
 # TODO: Replace the hard-coded line below with automatically extracted dirlabels
 DATASET_VIEW_DEFAULT = ['down', 'go', 'left', 'no', 'off', 'on', 'right', 'stop', 'up', 'yes'] # video's set (to compare)
@@ -42,14 +42,14 @@ args = parser.parse_args()
 if provided(args.dataset_path) and not args.dataset_path.exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.dataset_path)))
 
-if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(AUDIO_DATASET_DIR_DEFAULT_NAME)))
+if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(DATASET_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
 # Example command:
 # dataprep_asr.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
-ARG_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else AUDIO_DATASET_DIR_DEFAULT
+ARG_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 
 print_info("=============================================================================")
 print_info("Expecting audio files in ARG_AUDIO_DATASET_FILES_DIR =", ARG_AUDIO_DATASET_FILES_DIR)

@@ -11,8 +11,8 @@ from common_utils import *
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
-AUDIO_DATASET_DIR_DEFAULT_NAME = "dataset"
-AUDIO_DATASET_DIR_DEFAULT      = os.path.join(os.getcwd(), AUDIO_DATASET_DIR_DEFAULT_NAME)
+DATASET_DIR_DEFAULT_NAME = "dataset"
+DATASET_DIR_DEFAULT      = os.path.join(os.getcwd(), DATASET_DIR_DEFAULT_NAME)
 
 # TODO: Replace the hard-coded line below with automatically extracted dirlabels
 DATASET_VIEW_DEFAULT = ['blues', 'classical', 'country', 'disco', 'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock']
@@ -42,14 +42,14 @@ args = parser.parse_args()
 if provided(args.dataset_path) and not args.dataset_path.exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.dataset_path)))
 
-if not provided(args.dataset_path) and not Path(AUDIO_DATASET_DIR_DEFAULT).exists():
-    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(AUDIO_DATASET_DIR_DEFAULT_NAME)))
+if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(DATASET_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
 # Example command:
 # dataprep_genre.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
-ARG_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else AUDIO_DATASET_DIR_DEFAULT
+ARG_AUDIO_DATASET_FILES_DIR  = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 
 SAMPLES_PER_TRACK = args.sample_rate * args.track_duration
 
