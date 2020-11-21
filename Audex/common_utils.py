@@ -146,3 +146,6 @@ def pinkred(s):
 def print_info(s, *args, verbose = True, **kwargs):
     if verbose:
         print(yellow(s), *args, **kwargs)
+
+def deprint(s):
+    print(pinkred(s))
