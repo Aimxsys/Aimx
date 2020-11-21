@@ -15,12 +15,13 @@ from termcolor import colored
 from train_genre_ann import load_data
 from genre_utils import *
 
-# Calling with "-data_path /to/file" will expect to find the file in ./to directory.
+# Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-data_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use "most_recent_output", which'
-                                                      ' by design is the output of the previous step of dataset preprocessing.')
+parser.add_argument("-traindata_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use "most_recent_output", which'
+                                                           ' by design is the output of the previous step of dataset preprocessing.')
+
 parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
 parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
 parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
@@ -33,14 +34,14 @@ args = parser.parse_args()
 
 ############################## Command Argument Verification ##############################
 
-if provided(args.data_path) and not args.data_path.exists():
-    if str(args.data_path) is not "most_recent_output":
-        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.data_path)))
+if provided(args.traindata_path) and not args.traindata_path.exists():
+    if str(args.traindata_path) is not "most_recent_output":
+        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
 
 ###########################################################################################
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-ARG_DATA_PATH = args.data_path if provided(args.data_path) else ""
+ARG_DATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
 if str(ARG_DATA_PATH) == "most_recent_output":
     ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
