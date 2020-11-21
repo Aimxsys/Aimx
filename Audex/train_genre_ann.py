@@ -62,8 +62,8 @@ def load_data(data_path):
         exit() # cannot proceed without data file
     
     print_info("Reading data...", end="")
-    inputs = np.array(data["mfcc"])   # convert the list to numpy array
-    labels = np.array(data["labels"]) # convert the list to numpy array
+    inputs = np.array(data["mfcc"])   # convert the list to numpy array (MFCCs  turn into a 2d array)
+    labels = np.array(data["labels"]) # convert the list to numpy array (labels turn into a 1d array)
     print_info(" [DONE]\n")
 
     return inputs, labels
