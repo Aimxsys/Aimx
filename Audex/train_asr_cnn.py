@@ -15,7 +15,7 @@ import tensorflow.keras as keras
 from termcolor import colored
 
 from train_genre_ann import load_traindata
-from genre_utils import *
+from audex_utils import *
 
 # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'

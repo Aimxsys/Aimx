@@ -47,8 +47,8 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
 ####################################################### ASR-related pipeline
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
-    # dataprep_asr.py -dataset_path ../workdir/speech_commands_v0.01 -dataset_depth 5
-    subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v0.01', '-dataset_depth', '5'], shell=True)
+    # dataprep_asr.py -dataset_path ../workdir/speech_commands_v001 -dataset_depth 5
+    subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v001', '-dataset_depth', '5'], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
 if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
