@@ -135,8 +135,9 @@ dmypy.json
 ####################################
 
 .vs
-/sounds
+/venv_aimx
+/Aimx.pyproj
+/Aimx.sln
 
-# Download the dataset from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 # All datasets, generated folders and other input-output of Aimx take place in the 'workdir' directory
-workdir
+/workdir
