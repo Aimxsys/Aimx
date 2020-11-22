@@ -1,5 +1,7 @@
 from pathlib import PurePath
 from pathlib import Path
+from datetime import timedelta
+import time
 import argparse
 import librosa
 import numpy as np
@@ -107,9 +109,13 @@ if __name__ == "__main__":
 
     model.summary()
 
+    start_time = time.time()
+    
     # train model
     history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid), batch_size=args.batch_size, epochs=args.epochs)
 
+    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
+                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose = 1)
     print_info('\nTest accuracy:', test_acc)

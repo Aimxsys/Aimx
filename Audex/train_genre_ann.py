@@ -1,5 +1,7 @@
 ﻿from pathlib import PurePath
 from pathlib import Path
+from datetime import timedelta
+import time
 import argparse
 import numpy as np
 import time
@@ -97,12 +99,16 @@ if __name__ == "__main__":
 
     model.summary()
 
+    start_time = time.time()
+
     # train model
     history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test),
                         batch_size = args.batch_size,
                         epochs     = args.epochs,
                         verbose    = args.verbose)
-    
+
+    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
+                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))    
     trainid = "ann_e" + str(args.epochs) + "_"
 
     if (args.savemodel):

@@ -1,5 +1,7 @@
 # This script checks basic sanity of all scripts in the solution, respecting the pipeline whenever relevant
 # (for example: preprocess the data and then train on it). Useful when doing global renamings, etc.
+from datetime import timedelta
+import time
 import argparse
 import subprocess
 
@@ -34,6 +36,8 @@ ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep_genre
 ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn
+
+start_time = time.time()
 
 if ARG_TEST_PLOT_SOUND: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
@@ -75,3 +79,6 @@ if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py OK"))
 
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE SANITY TEST OK"))
+
+print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
+                                                lightyellow(timedelta(seconds = round(time.time() - start_time)))))

@@ -1,6 +1,8 @@
 ﻿from itertools import islice
 from pathlib import PurePath
 from pathlib import Path
+from datetime import timedelta
+import time
 import argparse
 import librosa
 import json
@@ -144,9 +146,15 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     save_dataprep_result_meta(json_filename)
                 
 if __name__ == "__main__":
+
+    start_time = time.time()
+
     preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
                                             n_fft = args.n_fft,         
                                        hop_length = args.hop_length,
                                      num_segments = args.num_segments,
                                       sample_rate = args.sample_rate, 
                                    track_duration = args.track_duration)
+    
+    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
+                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
