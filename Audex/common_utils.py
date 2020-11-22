@@ -41,6 +41,29 @@ def save_dataprep_result_meta(json_filename):
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
 
+def prompt_user_warning_strict_yesorno(warning_text):
+    yes = {'yes','y', 'ye', ''}
+    no  = {'no','n'}
+    choice = input(pinkred(warning_text)).lower()
+    if choice in yes:
+       return True
+    elif choice in no:
+       return False
+    else:
+       print(pinkred("Unable to continue without a 'yes' or 'no' answer. Exiting..."))
+       exit()
+
+def prompt_user_warning_suggestion(warning_text):
+    yes = {'yes','y', 'ye', ''}
+    no  = {'no','n'}
+    choice = input(cyan(warning_text)).lower()
+    if choice in yes:
+        return True
+    elif choice in no:
+        return False
+    else:
+        return None
+
 def exists(x):
     return x is not None
 

@@ -45,6 +45,9 @@ ARG_DATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
 if str(ARG_DATA_PATH) == "most_recent_output":
     ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
+if not args.savemodel and os.path.getsize(ARG_DATA_PATH) > 100_000_000: # > 100 Mb
+    args.savemodel = prompt_user_warning_suggestion("Attempting to train on a large >100Mb traindata without '-savemodel',"
+                                                    " would you rather save the final model? [yes / no] ")
 def load_traindata(data_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
@@ -58,7 +61,7 @@ def load_traindata(data_path):
             m = "most recent [" + timestamp + "] " if str(args.traindata_path) == "most_recent_output" else ""
             print_info("\n|||||| Loading " + m + "data file " + quote(cyansky(data_path)) + "...", end="")
             data = json.load(file)
-            print_info(" [DONE]")
+            print_info(" [DONE]")            
     except FileNotFoundError:
         print_info("Data file " + quote(data_path) + " not provided or not found. Exiting...")
         exit() # cannot proceed without data file
