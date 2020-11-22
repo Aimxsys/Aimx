@@ -8,6 +8,16 @@ import matplotlib.pyplot as pt
 
 from common_utils import *
 
+class AimxPath:
+    WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
+    GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
+    GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
+    GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
+    DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
+
+def get_dataset_code(dataset_json_filepath):
+    return Path(dataset_json_filepath).stem
+
 def to_genre_name(label_id):
     return [
         'blues'     ,
@@ -85,3 +95,30 @@ def save_current_model(model, model_id):
     print_info("\n|||||| Saving model ", quote(cyansky(MR_MODEL_FULLPATH)), "... ", end="")
     model.save(MR_MODEL_FULLPATH)
     print_info("[DONE]")
+
+def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+    filename = str(dataset_depth) + "d_"
+    filename += PurePath(dataset_path).name # the data json file name
+    filename += "_" + str(n_mfcc)         + "m" \
+             +  "_" + str(n_fft)          + "w" \
+             +  "_" + str(hop_length)     + "h" \
+             +  "_" + str(num_segments)   + "i" \
+             +  "_" + str(sample_rate)    + "r" \
+             +  "_" + str(track_duration) + "s"
+    return filename + ".json"
+
+def save_traindata(datann, traindata_filename):
+    Path(AimxPath.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
+    GEN_TRAINDATA_FULLPATH = os.path.join(AimxPath.GEN_TRAINDATA, traindata_filename)
+    with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
+        print_info("\n|||||| Writing data file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
+        json.dump(datann, data_file, indent=4)
+        print_info("[DONE]")
+
+def save_dataprep_result_meta(json_filename):
+    prep_result_meta = {"most_recent_output": {}, "duration": {} }
+    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.GEN_TRAINDATA, json_filename)
+    with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
+        print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+        json.dump(prep_result_meta, fp)
+        print_info("[DONE]")
