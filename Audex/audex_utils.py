@@ -20,15 +20,15 @@ def get_dataset_code(dataset_json_filepath):
 
 def to_genre_name(label_id):
     return [
-        'blues'     ,
-        'classical' ,
-        'country'   ,
-        'disco'     ,
-        'hiphop'    ,
-        'jazz'      ,
-        'metal'     ,
-        'pop'       ,
-        'reggae'    ,
+        'blues'    ,
+        'classical',
+        'country'  ,
+        'disco'    ,
+        'hiphop'   ,
+        'jazz'     ,
+        'metal'    ,
+        'pop'      ,
+        'reggae'   ,
         'rock'      
     ][label_id]
 
