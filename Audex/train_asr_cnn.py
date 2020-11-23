@@ -14,7 +14,6 @@ from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 from termcolor import colored
 
-from train_genre_ann import load_traindata
 from audex_utils import *
 
 # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
