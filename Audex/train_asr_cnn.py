@@ -49,7 +49,7 @@ if str(ARG_DATA_PATH) == "most_recent_output":
 
 if not args.savemodel and os.path.getsize(ARG_DATA_PATH) > 100_000_000: # > 100 Mb
     args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
-                                         " would you rather save the final model? [yes / no] ", 'yesorno')
+                                         " would you rather save the final model? [yes / no] ")
 def prepare_traindata(test_size, valid_size):
     """
     Loads data and splits it into train, validation and test sets.
