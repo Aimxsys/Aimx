@@ -109,10 +109,10 @@ def WordetectService():
 if __name__ == "__main__":
 
     # create 2 instances of the keyword spotting service
-    kss  = WordetectService()
+    wds  = WordetectService()
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
         file = os.path.join(args.inferdata_path, filename)
-        word = kss.predict(file)
+        word = wds.predict(file)
         print(word)
