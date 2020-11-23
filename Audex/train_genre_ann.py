@@ -40,30 +40,34 @@ if provided(args.traindata_path) and not args.traindata_path.exists():
 
 ###########################################################################################
 
-# path to json file that stores MFCCs and genre labels for each processed segment
-ARG_TRAINDATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
-if str(ARG_TRAINDATA_PATH) == "most_recent_output":
-    ARG_TRAINDATA_PATH = get_preprocess_result_meta()["most_recent_output"]
+def get_actual_traindata_path(arg_traindata_path):
+    # Handle any special requests (most recent, largest, smallest, etc.)
+    if str(arg_traindata_path) == "most_recent_output":
+        return get_preprocess_result_meta()["most_recent_output"]
+    return arg_traindata_path # no special requests, return pristine
+
+ARG_TRAINDATA_PATH = get_actual_traindata_path(args.traindata_path)
 
 if not args.savemodel and os.path.getsize(ARG_TRAINDATA_PATH) > 100_000_000: # > 100 Mb
     args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
                                          " would you rather save the final model? [yes / no] ")
-def load_traindata(data_path):
+def load_traindata(arg_traindata_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
         :param data_path (str): Path to json file containing data
         :return inputs (ndarray: the "mfcc"   section in the json data) 
         :return labels (ndarray: the "labels" section in the json data, one label per segment)
     """
+    actual_traindata_path = get_actual_traindata_path(arg_traindata_path)
     try:
-        with open(data_path, "r") as file:
-            timestamp = str(time.ctime(os.path.getmtime(data_path)))
-            m = "most recent [" + timestamp + "] " if str(args.traindata_path) == "most_recent_output" else ""
-            print_info("\n|||||| Loading " + m + "data file " + quote(cyansky(data_path)) + "...", end="")
+        with open(actual_traindata_path, "r") as file:
+            timestamp = str(time.ctime(os.path.getmtime(actual_traindata_path)))
+            m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == "most_recent_output" else ""
+            print_info("\n|||||| Loading " + m + "data file " + quote(cyansky(actual_traindata_path)) + "...", end="")
             data = json.load(file)
             print_info(" [DONE]")            
     except FileNotFoundError:
-        print_info("Data file " + quote(data_path) + " not provided or not found. Exiting...")
+        print_info("Data file " + quote(actual_traindata_path) + " not provided or not found. Exiting...")
         exit() # cannot proceed without data file
     
     print_info("Reading data...", end="")
@@ -75,7 +79,7 @@ def load_traindata(data_path):
 
 if __name__ == "__main__":
 
-    inputs, labels = load_traindata(ARG_TRAINDATA_PATH)
+    inputs, labels = load_traindata(args.traindata_path)
 
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
