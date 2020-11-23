@@ -7,6 +7,11 @@ import glob
 import sys
 import os
 
+# Useful regexp to count total LOC.
+# Tested in VS by running a regexp search with the
+# string below on Python files in the entire solution:
+# ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
+
 def prompt_user_warning(warning_text, strictness='suggestion'):
     yes = {'yes','y', 'ye', ''}
     no  = {'no','n'}
