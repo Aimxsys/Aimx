@@ -41,11 +41,11 @@ if provided(args.traindata_path) and not args.traindata_path.exists():
 ###########################################################################################
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-ARG_DATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
-if str(ARG_DATA_PATH) == "most_recent_output":
-    ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
+ARG_TRAINDATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
+if str(ARG_TRAINDATA_PATH) == "most_recent_output":
+    ARG_TRAINDATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
-if not args.savemodel and os.path.getsize(ARG_DATA_PATH) > 100_000_000: # > 100 Mb
+if not args.savemodel and os.path.getsize(ARG_TRAINDATA_PATH) > 100_000_000: # > 100 Mb
     args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
                                          " would you rather save the final model? [yes / no] ")
 def load_traindata(data_path):
@@ -75,7 +75,7 @@ def load_traindata(data_path):
 
 if __name__ == "__main__":
 
-    inputs, labels = load_traindata(ARG_DATA_PATH)
+    inputs, labels = load_traindata(ARG_TRAINDATA_PATH)
 
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)

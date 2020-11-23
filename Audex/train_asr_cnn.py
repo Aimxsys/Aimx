@@ -43,11 +43,11 @@ if provided(args.traindata_path) and not args.traindata_path.exists():
 ###########################################################################################
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-ARG_DATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
-if str(ARG_DATA_PATH) == "most_recent_output":
-    ARG_DATA_PATH = get_preprocess_result_meta()["most_recent_output"]
+ARG_TRAINDATA_PATH = args.traindata_path if provided(args.traindata_path) else ""
+if str(ARG_TRAINDATA_PATH) == "most_recent_output":
+    ARG_TRAINDATA_PATH = get_preprocess_result_meta()["most_recent_output"]
 
-if not args.savemodel and os.path.getsize(ARG_DATA_PATH) > 100_000_000: # > 100 Mb
+if not args.savemodel and os.path.getsize(ARG_TRAINDATA_PATH) > 100_000_000: # > 100 Mb
     args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
                                          " would you rather save the final model? [yes / no] ")
 def prepare_traindata(test_size, valid_size):
@@ -64,7 +64,7 @@ def prepare_traindata(test_size, valid_size):
         y_valid (ndarray): Target valid set
         y_test  (ndarray): Target test set
     """
-    x, y = load_traindata(ARG_DATA_PATH)
+    x, y = load_traindata(ARG_TRAINDATA_PATH)
 
     # create train, validation and test split
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)
