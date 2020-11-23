@@ -28,7 +28,7 @@ parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epo
 parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                   ' or 2 (one line per epoch). Default is 1.')
 parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
-parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(AimxPath.GEN_SAVED_MODELS))
+parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
 
 args = parser.parse_args()
 

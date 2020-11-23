@@ -9,12 +9,13 @@ import matplotlib.pyplot as pt
 
 from common_utils import *
 
-class AimxPath:
-    WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
-    GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
-    GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
-    GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
-    DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
+class Aimx:
+    class Paths:
+        WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
+        GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
+        GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
+        GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
+        DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
 
 def get_dataset_code(traindata_filepath):
     return Path(traindata_filepath).stem
@@ -35,8 +36,8 @@ def to_genre_name(label_id):
 
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):
-        with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), "r") as file:
-            print_info("\n|||||| Loading file " + quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)) + "...", end="")
+        with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), "r") as file:
+            print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "...", end="")
             preprocess_result_meta = json.load(file)
             print_info(" [DONE]")
         get_preprocess_result_meta.cached = preprocess_result_meta
@@ -114,8 +115,8 @@ def plot_history(history, trainid, show_interactive):
     axs[1].legend(loc="upper right")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(AimxPath.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    MR_PLOT_FULLPATH = os.path.join(AimxPath.GEN_PLOTS, trainid + get_dataset_code(traindata_filename) + ".png")
+    Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
+    MR_PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + get_dataset_code(traindata_filename) + ".png")
     print_info("\n|||||| Saving image file", quote(cyansky(MR_PLOT_FULLPATH)), "... ", end="")
     pt.savefig(MR_PLOT_FULLPATH)
     print_info("[DONE]")
@@ -124,7 +125,7 @@ def plot_history(history, trainid, show_interactive):
         pt.show()
 
 def save_current_model(model, model_id):
-    MR_MODEL_FULLPATH = os.path.join(AimxPath.GEN_SAVED_MODELS, "model_" + model_id)
+    MR_MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + model_id)
     print_info("\n|||||| Saving model ", quote(cyansky(MR_MODEL_FULLPATH)), "... ", end="")
     model.save(MR_MODEL_FULLPATH)
     print_info("[DONE]")
@@ -141,8 +142,8 @@ def compose_traindata_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_l
     return filename + ".json"
 
 def save_traindata(datann, traindata_filename):
-    Path(AimxPath.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
-    GEN_TRAINDATA_FULLPATH = os.path.join(AimxPath.GEN_TRAINDATA, traindata_filename)
+    Path(Aimx.Paths.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
+    GEN_TRAINDATA_FULLPATH = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
         print_info("\n|||||| Writing data file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
         json.dump(datann, data_file, indent=4)
@@ -150,8 +151,8 @@ def save_traindata(datann, traindata_filename):
 
 def save_dataprep_result_meta(traindata_filename):
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
-    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.GEN_TRAINDATA, traindata_filename)
-    with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
-        print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+    prep_result_meta["most_recent_output"] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
+        print_info("\n|||||| Writing data file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
