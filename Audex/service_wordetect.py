@@ -1,11 +1,27 @@
 import librosa
+import argparse
 import tensorflow.keras as keras
 import numpy as np
 
 from common_utils import *
+from audex_utils  import Aimx
 
-SAVED_MODEL_PATH = "../workdir/gen_saved_models/model_cnn_e50_train_asr_cnn"
-SAMPLES_TO_CONSIDER = 22050
+# Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
+parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
+                                               ' audio files and their various spectrograms.')
+
+parser.add_argument("-inferdata_path", type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
+parser.add_argument("-model_path",     type = Path,               help = 'Path to the model to be loaded.')
+parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
+
+args = parser.parse_args()
+
+############################## Command Argument Verification ##############################
+
+if provided(args.inferdata_path) and not args.inferdata_path.exists():
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
+
+###########################################################################################
 
 class _Keyword_Spotting_Service:
     """
@@ -63,8 +79,8 @@ class _Keyword_Spotting_Service:
         # load audio file
         signal, sample_rate = librosa.load(audio_file_path)
 
-        if len(signal) >= SAMPLES_TO_CONSIDER:            
-            signal = signal[:SAMPLES_TO_CONSIDER] # resize the signal to ensure consistency of the lengths
+        if len(signal) >= args.sample_rate:            
+            signal = signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
             MFCCs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
 
         return MFCCs.T
@@ -77,7 +93,7 @@ def Keyword_Spotting_Service():
     # ensure an instance is created only the first time the factory function is called
     if  _Keyword_Spotting_Service._instance is None:
         _Keyword_Spotting_Service._instance = _Keyword_Spotting_Service()
-        _Keyword_Spotting_Service.model = keras.models.load_model(SAVED_MODEL_PATH)
+        _Keyword_Spotting_Service.model = keras.models.load_model(args.model_path)
     return _Keyword_Spotting_Service._instance
 
 if __name__ == "__main__":
@@ -89,10 +105,8 @@ if __name__ == "__main__":
     # check that different instances of the keyword spotting service point back to the same object (singleton)
     assert kss is kss1
 
-    ARG_AUDIO_FILES_DIR = "../workdir/test"
-
-    (_, _, filenames) = next(os.walk(ARG_AUDIO_FILES_DIR))
+    (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
-        file = os.path.join(ARG_AUDIO_FILES_DIR, filename)
+        file = os.path.join(args.inferdata_path, filename)
         word = kss.predict(file)
         print(word)
