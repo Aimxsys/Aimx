@@ -36,8 +36,8 @@ def exists(x):
 def provided(cmd_arg):
     return cmd_arg is not None
 
-def quote(me):
-    return '\'' + str(me) + '\''
+def quote(s):
+    return '\'' + str(s) + '\''
 
 # TODO: This function seems to not always return as expected
 # Currently disabled, but kept as it looks useful if perfected.
