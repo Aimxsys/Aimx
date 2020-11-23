@@ -69,7 +69,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    json_filename = compose_json_filename(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
+    traindata_filename = compose_traindata_filename(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
 
     # dictionary to store mapping, labels, and MFCC
     traindata = {
@@ -83,13 +83,13 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 #    expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv preprocess_dataset()")
-    print_info("json_filename  =", json_filename)
-    print_info("n_mfcc         =", n_mfcc)
-    print_info("n_fft          =", n_fft)
-    print_info("hop_length     =", hop_length)
-    print_info("num_segments   =", num_segments)
-    print_info("sample_rate    =", sample_rate)
-    print_info("track_duration =", track_duration)
+    print_info("traindata_filename =", traindata_filename)
+    print_info("n_mfcc             =", n_mfcc)
+    print_info("n_fft              =", n_fft)
+    print_info("hop_length         =", hop_length)
+    print_info("num_segments       =", num_segments)
+    print_info("sample_rate        =", sample_rate)
+    print_info("track_duration     =", track_duration)
 
     # loop through all subfolders
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
@@ -135,11 +135,11 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 traindata["files" ].append(audio_file_path)
                 print_info("{}: {}".format(cyansky(audio_file_path), dir_index-1), verbose = args.verbose)
 
-    # save MFCCs to json file
-    save_traindata(traindata, json_filename)
+    # save MFCCs to the traindata file
+    save_traindata(traindata, traindata_filename)
 
     # save recent data preprocess result metadata
-    save_dataprep_result_meta(json_filename)
+    save_dataprep_result_meta(traindata_filename)
                 
 if __name__ == "__main__":
     
