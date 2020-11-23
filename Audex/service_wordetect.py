@@ -32,8 +32,7 @@ if provided(args.inferdata_path) and not args.inferdata_path.exists():
 
 class _WordetectService:
     """
-    Singleton class for keyword spotting inference with trained models.
-    :param model: Trained model
+    Singleton class for word detecting inference with trained models.
     """
     model = None
     _mapping = [
@@ -52,11 +51,11 @@ class _WordetectService:
 
     def predict(self, audio_file_path):
         """
-        :param file_path (str): Path to audio file to predict
-        :return predicted_keyword (str): Keyword predicted by the model
+        :param audio_file_path (str): Path to audio file to predict
+        :return predicted_word (str): Word predicted by the model
         """
-        # extract MFCCs into an array: # (# segments, # coefficients)
-        MFCCs = self.preprocess(audio_file_path, num_mfcc = args.n_mfcc,
+        # extract mfccs into an array: # (# segments, # coefficients)
+        mfccs = self.preprocess(audio_file_path, num_mfcc = args.n_mfcc,
                                                     n_fft = args.n_fft,
                                                hop_length = args.hop_length,
                                            track_duration = args.track_duration)
@@ -64,41 +63,42 @@ class _WordetectService:
         # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
         #            (# segments, # coefficients)
         # (# samples, # segments, # coefficients, # channels)
-        MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
+        mfccs = mfccs[np.newaxis, ..., np.newaxis]
 
         # make a prediction and get the predicted label
-        predictions = self.model.predict(MFCCs)
-        confidence  = np.max(predictions)
+        predictions = self.model.predict(mfccs)
+        confidence = np.max(predictions)
         if (confidence > args.highlight_confidence):
             print(cyan(confidence), cyan(Path(audio_file_path).stem))
         else:
             print(pinkred(confidence), pinkred(Path(audio_file_path).stem))
-        predicted_index   = np.argmax(predictions)
-        predicted_keyword = self._mapping[predicted_index]
-        return predicted_keyword
+        predicted_index = np.argmax(predictions)
+        predicted_word = self._mapping[predicted_index]
+        return predicted_word
 
     def preprocess(self, audio_file_path, num_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
         """
-        Extract MFCCs from audio file.
+        Extract mfccs from audio file.
         :param  file_path (str): Path of audio file
         :param   num_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
-        :return MFCCs (ndarray): 2-dim array with MFCC data of shape (# time steps, # coefficients)
+        :return mfccs (ndarray): 2-dim array with MFCC data of shape (# time steps, # coefficients)
         """
         # load audio file
         signal, sample_rate = librosa.load(audio_file_path, duration = track_duration)
 
+        #mfccs = np.empty([num_mfcc, 44]) # TODO: Revisit this line later
+
         if len(signal) >= args.sample_rate:            
             signal = signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
-            MFCCs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
+            mfccs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
 
-        return MFCCs.T
+        return mfccs.T
 
 def WordetectService():
     """
-    Factory function for Keyword_Spotting_Service class.
-    :return _Keyword_Spotting_Service._instance (_Keyword_Spotting_Service):
+    Factory function for WordetectService class.
     """
     # ensure an instance is created only the first time the factory function is called
     if  _WordetectService._instance is None:
@@ -108,7 +108,6 @@ def WordetectService():
 
 if __name__ == "__main__":
 
-    # create 2 instances of the keyword spotting service
     wds  = WordetectService()
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
