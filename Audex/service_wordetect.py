@@ -30,7 +30,7 @@ if provided(args.inferdata_path) and not args.inferdata_path.exists():
 
 ###########################################################################################
 
-class _Keyword_Spotting_Service:
+class _WordetectService:
     """
     Singleton class for keyword spotting inference with trained models.
     :param model: Trained model
@@ -95,25 +95,21 @@ class _Keyword_Spotting_Service:
 
         return MFCCs.T
 
-def Keyword_Spotting_Service():
+def WordetectService():
     """
     Factory function for Keyword_Spotting_Service class.
     :return _Keyword_Spotting_Service._instance (_Keyword_Spotting_Service):
     """
     # ensure an instance is created only the first time the factory function is called
-    if  _Keyword_Spotting_Service._instance is None:
-        _Keyword_Spotting_Service._instance = _Keyword_Spotting_Service()
-        _Keyword_Spotting_Service.model = keras.models.load_model(args.model_path)
-    return _Keyword_Spotting_Service._instance
+    if  _WordetectService._instance is None:
+        _WordetectService._instance = _WordetectService()
+        _WordetectService.model = keras.models.load_model(args.model_path)
+    return _WordetectService._instance
 
 if __name__ == "__main__":
 
     # create 2 instances of the keyword spotting service
-    kss  = Keyword_Spotting_Service()
-    kss1 = Keyword_Spotting_Service()
-
-    # check that different instances of the keyword spotting service point back to the same object (singleton)
-    assert kss is kss1
+    kss  = WordetectService()
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
