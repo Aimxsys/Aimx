@@ -1,7 +1,6 @@
 from termcolor import colored
 from pathlib   import Path
 from pathlib   import PurePath
-from time      import sleep
 import json
 import glob
 import sys
@@ -42,10 +41,10 @@ def get_most_recent_file_in_dir(traindata_path, ext):
     return max(files, key = os.path.getctime)
 
 def progress_bar(current, total):
-     j = (current + 1) / total
-     sys.stdout.write('\r')
-     sys.stdout.write("[%-20s] %d%%" % ('█'*int(20*j), 100*j))
-     sys.stdout.flush()
+    j = (current + 1) / total
+    sys.stdout.write('\r')
+    sys.stdout.write("[%-20s] %d%%" % ('█'*int(20*j), 100*j))
+    sys.stdout.flush()
 
 def extract_filename(fullpath):
     return os.path.splitext(fullpath)[0]

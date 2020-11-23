@@ -3,10 +3,7 @@ from pathlib import Path
 import librosa
 import librosa.display
 import matplotlib.pyplot as pt
-import numpy as np
-import scipy as sp
 import os
-from   os import walk
 
 # Module imports from this project
 from     common_utils import *

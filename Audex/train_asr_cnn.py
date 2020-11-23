@@ -1,18 +1,12 @@
-from pathlib import PurePath
-from pathlib import Path
+from pathlib  import Path
 from datetime import timedelta
 import time
 import argparse
-import librosa
 import numpy as np
-import time
-import json
-import math
 import os
 
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
-from termcolor import colored
 
 from audex_utils import *
 
