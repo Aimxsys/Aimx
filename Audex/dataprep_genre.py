@@ -23,8 +23,8 @@ DATASET_VIEW_DEFAULT = ['blues', 'classical', 'country', 'disco', 'hiphop', 'jaz
 # Calling without -dataset_path               will expect to find the default ./dataset directory.
 # Calling with   "-dataset_path mydir"        will expect to find a           ./mydir   directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
-                                               ' preprocessing audio files to extract the dataset'
-                                               ' later to be fed into a neural network for training.')
+                                               ' preprocessing audio files to extract the training'
+                                               ' data later to be fed into a neural network.')
 
 parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
