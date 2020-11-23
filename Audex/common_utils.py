@@ -7,19 +7,7 @@ import glob
 import sys
 import os
 
-def prompt_user_warning_strict_yesorno(warning_text):
-    yes = {'yes','y', 'ye', ''}
-    no  = {'no','n'}
-    choice = input(pinkred(warning_text)).lower()
-    if choice in yes:
-       return True
-    elif choice in no:
-       return False
-    else:
-       print(pinkred("Unable to continue without a 'yes' or 'no' answer. Exiting..."))
-       exit()
-
-def prompt_user_warning_suggestion(warning_text):
+def prompt_user_warning(warning_text, strictness='suggestion'):
     yes = {'yes','y', 'ye', ''}
     no  = {'no','n'}
     choice = input(cyan(warning_text)).lower()
@@ -28,6 +16,9 @@ def prompt_user_warning_suggestion(warning_text):
     elif choice in no:
         return False
     else:
+        if strictness == 'yesorno':
+            print(pinkred("Unable to continue without a 'yes' or 'no' answer. Exiting..."))
+            exit()
         return None
 
 def exists(x):
