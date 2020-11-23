@@ -55,10 +55,10 @@ class _WordetectService:
         :return predicted_word (str): Word predicted by the model
         """
         # extract mfccs into an array: # (# segments, # coefficients)
-        mfccs = self.preprocess(audio_file_path, num_mfcc = args.n_mfcc,
-                                                    n_fft = args.n_fft,
-                                               hop_length = args.hop_length,
-                                           track_duration = args.track_duration)
+        mfccs = self.preprocess(audio_file_path, n_mfcc = args.n_mfcc,
+                                                  n_fft = args.n_fft,
+                                             hop_length = args.hop_length,
+                                         track_duration = args.track_duration)
 
         # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
         #            (# segments, # coefficients)
@@ -76,11 +76,11 @@ class _WordetectService:
         predicted_word = self._mapping[predicted_index]
         return predicted_word
 
-    def preprocess(self, audio_file_path, num_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
+    def preprocess(self, audio_file_path, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
         """
         Extract mfccs from audio file.
         :param  file_path (str): Path of audio file
-        :param   num_mfcc (int): # of coefficients to extract
+        :param     n_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
         :return mfccs (ndarray): 2-dim array with MFCC data of shape (# time steps, # coefficients)
@@ -88,11 +88,11 @@ class _WordetectService:
         # load audio file
         signal, sample_rate = librosa.load(audio_file_path, duration = track_duration)
 
-        #mfccs = np.empty([num_mfcc, 44]) # TODO: Revisit this line later
+        #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
         if len(signal) >= args.sample_rate:            
             signal = signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
-            mfccs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=num_mfcc, n_fft=n_fft, hop_length=hop_length)
+            mfccs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
         return mfccs.T
 
