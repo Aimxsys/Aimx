@@ -10,8 +10,10 @@ from audex_utils  import Aimx
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-inferdata_path", type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
-parser.add_argument("-model_path",     type = Path,               help = 'Path to the model to be loaded.')
+parser.add_argument("-inferdata_path",       type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
+parser.add_argument("-model_path",           type = Path,               help = 'Path to the model to be loaded.')
+parser.add_argument("-highlight_confidence", default = 0.9, type=float, help = 'Highlight results if confidence is higher than this threshold.')
+
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
@@ -67,7 +69,7 @@ class _Keyword_Spotting_Service:
         # make a prediction and get the predicted label
         predictions = self.model.predict(MFCCs)
         confidence  = np.max(predictions)
-        if (confidence > 0.9):
+        if (confidence > args.highlight_confidence):
             print(cyan(confidence), cyan(Path(audio_file_path).stem))
         else:
             print(pinkred(confidence), pinkred(Path(audio_file_path).stem))
