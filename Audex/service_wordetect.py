@@ -12,7 +12,12 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
 
 parser.add_argument("-inferdata_path", type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
 parser.add_argument("-model_path",     type = Path,               help = 'Path to the model to be loaded.')
+parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
+parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
+parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
+parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
 parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
+parser.add_argument("-track_duration", default =     1, type=int, help = 'Only load up to this much audio (in seconds).')
 
 args = parser.parse_args()
 
@@ -48,8 +53,11 @@ class _Keyword_Spotting_Service:
         :param file_path (str): Path to audio file to predict
         :return predicted_keyword (str): Keyword predicted by the model
         """
-        # extract MFCCs
-        MFCCs = self.preprocess(audio_file_path) # (# segments, # coefficients)
+        # extract MFCCs into an array: # (# segments, # coefficients)
+        MFCCs = self.preprocess(audio_file_path, num_mfcc = args.n_mfcc,
+                                                    n_fft = args.n_fft,
+                                               hop_length = args.hop_length,
+                                           track_duration = args.track_duration)
 
         # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
         #            (# segments, # coefficients)
@@ -67,7 +75,7 @@ class _Keyword_Spotting_Service:
         predicted_keyword = self._mapping[predicted_index]
         return predicted_keyword
 
-    def preprocess(self, audio_file_path, num_mfcc=13, n_fft=2048, hop_length=512):
+    def preprocess(self, audio_file_path, num_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
         """
         Extract MFCCs from audio file.
         :param  file_path (str): Path of audio file
@@ -77,7 +85,7 @@ class _Keyword_Spotting_Service:
         :return MFCCs (ndarray): 2-dim array with MFCC data of shape (# time steps, # coefficients)
         """
         # load audio file
-        signal, sample_rate = librosa.load(audio_file_path)
+        signal, sample_rate = librosa.load(audio_file_path, duration = track_duration)
 
         if len(signal) >= args.sample_rate:            
             signal = signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
