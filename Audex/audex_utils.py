@@ -16,8 +16,8 @@ class AimxPath:
     GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
     DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
 
-def get_dataset_code(dataset_json_filepath):
-    return Path(dataset_json_filepath).stem
+def get_dataset_code(traindata_filepath):
+    return Path(traindata_filepath).stem
 
 def to_genre_name(label_id):
     return [
@@ -96,9 +96,9 @@ def plot_history(history, trainid, show_interactive):
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
-    dataset_json_filename = get_preprocess_result_meta()["most_recent_output"]
-    fig.canvas.set_window_title("Accuracy & Error - " + get_dataset_code(dataset_json_filename))
-    fig.suptitle(trainid + get_dataset_code(dataset_json_filename), fontsize=14)
+    traindata_filename = get_preprocess_result_meta()["most_recent_output"]
+    fig.canvas.set_window_title("Accuracy & Error - " + get_dataset_code(traindata_filename))
+    fig.suptitle(trainid + get_dataset_code(traindata_filename), fontsize=14)
 
     # create accuracy sublpot
     axs[0].plot(history.history["accuracy"],     label="train")
@@ -115,7 +115,7 @@ def plot_history(history, trainid, show_interactive):
 
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(AimxPath.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    MR_PLOT_FULLPATH = os.path.join(AimxPath.GEN_PLOTS, trainid + get_dataset_code(dataset_json_filename) + ".png")
+    MR_PLOT_FULLPATH = os.path.join(AimxPath.GEN_PLOTS, trainid + get_dataset_code(traindata_filename) + ".png")
     print_info("\n|||||| Saving image file", quote(cyansky(MR_PLOT_FULLPATH)), "... ", end="")
     pt.savefig(MR_PLOT_FULLPATH)
     print_info("[DONE]")
@@ -129,9 +129,9 @@ def save_current_model(model, model_id):
     model.save(MR_MODEL_FULLPATH)
     print_info("[DONE]")
 
-def compose_json_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+def compose_traindata_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
     filename = str(dataset_depth) + "d_"
-    filename += PurePath(dataset_path).name # the data json file name
+    filename += PurePath(dataset_path).name # the traindata json file name
     filename += "_" + str(n_mfcc)         + "m" \
              +  "_" + str(n_fft)          + "w" \
              +  "_" + str(hop_length)     + "h" \
@@ -148,9 +148,9 @@ def save_traindata(datann, traindata_filename):
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
-def save_dataprep_result_meta(json_filename):
+def save_dataprep_result_meta(traindata_filename):
     prep_result_meta = {"most_recent_output": {}, "duration": {} }
-    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.GEN_TRAINDATA, json_filename)
+    prep_result_meta["most_recent_output"] = os.path.join(AimxPath.GEN_TRAINDATA, traindata_filename)
     with open(os.path.join(AimxPath.WORKDIR, AimxPath.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing data file", quote(cyansky(AimxPath.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)

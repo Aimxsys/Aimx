@@ -41,7 +41,7 @@ if provided(args.traindata_path) and not args.traindata_path.exists():
 
 ###########################################################################################
 
-# path to json file that stores MFCCs and genre labels for each processed segment
+# path to the traindata file that stores MFCCs and genre labels for each processed segment
 ARG_TRAINDATA_PATH = get_actual_traindata_path(args.traindata_path)
 
 if not args.savemodel and os.path.getsize(ARG_TRAINDATA_PATH) > 100_000_000: # > 100 Mb
