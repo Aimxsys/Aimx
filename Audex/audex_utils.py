@@ -18,6 +18,7 @@ class Aimx:
         DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
             
     MOST_RECENT_OUTPUT = "most_recent_output"
+    ALL_DIR_LABELS     = "alldirlabs"
 
 def get_dataset_code(traindata_filepath):
     return Path(traindata_filepath).stem
