@@ -68,12 +68,12 @@ class _WordetectService:
         # make a prediction and get the predicted label
         predictions = self.model.predict(mfccs)
         confidence = np.max(predictions)
-        if (confidence > args.highlight_confidence):
-            print(cyan(confidence), cyan(Path(audio_file_path).stem))
-        else:
-            print(pinkred(confidence), pinkred(Path(audio_file_path).stem))
         predicted_index = np.argmax(predictions)
         predicted_word = self._mapping[predicted_index]
+        if (confidence > args.highlight_confidence):
+            print("{:.2f}".format(confidence), cyan(Path(audio_file_path).stem), cyan(predicted_word))
+        else:
+            print("{:.2f}".format(confidence), pinkred(Path(audio_file_path).stem), pinkred(predicted_word))
         return predicted_word
 
     def preprocess(self, audio_file_path, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
@@ -114,4 +114,3 @@ if __name__ == "__main__":
     for filename in filenames:
         file = os.path.join(args.inferdata_path, filename)
         word = wds.predict(file)
-        print(word)
