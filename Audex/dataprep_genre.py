@@ -139,6 +139,18 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                     traindata["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
                     print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
+    return traindata, traindata_id
+                
+if __name__ == "__main__":
+
+    start_time = time.time()
+
+    traindata, traindata_id = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
+                                                                         n_fft = args.n_fft,         
+                                                                    hop_length = args.hop_length,
+                                                                  num_segments = args.num_segments,
+                                                                   sample_rate = args.sample_rate, 
+                                                                track_duration = args.track_duration)
     traindata_filename = traindata_id + ".json"
 
     # save MFCCs to the traindata file
@@ -147,19 +159,6 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     # save recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename)
 
-    return traindata_id
-                
-if __name__ == "__main__":
-
-    start_time = time.time()
-
-    traindata_id = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
-                                                              n_fft = args.n_fft,         
-                                                         hop_length = args.hop_length,
-                                                       num_segments = args.num_segments,
-                                                        sample_rate = args.sample_rate, 
-                                                     track_duration = args.track_duration)
-    
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
     update_dataprep_result_meta(traindata_id, "duration", str(dataprep_duration))
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)), lightyellow(dataprep_duration)))
