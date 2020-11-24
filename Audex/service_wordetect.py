@@ -48,54 +48,49 @@ class _WordetectService:
         "go"
     ]
     _instance = None
+    _curr_audiofile_fullpath = None
 
-    def predict(self, audio_file_path):
-        """
-        :param audio_file_path (str): Path to audio file to predict
-        :return predicted_word (str): Word predicted by the model
-        """
-        # extract mfccs into an array: # (# segments, # coefficients)
-        mfccs = self.preprocess(audio_file_path, n_mfcc = args.n_mfcc,
-                                                  n_fft = args.n_fft,
-                                             hop_length = args.hop_length,
-                                         track_duration = args.track_duration)
-
-        # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
-        #            (# segments, # coefficients)
-        # (# samples, # segments, # coefficients, # channels)
-        mfccs = mfccs[np.newaxis, ..., np.newaxis]
-
+    def predict(self, mfccs):
         # make a prediction and get the predicted label
         predictions     = self.model.predict(mfccs)
         confidence      = np.max(predictions)
         predicted_index = np.argmax(predictions)
         predicted_word  = self._mapping[predicted_index]
+
+        # highlight predictions
         if predicted_word in str(args.inferdata_path):
             if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(Path(audio_file_path).stem), cyan(predicted_word))
+                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
             else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(audio_file_path).stem), cyan(predicted_word))
+                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
         else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(audio_file_path).stem), pinkred(predicted_word))
+            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), pinkred(predicted_word))
+
         return predicted_word
 
-    def preprocess(self, audio_file_path, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
+    def preprocess(self, audiofile_fullpath, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
         """
-        Extract mfccs from audio file.
+        # Eextract mfccs from an audio file.
         :param  file_path (str): Path of audio file
         :param     n_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
-        :return mfccs (ndarray): 2-dim array with MFCC data of shape (# time steps, # coefficients)
+        :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
+        self._curr_audiofile_fullpath = audiofile_fullpath
         # load audio file
-        signal, sample_rate = librosa.load(audio_file_path, duration = track_duration)
+        signal, sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
 
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
         if len(signal) >= args.sample_rate:            
             signal = signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
             mfccs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+
+        # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
+        #            (# segments, # coefficients)
+        # (# samples, # segments, # coefficients, # channels)
+        mfccs = mfccs[np.newaxis, ..., np.newaxis]
 
         return mfccs.T
 
@@ -111,11 +106,15 @@ def WordetectService():
 
 if __name__ == "__main__":
 
-    wds  = WordetectService()
+    wds = WordetectService()
 
     print_info("\nPredicting:", args.inferdata_path)
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
-        file = os.path.join(args.inferdata_path, filename)
-        word = wds.predict(file)
+        audiofile_fullpath = os.path.join(args.inferdata_path, filename)
+        mfccs = wds.preprocess(audiofile_fullpath, n_mfcc = args.n_mfcc,
+                                                    n_fft = args.n_fft,
+                                               hop_length = args.hop_length,
+                                           track_duration = args.track_duration)
+        word  = wds.predict(mfccs)
