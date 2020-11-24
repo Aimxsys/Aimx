@@ -114,7 +114,7 @@ if __name__ == "__main__":
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         mfccs = wds.dataprep(audiofile_fullpath, n_mfcc = args.n_mfcc,
-                                                    n_fft = args.n_fft,
-                                               hop_length = args.hop_length,
-                                           track_duration = args.track_duration)
+                                                  n_fft = args.n_fft,
+                                             hop_length = args.hop_length,
+                                         track_duration = args.track_duration)
         word  = wds.predict(mfccs)
