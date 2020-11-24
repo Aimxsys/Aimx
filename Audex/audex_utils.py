@@ -16,9 +16,11 @@ class Aimx:
         GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
         DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
-            
-    MOST_RECENT_OUTPUT = "most_recent_output"
-    ALL_DIR_LABELS     = "alldirlabs"
+    
+    class Dataprep:
+        MOST_RECENT_OUTPUT = "most_recent_output"
+        DURATION           = "duration"
+        ALL_DIR_LABELS     = "alldirlabs"
 
 def get_dataset_code(traindata_filepath):
     return Path(traindata_filepath).stem
@@ -48,8 +50,8 @@ def get_preprocess_result_meta():
 
 def get_actual_traindata_path(arg_traindata_path):
     # Handle any special requests (most recent, largest, smallest, etc.)
-    if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT:
-        return get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+    if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT:
+        return get_preprocess_result_meta()[Aimx.Dataprep.MOST_RECENT_OUTPUT]
     return arg_traindata_path # no special requests, return pristine
 
 def load_traindata(arg_traindata_path):
@@ -63,8 +65,8 @@ def load_traindata(arg_traindata_path):
     try:
         with open(actual_traindata_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(actual_traindata_path)))
-            m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT else ""
-            print_info("\n|||||| Loading " + m + "data file " + quote(cyansky(actual_traindata_path)) + "...", end="")
+            m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT else ""
+            print_info("\n|||||| Loading " + m + "file " + quote(cyansky(actual_traindata_path)) + "...", end="")
             data = json.load(file)
             print_info(" [DONE]")            
     except FileNotFoundError:
@@ -100,7 +102,7 @@ def plot_history(history, trainid, show_interactive):
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
-    traindata_filename = get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+    traindata_filename = get_preprocess_result_meta()[Aimx.Dataprep.MOST_RECENT_OUTPUT]
     fig.canvas.set_window_title("Accuracy & Error - " + get_dataset_code(traindata_filename))
     fig.suptitle(trainid + get_dataset_code(traindata_filename), fontsize=14)
 
@@ -153,9 +155,9 @@ def save_traindata(datann, traindata_filename):
         print_info("[DONE]")
 
 def save_dataprep_result_meta(traindata_filename, dataprep_duration):
-    prep_result_meta = {Aimx.MOST_RECENT_OUTPUT: {}, "duration": {} }
-    prep_result_meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
-    prep_result_meta["duration"] = dataprep_duration
+    prep_result_meta = {Aimx.Dataprep.MOST_RECENT_OUTPUT: {}, "duration": {} }
+    prep_result_meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    prep_result_meta[Aimx.Dataprep.DURATION] = dataprep_duration
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)

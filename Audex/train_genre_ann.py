@@ -14,7 +14,7 @@ from  audex_utils import *
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-traindata_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
+parser.add_argument("-traindata_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.Dataprep.MOST_RECENT_OUTPUT +
                                                            ', which by design is the output of the previous step of dataset preprocessing.')
 
 parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
@@ -29,7 +29,7 @@ args = parser.parse_args()
 ############################## Command Argument Verification ##############################
 
 if provided(args.traindata_path) and not args.traindata_path.exists():
-    if str(args.traindata_path) is not Aimx.MOST_RECENT_OUTPUT:
+    if str(args.traindata_path) is not Aimx.Dataprep.MOST_RECENT_OUTPUT:
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
 
 ###########################################################################################
