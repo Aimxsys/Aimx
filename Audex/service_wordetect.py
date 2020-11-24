@@ -70,10 +70,13 @@ class _WordetectService:
         confidence      = np.max(predictions)
         predicted_index = np.argmax(predictions)
         predicted_word  = self._mapping[predicted_index]
-        if (confidence > args.highlight_confidence):
-            print("{:.2f}".format(confidence), cyan(Path(audio_file_path).stem), cyan(predicted_word))
+        if predicted_word in str(args.inferdata_path):
+            if confidence > args.highlight_confidence:
+                print(cyan("{:.2f}".format(confidence)), pinkred(Path(audio_file_path).stem), cyan(predicted_word))
+            else:
+                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(audio_file_path).stem), cyan(predicted_word))
         else:
-            print("{:.2f}".format(confidence), pinkred(Path(audio_file_path).stem), pinkred(predicted_word))
+            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(audio_file_path).stem), pinkred(predicted_word))
         return predicted_word
 
     def preprocess(self, audio_file_path, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
