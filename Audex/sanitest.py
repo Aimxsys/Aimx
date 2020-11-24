@@ -32,9 +32,9 @@ args = parser.parse_args()
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
 
 ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr
-ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn
-
 ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre
+
+ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn
 ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn
