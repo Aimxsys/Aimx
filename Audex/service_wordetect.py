@@ -50,24 +50,6 @@ class _WordetectService:
     _instance = None
     _curr_audiofile_fullpath = None
 
-    def predict(self, mfccs):
-        # make a prediction and get the predicted label
-        predictions     = self.model.predict(mfccs)
-        confidence      = np.max(predictions)
-        predicted_index = np.argmax(predictions)
-        predicted_word  = self._mapping[predicted_index]
-
-        # highlight predictions
-        if predicted_word in str(args.inferdata_path):
-            if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
-            else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
-        else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), pinkred(predicted_word))
-
-        return predicted_word
-
     def preprocess(self, audiofile_fullpath, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
         """
         # Eextract mfccs from an audio file.
@@ -93,6 +75,24 @@ class _WordetectService:
         mfccs = mfccs[np.newaxis, ..., np.newaxis]
 
         return mfccs.T
+
+    def predict(self, mfccs):
+        # make a prediction and get the predicted label
+        predictions     = self.model.predict(mfccs)
+        confidence      = np.max(predictions)
+        predicted_index = np.argmax(predictions)
+        predicted_word  = self._mapping[predicted_index]
+
+        # highlight predictions
+        if predicted_word in str(args.inferdata_path):
+            if confidence > args.highlight_confidence:
+                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
+            else:
+                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
+        else:
+            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), pinkred(predicted_word))
+
+        return predicted_word
 
 def WordetectService():
     """
