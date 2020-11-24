@@ -137,11 +137,11 @@ def compose_traindata_id(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length,
     traindata_id = str(dataset_depth) + "d_"
     traindata_id += PurePath(dataset_path).name # the traindata json file name
     traindata_id += "_" + str(n_mfcc)         + "m" \
-             +  "_" + str(n_fft)          + "w" \
-             +  "_" + str(hop_length)     + "h" \
-             +  "_" + str(num_segments)   + "i" \
-             +  "_" + str(sample_rate)    + "r" \
-             +  "_" + str(track_duration) + "s"
+                 +  "_" + str(n_fft)          + "w" \
+                 +  "_" + str(hop_length)     + "h" \
+                 +  "_" + str(num_segments)   + "i" \
+                 +  "_" + str(sample_rate)    + "r" \
+                 +  "_" + str(track_duration) + "s"
     return traindata_id
 
 def save_traindata(datann, traindata_filename):
