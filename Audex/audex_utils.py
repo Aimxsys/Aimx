@@ -13,7 +13,7 @@ class Aimx:
     class Paths:
         WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
         GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
-        GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_saved_models")
+        GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
         DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
     
