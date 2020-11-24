@@ -120,7 +120,7 @@ def plot_history(history, trainid, show_interactive):
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
     MR_PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + get_dataset_code(traindata_filename) + ".png")
-    print_info("\n|||||| Saving image file", quote(cyansky(MR_PLOT_FULLPATH)), "... ", end="")
+    print_info("\n|||||| Saving file", quote(cyansky(MR_PLOT_FULLPATH)), "... ", end="")
     pt.savefig(MR_PLOT_FULLPATH)
     print_info("[DONE]")
 
@@ -148,7 +148,7 @@ def save_traindata(datann, traindata_filename):
     Path(Aimx.Paths.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
     GEN_TRAINDATA_FULLPATH = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
-        print_info("\n|||||| Writing data file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
+        print_info("\n|||||| Writing file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
@@ -157,7 +157,7 @@ def save_dataprep_result_meta(traindata_filename, dataprep_duration):
     prep_result_meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     prep_result_meta["duration"] = dataprep_duration
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
-        print_info("\n|||||| Writing data file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+        print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
 
@@ -171,6 +171,6 @@ def update_dataprep_result_meta(traindata_filename, key, value):
         print_info(" [DONE]")
     prep_result_meta[key] = value
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp:
-        print_info("\n|||||| Writing data file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+        print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
