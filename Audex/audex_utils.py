@@ -159,3 +159,17 @@ def save_dataprep_result_meta(traindata_filename):
         print_info("\n|||||| Writing data file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
         print_info("[DONE]")
+
+# This function may be necessary for test pipeline automation, e.g. in scenarios when
+# running multiple NNs, each requiring its own traindata. This function can in such
+# cases be used to switch quickly by updating dataprep_result_meta.json contents correspondingly.
+def update_dataprep_result_meta(traindata_filename, key, value):
+    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), "r") as fp:
+        print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "...", end="")
+        prep_result_meta = json.load(fp)
+        print_info(" [DONE]")
+    prep_result_meta[key] = value
+    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp:
+        print_info("\n|||||| Writing data file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+        json.dump(prep_result_meta, fp)
+        print_info("[DONE]")

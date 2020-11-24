@@ -147,12 +147,13 @@ if __name__ == "__main__":
     
     start_time = time.time()
 
-    preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
-                                            n_fft = args.n_fft,         
-                                       hop_length = args.hop_length,
-                                     num_segments = args.num_segments,
-                                      sample_rate = args.sample_rate, 
-                                   track_duration = args.track_duration)
-
-    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
-                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+    traindata_filename = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
+                                                                    n_fft = args.n_fft,         
+                                                               hop_length = args.hop_length,
+                                                             num_segments = args.num_segments,
+                                                              sample_rate = args.sample_rate, 
+                                                           track_duration = args.track_duration)
+    
+    dataprep_duration = timedelta(seconds = round(time.time() - start_time))
+    update_dataprep_result_meta(traindata_filename, "duration", str(dataprep_duration))
+    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)), lightyellow(dataprep_duration)))
