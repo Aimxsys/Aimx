@@ -20,6 +20,7 @@ parser = argparse.ArgumentParser(description = 'This utility script test scripts
 parser.add_argument("-plot_sound",     action ='store_true', help = 'Will test plotting the sound.')
 parser.add_argument("-dataprep_genre", action ='store_true', help = 'Will test data preprocessing on genre.')
 parser.add_argument("-dataprep_asr",   action ='store_true', help = 'Will test data preprocessing on ASR.')
+parser.add_argument("-dataprep",       action ='store_true', help = 'Will test data preprocessing on all available workflows.')
 parser.add_argument("-ann",            action ='store_true', help = 'Will test the vanilla ANN.')
 parser.add_argument("-cnn",            action ='store_true', help = 'Will test the CNN.')
 parser.add_argument("-rnn",            action ='store_true', help = 'Will test the RNN.')
@@ -30,10 +31,10 @@ args = parser.parse_args()
 
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
 
-ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep_asr
+ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr
 ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn
 
-ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep_genre
+ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre
 ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn
