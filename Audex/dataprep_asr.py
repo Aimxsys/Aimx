@@ -140,6 +140,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
     # save recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename)
+
+    return traindata_filename
                 
 if __name__ == "__main__":
     
