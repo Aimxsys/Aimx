@@ -66,10 +66,10 @@ class _WordetectService:
         mfccs = mfccs[np.newaxis, ..., np.newaxis]
 
         # make a prediction and get the predicted label
-        predictions = self.model.predict(mfccs)
-        confidence = np.max(predictions)
+        predictions     = self.model.predict(mfccs)
+        confidence      = np.max(predictions)
         predicted_index = np.argmax(predictions)
-        predicted_word = self._mapping[predicted_index]
+        predicted_word  = self._mapping[predicted_index]
         if (confidence > args.highlight_confidence):
             print("{:.2f}".format(confidence), cyan(Path(audio_file_path).stem), cyan(predicted_word))
         else:
