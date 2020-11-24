@@ -152,9 +152,9 @@ if __name__ == "__main__":
     # save MFCCs to the traindata file
     save_traindata(traindata, traindata_filename)
 
-    # save recent data preprocess result metadata
-    save_dataprep_result_meta(traindata_filename)
-
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
-    update_dataprep_result_meta(traindata_id, "duration", str(dataprep_duration))
+
+    # save recent data preprocess result metadata
+    save_dataprep_result_meta(traindata_filename, str(dataprep_duration))
+
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)), lightyellow(dataprep_duration)))

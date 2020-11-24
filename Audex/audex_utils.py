@@ -152,9 +152,10 @@ def save_traindata(datann, traindata_filename):
         json.dump(datann, data_file, indent=4)
         print_info("[DONE]")
 
-def save_dataprep_result_meta(traindata_filename):
+def save_dataprep_result_meta(traindata_filename, dataprep_duration):
     prep_result_meta = {Aimx.MOST_RECENT_OUTPUT: {}, "duration": {} }
     prep_result_meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    prep_result_meta["duration"] = dataprep_duration
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing data file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp)
