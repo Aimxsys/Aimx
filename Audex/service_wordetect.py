@@ -50,7 +50,7 @@ class _WordetectService:
     _instance = None
     _curr_audiofile_fullpath = None
 
-    def preprocess(self, audiofile_fullpath, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
+    def dataprep(self, audiofile_fullpath, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
         """
         # Eextract mfccs from an audio file.
         :param  file_path (str): Path of audio file
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
-        mfccs = wds.preprocess(audiofile_fullpath, n_mfcc = args.n_mfcc,
+        mfccs = wds.dataprep(audiofile_fullpath, n_mfcc = args.n_mfcc,
                                                     n_fft = args.n_fft,
                                                hop_length = args.hop_length,
                                            track_duration = args.track_duration)
