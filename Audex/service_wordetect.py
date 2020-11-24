@@ -110,6 +110,8 @@ if __name__ == "__main__":
 
     wds  = WordetectService()
 
+    print_info("\nPredicting:", args.inferdata_path)
+
     (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
         file = os.path.join(args.inferdata_path, filename)
