@@ -133,16 +133,16 @@ def save_current_model(model, model_id):
     model.save(MR_MODEL_FULLPATH)
     print_info("[DONE]")
 
-def compose_traindata_filename(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
-    filename = str(dataset_depth) + "d_"
-    filename += PurePath(dataset_path).name # the traindata json file name
-    filename += "_" + str(n_mfcc)         + "m" \
+def compose_traindata_id(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+    traindata_id = str(dataset_depth) + "d_"
+    traindata_id += PurePath(dataset_path).name # the traindata json file name
+    traindata_id += "_" + str(n_mfcc)         + "m" \
              +  "_" + str(n_fft)          + "w" \
              +  "_" + str(hop_length)     + "h" \
              +  "_" + str(num_segments)   + "i" \
              +  "_" + str(sample_rate)    + "r" \
              +  "_" + str(track_duration) + "s"
-    return filename + ".json"
+    return traindata_id
 
 def save_traindata(datann, traindata_filename):
     Path(Aimx.Paths.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)

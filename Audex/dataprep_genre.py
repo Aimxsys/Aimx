@@ -70,7 +70,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    traindata_filename = compose_traindata_filename(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
+    traindata_id = compose_traindata_id(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
 
     # dictionary to store mapping, labels, and MFCC
     traindata = {
@@ -83,7 +83,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv preprocess_dataset()")
-    print_info("traindata_filename =", traindata_filename)
+    print_info("traindata_filename =", traindata_id)
     print_info("n_mfcc             =", n_mfcc)
     print_info("n_fft              =", n_fft)
     print_info("hop_length         =", hop_length)
@@ -139,25 +139,27 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                     traindata["labels"].append(dir_index-1) # -1 is to eliminate the top-level dir
                     print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
+    traindata_filename = traindata_id + ".json"
+
     # save MFCCs to the traindata file
     save_traindata(traindata, traindata_filename)
 
     # save recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename)
 
-    return traindata_filename
+    return traindata_id
                 
 if __name__ == "__main__":
 
     start_time = time.time()
 
-    traindata_filename = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
-                                                                    n_fft = args.n_fft,         
-                                                               hop_length = args.hop_length,
-                                                             num_segments = args.num_segments,
-                                                              sample_rate = args.sample_rate, 
-                                                           track_duration = args.track_duration)
+    traindata_id = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
+                                                              n_fft = args.n_fft,         
+                                                         hop_length = args.hop_length,
+                                                       num_segments = args.num_segments,
+                                                        sample_rate = args.sample_rate, 
+                                                     track_duration = args.track_duration)
     
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
-    update_dataprep_result_meta(traindata_filename, "duration", str(dataprep_duration))
+    update_dataprep_result_meta(traindata_id, "duration", str(dataprep_duration))
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)), lightyellow(dataprep_duration)))
