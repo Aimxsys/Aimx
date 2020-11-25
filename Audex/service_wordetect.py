@@ -115,6 +115,7 @@ if __name__ == "__main__":
     print_info("\nPredicting:", args.inferdata_path)
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
+
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(audiofile_fullpath, args.track_duration)
