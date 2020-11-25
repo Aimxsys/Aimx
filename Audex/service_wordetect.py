@@ -80,15 +80,6 @@ class _WordetectService:
 
         return mfccs.T
 
-    def highlight(self, predicted_word, confidence):
-        if predicted_word in str(args.inferdata_path):
-            if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), cyan(predicted_word))
-            else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), cyan(predicted_word))
-        else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), pinkred(predicted_word))
-
     def predict(self, mfccs):
         # make a prediction and get the predicted label
         predictions     = self.model.predict(mfccs)
@@ -97,6 +88,15 @@ class _WordetectService:
         predicted_word  = self._mapping[predicted_index]
 
         return predicted_word, confidence
+
+    def highlight(self, predicted_word, confidence):
+        if predicted_word in str(args.inferdata_path):
+            if confidence > args.highlight_confidence:
+                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), cyan(predicted_word))
+            else:
+                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), cyan(predicted_word))
+        else:
+            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), pinkred(predicted_word))
 
 def WordetectService():
     """
