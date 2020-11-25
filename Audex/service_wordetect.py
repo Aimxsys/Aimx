@@ -35,6 +35,13 @@ class _WordetectService:
     Singleton class for word detecting inference with trained models.
     """
     model = None
+
+    afile_fullpath    = None
+    afile_signal      = None
+    afile_sample_rate = None
+
+    _instance = None
+
     _mapping = [
         "down"  ,
         "off"   ,
@@ -47,11 +54,6 @@ class _WordetectService:
         "left"  ,
         "go"
     ]
-    _instance = None
-
-    afile_fullpath    = None
-    afile_signal      = None
-    afile_sample_rate = None
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
