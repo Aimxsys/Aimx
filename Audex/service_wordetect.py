@@ -122,7 +122,7 @@ if __name__ == "__main__":
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(audiofile_fullpath, args.track_duration)
-        if len(wds.afile_signal) >= args.sample_rate:
+        if len(wds.afile_signal) >= args.sample_rate: # is cut to exact in dataprep()
             mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
             w, c  = wds.predict(mfccs)
             wds.highlight(w, c)
