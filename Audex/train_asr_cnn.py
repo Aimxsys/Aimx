@@ -132,6 +132,7 @@ if __name__ == "__main__":
     history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid),
                         batch_size = args.batch_size,
                         epochs     = args.epochs,
+                        verbose    = args.verbose,
                         callbacks  = [earlystop_callback])
 
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
