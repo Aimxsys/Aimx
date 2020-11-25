@@ -155,7 +155,7 @@ def save_traindata(datann, traindata_filename):
         print_info("[DONE]")
 
 def save_dataprep_result_meta(traindata_filename, dataprep_duration):
-    prep_result_meta = {Aimx.Dataprep.MOST_RECENT_OUTPUT: {}, "duration": {} }
+    prep_result_meta = {Aimx.Dataprep.MOST_RECENT_OUTPUT: {}, Aimx.Dataprep.DURATION: {} }
     prep_result_meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     prep_result_meta[Aimx.Dataprep.DURATION] = dataprep_duration
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
