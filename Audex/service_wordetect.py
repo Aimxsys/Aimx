@@ -48,13 +48,13 @@ class _WordetectService:
         "go"
     ]
     _instance = None
-    _audiofile_fullpath    = None
-    _audiofile_signal      = None
-    _audiofile_sample_rate = None
+    _afile_fullpath    = None
+    _afile_signal      = None
+    _afile_sample_rate = None
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
-        self._audiofile_fullpath = audiofile_fullpath
-        self._audiofile_signal, self._audiofile_sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
+        self._afile_fullpath = audiofile_fullpath
+        self._afile_signal, self._afile_sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
 
     def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
         """
@@ -66,10 +66,10 @@ class _WordetectService:
         """
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
-        if len(self._audiofile_signal) >= args.sample_rate:            
-            self._audiofile_signal = self._audiofile_signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
-            mfccs = librosa.feature.mfcc(self._audiofile_signal,
-                                         self._audiofile_sample_rate,
+        if len(self._afile_signal) >= args.sample_rate:            
+            self._afile_signal = self._afile_signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
+            mfccs = librosa.feature.mfcc(self._afile_signal,
+                                         self._afile_sample_rate,
                                          n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
         # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
@@ -89,11 +89,11 @@ class _WordetectService:
         # highlight predictions
         if predicted_word in str(args.inferdata_path):
             if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._audiofile_fullpath).stem), cyan(predicted_word))
+                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._afile_fullpath).stem), cyan(predicted_word))
             else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._audiofile_fullpath).stem), cyan(predicted_word))
+                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._afile_fullpath).stem), cyan(predicted_word))
         else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._audiofile_fullpath).stem), pinkred(predicted_word))
+            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._afile_fullpath).stem), pinkred(predicted_word))
 
         return predicted_word
 
