@@ -83,12 +83,12 @@ class _WordetectService:
 
     def predict(self, mfccs):
         # make a prediction and get the predicted label and confidence
-        predictions     = self.model.predict(mfccs)
-        confidence      = np.max(predictions)
-        predicted_index = np.argmax(predictions)
-        predicted_word  = self._mapping[predicted_index]
+        predictions = self.model.predict(mfccs)
+        confidence  = np.max(predictions)
+        pred_index  = np.argmax(predictions)
+        pred_word   = self._mapping[pred_index]
 
-        return predicted_word, confidence
+        return pred_word, confidence
 
     def highlight(self, predicted_word, confidence):
         if predicted_word in str(args.inferdata_path):
