@@ -105,7 +105,7 @@ def WordetectService():
     """
     Factory function for WordetectService class.
     """
-    # ensure an instance is created only the first time the factory function is called
+    # ensure an instance is created only on first call
     if  _WordetectService._instance is None:
         _WordetectService._instance = _WordetectService()
         _WordetectService.model = keras.models.load_model(args.model_path)
