@@ -67,7 +67,8 @@ class _WordetectService:
         """
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
-        self.afile_signal = self.afile_signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
+         # resize the signal to ensure consistency of the lengths
+        self.afile_signal = self.afile_signal[:args.sample_rate]
         mfccs = librosa.feature.mfcc(self.afile_signal,
                                      self.afile_sample_rate,
                                      n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
