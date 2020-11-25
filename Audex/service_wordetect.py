@@ -67,11 +67,10 @@ class _WordetectService:
         """
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
-        if len(self.afile_signal) >= args.sample_rate:            
-            self.afile_signal = self.afile_signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
-            mfccs = librosa.feature.mfcc(self.afile_signal,
-                                         self.afile_sample_rate,
-                                         n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        self.afile_signal = self.afile_signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
+        mfccs = librosa.feature.mfcc(self.afile_signal,
+                                     self.afile_sample_rate,
+                                     n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
         # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
         #            (# segments, # coefficients)
@@ -119,6 +118,7 @@ if __name__ == "__main__":
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(audiofile_fullpath, args.track_duration)
-        mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
-        w, c  = wds.predict(mfccs)
-        wds.highlight(w, c)
+        if len(wds.afile_signal) == args.sample_rate:
+            mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
+            w, c  = wds.predict(mfccs)
+            wds.highlight(w, c)
