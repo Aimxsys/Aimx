@@ -81,7 +81,7 @@ class _WordetectService:
         return mfccs.T
 
     def predict(self, mfccs):
-        # make a prediction and get the predicted label
+        # make a prediction and get the predicted label and confidence
         predictions     = self.model.predict(mfccs)
         confidence      = np.max(predictions)
         predicted_index = np.argmax(predictions)
