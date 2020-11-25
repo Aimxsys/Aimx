@@ -110,8 +110,8 @@ def plot_history(history, trainid, show_interactive):
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
     traindata_filename = get_preprocess_result_meta()[Aimx.Dataprep.MOST_RECENT_OUTPUT]
-    fig.canvas.set_window_title("Accuracy & Error - " + get_dataset_code(traindata_filename))
-    fig.suptitle(trainid + get_dataset_code(traindata_filename), fontsize=14)
+    fig.canvas.set_window_title("Accuracy & Error - " + trainid)
+    fig.suptitle(trainid, fontsize=12)
 
     # create accuracy sublpot
     axs[0].plot(history.history["accuracy"],     label="train")
