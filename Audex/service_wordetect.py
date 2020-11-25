@@ -120,5 +120,5 @@ if __name__ == "__main__":
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(audiofile_fullpath, args.track_duration)
         mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
-        predicted_word, confidence = wds.predict(mfccs)
-        wds.highlight(predicted_word, confidence)
+        w, c  = wds.predict(mfccs)
+        wds.highlight(w, c)
