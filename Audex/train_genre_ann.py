@@ -90,9 +90,9 @@ if __name__ == "__main__":
 
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
                                                     lightyellow(timedelta(seconds = round(time.time() - start_time)))))    
-    trainid = "ann_e" + str(args.epochs) + "_"
+    trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
     if (args.savemodel):
-        save_current_model(model, trainid + extract_filename(os.path.basename(__file__)))
+        save_current_model(model, trainid)
 
     plot_history(history, trainid, args.showplot) # accuracy and error as a function of epochs

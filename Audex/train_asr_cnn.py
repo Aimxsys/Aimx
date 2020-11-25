@@ -146,9 +146,9 @@ if __name__ == "__main__":
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose = args.verbose)
     print_info('\nTest accuracy:', test_acc)
         
-    trainid = "cnn_e" + str(args.epochs) + "_"
+    trainid = "cnn_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
     if (args.savemodel):
-        save_current_model(model, trainid + extract_filename(os.path.basename(__file__)))
+        save_current_model(model, trainid)
 
     plot_history(history, trainid, args.showplot) # plot accuracy/error for training and validation

@@ -128,7 +128,7 @@ def plot_history(history, trainid, show_interactive):
 
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    MR_PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + get_dataset_code(traindata_filename) + ".png")
+    MR_PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
     print_info("\n|||||| Saving file", quote(cyansky(MR_PLOT_FULLPATH)), "... ", end="")
     pt.savefig(MR_PLOT_FULLPATH)
     print_info("[DONE]")
