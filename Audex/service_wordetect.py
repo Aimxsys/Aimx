@@ -48,9 +48,16 @@ class _WordetectService:
         "go"
     ]
     _instance = None
-    _curr_audiofile_fullpath = None
+    _audiofile_fullpath    = None
+    _audiofile_signal      = None
+    _audiofile_sample_rate = None
 
-    def dataprep(self, audiofile_fullpath, n_mfcc=13, n_fft=2048, hop_length=512, track_duration=1):
+    def load_audiofile(self, audiofile_fullpath, track_duration):
+        self._audiofile_fullpath = audiofile_fullpath
+        # load audio file
+        self._audiofile_signal, self._audiofile_sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
+
+    def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Eextract mfccs from an audio file.
         :param  file_path (str): Path of audio file
@@ -59,15 +66,13 @@ class _WordetectService:
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
-        self._curr_audiofile_fullpath = audiofile_fullpath
-        # load audio file
-        signal, sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
-
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
-        if len(signal) >= args.sample_rate:            
-            signal = signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
-            mfccs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        if len(self._audiofile_signal) >= args.sample_rate:            
+            self._audiofile_signal = self._audiofile_signal[:args.sample_rate] # resize the signal to ensure consistency of the lengths
+            mfccs = librosa.feature.mfcc(self._audiofile_signal,
+                                         self._audiofile_sample_rate,
+                                         n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
         # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
         #            (# segments, # coefficients)
@@ -86,11 +91,11 @@ class _WordetectService:
         # highlight predictions
         if predicted_word in str(args.inferdata_path):
             if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
+                print(cyan("{:.2f}".format(confidence)), pinkred(Path(self._audiofile_fullpath).stem), cyan(predicted_word))
             else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), cyan(predicted_word))
+                print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._audiofile_fullpath).stem), cyan(predicted_word))
         else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._curr_audiofile_fullpath).stem), pinkred(predicted_word))
+            print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self._audiofile_fullpath).stem), pinkred(predicted_word))
 
         return predicted_word
 
@@ -113,8 +118,6 @@ if __name__ == "__main__":
     (_, _, filenames) = next(os.walk(args.inferdata_path))
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
-        mfccs = wds.dataprep(audiofile_fullpath, n_mfcc = args.n_mfcc,
-                                                  n_fft = args.n_fft,
-                                             hop_length = args.hop_length,
-                                         track_duration = args.track_duration)
+        wds.load_audiofile(audiofile_fullpath, args.track_duration)
+        mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
         word  = wds.predict(mfccs)
