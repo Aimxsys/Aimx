@@ -47,10 +47,10 @@ def progress_bar(current, total):
     sys.stdout.flush()
 
 def extract_filename(fullpath):
-    return os.path.splitext(fullpath)[0]
+    return PurePath(fullpath).stem
 
 def extract_fileext(fullpath):
-    return os.path.splitext(fullpath)[1]
+    return PurePath(fullpath).suffix
 
 class Colors:
     PURPLE      = '\033[95m'
