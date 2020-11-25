@@ -104,7 +104,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
         # save genre label (i.e. subfolder name) in the mapping
         category_label = PurePath(dirpath).name
-        traindata["mapping"].append(category_label)
+        traindata[Aimx.TrainData.MAPPING].append(category_label)
         print_info("\nProcessing: {}".format(category_label))
 
         # process all audio files in subfolders
@@ -131,9 +131,9 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 mfcc = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
                 # store data for analysed track
-                traindata["mfcc"  ].append(mfcc.T.tolist())
-                traindata["labels"].append(dir_index-1)
-                traindata["files" ].append(audio_file_path)
+                traindata[Aimx.TrainData.MFCC  ].append(mfcc.T.tolist())
+                traindata[Aimx.TrainData.LABELS].append(dir_index-1)
+                traindata[Aimx.TrainData.FILES ].append(audio_file_path)
                 print_info("{}: {}".format(cyansky(audio_file_path), dir_index-1), verbose = args.verbose)
     
     return traindata, traindata_id
