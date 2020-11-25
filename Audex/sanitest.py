@@ -25,19 +25,21 @@ parser.add_argument("-ann",            action ='store_true', help = 'Will test t
 parser.add_argument("-cnn",            action ='store_true', help = 'Will test the CNN.')
 parser.add_argument("-rnn",            action ='store_true', help = 'Will test the RNN.')
 parser.add_argument("-nns",            action ='store_true', help = 'Will test all NNs only.')
+parser.add_argument("-asr",            action ='store_true', help = 'Will test the entire ASR flow from dataprep to training.')
+parser.add_argument("-genre",          action ='store_true', help = 'Will test the entire Genre flow from dataprep to training.')
 parser.add_argument("-all",            action ='store_true', help = 'Will test all scripts in the solution.')
 
 args = parser.parse_args()
 
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
 
-ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr
-ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre
+ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr   or args.asr
+ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre or args.genre
 
-ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn
-ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann
-ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn
-ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn
+ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn or args.asr
+ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
+ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
+ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
 
 start_time = time.time()
 
