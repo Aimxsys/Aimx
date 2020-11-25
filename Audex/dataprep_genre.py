@@ -36,10 +36,15 @@ parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample
 parser.add_argument("-track_duration", default =    30, type=int, help = 'Only load up to this much audio (in seconds).')
 parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
+parser.add_argument("-example",        action ='store_true',      help = 'Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
-############################## Command Argument Verification ##############################
+########################## Command Argument Handling & Verification #######################
+
+if args.example:
+    print_info(os.path.basename(__file__) + " -dataset_path ../workdir/dataset -dataset_depth 5")
+    exit()
 
 if provided(args.dataset_path) and not args.dataset_path.exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.dataset_path)))

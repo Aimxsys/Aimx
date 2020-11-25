@@ -25,10 +25,15 @@ parser.add_argument("-plot_frequencies", action ='store_true', help = 'Will plot
 parser.add_argument("-plot_specs",       action ='store_true', help = 'Will plot spectrograms of the sound files.')
 parser.add_argument("-plot_melspecs",    action ='store_true', help = 'Will plot Mel spectrograms of the sound files.')
 parser.add_argument("-plot_mfccs",       action ='store_true', help = 'Will plot MFCCs of the sound files.')
+parser.add_argument("-example",          action ='store_true', help = 'Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
-############################## Command Argument Verification ##############################
+########################## Command Argument Handling & Verification #######################
+
+if args.example:
+    print_info(os.path.basename(__file__) + " -files_path ../workdir/sounds/two")
+    exit()
 
 if provided(args.files_path) and not args.files_path.exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.files_path)))

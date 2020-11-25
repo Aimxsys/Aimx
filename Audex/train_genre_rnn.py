@@ -23,10 +23,15 @@ parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity mod
                                                                   ' or 2 (one line per epoch). Default is 1.')
 parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
 parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
+parser.add_argument("-example",    action ='store_true',   help = 'Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
-############################## Command Argument Verification ##############################
+########################## Command Argument Handling & Verification #######################
+
+if args.example:
+    print_info(os.path.basename(__file__) + " -traindata_path most_recent_output -epochs 5")
+    exit()
 
 if provided(args.traindata_path) and not args.traindata_path.exists():
     if str(args.traindata_path) is not Aimx.Dataprep.MOST_RECENT_OUTPUT:
