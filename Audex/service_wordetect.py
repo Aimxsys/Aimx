@@ -54,13 +54,11 @@ class _WordetectService:
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self._audiofile_fullpath = audiofile_fullpath
-        # load audio file
         self._audiofile_signal, self._audiofile_sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
 
     def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Eextract mfccs from an audio file.
-        :param  file_path (str): Path of audio file
         :param     n_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
