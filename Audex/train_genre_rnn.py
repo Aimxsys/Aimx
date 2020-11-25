@@ -18,6 +18,7 @@ parser.add_argument("-traindata_path", type = Path, help = 'Path to the data fil
 
 parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
 parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
+parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
 parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                   ' or 2 (one line per epoch). Default is 1.')
 parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
@@ -104,10 +105,16 @@ if __name__ == "__main__":
 
     model.summary()
 
+    earlystop_callback = keras.callbacks.EarlyStopping(monitor="accuracy", min_delta=0.001, patience=args.patience)
+
     start_time = time.time()
     
     # train model
-    history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid), batch_size=args.batch_size, epochs=args.epochs)
+    history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid),
+                        batch_size = args.batch_size,
+                        epochs     = args.epochs,
+                        verbose    = args.verbose,
+                        callbacks  = [earlystop_callback])
 
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
                                                     lightyellow(timedelta(seconds = round(time.time() - start_time)))))
