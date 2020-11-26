@@ -153,12 +153,12 @@ def compose_traindata_id(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length,
                  +  "_" + str(track_duration) + "s"
     return traindata_id
 
-def save_traindata(datann, traindata_filename):
+def save_traindata(traindata, traindata_filename):
     Path(Aimx.Paths.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
     GEN_TRAINDATA_FULLPATH = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
         print_info("\n|||||| Writing file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
-        json.dump(datann, data_file, indent=4)
+        json.dump(traindata, data_file, indent=4)
         print_info("[DONE]")
 
 def save_dataprep_result_meta(traindata_filename, dataprep_duration):
