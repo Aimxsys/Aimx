@@ -43,16 +43,37 @@ class _WordetectService:
     _instance = None
 
     _mapping = [
-        "down"  ,
-        "off"   ,
-        "on"    ,
-        "no"    ,
-        "yes"   ,
-        "stop"  ,
-        "up"    ,
-        "right" ,
-        "left"  ,
-        "go"
+        "background_noise"
+        , "bed"
+        , "bird"
+        , "cat"
+        , "dog"
+        , "down"
+        , "eight"
+#        , "five"
+#        , "four"
+#        , "go"
+#        , "happy"
+#        , "house"
+#        , "left"
+#        , "marvin"
+#        , "nine"
+#        , "no"
+#        , "off"
+#        , "on"
+#        , "one"
+#        , "right"
+#        , "seven"
+#        , "sheila"
+#        , "six"
+#        , "stop"
+#        , "three"
+#        , "tree"
+#        , "two"
+#        , "up"
+#        , "wow"
+#        , "yes"
+#        , "zero"
     ]
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
@@ -85,10 +106,10 @@ class _WordetectService:
 
     def predict(self, mfccs):
         # make a prediction and get the predicted label and confidence
-        predictions = self.model.predict(mfccs)
-        confidence  = np.max(predictions)
-        pred_index  = np.argmax(predictions)
-        pred_word   = self._mapping[pred_index]
+        predictions   = self.model.predict(mfccs)
+        confidence    = np.max(predictions)
+        predmax_index = np.argmax(predictions)
+        pred_word     = self._mapping[predmax_index]
 
         return pred_word, confidence
 
