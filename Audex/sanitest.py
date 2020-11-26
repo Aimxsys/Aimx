@@ -44,6 +44,12 @@ ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
 
+print_info("###############################################")
+print_info("Running sanitest with the following arguments: ")
+print_info("-dataset_depth =", args.dataset_depth)
+print_info("-epochs        =", args.epochs)
+print_info("###############################################\n")
+
 start_time = time.time()
 
 if ARG_TEST_PLOT_SOUND: # Sound plots
