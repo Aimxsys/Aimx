@@ -29,6 +29,9 @@ parser.add_argument("-asr",            action ='store_true', help = 'Will test t
 parser.add_argument("-genre",          action ='store_true', help = 'Will test the entire Genre flow from dataprep to training.')
 parser.add_argument("-all",            action ='store_true', help = 'Will test all scripts in the solution.')
 
+parser.add_argument("-dataset_depth",  default = 4, type=int, help = 'Number of files to consider from each category.')
+parser.add_argument("-epochs",         default = 5, type=int, help = 'Number of epochs to train.')
+
 args = parser.parse_args()
 
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
@@ -52,34 +55,34 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     # dataprep_asr.py -dataset_path ../workdir/speech_commands_v001 -dataset_depth 5
-    subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v001', '-dataset_depth', '5'], shell=True)
+    subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_v001', '-dataset_depth', str(args.dataset_depth)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
 if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
     # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_asr_cnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', '5'], shell=True)
+    subprocess.call(['train_asr_cnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
 
 ####################################################### Genre-related pipeline
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     # dataprep_genre.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
-    subprocess.call(['dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', '5'], shell=True)
+    subprocess.call(['dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py OK"))
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_genre_ann.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', '5'], shell=True)
+    subprocess.call(['train_genre_ann.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py OK"))
 
 if ARG_TEST_TRAIN_GENRE_CNN: # Genre classification using CNN
     # train_genre_cnn.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_genre_cnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', '5'], shell=True)
+    subprocess.call(['train_genre_cnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py OK"))
 
 if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
     # train_genre_rnn.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_genre_rnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', '5'], shell=True)
+    subprocess.call(['train_genre_rnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py OK"))
 
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE SANITY TEST OK"))
