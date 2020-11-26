@@ -89,13 +89,13 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv preprocess_dataset()")
-    print_info("traindata_filename =", traindata_id)
-    print_info("n_mfcc             =", n_mfcc)
-    print_info("n_fft              =", n_fft)
-    print_info("hop_length         =", hop_length)
-    print_info("num_segments       =", num_segments)
-    print_info("sample_rate        =", sample_rate)
-    print_info("track_duration     =", track_duration)
+    print_info("traindata_id   =", traindata_id)
+    print_info("n_mfcc         =", n_mfcc)
+    print_info("n_fft          =", n_fft)
+    print_info("hop_length     =", hop_length)
+    print_info("num_segments   =", num_segments)
+    print_info("sample_rate    =", sample_rate)
+    print_info("track_duration =", track_duration)
 
     # loop through all subfolders
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
