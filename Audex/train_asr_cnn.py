@@ -143,8 +143,8 @@ if __name__ == "__main__":
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
                                                     lightyellow(timedelta(seconds = round(time.time() - start_time)))))
     # evaluate model on test set
-    test_loss, test_acc = model.evaluate(x_test, y_test, verbose = args.verbose)
-    print_info('\nTest accuracy:', test_acc)
+    print_info('\nEvaluating test accuracy:')
+    model.evaluate(x_test, y_test, verbose = args.verbose)
         
     trainid = "cnn_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
