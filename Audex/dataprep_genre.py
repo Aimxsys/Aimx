@@ -75,7 +75,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         :param    hop_length (int): Sliding window for the FFT. Measured in # of samples.
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
-    traindata_id = compose_traindata_id(args.dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
+    traindata_id = compose_traindata_id(args.dataset_depth, args.dataset_view, dataset_path,
+                                       n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
 
     # dictionary to store mapping, labels, and MFCC
     traindata = {

@@ -142,9 +142,10 @@ def save_current_model(model, model_id):
     model.save(MR_MODEL_FULLPATH)
     print_info("[DONE]")
 
-def compose_traindata_id(dataset_depth, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
-    traindata_id = str(dataset_depth) + "d_"
-    traindata_id += PurePath(dataset_path).name # the traindata json file name
+def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+    traindata_id =  str(len(dataset_view)) + "v_"
+    traindata_id += str(dataset_depth)     + "d_"
+    traindata_id += PurePath(dataset_path).name # the traindata file name
     traindata_id += "_" + str(n_mfcc)         + "m" \
                  +  "_" + str(n_fft)          + "w" \
                  +  "_" + str(hop_length)     + "h" \
