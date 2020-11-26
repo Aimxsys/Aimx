@@ -23,11 +23,11 @@ class Aimx:
         ALL_DIR_LABELS     = "alldirlabs"
 
     class TrainData:
-         DURATION = "duration"
-         MAPPING  = "mapping"
-         LABELS   = "labels"
-         FILES    = "files"
-         MFCC     = "mfcc"
+        DURATION = "duration"
+        MAPPING  = "mapping"
+        LABELS   = "labels"
+        FILES    = "files"
+        MFCC     = "mfcc"
 
 def get_dataset_code(traindata_filepath):
     return Path(traindata_filepath).stem
