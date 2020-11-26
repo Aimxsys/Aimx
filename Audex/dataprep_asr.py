@@ -99,7 +99,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     print_info("track_duration =", track_duration)
 
     # loop through all subfolders
-    for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
+    for dir_index, (dirpath, _, audio_filenames) in enumerate(os.walk(dataset_path)):
 
         # ensure we're processing at subfolder level
         if PurePath(dirpath).name is PurePath(dataset_path).name:
