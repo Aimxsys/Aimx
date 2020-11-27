@@ -49,9 +49,9 @@ def to_genre_name(label_id):
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):
         with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), "r") as file:
-            print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "...", end="")
+            print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "... ", end="")
             preprocess_result_meta = json.load(file)
-            print_info(" [DONE]")
+            print_info("[DONE]")
         get_preprocess_result_meta.cached = preprocess_result_meta
     return get_preprocess_result_meta.cached
 
@@ -73,17 +73,17 @@ def load_traindata(arg_traindata_path):
         with open(actual_traindata_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(actual_traindata_path)))
             m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT else ""
-            print_info("\n|||||| Loading " + m + "file " + quote(cyansky(actual_traindata_path)) + "...", end="")
+            print_info("\n|||||| Loading " + m + "file " + quote(cyansky(actual_traindata_path)) + "... ", end="")
             data = json.load(file)
-            print_info(" [DONE]")            
+            print_info("[DONE]")            
     except FileNotFoundError:
         print_info("Data file " + quote(actual_traindata_path) + " not provided or not found. Exiting...")
         exit() # cannot proceed without data file
     
-    print_info("Reading data...", end="")
+    print_info("Reading data... ", end="")
     inputs = np.array(data["mfcc"])   # convert the list to numpy array (MFCCs  turn into a 2d array)
     labels = np.array(data["labels"]) # convert the list to numpy array (labels turn into a 1d array)
-    print_info(" [DONE]\n")
+    print_info("[DONE]\n")
 
     return inputs, labels
 
@@ -176,9 +176,9 @@ def save_dataprep_result_meta(traindata_filename, dataprep_duration):
 # cases be used to switch quickly by updating dataprep_result_meta.json contents correspondingly.
 def update_dataprep_result_meta(traindata_filename, key, value):
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), "r") as fp:
-        print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "...", end="")
+        print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "... ", end="")
         prep_result_meta = json.load(fp)
-        print_info(" [DONE]")
+        print_info("[DONE]")
     prep_result_meta[key] = value
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp:
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
