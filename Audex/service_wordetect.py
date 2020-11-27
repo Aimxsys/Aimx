@@ -5,6 +5,7 @@ import numpy as np
 
 from common_utils import *
 from audex_utils  import Aimx
+from audex_utils  import get_preprocess_result_meta
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
@@ -42,39 +43,7 @@ class _WordetectService:
 
     _instance = None
 
-    _mapping = [
-        "background_noise"
-        , "bed"
-        , "bird"
-        , "cat"
-        , "dog"
-        , "down"
-        , "eight"
-#        , "five"
-#        , "four"
-#        , "go"
-#        , "happy"
-#        , "house"
-#        , "left"
-#        , "marvin"
-#        , "nine"
-#        , "no"
-#        , "off"
-#        , "on"
-#        , "one"
-#        , "right"
-#        , "seven"
-#        , "sheila"
-#        , "six"
-#        , "stop"
-#        , "three"
-#        , "tree"
-#        , "two"
-#        , "up"
-#        , "wow"
-#        , "yes"
-#        , "zero"
-    ]
+    _mapping = get_preprocess_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
@@ -136,7 +105,8 @@ if __name__ == "__main__":
 
     wds = WordetectService()
 
-    print_info("\nPredicting:", args.inferdata_path)
+    print_info("\nPredicting with dataset view (labels):", wds._mapping)
+    print_info("On files in:", args.inferdata_path)
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
 

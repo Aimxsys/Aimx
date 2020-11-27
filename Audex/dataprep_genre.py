@@ -171,6 +171,6 @@ if __name__ == "__main__":
     save_traindata(traindata, traindata_filename)
 
     # save recent data preprocess result metadata
-    save_dataprep_result_meta(traindata_filename, args.dataset_view, str(dataprep_duration))
+    save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], str(dataprep_duration))
 
     print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)), lightyellow(dataprep_duration)))
