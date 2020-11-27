@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import timedelta
+import cmd
 import time
 import argparse
 
@@ -66,6 +67,10 @@ def prepare_traindata(test_size, valid_size):
     # create train, validation and test split
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)
     x_train, x_valid, y_train, y_valid = train_test_split(x_train, y_train, test_size = valid_size)
+
+    #print_info("Training with dataset view (labels):")
+    print_info("Dataset view (labels) from dataprep result meta:") # TODO: Replace this line with the line above when support is ready.
+    cmd.Cmd().columnize(get_preprocess_result_meta()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
 
     print_info("Extended x_train (input) shape: " + str(x_train.shape))
     print_info("Extended x_valid (input) shape: " + str(x_valid.shape))
