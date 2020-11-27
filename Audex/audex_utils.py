@@ -168,7 +168,7 @@ def save_dataprep_result_meta(traindata_filename, dataprep_duration):
     prep_result_meta[Aimx.Dataprep.DURATION] = dataprep_duration
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
-        json.dump(prep_result_meta, fp)
+        json.dump(prep_result_meta, fp, indent=4)
         print_info("[DONE]")
 
 # This function may be necessary for test pipeline automation, e.g. in scenarios when
@@ -182,5 +182,5 @@ def update_dataprep_result_meta(traindata_filename, key, value):
     prep_result_meta[key] = value
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp:
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
-        json.dump(prep_result_meta, fp)
+        json.dump(prep_result_meta, fp, indent=4)
         print_info("[DONE]")
