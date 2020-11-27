@@ -65,9 +65,9 @@ def get_actual_traindata_path(arg_traindata_path):
 def load_traindata(arg_traindata_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
-        :param data_path (str): Path to json file containing data
-        :return inputs (ndarray: the "mfcc"   section in the json data) 
-        :return labels (ndarray: the "labels" section in the json data, one label per segment)
+        :param data_path (str): Path to json file containing traindata
+        :return inputs (ndarray: the "mfcc"   section in the json traindata) 
+        :return labels (ndarray: the "labels" section in the json traindata, one label per segment)
     """
     actual_traindata_path = get_actual_traindata_path(arg_traindata_path)
     try:
@@ -75,15 +75,15 @@ def load_traindata(arg_traindata_path):
             timestamp = str(time.ctime(os.path.getmtime(actual_traindata_path)))
             m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT else ""
             print_info("\n|||||| Loading " + m + "file " + quote(cyansky(actual_traindata_path)) + "... ", end="")
-            data = json.load(file)
+            traindata = json.load(file)
             print_info("[DONE]")            
     except FileNotFoundError:
         print_info("Data file " + quote(actual_traindata_path) + " not provided or not found. Exiting...")
-        exit() # cannot proceed without data file
+        exit() # cannot proceed without traindata file
     
-    print_info("Reading data... ", end="")
-    inputs = np.array(data["mfcc"])   # convert the list to numpy array (MFCCs  turn into a 2d array)
-    labels = np.array(data["labels"]) # convert the list to numpy array (labels turn into a 1d array)
+    print_info("Reading traindata... ", end="")
+    inputs = np.array(traindata["mfcc"])   # convert the list to numpy array (MFCCs  turn into a 2d array)
+    labels = np.array(traindata["labels"]) # convert the list to numpy array (labels turn into a 1d array)
     print_info("[DONE]\n")
 
     return inputs, labels
@@ -96,7 +96,7 @@ def predict(model, x, y):
         x: Input data
         y (int): Target
     """
-    # add a dimension to input data for sample - model.predict() expects a 4d array in this case
+    # add a dimension to input traindata for sample - model.predict() expects a 4d array in this case
     x = x[np.newaxis, ...] # change array shape from (130, 13, 1) to (1, 130, 13, 1)
 
     prediction = model.predict(x)
