@@ -59,7 +59,7 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 
 ARG_DATASET_FILES_DIR = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now, may need to be rewritten in a better way
-    args.dataset_view = [PurePath(f).name for f in os.scandir(ARG_DATASET_FILES_DIR) if f.is_dir()]
+    args.dataset_view = get_all_dirs_in(ARG_DATASET_FILES_DIR)
 
 print_info("=============================================================================")
 print_info("Expecting audio files in ARG_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)

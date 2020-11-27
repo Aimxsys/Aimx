@@ -34,6 +34,9 @@ def provided(cmd_arg):
 def quote(s):
     return '\'' + str(s) + '\''
 
+def get_all_dirs_in(dir):
+    return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
+
 # TODO: This function seems to not always return as expected
 # Currently disabled, but kept as it looks useful if perfected.
 def get_most_recent_file_in_dir(traindata_path, ext):
