@@ -1,10 +1,15 @@
 from termcolor import colored
+from colorama import init
 from pathlib   import Path
 from pathlib   import PurePath
 import json
 import glob
 import sys
 import os
+
+# On Windows, calling init() will filter ANSI escape sequences out of any text
+# On other platforms, calling init() has no effect
+init()
 
 # Useful regexp to count total LOC.
 # Tested in VS by running a regexp search with the
