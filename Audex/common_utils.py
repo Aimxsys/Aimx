@@ -29,7 +29,7 @@ def exists(x):
     return x is not None
 
 def provided(cmd_arg):
-    return cmd_arg is not None
+    return exists(cmd_arg)
 
 def quote(s):
     return '\'' + str(s) + '\''
