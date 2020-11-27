@@ -98,6 +98,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     print_info("sample_rate    =", sample_rate)
     print_info("track_duration =", track_duration)
 
+    label_id = 0
+
     # loop through all subfolders
     for dir_index, (dirpath, subdirpaths, audio_filenames) in enumerate(os.walk(dataset_path)):
 
@@ -109,9 +111,9 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
             continue
 
         # save genre label (i.e. subfolder name) in the mapping
-        category_label = PurePath(dirpath).name
-        traindata[Aimx.TrainData.MAPPING].append(category_label)
-        print_info("\nProcessing: {}".format(category_label))
+        label_name = PurePath(dirpath).name
+        traindata[Aimx.TrainData.MAPPING].append(label_name)
+        print_info("\n\nProcessing label {} {}".format(cyan(label_id), label_name))
 
         # process all audio files in subfolders
         for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
@@ -143,8 +145,10 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 # store only mfcc feature with expected number of vectors
                 if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                     traindata[Aimx.TrainData.MFCC  ].append(mfcc.tolist())
-                    traindata[Aimx.TrainData.LABELS].append(dir_index-1) # -1 is to eliminate the top-level dir
+                    traindata[Aimx.TrainData.LABELS].append(label_id) # -1 is to eliminate the top-level dir
                     print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
+
+        label_id += 1
 
     return traindata, traindata_id
                 
