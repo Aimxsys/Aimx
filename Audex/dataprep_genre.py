@@ -145,7 +145,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 # store only mfcc feature with expected number of vectors
                 if len(mfcc) == expected_num_of_mfcc_vectors_per_segment:
                     traindata[Aimx.TrainData.MFCC  ].append(mfcc.tolist())
-                    traindata[Aimx.TrainData.LABELS].append(label_id) # -1 is to eliminate the top-level dir
+                    traindata[Aimx.TrainData.LABELS].append(label_id)
                     print_info("{}, segment:{}".format(cyansky(audio_file_path), segment+1), verbose = args.verbose)
 
         label_id += 1
