@@ -19,6 +19,7 @@ class Aimx:
     
     class Dataprep:
         MOST_RECENT_OUTPUT = "most_recent_output"
+        DATASET_VIEW       = "dataset_view"
         DURATION           = "duration"
         ALL_DIR_LABELS     = "alldirlabs"
 
@@ -162,10 +163,15 @@ def save_traindata(traindata, traindata_filename):
         json.dump(traindata, data_file, indent=4)
         print_info("[DONE]")
 
-def save_dataprep_result_meta(traindata_filename, dataprep_duration):
-    prep_result_meta = {Aimx.Dataprep.MOST_RECENT_OUTPUT: {}, Aimx.Dataprep.DURATION: {} }
+def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duration):
+    prep_result_meta = {
+        Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
+        Aimx.Dataprep.DATASET_VIEW: {},
+        Aimx.Dataprep.DURATION: {}
+    }
     prep_result_meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
-    prep_result_meta[Aimx.Dataprep.DURATION] = dataprep_duration
+    prep_result_meta[Aimx.Dataprep.DURATION]           = dataprep_duration
+    prep_result_meta[Aimx.Dataprep.DATASET_VIEW]       = dataset_view
     with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp, indent=4)
