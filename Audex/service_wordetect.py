@@ -43,7 +43,7 @@ class _WordetectService:
 
     _instance = None
 
-    _mapping = get_preprocess_result_meta()[Aimx.Dataprep.DATASET_VIEW]
+    label_mapping = get_preprocess_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
@@ -78,7 +78,7 @@ class _WordetectService:
         predictions   = self.model.predict(mfccs)
         confidence    = np.max(predictions)
         predmax_index = np.argmax(predictions)
-        pred_word     = self._mapping[predmax_index]
+        pred_word     = self.label_mapping[predmax_index]
 
         return pred_word, confidence
 
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     wds = WordetectService()
 
-    print_info("\nPredicting with dataset view (labels):", wds._mapping)
+    print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
