@@ -172,4 +172,6 @@ if __name__ == "__main__":
     # save recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], str(dataprep_duration))
 
-    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)), lightyellow(dataprep_duration)))
+    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(os.path.basename(__file__)),
+                                                                    lightyellow(timestamp_now()),
+                                                                    lightyellow(dataprep_duration)))

@@ -93,8 +93,10 @@ if __name__ == "__main__":
                         verbose    = args.verbose,
                         callbacks  = [earlystop_callback])
 
-    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
-                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))    
+    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(os.path.basename(__file__)),
+                                                                    lightyellow(timestamp_now()),
+                                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+
     trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
     if (args.savemodel):

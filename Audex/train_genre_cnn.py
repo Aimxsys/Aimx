@@ -144,8 +144,9 @@ if __name__ == "__main__":
                        verbose    = args.verbose,
                        callbacks  = [earlystop_callback])
 
-    print_info("Wall clock time for {}: {} ".format(cyansky(os.path.basename(__file__)),
-                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(os.path.basename(__file__)),
+                                                                    lightyellow(timestamp_now()),
+                                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose = args.verbose)
     print_info('\nTest accuracy:', test_acc)
