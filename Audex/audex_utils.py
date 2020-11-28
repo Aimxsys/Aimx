@@ -53,6 +53,20 @@ def get_preprocess_result_meta():
         get_preprocess_result_meta.cached = preprocess_result_meta
     return get_preprocess_result_meta.cached
 
+def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duration):
+    prep_result_meta = {
+        Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
+        Aimx.Dataprep.DATASET_VIEW:       {},
+        Aimx.Dataprep.DURATION:           {}
+    }
+    prep_result_meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    prep_result_meta[Aimx.Dataprep.DATASET_VIEW]       = dataset_view
+    prep_result_meta[Aimx.Dataprep.DURATION]           = dataprep_duration
+    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
+        print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
+        json.dump(prep_result_meta, fp, indent=4)
+        print_info("[DONE]")
+
 def get_actual_traindata_path(arg_traindata_path):
     # Handle any special requests (most recent, largest, smallest, etc.)
     if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT:
@@ -158,20 +172,6 @@ def save_traindata(traindata, traindata_filename):
     with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
         print_info("\n|||||| Writing file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
         json.dump(traindata, data_file, indent=4)
-        print_info("[DONE]")
-
-def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duration):
-    prep_result_meta = {
-        Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
-        Aimx.Dataprep.DATASET_VIEW: {},
-        Aimx.Dataprep.DURATION: {}
-    }
-    prep_result_meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
-    prep_result_meta[Aimx.Dataprep.DURATION]           = dataprep_duration
-    prep_result_meta[Aimx.Dataprep.DATASET_VIEW]       = dataset_view
-    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
-        print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
-        json.dump(prep_result_meta, fp, indent=4)
         print_info("[DONE]")
 
 # This function may be necessary for test pipeline automation, e.g. in scenarios when
