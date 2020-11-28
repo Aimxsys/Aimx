@@ -79,6 +79,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
     # dictionary to store mapping, labels, and MFCC
     traindata = {
+       Aimx.TIMESTAMP          : [],
        Aimx.TrainData.DURATION : [],
        Aimx.TrainData.MAPPING  : [],
        Aimx.TrainData.LABELS   : [],
@@ -162,6 +163,7 @@ if __name__ == "__main__":
     traindata_filename = traindata_id + ".json"
 
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
+    traindata[Aimx.TIMESTAMP]         = timestamp_now()
     traindata[Aimx.Dataprep.DURATION] = str(dataprep_duration)
 
     # save MFCCs to the traindata file
