@@ -16,7 +16,7 @@ class Aimx:
         GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
         GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
-        DATAPREP_RESULT_META_FILENAME = "dataprep_result_meta.json"
+        DATAPREP_RESULT_META_FILENAME = os.path.join(WORKDIR, "dataprep_result_meta.json")
     
     class Dataprep:
         MOST_RECENT_OUTPUT = "most_recent_output"
@@ -49,7 +49,7 @@ def to_genre_name(label_id):
 
 def get_preprocess_result_meta():
     if not hasattr(get_preprocess_result_meta, "cached"):
-        with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), "r") as file:
+        with open(Aimx.Paths.DATAPREP_RESULT_META_FILENAME, "r") as file:
             print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "... ", end="")
             preprocess_result_meta = json.load(file)
             print_info("[DONE]")
@@ -67,7 +67,7 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duratio
     prep_result_meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
     prep_result_meta[Aimx.TIMESTAMP]             = timestamp_now()
     prep_result_meta[Aimx.Dataprep.DURATION]     = dataprep_duration
-    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp: 
+    with open(Aimx.Paths.DATAPREP_RESULT_META_FILENAME, 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp, indent=4)
         print_info("[DONE]")
@@ -154,7 +154,7 @@ def plot_history(history, trainid, show_interactive):
         pt.show()
 
 def save_model(model, model_id):
-    dataprep_result_meta = tf.saved_model.Asset(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME))
+    dataprep_result_meta = tf.saved_model.Asset(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)
     trackable_obj  = tf.train.Checkpoint()
     trackable_obj.filename = dataprep_result_meta
 
@@ -188,12 +188,12 @@ def save_traindata(traindata, traindata_filename):
 # running multiple NNs, each requiring its own traindata. This function can in such
 # cases be used to switch quickly by updating dataprep_result_meta.json contents correspondingly.
 def update_dataprep_result_meta(traindata_filename, key, value):
-    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), "r") as fp:
+    with open(Aimx.Paths.DATAPREP_RESULT_META_FILENAME, "r") as fp:
         print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)) + "... ", end="")
         prep_result_meta = json.load(fp)
         print_info("[DONE]")
     prep_result_meta[key] = value
-    with open(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME), 'w') as fp:
+    with open(Aimx.Paths.DATAPREP_RESULT_META_FILENAME, 'w') as fp:
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Paths.DATAPREP_RESULT_META_FILENAME)), "... ", end="")
         json.dump(prep_result_meta, fp, indent=4)
         print_info("[DONE]")
