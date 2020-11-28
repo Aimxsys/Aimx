@@ -159,10 +159,10 @@ def save_model(model, model_id):
     trackable_obj  = tf.train.Checkpoint()
     trackable_obj.filename = dataprep_result_meta
 
-    MR_MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + model_id)
-    print_info("\n|||||| Saving model ", quote(cyansky(MR_MODEL_FULLPATH)), "... ", end="")
-    model.save(MR_MODEL_FULLPATH)
-    tf.saved_model.save(trackable_obj, MR_MODEL_FULLPATH) # save the asset
+    MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + model_id)
+    print_info("\n|||||| Saving model ", quote(cyansky(MODEL_FULLPATH)), "... ", end="")
+    model.save(MODEL_FULLPATH)
+    tf.saved_model.save(trackable_obj, MODEL_FULLPATH) # save the asset
     print_info("[DONE]")
 
 def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
