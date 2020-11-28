@@ -30,9 +30,6 @@ class Aimx:
         FILES    = "files"
         MFCC     = "mfcc"
 
-def get_dataset_code(traindata_filepath):
-    return Path(traindata_filepath).stem
-
 def to_genre_name(label_id):
     return [
         'blues'    ,
