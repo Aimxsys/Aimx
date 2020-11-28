@@ -2,6 +2,7 @@ from termcolor import colored
 from colorama  import init
 from pathlib   import Path
 from pathlib   import PurePath
+from datetime  import datetime
 import json
 import glob
 import sys
@@ -42,8 +43,8 @@ def quote(s):
 def get_all_dirs_in(dir):
     return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
 
-def timestamp_now():
-    return datetime.now().isoformat(' ', 'seconds')
+def timestamp_now(precision='minutes'):
+    return datetime.now().isoformat(' ', precision)
 
 # TODO: This function seems to not always return as expected
 # Currently disabled, but kept as it looks useful if perfected.
