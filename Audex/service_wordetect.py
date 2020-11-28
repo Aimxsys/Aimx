@@ -91,7 +91,7 @@ class _WordetectService:
         else:
             print(pinkred("{:.2f}".format(confidence)), pinkred(Path(self.afile_fullpath).stem), pinkred(predicted_word))
 
-def WordetectService():
+def CreateWordetectService():
     """
     Factory function for WordetectService class.
     """
@@ -103,7 +103,7 @@ def WordetectService():
 
 if __name__ == "__main__":
 
-    wds = WordetectService()
+    wds = CreateWordetectService()
 
     print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)
