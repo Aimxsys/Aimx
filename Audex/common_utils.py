@@ -43,7 +43,7 @@ def quote(s):
 def get_all_dirs_in(dir):
     return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
 
-def timestamp_now(precision='minutes'):
+def timestamp_now(precision='seconds'):
     return datetime.now().isoformat(' ', precision)
 
 # TODO: This function seems to not always return as expected
