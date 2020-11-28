@@ -10,9 +10,10 @@ import matplotlib.pyplot as pt
 
 from common_utils import *
 
+WORKDIR = os.path.join(Path().resolve().parent, "workdir")
+
 class Aimx:
     class Paths:
-        WORKDIR          = os.path.join(Path().resolve().parent, "workdir")
         GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
         GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
