@@ -153,7 +153,7 @@ def plot_history(history, trainid, show_interactive):
     if show_interactive:
         pt.show()
 
-def save_current_model(model, model_id):
+def save_model(model, model_id):
     dataprep_result_meta = tf.saved_model.Asset(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME))
     trackable_obj  = tf.train.Checkpoint()
     trackable_obj.filename = dataprep_result_meta

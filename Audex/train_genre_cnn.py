@@ -161,6 +161,6 @@ if __name__ == "__main__":
     trainid = "cnn_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
     if (args.savemodel):
-        save_current_model(model, trainid)
+        save_model(model, trainid)
 
     plot_history(history, trainid, args.showplot) # plot accuracy/error for training and validation
