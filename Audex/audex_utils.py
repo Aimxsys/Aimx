@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import tensorflow as tf
 import numpy as np
 import time
 import json
@@ -153,9 +154,14 @@ def plot_history(history, trainid, show_interactive):
         pt.show()
 
 def save_current_model(model, model_id):
+    dataprep_result_meta = tf.saved_model.Asset(os.path.join(Aimx.Paths.WORKDIR, Aimx.Paths.DATAPREP_RESULT_META_FILENAME))
+    trackable_obj  = tf.train.Checkpoint()
+    trackable_obj.filename = dataprep_result_meta
+
     MR_MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + model_id)
     print_info("\n|||||| Saving model ", quote(cyansky(MR_MODEL_FULLPATH)), "... ", end="")
     model.save(MR_MODEL_FULLPATH)
+    tf.saved_model.save(trackable_obj, MR_MODEL_FULLPATH) # save the asset
     print_info("[DONE]")
 
 def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
