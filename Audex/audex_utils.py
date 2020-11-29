@@ -82,8 +82,8 @@ def save_training_result_meta(trainid, timestamp, training_duration):
         Aimx.DURATION:           {}
     }
     meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
-    meta[Aimx.TIMESTAMP]                   = timestamp
-    meta[Aimx.DURATION]                    = training_duration
+    meta[Aimx.TIMESTAMP]          = timestamp
+    meta[Aimx.DURATION]           = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(meta, fp, indent=4)
