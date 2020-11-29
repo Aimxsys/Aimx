@@ -146,9 +146,11 @@ if __name__ == "__main__":
                         verbose    = args.verbose,
                         callbacks  = [earlystop_callback])
 
+    training_duration = timedelta(seconds = round(time.time() - start_time))
+
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp_now()),
-                                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+                                                                    lightyellow(training_duration)))
     # evaluate model on test set
     print_info('\nEvaluating test accuracy:')
     model.evaluate(x_test, y_test, verbose = args.verbose)
