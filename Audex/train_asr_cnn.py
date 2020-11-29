@@ -164,4 +164,4 @@ if __name__ == "__main__":
     # save as most recent training result metadata
     save_training_result_meta(trainid, timestamp, str(training_duration))
 
-    plot_history(history, trainid, args.showplot) # plot accuracy/error for training and validation
+    plot_history(history, trainid, args.showplot) # accuracy and error as a function of epochs
