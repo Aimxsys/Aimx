@@ -93,13 +93,19 @@ if __name__ == "__main__":
                         verbose    = args.verbose,
                         callbacks  = [earlystop_callback])
 
+    training_duration = timedelta(seconds = round(time.time() - start_time))
+    timestamp = timestamp_now()
+
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
-                                                                    lightyellow(timestamp_now()),
-                                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+                                                                    lightyellow(timestamp),
+                                                                    lightyellow(training_duration)))
 
     trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
     if (args.savemodel):
         save_model(model, trainid)
+            
+    # save as most recent training result metadata
+    save_training_result_meta(trainid, timestamp, str(training_duration))
 
     plot_history(history, trainid, args.showplot) # accuracy and error as a function of epochs
