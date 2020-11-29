@@ -138,12 +138,12 @@ def predict(model, x, y):
     print_info("Prediction: ", prediction)
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
-def save_model(model, model_id):
+def save_model(model, trainid):
     dataprep_result_meta = tf.saved_model.Asset(Aimx.Dataprep.RESULT_METADATA_FULLPATH)
     trackable_obj  = tf.train.Checkpoint()
     trackable_obj.filename = dataprep_result_meta
 
-    MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + model_id)
+    MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     print_info("\n|||||| Saving model ", quote(cyansky(MODEL_FULLPATH)), "... ", end="")
     model.save(MODEL_FULLPATH)
     tf.saved_model.save(trackable_obj, MODEL_FULLPATH) # save the asset
