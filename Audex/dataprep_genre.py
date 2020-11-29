@@ -25,8 +25,8 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' preprocessing audio files to extract the training'
                                                ' data later to be fed into a neural network.')
 
-parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
+parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
 parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
