@@ -32,7 +32,7 @@ args = parser.parse_args()
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(os.path.basename(__file__) + " -files_path ../workdir/sounds/two")
+    print_info(nameofthis(__file__) + " -files_path ../workdir/sounds/two")
     exit()
 
 if provided(args.files_path) and not args.files_path.exists():

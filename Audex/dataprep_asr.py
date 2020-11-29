@@ -44,7 +44,7 @@ args = parser.parse_args()
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(print_info(os.path.basename(__file__) + " -dataset_path ../workdir/dataset -dataset_depth 5"))
+    print_info(print_info(nameofthis(__file__) + " -dataset_path ../workdir/dataset -dataset_depth 5"))
     exit()
 
 if provided(args.dataset_path) and not args.dataset_path.exists():
@@ -172,6 +172,6 @@ if __name__ == "__main__":
     # save recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], str(dataprep_duration))
 
-    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(os.path.basename(__file__)),
+    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp_now()),
                                                                     lightyellow(dataprep_duration)))

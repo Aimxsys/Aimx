@@ -64,6 +64,9 @@ def extract_filename(fullpath):
 def extract_fileext(fullpath):
     return PurePath(fullpath).suffix
 
+def nameofthis(fullpath):
+    return os.path.basename(fullpath)
+
 class Colors:
     PURPLE      = '\033[95m'
     BLUE        = '\033[94m'

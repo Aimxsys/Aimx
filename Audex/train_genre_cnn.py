@@ -32,7 +32,7 @@ args = parser.parse_args()
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(os.path.basename(__file__) + " -traindata_path most_recent_output -epochs 5")
+    print_info(nameofthis(__file__) + " -traindata_path most_recent_output -epochs 5")
     exit()
 
 if provided(args.traindata_path) and not args.traindata_path.exists():
@@ -144,7 +144,7 @@ if __name__ == "__main__":
                        verbose    = args.verbose,
                        callbacks  = [earlystop_callback])
 
-    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(os.path.basename(__file__)),
+    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp_now()),
                                                                     lightyellow(timedelta(seconds = round(time.time() - start_time)))))
     # evaluate model on test set
