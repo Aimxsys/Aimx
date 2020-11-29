@@ -70,9 +70,9 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
     meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
     meta[Aimx.TIMESTAMP]             = timestamp
     meta[Aimx.DURATION]              = dataprep_duration
-    with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as fp: 
+    with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
-        json.dump(meta, fp, indent=4)
+        json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
 def save_training_result_meta(trainid, timestamp, training_duration):
@@ -84,9 +84,9 @@ def save_training_result_meta(trainid, timestamp, training_duration):
     meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     meta[Aimx.TIMESTAMP]          = timestamp
     meta[Aimx.DURATION]           = training_duration
-    with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as fp: 
+    with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
-        json.dump(meta, fp, indent=4)
+        json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
 def get_actual_traindata_path(arg_traindata_path):
@@ -173,14 +173,14 @@ def save_traindata(traindata, traindata_filename):
 # running multiple NNs, each requiring its own traindata. This function can in such
 # cases be used to switch quickly by updating dataprep_result_meta.json contents correspondingly.
 def update_dataprep_result_meta(traindata_filename, key, value):
-    with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as fp:
+    with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as file:
         print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
-        prep_result_meta = json.load(fp)
+        prep_result_meta = json.load(file)
         print_info("[DONE]")
     prep_result_meta[key] = value
-    with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as fp:
+    with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file:
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
-        json.dump(prep_result_meta, fp, indent=4)
+        json.dump(prep_result_meta, file, indent=4)
         print_info("[DONE]")
 
 def plot_history(history, trainid, show_interactive):
