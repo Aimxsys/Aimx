@@ -66,7 +66,7 @@ if ARG_TEST_DATAPREP_ASR: # Data preprocessing
 
 if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
     # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_asr_cnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(['train_asr_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
 
 ####################################################### Genre-related pipeline
@@ -78,17 +78,17 @@ if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_genre_ann.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(['train_genre_ann.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py OK"))
 
 if ARG_TEST_TRAIN_GENRE_CNN: # Genre classification using CNN
     # train_genre_cnn.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_genre_cnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(['train_genre_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py OK"))
 
 if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
     # train_genre_rnn.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(['train_genre_rnn.py', '-traindata_path', Aimx.Dataprep.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(['train_genre_rnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py OK"))
 
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE SANITY TEST OK"))

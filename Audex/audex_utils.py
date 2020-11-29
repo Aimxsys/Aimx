@@ -20,7 +20,6 @@ class Aimx:
     
     class Dataprep:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "dataprep_result_meta.json")
-        MOST_RECENT_OUTPUT = "most_recent_output"
         DATASET_VIEW       = "dataset_view"
         ALL_DIR_LABELS     = "alldirlabs"
 
@@ -33,8 +32,9 @@ class Aimx:
     class Training:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
 
-    TIMESTAMP = "timestamp"
-    DURATION  = "duration"
+    MOST_RECENT_OUTPUT = "most_recent_output"
+    TIMESTAMP          = "timestamp"
+    DURATION           = "duration"
 
 def to_genre_name(label_id):
     return [
@@ -61,12 +61,12 @@ def get_preprocess_result_meta():
 
 def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duration):
     meta = {
-        Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
-        Aimx.Dataprep.DATASET_VIEW:       {},
-        Aimx.TIMESTAMP:                   {},
-        Aimx.DURATION:                    {}
+        Aimx.MOST_RECENT_OUTPUT:    {},
+        Aimx.Dataprep.DATASET_VIEW: {},
+        Aimx.TIMESTAMP:             {},
+        Aimx.DURATION:              {}
     }
-    meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
     meta[Aimx.TIMESTAMP]             = timestamp_now()
     meta[Aimx.DURATION]              = dataprep_duration
@@ -77,11 +77,11 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duratio
 
 def save_training_result_meta(trainid, timestamp, training_duration):
     meta = {
-        Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
-        Aimx.TIMESTAMP:                   {},
-        Aimx.DURATION:                    {}
+        Aimx.MOST_RECENT_OUTPUT: {},
+        Aimx.TIMESTAMP:          {},
+        Aimx.DURATION:           {}
     }
-    meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
+    meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     meta[Aimx.TIMESTAMP]                   = timestamp
     meta[Aimx.DURATION]                    = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as fp: 
@@ -91,8 +91,8 @@ def save_training_result_meta(trainid, timestamp, training_duration):
 
 def get_actual_traindata_path(arg_traindata_path):
     # Handle any special requests (most recent, largest, smallest, etc.)
-    if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT:
-        return get_preprocess_result_meta()[Aimx.Dataprep.MOST_RECENT_OUTPUT]
+    if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT:
+        return get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
     return arg_traindata_path # no special requests, return pristine
 
 def load_traindata(arg_traindata_path):
@@ -106,7 +106,7 @@ def load_traindata(arg_traindata_path):
     try:
         with open(actual_traindata_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(actual_traindata_path)))
-            m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.Dataprep.MOST_RECENT_OUTPUT else ""
+            m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT else ""
             print_info("\n|||||| Loading " + m + "file " + quote(cyansky(actual_traindata_path)) + "... ", end="")
             traindata = json.load(file)
             print_info("[DONE]")            
@@ -143,7 +143,7 @@ def plot_history(history, trainid, show_interactive):
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
-    traindata_filename = get_preprocess_result_meta()[Aimx.Dataprep.MOST_RECENT_OUTPUT]
+    traindata_filename = get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
     fig.canvas.set_window_title("Accuracy & Error - " + trainid)
     fig.suptitle(trainid, fontsize=12)
 
