@@ -22,7 +22,6 @@ class Aimx:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "dataprep_result_meta.json")
         MOST_RECENT_OUTPUT = "most_recent_output"
         DATASET_VIEW       = "dataset_view"
-        DURATION           = "duration"
         ALL_DIR_LABELS     = "alldirlabs"
 
     class TrainData:
@@ -36,6 +35,7 @@ class Aimx:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
 
     TIMESTAMP = "timestamp"
+    DURATION  = "duration"
 
 def to_genre_name(label_id):
     return [
@@ -65,12 +65,12 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duratio
         Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
         Aimx.Dataprep.DATASET_VIEW:       {},
         Aimx.TIMESTAMP:                   {},
-        Aimx.Dataprep.DURATION:           {}
+        Aimx.DURATION:                    {}
     }
     meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
     meta[Aimx.TIMESTAMP]             = timestamp_now()
-    meta[Aimx.Dataprep.DURATION]     = dataprep_duration
+    meta[Aimx.DURATION]              = dataprep_duration
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(meta, fp, indent=4)
@@ -80,11 +80,11 @@ def save_training_result_meta(trainid, timestamp, training_duration):
     meta = {
         Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
         Aimx.TIMESTAMP:                   {},
-        Aimx.Dataprep.DURATION:           {}
+        Aimx.DURATION:                    {}
     }
     meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
-    meta[Aimx.TIMESTAMP]             = timestamp
-    meta[Aimx.Dataprep.DURATION]     = training_duration
+    meta[Aimx.TIMESTAMP]                   = timestamp
+    meta[Aimx.DURATION]                    = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(meta, fp, indent=4)

@@ -166,13 +166,13 @@ if __name__ == "__main__":
     traindata_filename = traindata_id + ".json"
 
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
-    traindata[Aimx.TIMESTAMP]         = timestamp_now()
-    traindata[Aimx.Dataprep.DURATION] = str(dataprep_duration)
+    traindata[Aimx.TIMESTAMP] = timestamp_now()
+    traindata[Aimx.DURATION]  = str(dataprep_duration)
 
     # save MFCCs to the traindata file
     save_traindata(traindata, traindata_filename)
 
-    # save recent data preprocess result metadata
+    # save as most recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], str(dataprep_duration))
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
