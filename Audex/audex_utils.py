@@ -61,19 +61,19 @@ def get_preprocess_result_meta():
     return get_preprocess_result_meta.cached
 
 def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duration):
-    prep_result_meta = {
+    meta = {
         Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
         Aimx.Dataprep.DATASET_VIEW:       {},
         Aimx.TIMESTAMP:                   {},
         Aimx.Dataprep.DURATION:           {}
     }
-    prep_result_meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
-    prep_result_meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
-    prep_result_meta[Aimx.TIMESTAMP]             = timestamp_now()
-    prep_result_meta[Aimx.Dataprep.DURATION]     = dataprep_duration
+    meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
+    meta[Aimx.TIMESTAMP]             = timestamp_now()
+    meta[Aimx.Dataprep.DURATION]     = dataprep_duration
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
-        json.dump(prep_result_meta, fp, indent=4)
+        json.dump(meta, fp, indent=4)
         print_info("[DONE]")
 
 def save_training_result_meta(trainid, timestamp, training_duration):
