@@ -150,7 +150,7 @@ if __name__ == "__main__":
     timestamp = timestamp_now()
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
-                                                                    lightyellow(timestamp_now()),
+                                                                    lightyellow(timestamp),
                                                                     lightyellow(training_duration)))    
     # evaluate model on test set
     print_info('\nEvaluating test accuracy:')
