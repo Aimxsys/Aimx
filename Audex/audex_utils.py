@@ -32,6 +32,9 @@ class Aimx:
         FILES    = "files"
         MFCC     = "mfcc"
 
+    class Training:
+        RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
+
     TIMESTAMP = "timestamp"
 
 def to_genre_name(label_id):
@@ -71,6 +74,20 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, dataprep_duratio
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as fp: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(prep_result_meta, fp, indent=4)
+        print_info("[DONE]")
+
+def save_training_result_meta(trainid, timestamp, training_duration):
+    meta = {
+        Aimx.Dataprep.MOST_RECENT_OUTPUT: {},
+        Aimx.TIMESTAMP:                   {},
+        Aimx.Dataprep.DURATION:           {}
+    }
+    meta[Aimx.Dataprep.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
+    meta[Aimx.TIMESTAMP]             = timestamp
+    meta[Aimx.Dataprep.DURATION]     = training_duration
+    with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as fp: 
+        print_info("\n|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
+        json.dump(meta, fp, indent=4)
         print_info("[DONE]")
 
 def get_actual_traindata_path(arg_traindata_path):

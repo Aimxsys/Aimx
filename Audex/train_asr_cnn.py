@@ -147,10 +147,11 @@ if __name__ == "__main__":
                         callbacks  = [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
+    timestamp = timestamp_now()
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp_now()),
-                                                                    lightyellow(training_duration)))
+                                                                    lightyellow(training_duration)))    
     # evaluate model on test set
     print_info('\nEvaluating test accuracy:')
     model.evaluate(x_test, y_test, verbose = args.verbose)
@@ -159,5 +160,8 @@ if __name__ == "__main__":
 
     if (args.savemodel):
         save_model(model, trainid)
+
+    # save as most recent training result metadata
+    save_training_result_meta(trainid, timestamp, str(training_duration))
 
     plot_history(history, trainid, args.showplot) # plot accuracy/error for training and validation
