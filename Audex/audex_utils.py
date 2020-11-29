@@ -138,38 +138,6 @@ def predict(model, x, y):
     print_info("Prediction: ", prediction)
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
-def plot_history(history, trainid, show_interactive):
-    """ Plots accuracy/loss for training/validation set as a function of epochs
-        :param history: Training history of model
-    """
-    fig, axs = pt.subplots(2, figsize=(8, 6))
-    traindata_filename = get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
-    fig.canvas.set_window_title("Accuracy & Error - " + trainid)
-    fig.suptitle(trainid, fontsize=12)
-
-    # create accuracy sublpot
-    axs[0].plot(history.history["accuracy"],     label="train")
-    axs[0].plot(history.history["val_accuracy"], label="test")
-    axs[0].set_ylabel("Accuracy")
-    axs[0].legend(loc="lower right")
-
-    # create error sublpot
-    axs[1].plot(history.history["loss"],     label="train")
-    axs[1].plot(history.history["val_loss"], label="test")
-    axs[1].set_ylabel("Error")
-    axs[1].set_xlabel("Epoch")
-    axs[1].legend(loc="upper right")
-
-    # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
-    print_info("\n|||||| Saving file", quote(cyansky(PLOT_FULLPATH)), "... ", end="")
-    pt.savefig(PLOT_FULLPATH)
-    print_info("[DONE]")
-
-    if show_interactive:
-        pt.show()
-
 def save_model(model, model_id):
     dataprep_result_meta = tf.saved_model.Asset(Aimx.Dataprep.RESULT_METADATA_FULLPATH)
     trackable_obj  = tf.train.Checkpoint()
@@ -214,3 +182,35 @@ def update_dataprep_result_meta(traindata_filename, key, value):
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(prep_result_meta, fp, indent=4)
         print_info("[DONE]")
+
+def plot_history(history, trainid, show_interactive):
+    """ Plots accuracy/loss for training/validation set as a function of epochs
+        :param history: Training history of model
+    """
+    fig, axs = pt.subplots(2, figsize=(8, 6))
+    traindata_filename = get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+    fig.canvas.set_window_title("Accuracy & Error - " + trainid)
+    fig.suptitle(trainid, fontsize=12)
+
+    # create accuracy sublpot
+    axs[0].plot(history.history["accuracy"],     label="train")
+    axs[0].plot(history.history["val_accuracy"], label="test")
+    axs[0].set_ylabel("Accuracy")
+    axs[0].legend(loc="lower right")
+
+    # create error sublpot
+    axs[1].plot(history.history["loss"],     label="train")
+    axs[1].plot(history.history["val_loss"], label="test")
+    axs[1].set_ylabel("Error")
+    axs[1].set_xlabel("Epoch")
+    axs[1].legend(loc="upper right")
+
+    # save the plot as most recent (often useful when comparing to a next NN run)
+    Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
+    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
+    print_info("\n|||||| Saving file", quote(cyansky(PLOT_FULLPATH)), "... ", end="")
+    pt.savefig(PLOT_FULLPATH)
+    print_info("[DONE]")
+
+    if show_interactive:
+        pt.show()
