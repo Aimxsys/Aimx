@@ -25,7 +25,6 @@ class Aimx:
         ALL_DIR_LABELS     = "alldirlabs"
 
     class TrainData:
-        DURATION = "duration"
         MAPPING  = "mapping"
         LABELS   = "labels"
         FILES    = "files"

@@ -81,7 +81,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     # dictionary to store mapping, labels, and MFCC
     traindata = {
         Aimx.TIMESTAMP          : [],
-        Aimx.TrainData.DURATION : [],
+        Aimx.DURATION           : [],
         Aimx.TrainData.MAPPING  : [],
         Aimx.TrainData.LABELS   : [],
         Aimx.TrainData.MFCC     : []
