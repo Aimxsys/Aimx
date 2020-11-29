@@ -20,14 +20,14 @@ class Aimx:
     
     class Dataprep:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "dataprep_result_meta.json")
-        DATASET_VIEW       = "dataset_view"
-        ALL_DIR_LABELS     = "alldirlabs"
+        DATASET_VIEW   = "dataset_view"
+        ALL_DIR_LABELS = "alldirlabs"
 
     class TrainData:
-        MAPPING  = "mapping"
-        LABELS   = "labels"
-        FILES    = "files"
-        MFCC     = "mfcc"
+        MAPPING = "mapping"
+        LABELS  = "labels"
+        FILES   = "files"
+        MFCC    = "mfcc"
 
     class Training:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
