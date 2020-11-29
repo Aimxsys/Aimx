@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # save MFCCs to the traindata file
     save_traindata(traindata, traindata_filename)
 
-    # save recent data preprocess result metadata
+    # save as most recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], str(dataprep_duration))
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
