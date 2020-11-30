@@ -51,13 +51,13 @@ def to_genre_name(label_id):
         'rock'      
     ][label_id]
 
-def read_json_file(json_fullpath):
+def read_json_file(jsonfile_fullpath):
     if not hasattr(read_json_file, "cached"):
-        with open(json_fullpath, "r") as file:
-            print_info("\n|||||| Loading file " + quote(cyansky(json_fullpath)) + "... ", end="")
-            preprocess_result_meta = json.load(file)
+        with open(jsonfile_fullpath, "r") as file:
+            print_info("\n|||||| Loading file " + quote(cyansky(jsonfile_fullpath)) + "... ", end="")
+            jsonfile = json.load(file)
             print_info("[DONE]")
-        read_json_file.cached = preprocess_result_meta
+        read_json_file.cached = jsonfile
     return read_json_file.cached
 
 def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration):
