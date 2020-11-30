@@ -51,14 +51,14 @@ def to_genre_name(label_id):
         'rock'      
     ][label_id]
 
-def get_preprocess_result_meta():
-    if not hasattr(get_preprocess_result_meta, "cached"):
+def read_json_file():
+    if not hasattr(read_json_file, "cached"):
         with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as file:
             print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
             preprocess_result_meta = json.load(file)
             print_info("[DONE]")
-        get_preprocess_result_meta.cached = preprocess_result_meta
-    return get_preprocess_result_meta.cached
+        read_json_file.cached = preprocess_result_meta
+    return read_json_file.cached
 
 def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration):
     meta = {
@@ -93,7 +93,7 @@ def save_training_result_meta(trainid, timestamp, training_duration, savemodel=F
 def get_actual_traindata_path(arg_traindata_path):
     # Handle any special requests (most recent, largest, smallest, etc.)
     if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT:
-        return get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+        return read_json_file()[Aimx.MOST_RECENT_OUTPUT]
     return arg_traindata_path # no special requests, return pristine
 
 def load_traindata(arg_traindata_path):
@@ -192,7 +192,7 @@ def plot_history(history, trainid, show_interactive):
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
-    traindata_filename = get_preprocess_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+    traindata_filename = read_json_file()[Aimx.MOST_RECENT_OUTPUT]
     fig.canvas.set_window_title("Accuracy & Error - " + trainid)
     fig.suptitle(trainid, fontsize=12)
 
