@@ -116,8 +116,8 @@ def build_model(input_shape):
     model.add(keras.layers.Dropout(0.3))
 
     # output layer
-    model.add(keras.layers.Dense(31, activation='softmax'))
-    #model.add(keras.layers.Dense(len(read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
+    #model.add(keras.layers.Dense(31, activation='softmax'))
+    model.add(keras.layers.Dense(len(read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
 
     return model
 
