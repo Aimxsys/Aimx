@@ -5,7 +5,7 @@ import numpy as np
 
 from common_utils import *
 from audex_utils  import Aimx
-from audex_utils  import read_jsonfile
+from audex_utils  import read_json_file
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
@@ -43,7 +43,7 @@ class _WordetectService:
 
     _instance = None
 
-    label_mapping = read_jsonfile()[Aimx.Dataprep.DATASET_VIEW]
+    label_mapping = read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW]
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
