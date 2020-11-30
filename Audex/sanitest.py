@@ -8,13 +8,6 @@ import subprocess
 from common_utils import *
 from audex_utils import Aimx
 
-# IMPORTANT: TODO: Note for later resolution from official Python documentation
-# https://docs.python.org/2/library/subprocess.html#frequently-used-arguments:
-# Warning Executing shell commands that incorporate unsanitized input from an untrusted
-# source makes a program vulnerable to shell injection, a serious security flaw
-# which can result in arbitrary command execution. For this reason, the use of shell=True
-# is strongly discouraged in cases where the command string is constructed from external input
-
 parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
 
 parser.add_argument("-plot_sound",     action ='store_true', help = 'Will test plotting the sound.')
@@ -51,6 +44,15 @@ print_info("-epochs        =", args.epochs)
 print_info("###############################################\n")
 
 start_time = time.time()
+
+# IMPORTANT: TODO: Note for later resolution from official Python documentation
+# https://docs.python.org/2/library/subprocess.html#frequently-used-arguments:
+# Warning Executing shell commands that incorporate unsanitized input from an untrusted
+# source makes a program vulnerable to shell injection, a serious security flaw
+# which can result in arbitrary command execution. For this reason, the use of shell=True
+# is strongly discouraged in cases where the command string is constructed from external input
+
+####################################################### Sound plotting
 
 if ARG_TEST_PLOT_SOUND: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
