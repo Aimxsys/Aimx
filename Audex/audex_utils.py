@@ -1,4 +1,5 @@
 from pathlib import Path
+from shutil  import copy2
 
 import tensorflow as tf
 import numpy as np
@@ -139,8 +140,8 @@ def predict(model, x, y):
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
 def save_model(model, trainid):
-    dataprep_result_meta = tf.saved_model.Asset(Aimx.Dataprep.RESULT_METADATA_FULLPATH)
-    trackable_obj  = tf.train.Checkpoint()
+    dataprep_result_meta   = tf.saved_model.Asset(Aimx.Dataprep.RESULT_METADATA_FULLPATH)
+    trackable_obj          = tf.train.Checkpoint()
     trackable_obj.filename = dataprep_result_meta
 
     MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
@@ -148,6 +149,7 @@ def save_model(model, trainid):
     model.save(MODEL_FULLPATH)
     tf.saved_model.save(trackable_obj, MODEL_FULLPATH) # save the asset
     print_info("[DONE]")
+    shutil.copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
 
 def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
     traindata_id =  str(len(dataset_view)) + "v_"
