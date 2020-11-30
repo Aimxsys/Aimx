@@ -54,7 +54,7 @@ def to_genre_name(label_id):
 def get_dataprep_result_meta():
     if not hasattr(get_dataprep_result_meta, "cached"):
         with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as file:
-            print_info("\n|||||| Loading file XXX" + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
+            print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
             jsonfile = json.load(file)
             print_info("[DONE]")
         get_dataprep_result_meta.cached = jsonfile
@@ -63,7 +63,7 @@ def get_dataprep_result_meta():
 def get_training_result_meta():
     if not hasattr(get_training_result_meta, "cached"):
         with open(Aimx.Training.RESULT_METADATA_FULLPATH, "r") as file:
-            print_info("\n|||||| Loading file YYY" + quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)) + "... ", end="")
+            print_info("\n|||||| Loading file " + quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)) + "... ", end="")
             jsonfile = json.load(file)
             print_info("[DONE]")
         get_training_result_meta.cached = jsonfile
