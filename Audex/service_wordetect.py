@@ -5,7 +5,8 @@ import numpy as np
 
 from common_utils import *
 from audex_utils  import Aimx
-from audex_utils  import read_json_file
+from audex_utils  import get_dataprep_result_meta
+from audex_utils  import get_actual_model_path
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
@@ -43,7 +44,7 @@ class _WordetectService:
 
     _instance = None
 
-    label_mapping = read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW]
+    label_mapping = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
@@ -99,11 +100,12 @@ def CreateWordetectService():
     if  _WordetectService._instance is None:
         _WordetectService._instance = _WordetectService()
         try:
-            print_info("\n|||||| Loading model " + quote(cyansky(args.model_path)) + "... ", end="")
-            _WordetectService.model = keras.models.load_model(args.model_path)
+            model_path = get_actual_model_path(args.model_path)
+            print_info("\n|||||| Loading model " + quote(cyansky(model_path)) + "... ", end="")
+            _WordetectService.model = keras.models.load_model(model_path)
             print_info("[DONE]")
         except Exception as e:
-            print(pinkred("Unable to load the model."))
+            print(pinkred("Exception caught: " + str(e)))
     return _WordetectService._instance
 
 if __name__ == "__main__":

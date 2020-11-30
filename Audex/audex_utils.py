@@ -51,14 +51,23 @@ def to_genre_name(label_id):
         'rock'      
     ][label_id]
 
-def read_json_file(jsonfile_fullpath):
-    if not hasattr(read_json_file, "cached"):
-        with open(jsonfile_fullpath, "r") as file:
-            print_info("\n|||||| Loading file " + quote(cyansky(jsonfile_fullpath)) + "... ", end="")
+def get_dataprep_result_meta():
+    if not hasattr(get_dataprep_result_meta, "cached"):
+        with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as file:
+            print_info("\n|||||| Loading file XXX" + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
             jsonfile = json.load(file)
             print_info("[DONE]")
-        read_json_file.cached = jsonfile
-    return read_json_file.cached
+        get_dataprep_result_meta.cached = jsonfile
+    return get_dataprep_result_meta.cached
+
+def get_training_result_meta():
+    if not hasattr(get_training_result_meta, "cached"):
+        with open(Aimx.Training.RESULT_METADATA_FULLPATH, "r") as file:
+            print_info("\n|||||| Loading file YYY" + quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)) + "... ", end="")
+            jsonfile = json.load(file)
+            print_info("[DONE]")
+        get_training_result_meta.cached = jsonfile
+    return get_training_result_meta.cached
 
 def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration):
     meta = {
@@ -93,13 +102,13 @@ def save_training_result_meta(trainid, timestamp, training_duration, savemodel=F
 def get_actual_traindata_path(special_arg):
     # Handle any special requests (most recent, largest, smallest, etc.)
     if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
-        return read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.MOST_RECENT_OUTPUT]
+        return get_dataprep_result_meta()[Aimx.MOST_RECENT_OUTPUT]
     return special_arg # no special requests, return pristine
 
 def get_actual_model_path(special_arg):
     # Handle any special requests (most recent, largest, smallest, etc.)
     if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
-        return read_json_file(Aimx.Training.RESULT_METADATA_FULLPATH)[Aimx.MOST_RECENT_OUTPUT]
+        return get_training_result_meta()[Aimx.MOST_RECENT_OUTPUT]
     return special_arg # no special requests, return pristine
 
 def load_traindata(arg_traindata_path):
@@ -194,7 +203,7 @@ def plot_history(history, trainid, show_interactive):
         :param history: Training history of model
     """
     fig, axs = pt.subplots(2, figsize=(8, 6))
-    traindata_filename = read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.MOST_RECENT_OUTPUT]
+    traindata_filename = get_dataprep_result_meta()[Aimx.MOST_RECENT_OUTPUT]
     fig.canvas.set_window_title("Accuracy & Error - " + trainid)
     fig.suptitle(trainid, fontsize=12)
 
