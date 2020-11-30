@@ -96,9 +96,15 @@ def CreateWordetectService():
     Factory function for WordetectService class.
     """
     # ensure an instance is created only on first call
+    #args.model_path = "../workdir/gen_models/model_cnn_e3_7v_5d_speech_commands_few_13m_2048w_512h_5i_22050r_1s"
     if  _WordetectService._instance is None:
         _WordetectService._instance = _WordetectService()
-        _WordetectService.model = keras.models.load_model(args.model_path)
+        try:
+            print_info("\n|||||| Loading model " + quote(cyansky(args.model_path)) + "... ", end="")
+            _WordetectService.model = keras.models.load_model(args.model_path)
+            print_info("[DONE]")
+        except Exception as e:
+            print(pinkred("Unable to load the model."))
     return _WordetectService._instance
 
 if __name__ == "__main__":
