@@ -67,7 +67,7 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
         Aimx.TIMESTAMP:             {},
         Aimx.DURATION:              {}
     }
-    meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    meta[Aimx.MOST_RECENT_OUTPUT]    = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
     meta[Aimx.TIMESTAMP]             = timestamp
     meta[Aimx.DURATION]              = dataprep_duration
@@ -76,13 +76,13 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
-def save_training_result_meta(trainid, timestamp, training_duration):
+def save_training_result_meta(trainid, timestamp, training_duration, savemodel=False):
     meta = {
         Aimx.MOST_RECENT_OUTPUT: {},
         Aimx.TIMESTAMP:          {},
         Aimx.DURATION:           {}
     }
-    meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
+    meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
     meta[Aimx.TIMESTAMP]          = timestamp
     meta[Aimx.DURATION]           = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
@@ -147,10 +147,12 @@ def save_model(model, trainid):
     MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     print_info("\n|||||| Saving model ", quote(cyansky(MODEL_FULLPATH)), "... ", end="")
     model.save(MODEL_FULLPATH)
-    tf.saved_model.save(trackable_obj, MODEL_FULLPATH) # save the asset
+    tf.saved_model.save(trackable_obj, MODEL_FULLPATH) # save as TF model asset
     print_info("[DONE]")
-    shutil.copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
-
+    print_info("|||||| Copying file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), " into model assets... ", end="")
+    copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
+    print_info("[DONE]")
+    
 def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
     traindata_id =  str(len(dataset_view)) + "v_"
     traindata_id += str(dataset_depth)     + "d_"
@@ -210,7 +212,7 @@ def plot_history(history, trainid, show_interactive):
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
     PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
-    print_info("\n|||||| Saving file", quote(cyansky(PLOT_FULLPATH)), "... ", end="")
+    print_info("|||||| Saving file", quote(cyansky(PLOT_FULLPATH)), "... ", end="")
     pt.savefig(PLOT_FULLPATH)
     print_info("[DONE]")
 

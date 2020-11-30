@@ -102,10 +102,10 @@ if __name__ == "__main__":
 
     trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
 
+    # save as most recent training result metadata
+    save_training_result_meta(trainid, timestamp, str(training_duration), args.savemodel)
+
     if (args.savemodel):
         save_model(model, trainid)
-            
-    # save as most recent training result metadata
-    save_training_result_meta(trainid, timestamp, str(training_duration))
-
+    
     plot_history(history, trainid, args.showplot) # accuracy and error as a function of epochs
