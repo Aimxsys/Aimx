@@ -90,11 +90,17 @@ def save_training_result_meta(trainid, timestamp, training_duration, savemodel=F
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
-def get_actual_traindata_path(arg_traindata_path):
+def get_actual_traindata_path(special_arg):
     # Handle any special requests (most recent, largest, smallest, etc.)
-    if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT:
+    if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
         return read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.MOST_RECENT_OUTPUT]
-    return arg_traindata_path # no special requests, return pristine
+    return special_arg # no special requests, return pristine
+
+def get_actual_trainresult_path(special_arg):
+    # Handle any special requests (most recent, largest, smallest, etc.)
+    if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
+        return read_json_file(Aimx.Training.RESULT_METADATA_FULLPATH)[Aimx.MOST_RECENT_OUTPUT]
+    return special_arg # no special requests, return pristine
 
 def load_traindata(arg_traindata_path):
     """
