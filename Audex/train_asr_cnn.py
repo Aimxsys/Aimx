@@ -76,7 +76,7 @@ def prepare_traindata(test_size, valid_size):
 
     #print_info("Training with dataset view (labels):")
     print_info("Dataset view (labels) from dataprep result meta:") # TODO: Replace this line with the line above when support is ready.
-    cmd.Cmd().columnize(read_json_file()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
+    cmd.Cmd().columnize(read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
 
     print_info("Extended x_train (input) shape: " + str(x_train.shape))
     print_info("Extended x_valid (input) shape: " + str(x_valid.shape))
@@ -117,7 +117,7 @@ def build_model(input_shape):
 
     # output layer
     model.add(keras.layers.Dense(31, activation='softmax'))
-    #model.add(keras.layers.Dense(len(read_json_file()[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
+    #model.add(keras.layers.Dense(len(read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
 
     return model
 

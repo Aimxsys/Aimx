@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     #print_info("Training with dataset view (labels):")
     print_info("Dataset view (labels) from dataprep result meta:") # TODO: Replace this line with the line above when support is ready.
-    cmd.Cmd().columnize(read_json_file()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
+    cmd.Cmd().columnize(read_json_file(Aimx.Dataprep.RESULT_METADATA_FULLPATH)[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
 
     inputs, labels = load_traindata(args.traindata_path)
 
