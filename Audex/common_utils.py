@@ -46,12 +46,6 @@ def get_all_dirs_in(dir):
 def timestamp_now(precision='seconds'):
     return datetime.now().isoformat(' ', precision)
 
-# TODO: This function seems to not always return as expected
-# Currently disabled, but kept as it looks useful if perfected.
-def get_most_recent_file_in_dir(traindata_path, ext):
-    files = glob.iglob(traindata_path + '/*.' + ext)
-    return max(files, key = os.path.getctime)
-
 def progress_bar(current, total):
     j = (current + 1) / total
     sys.stdout.write('\r')
@@ -145,3 +139,30 @@ def print_info(s, *args, verbose = True, **kwargs):
 
 def deprint(s):
     print(pinkred(s))
+
+################################ PROTOTYPE / UNTESTED / NON-PRODUCTION FUNCTIONS BELOW THIS LINE
+################################ May likely be useful in the future.
+
+def read_json_file(json_fullpath):
+    with open(json_fullpath, "r") as file:
+        print_info("|||||| Loading file " + quote(cyansky(json_fullpath)) + "... ", end="")
+        objson = json.load(file)
+        print_info("[DONE]")
+        return objson
+
+def write_json_file(json_fullpath, objson):
+    with open(json_fullpath, 'w') as file:
+        print_info("|||||| Writing file", quote(cyansky(json_fullpath)), "... ", end="")
+        json.dump(objson, file, indent=4)
+        print_info("[DONE]")
+
+def update_json_file(json_fullpath, key, value):
+    objson = read_json_file(json_fullpath)
+    objson[key] = value
+    write_json_file(json_fullpath, objson)
+
+# TODO: This function seems to not always return as expected
+# Currently disabled, but kept as it looks useful if perfected.
+def get_most_recent_file_in_dir(traindata_path, ext):
+    files = glob.iglob(traindata_path + '/*.' + ext)
+    return max(files, key = os.path.getctime)
