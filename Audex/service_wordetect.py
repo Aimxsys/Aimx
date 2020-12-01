@@ -89,11 +89,11 @@ class _WordetectService:
     def highlight(self, predicted_word, confidence):
         if predicted_word in extract_filename(self.afile_fullpath):
             if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word), "{:.2f}".format(self.afile_duration))
+                print("{:.2f}".format(self.afile_duration), cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
             else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word), "{:.2f}".format(self.afile_duration))
+                print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
         else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word), "{:.2f}".format(self.afile_duration))
+            print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word))
 
 def CreateWordetectService():
     """
