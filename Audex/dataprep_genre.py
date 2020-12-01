@@ -17,7 +17,7 @@ DATASET_DIR_DEFAULT_NAME = "dataset"
 DATASET_DIR_DEFAULT      = os.path.join(os.getcwd(), DATASET_DIR_DEFAULT_NAME)
 
 # TODO: Replace the hard-coded line below with automatically extracted dirlabels
-DATASET_VIEW_DEFAULT = ['blues', 'classical', 'country', 'disco', 'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock']
+DATASET_VIEW_DEFAULT = ['alldirlabs']
 
 # Calling without -dataset_path               will expect to find the default ./dataset directory.
 # Calling with   "-dataset_path mydir"        will expect to find a           ./mydir   directory.
