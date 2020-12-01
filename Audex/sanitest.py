@@ -95,6 +95,6 @@ if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
 
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ PIPELINE SANITY TEST OK"))
 
-print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
+print_info("Finished {} at {} with wall clock time (total): {} ".format(cyansky(nameofthis(__file__)),
                                                                 lightyellow(timestamp_now()),
                                                                 lightyellow(timedelta(seconds = round(time.time() - start_time)))))
