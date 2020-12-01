@@ -41,6 +41,7 @@ class _WordetectService:
     afile_fullpath    = None
     afile_signal      = None
     afile_sample_rate = None
+    afile_duration    = None
 
     _instance = None
 
@@ -49,6 +50,8 @@ class _WordetectService:
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
         self.afile_signal, self.afile_sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
+        full_afile_signal, _                      = librosa.load(audiofile_fullpath)
+        self.afile_duration = librosa.get_duration(full_afile_signal, self.afile_sample_rate)
 
     def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
         """
@@ -86,11 +89,11 @@ class _WordetectService:
     def highlight(self, predicted_word, confidence):
         if predicted_word in extract_filename(self.afile_fullpath):
             if confidence > args.highlight_confidence:
-                print(cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
+                print(cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word), "{:.2f}".format(self.afile_duration))
             else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
+                print(pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word), "{:.2f}".format(self.afile_duration))
         else:
-            print(pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word))
+            print(pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word), "{:.2f}".format(self.afile_duration))
 
 def CreateWordetectService():
     """
