@@ -87,13 +87,16 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
 
 def save_training_result_meta(trainid, timestamp, training_duration, savemodel=False):
     meta = {
-        Aimx.MOST_RECENT_OUTPUT: {},
-        Aimx.TIMESTAMP:          {},
-        Aimx.DURATION:           {}
+        Aimx.MOST_RECENT_OUTPUT:    {},
+        Aimx.Dataprep.DATASET_VIEW: {},
+        Aimx.TIMESTAMP:             {},
+        Aimx.DURATION:              {}
     }
-    meta[Aimx.MOST_RECENT_OUTPUT] = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
-    meta[Aimx.TIMESTAMP]          = timestamp
-    meta[Aimx.DURATION]           = training_duration
+    model_fullpath = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
+    meta[Aimx.MOST_RECENT_OUTPUT]    = model_fullpath
+    meta[Aimx.Dataprep.DATASET_VIEW] = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
+    meta[Aimx.TIMESTAMP]             = timestamp
+    meta[Aimx.DURATION]              = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("\n|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(meta, file, indent=4)
@@ -159,8 +162,10 @@ def save_model(model, trainid):
     print_info("\n|||||| Saving model ", quote(cyansky(MODEL_FULLPATH)), "... ", end="")
     model.save(MODEL_FULLPATH)
     print_info("[DONE]")
-    print_info("|||||| Copying file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), " into model assets... ", end="")
+    print_info("|||||| Copying file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "into model assets... ", end="")
     copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
+    print_info("[DONE]")
+    print_info("|||||| Copying file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "into model assets... ", end="")
     copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
     print_info("[DONE]")
     
