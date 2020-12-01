@@ -51,7 +51,8 @@ start_time = time.time()
 ####################################################### ASR-related pipeline
 
 # dataprep_asr.py -dataset_path ../workdir/speech_commands_v001 -dataset_depth 5
-subprocess.call(['dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth)], shell=True)
+subprocess.call(['dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
+                + args.dataset_view, shell=True)
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
 # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
