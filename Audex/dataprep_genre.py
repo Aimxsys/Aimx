@@ -25,8 +25,8 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' preprocessing audio files to extract the training'
                                                ' data later to be fed into a neural network.')
 
-parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
-parser.add_argument("-dataset_path",   type = Path,               help = 'Path to a dataset of sound files.')
+parser.add_argument("-dataset_view",   nargs='*',   default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
+parser.add_argument("-dataset_path",   type = Path, default = DATASET_DIR_DEFAULT,  help = 'Path to a dataset of sound files.')
 parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
 parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
@@ -56,14 +56,13 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 # Example command:
 # dataprep_genre.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
-ARG_DATASET_FILES_DIR = args.dataset_path if provided(args.dataset_path) else DATASET_DIR_DEFAULT
 if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now, may need to be rewritten in a better way
-    args.dataset_view = get_all_dirs_in(ARG_DATASET_FILES_DIR)
+    args.dataset_view = get_all_dirs_in(args.dataset_path)
 
 SAMPLES_PER_TRACK = args.sample_rate * args.track_duration
 
 print_info("=============================================================================")
-print_info("Expecting audio files in ARG_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)
+print_info("Expecting audio files in args.dataset_path =", args.dataset_path)
 print_info("=============================================================================")
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
@@ -157,12 +156,12 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    traindata, traindata_id = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
-                                                                         n_fft = args.n_fft,         
-                                                                    hop_length = args.hop_length,
-                                                                  num_segments = args.num_segments,
-                                                                   sample_rate = args.sample_rate, 
-                                                                track_duration = args.track_duration)
+    traindata, traindata_id = preprocess_dataset(args.dataset_path, n_mfcc = args.n_mfcc,        
+                                                                     n_fft = args.n_fft,         
+                                                                hop_length = args.hop_length,
+                                                              num_segments = args.num_segments,
+                                                               sample_rate = args.sample_rate, 
+                                                            track_duration = args.track_duration)
     traindata_filename = traindata_id + ".json"
 
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))

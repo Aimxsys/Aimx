@@ -58,10 +58,10 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 # dataprep_asr.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
 if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now, may need to be rewritten in a better way
-    args.dataset_view = get_all_dirs_in(ARG_DATASET_FILES_DIR)
+    args.dataset_view = get_all_dirs_in(args.dataset_path)
 
 print_info("=============================================================================")
-print_info("Expecting audio files in ARG_DATASET_FILES_DIR =", ARG_DATASET_FILES_DIR)
+print_info("Expecting audio files in args.dataset_path =", args.dataset_path)
 print_info("=============================================================================")
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
@@ -153,12 +153,12 @@ if __name__ == "__main__":
     
     start_time = time.time()
 
-    traindata, traindata_id = preprocess_dataset(ARG_DATASET_FILES_DIR, n_mfcc = args.n_mfcc,        
-                                                                         n_fft = args.n_fft,         
-                                                                    hop_length = args.hop_length,
-                                                                  num_segments = args.num_segments,
-                                                                   sample_rate = args.sample_rate, 
-                                                                track_duration = args.track_duration)
+    traindata, traindata_id = preprocess_dataset(args.dataset_path, n_mfcc = args.n_mfcc,        
+                                                                     n_fft = args.n_fft,         
+                                                                hop_length = args.hop_length,
+                                                              num_segments = args.num_segments,
+                                                               sample_rate = args.sample_rate, 
+                                                            track_duration = args.track_duration)
     traindata_filename = traindata_id + ".json"
 
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
