@@ -107,7 +107,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         if PurePath(dirpath).name is PurePath(dataset_path).name:
             continue
         
-        if PurePath(dirpath).stem not in args.dataset_view:
+        if extract_filename(dirpath) not in args.dataset_view:
             continue
 
         # save genre label (i.e. subfolder name) in the mapping
