@@ -51,8 +51,7 @@ if not args.savemodel and os.path.getsize(ARG_TRAINDATA_PATH) > 100_000_000: # >
 
 if __name__ == "__main__":
 
-    #print_info("Training with dataset view (labels):")
-    print_info("Dataset view (labels) from dataprep result meta:") # TODO: Replace this line with the line above when support is ready.
+    print_info("Dataset view (labels) from dataprep result meta:")
     cmd.Cmd().columnize(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
 
     inputs, labels = load_traindata(args.traindata_path)

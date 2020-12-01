@@ -74,8 +74,7 @@ def prepare_traindata(test_size, valid_size):
     x_valid = x_valid[..., np.newaxis]
     x_test  =  x_test[..., np.newaxis]
 
-    #print_info("Training with dataset view (labels):")
-    print_info("Dataset view (labels) from dataprep result meta:") # TODO: Replace this line with the line above when support is ready.
+    print_info("Dataset view (labels) from dataprep result meta:")
     cmd.Cmd().columnize(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
 
     print_info("Extended x_train (input) shape: " + str(x_train.shape))
