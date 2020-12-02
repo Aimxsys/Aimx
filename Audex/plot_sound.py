@@ -18,7 +18,7 @@ AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), AUDIO_FILES_DIR_DEFAULT_NAME
 parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                ' audio files and their various spectrograms.')
 
-parser.add_argument("-files_path",       type = Path,          help = 'Path to a sound files directory or a single file.')
+parser.add_argument("-files_path",       type = Path,  default = AUDIO_FILES_DIR_DEFAULT, help = 'Path to a sound files directory or a single file.')
 parser.add_argument("-plot_all",         action ='store_true', help = 'Will plot all available charts and spectrograms.')
 parser.add_argument("-plot_signals",     action ='store_true', help = 'Will plot time-domain signals of the sound files.')
 parser.add_argument("-plot_frequencies", action ='store_true', help = 'Will plot frequency domains of the sound files.')
@@ -43,7 +43,6 @@ if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
 
 ###########################################################################################
 
-ARG_AUDIO_FILES_DIR  = args.files_path if provided(args.files_path) else AUDIO_FILES_DIR_DEFAULT
 ARG_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
 ARG_PLOT_SIGNALS     = args.plot_all or args.plot_signals
 ARG_PLOT_SPECS       = args.plot_all or args.plot_specs
@@ -51,19 +50,19 @@ ARG_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
 ARG_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
 
 print_info("=============================================================================")
-print_info("Expecting audio files in ARG_AUDIO_FILES_DIR =", ARG_AUDIO_FILES_DIR)
+print_info("Expecting audio files in args.files_path =", args.files_path)
 print_info("=============================================================================")
 
-audiofiles_path = Path(ARG_AUDIO_FILES_DIR)
+audiofiles_path = Path(args.files_path)
 signal_packs = []
 
 if audiofiles_path.is_file():
     print_info("|||||| Loading...", quote(cyansky(audiofiles_path)))
     signal_packs.append((Path(audiofiles_path).name, librosa.load(audiofiles_path)))
 else: # directory
-    (_, _, filenames) = next(os.walk(ARG_AUDIO_FILES_DIR)) # works
+    (_, _, filenames) = next(os.walk(args.files_path)) # works
     for filename in filenames:
-        file = os.path.join(ARG_AUDIO_FILES_DIR, filename)
+        file = os.path.join(args.files_path, filename)
         print_info("|||||| Loading...", quote(cyansky(file)))
         signal_packs.append((filename, librosa.load(file)))
 
