@@ -41,12 +41,7 @@ if provided(args.traindata_path) and not args.traindata_path.exists():
 
 ###########################################################################################
 
-print_info("========================================================================================")
-print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
-print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
-print_info(cyan(nameofthis(__file__)))
-print_info(vars(args))
-print_info("\n========================================================================================\n")
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 # path to the traindata file that stores MFCCs and genre labels for each processed segment
 ARG_TRAINDATA_PATH = get_actual_traindata_path(args.traindata_path)

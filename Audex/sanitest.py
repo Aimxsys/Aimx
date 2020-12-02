@@ -27,12 +27,7 @@ parser.add_argument("-epochs",         default = 3, type=int, help = 'Number of 
 
 args = parser.parse_args()
 
-print_info("========================================================================================")
-print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
-print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
-print_info(cyan(nameofthis(__file__)))
-print_info(vars(args))
-print_info("\n========================================================================================\n")
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
 ARG_TEST_WORDETECT       = args.all

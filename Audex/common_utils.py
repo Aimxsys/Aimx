@@ -17,6 +17,14 @@ init() # colorama
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
+def print_script_start_preamble(script_filename, args):
+    print_info("========================================================================================")
+    print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
+    print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
+    print_info(cyan(script_filename))
+    print_info(args)
+    print_info("\n========================================================================================\n")
+
 def prompt_user_warning(warning_text, strictness='suggestion'):
     yes = {'yes','y', 'ye', ''}
     no  = {'no','n'}
