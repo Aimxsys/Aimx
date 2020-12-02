@@ -112,15 +112,15 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         # save genre label (i.e. subfolder name) in the mapping
         label_name = PurePath(dirpath).name
         traindata[Aimx.TrainData.MAPPING].append(label_name)
-        print_info("\n\nProcessing label {} {}".format(cyan(label_id), label_name))
+        print_info("\nProcessing label {} {}".format(cyan(label_id), label_name))
 
         # process all audio files in subfolders
-        for i, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
+        for pbi, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
                 
             if not audio_filename.endswith(".wav"):
                 continue
                 
-            progress_bar(i, min(len(audio_filenames), args.dataset_depth))
+            progress_bar(pbi, min(len(audio_filenames), args.dataset_depth))
 
 		    # load audio file
             audio_file_path     = os.path.join(dirpath, audio_filename)
@@ -149,6 +149,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
         label_id += 1
 
+    print("\n")
     return traindata, traindata_id
                 
 if __name__ == "__main__":

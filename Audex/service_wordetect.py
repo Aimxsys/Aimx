@@ -106,7 +106,7 @@ def CreateWordetectService():
         _WordetectService._instance = _WordetectService()
         try:
             model_path = get_actual_model_path(args.model_path)
-            print_info("\n|||||| Loading model " + quote(cyansky(model_path)) + "... ", end="")
+            print_info("|||||| Loading model " + quote(cyansky(model_path)) + "... ", end="")
             _WordetectService.model = keras.models.load_model(model_path)
             print_info("[DONE]")
         except Exception as e:
