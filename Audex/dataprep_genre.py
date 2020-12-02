@@ -53,6 +53,11 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(DATASET_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
+
+print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
+print_info("Expecting a non-empty args.dataset_path =", args.dataset_path)
+print_info("========================================================================================")
+
 # Example command:
 # dataprep_genre.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
 
@@ -60,10 +65,6 @@ if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now
     args.dataset_view = get_all_dirs_in(args.dataset_path)
 
 SAMPLES_PER_TRACK = args.sample_rate * args.track_duration
-
-print_info("=============================================================================")
-print_info("Expecting audio files in args.dataset_path =", args.dataset_path)
-print_info("=============================================================================")
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
     """

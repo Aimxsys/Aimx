@@ -32,6 +32,10 @@ if provided(args.inferdata_path) and not args.inferdata_path.exists():
 
 ###########################################################################################
 
+print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
+print_info("Expecting a non-empty args.inferdata_path =", args.inferdata_path)
+print_info("========================================================================================")
+
 class _WordetectService:
     """
     Singleton class for word detecting inference with trained models.

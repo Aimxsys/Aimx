@@ -43,15 +43,15 @@ if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
 
 ###########################################################################################
 
+print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
+print_info("Expecting a non-empty args.files_path =", args.files_path)
+print_info("========================================================================================")
+
 ARG_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
 ARG_PLOT_SIGNALS     = args.plot_all or args.plot_signals
 ARG_PLOT_SPECS       = args.plot_all or args.plot_specs
 ARG_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
 ARG_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
-
-print_info("=============================================================================")
-print_info("Expecting audio files in args.files_path =", args.files_path)
-print_info("=============================================================================")
 
 audiofiles_path = Path(args.files_path)
 signal_packs = []
