@@ -119,6 +119,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 
             if not audio_filename.endswith(".wav"):
                 continue
+
+            global total_audios_length_sec
                 
             progress_bar(pbi, min(len(audio_filenames), args.dataset_depth))
 
@@ -174,7 +176,7 @@ if __name__ == "__main__":
     save_traindata(traindata, traindata_filename)
 
     # save as most recent data preprocess result metadata
-    save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], timestamp, str(dataprep_duration))
+    save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], timestamp, str(dataprep_duration), total_audios_length_sec)
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp),

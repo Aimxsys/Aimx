@@ -12,6 +12,7 @@ import matplotlib.pyplot as pt
 from common_utils import *
 
 WORKDIR = os.path.join(Path().resolve().parent, "workdir")
+total_audios_length_sec = 0.0
 
 class Aimx:
     class Paths:
@@ -21,8 +22,9 @@ class Aimx:
     
     class Dataprep:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "dataprep_result_meta.json")
-        DATASET_VIEW   = "dataset_view"
-        ALL_DIR_LABELS = "alldirlabs"
+        TOTAL_AUDIOS_LENGTH = "total_audio_files_length_sec"
+        DATASET_VIEW        = "dataset_view"
+        ALL_DIR_LABELS      = "alldirlabs"
 
     class TrainData:
         MAPPING = "mapping"
@@ -33,9 +35,9 @@ class Aimx:
     class Training:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
 
-    MOST_RECENT_OUTPUT = "most_recent_output"
-    TIMESTAMP          = "timestamp"
-    DURATION           = "duration"
+    MOST_RECENT_OUTPUT  = "most_recent_output"
+    TIMESTAMP           = "timestamp"
+    DURATION            = "duration"
 
 def to_genre_name(label_id):
     return [
@@ -69,15 +71,17 @@ def get_training_result_meta():
         get_training_result_meta.cached = jsonfile
     return get_training_result_meta.cached
 
-def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration):
+def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration, total_audios_length_sec):
     meta = {
-        Aimx.MOST_RECENT_OUTPUT:    {},
-        Aimx.Dataprep.DATASET_VIEW: {},
-        Aimx.TIMESTAMP:             {},
-        Aimx.DURATION:              {}
+        Aimx.MOST_RECENT_OUTPUT:           {},
+        Aimx.Dataprep.DATASET_VIEW:        {},
+        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: {},
+        Aimx.TIMESTAMP:                    {},
+        Aimx.DURATION:                     {}
     }
     meta[Aimx.MOST_RECENT_OUTPUT]    = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
+    meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH]   = round(total_audios_length_sec)
     meta[Aimx.TIMESTAMP]             = timestamp
     meta[Aimx.DURATION]              = dataprep_duration
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file: 
@@ -87,16 +91,18 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
 
 def save_training_result_meta(trainid, timestamp, training_duration, savemodel=False):
     meta = {
-        Aimx.MOST_RECENT_OUTPUT:    {},
-        Aimx.Dataprep.DATASET_VIEW: {},
-        Aimx.TIMESTAMP:             {},
-        Aimx.DURATION:              {}
+        Aimx.MOST_RECENT_OUTPUT:           {},
+        Aimx.Dataprep.DATASET_VIEW:        {},
+        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: {},
+        Aimx.TIMESTAMP:                    {},
+        Aimx.DURATION:                     {}
     }
     model_fullpath = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
-    meta[Aimx.MOST_RECENT_OUTPUT]    = model_fullpath
-    meta[Aimx.Dataprep.DATASET_VIEW] = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
-    meta[Aimx.TIMESTAMP]             = timestamp
-    meta[Aimx.DURATION]              = training_duration
+    meta[Aimx.MOST_RECENT_OUTPUT]           = model_fullpath
+    meta[Aimx.Dataprep.DATASET_VIEW]        = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
+    meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH] = get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH]
+    meta[Aimx.TIMESTAMP]                    = timestamp
+    meta[Aimx.DURATION]                     = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(meta, file, indent=4)
