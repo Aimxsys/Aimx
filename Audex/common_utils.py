@@ -3,6 +3,7 @@ from colorama  import init
 from pathlib   import Path
 from pathlib   import PurePath
 from datetime  import datetime
+import pprint
 import json
 import glob
 import sys
@@ -22,8 +23,8 @@ def print_script_start_preamble(script_filename, args):
     print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
     print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
     print_info(cyan(script_filename))
-    print_info(args)
-    print_info("\n==================================================================== {}\n".format(lightyellow(timestamp_now())))
+    pprint.pprint(args)
+    print_info("==================================================================== {}\n".format(lightyellow(timestamp_now())))
 
 def prompt_user_warning(warning_text, strictness='suggestion'):
     yes = {'yes','y', 'ye', ''}
