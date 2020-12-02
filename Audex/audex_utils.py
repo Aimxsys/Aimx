@@ -71,6 +71,18 @@ def get_training_result_meta():
         get_training_result_meta.cached = jsonfile
     return get_training_result_meta.cached
 
+def get_actual_traindata_path(special_arg):
+    # Handle any special requests (most recent, largest, smallest, etc.)
+    if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
+        return get_dataprep_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+    return special_arg # no special requests, return pristine
+
+def get_actual_model_path(special_arg):
+    # Handle any special requests (most recent, largest, smallest, etc.)
+    if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
+        return get_training_result_meta()[Aimx.MOST_RECENT_OUTPUT]
+    return special_arg # no special requests, return pristine
+
 def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration, total_audios_length_sec):
     meta = {
         Aimx.MOST_RECENT_OUTPUT:           {},
@@ -107,18 +119,6 @@ def save_training_result_meta(trainid, timestamp, training_duration, savemodel=F
         print_info("|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
-
-def get_actual_traindata_path(special_arg):
-    # Handle any special requests (most recent, largest, smallest, etc.)
-    if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
-        return get_dataprep_result_meta()[Aimx.MOST_RECENT_OUTPUT]
-    return special_arg # no special requests, return pristine
-
-def get_actual_model_path(special_arg):
-    # Handle any special requests (most recent, largest, smallest, etc.)
-    if str(special_arg) == Aimx.MOST_RECENT_OUTPUT:
-        return get_training_result_meta()[Aimx.MOST_RECENT_OUTPUT]
-    return special_arg # no special requests, return pristine
 
 def load_traindata(arg_traindata_path):
     """
