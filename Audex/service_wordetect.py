@@ -32,9 +32,12 @@ if provided(args.inferdata_path) and not args.inferdata_path.exists():
 
 ###########################################################################################
 
-print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
-print_info("Expecting a non-empty args.inferdata_path =", args.inferdata_path)
 print_info("========================================================================================")
+print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
+print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
+print_info(cyan(nameofthis(__file__)))
+print_info(vars(args))
+print_info("\n========================================================================================\n")
 
 class _WordetectService:
     """

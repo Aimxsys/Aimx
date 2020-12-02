@@ -29,15 +29,12 @@ args = parser.parse_args()
 
 ###########################################################################################
 
-print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
-print_info("Running ASR full pipeline with the following arguments: ")
-# Dataprep
-print_info("-dataset_path  =", args.dataset_path)
-print_info("-dataset_depth =", args.dataset_depth)
-print_info("-dataset_view  =", args.dataset_view)
-# Training
-print_info("-epochs        =", args.epochs)
 print_info("========================================================================================")
+print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
+print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
+print_info(cyan(nameofthis(__file__)))
+print_info(vars(args))
+print_info("\n========================================================================================\n")
 
 start_time = time.time()
 

@@ -27,6 +27,13 @@ parser.add_argument("-epochs",         default = 3, type=int, help = 'Number of 
 
 args = parser.parse_args()
 
+print_info("========================================================================================")
+print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
+print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
+print_info(cyan(nameofthis(__file__)))
+print_info(vars(args))
+print_info("\n========================================================================================\n")
+
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
 ARG_TEST_WORDETECT       = args.all
 
@@ -37,12 +44,6 @@ ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn or args.asr
 ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
-
-print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
-print_info("Running sanitest with the following arguments: ")
-print_info("-dataset_depth =", args.dataset_depth)
-print_info("-epochs        =", args.epochs)
-print_info("========================================================================================")
 
 start_time = time.time()
 

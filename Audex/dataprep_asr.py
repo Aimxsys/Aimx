@@ -55,9 +55,12 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 
 ###########################################################################################
 
-print_info("============================ SCRIPT START STANDARD PREAMBLE ============================")
-print_info("Expecting a non-empty args.dataset_path =", args.dataset_path)
 print_info("========================================================================================")
+print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
+print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
+print_info(cyan(nameofthis(__file__)))
+print_info(vars(args))
+print_info("\n========================================================================================\n")
 
 # Example command:
 # dataprep_asr.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
