@@ -119,6 +119,7 @@ if __name__ == "__main__":
 
     print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)
+    print_info("Len  Con  Filename  Detection")
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
 
