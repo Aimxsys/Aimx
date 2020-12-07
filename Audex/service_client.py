@@ -4,7 +4,6 @@ import requests
 URL = "http://127.0.0.1:5000/predict"
 
 # audio file we'd like to send for predicting keyword
-#AUDIO_FILE_PATH = "../workdir/test/ds_down_1.wav"
 AUDIO_FILE_PATH = "../workdir/test/ds_down_1.wav"
 
 if __name__ == "__main__":

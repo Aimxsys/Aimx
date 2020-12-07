@@ -47,8 +47,7 @@ def predict():
     wds = CreateWordetectService(args.model_path)
     pred_word = wds.predict(file_name)
 
-    # we don't need the audio file any more - let's delete it!
-    os.remove(file_name)
+    os.remove(file_name) # delete the audio file that's no longer needed
 
     # send back result as a json file
     result = {"keyword": pred_word}
