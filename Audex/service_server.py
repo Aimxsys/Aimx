@@ -39,18 +39,22 @@ def predict():
     """
 
     # get audio file from POST request and save it
-    audio_file = request.files["file"]
-    file_name  = str(random.randint(0, 100_000))
-    audio_file.save(file_name)
+    audiofile = request.files["file"]
+    audiofile_local_fullpath = str("temp_down_" + str(random.randint(0, 100_000)))
+    audiofile.save(audiofile_local_fullpath) # temporary local file, to be deleted later
 
     # instantiate keyword spotting service singleton and get prediction
     wds = CreateWordetectService(args.model_path)
-    pred_word = wds.predict(file_name)
+    
+    wds.load_audiofile(audiofile_local_fullpath, track_duration=1)
+    mfccs = wds.dataprep()
+    w, c  = wds.predict(mfccs)
+    wds.highlight(w, c)
 
-    os.remove(file_name) # delete the audio file that's no longer needed
+    os.remove(audiofile_local_fullpath) # delete the audio file that's no longer needed
 
     # send back result as a json file
-    result = {"keyword": pred_word}
+    result = {"pred_word": w}
     return jsonify(result)
 
 if __name__ == "__main__":
