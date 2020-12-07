@@ -37,10 +37,10 @@ def predict():
             "keyword": "down"
         }
     """
+    audiofile_local_fullpath = str("temp_down_" + str(random.randint(0, 100_000)))
 
     # get audio file from POST request and save it
     audiofile_received = request.files["file"]
-    audiofile_local_fullpath = str("temp_down_" + str(random.randint(0, 100_000)))
     audiofile_received.save(audiofile_local_fullpath) # temporary local file, to be deleted later
 
     # instantiate keyword spotting service singleton and get prediction
