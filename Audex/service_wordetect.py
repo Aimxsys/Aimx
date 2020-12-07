@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-inferdata_path",       type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-model_path",           type = Path,               help = 'Path to the model to be loaded.')
-    parser.add_argument("-highlight_confidence", default = 0.9, type=float, help = 'Highlight results if confidence is higher than this threshold.')
+    parser.add_argument("-confidence_threshold", default = 0.9, type=float, help = 'Highlight results if confidence is higher than this threshold.')
 
     parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
     parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
@@ -91,9 +91,9 @@ class _WordetectService:
 
         return pred_word, confidence
 
-    def highlight(self, predicted_word, confidence, highlight_confidence=0.9):
+    def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
         if predicted_word in extract_filename(self.afile_fullpath):
-            if confidence > highlight_confidence:
+            if confidence > confidence_threshold:
                 print("{:.2f}".format(self.afile_duration), cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
             else:
                 print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
@@ -131,4 +131,4 @@ if __name__ == "__main__":
         if len(wds.afile_signal) >= args.sample_rate: # is cut to exact in dataprep()
             mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
             w, c  = wds.predict(mfccs)
-            wds.highlight(w, c, args.highlight_confidence)
+            wds.highlight(w, c, args.confidence_threshold)
