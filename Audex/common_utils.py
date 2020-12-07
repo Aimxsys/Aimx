@@ -23,7 +23,7 @@ def print_script_start_preamble(script_filename, args):
     print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")
     print_info("===========================  RUNNING WITH THESE PARAMETERS:  ===========================")
     print_info(cyan(script_filename))
-    pprint.pprint(args)
+    pprint.pprint(args) #-----------------------------------------------------------
     print_info("==================================================================== {}".format(lightyellow(timestamp_now())))
 
 def prompt_user_warning(warning_text, strictness='suggestion'):
