@@ -16,4 +16,4 @@ if __name__ == "__main__":
     response = requests.post(URL, files=values)
     data     = response.json()
 
-    print("Predicted keyword: {}".format(data["keyword"]))
+    print("Predicted keyword: {}".format(data["pred_word"]))
