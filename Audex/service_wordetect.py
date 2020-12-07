@@ -11,8 +11,7 @@ from audex_utils  import get_actual_model_path
 if __name__ == "__main__":
 
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
-    parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
-                                                   ' audio files and their various spectrograms.')
+    parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with inference on audio files.')
 
     parser.add_argument("-inferdata_path",       type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-model_path",           type = Path,               help = 'Path to the model to be loaded.')
@@ -35,6 +34,8 @@ if __name__ == "__main__":
     ######################################################################################################
 
     print_script_start_preamble(nameofthis(__file__), vars(args))
+
+    args.model_path = get_actual_model_path(args.model_path)
 
 class _WordetectService:
     """
@@ -99,7 +100,7 @@ class _WordetectService:
         else:
             print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word))
 
-def CreateWordetectService():
+def CreateWordetectService(model_path):
     """
     Factory function for WordetectService class.
     """
@@ -107,7 +108,6 @@ def CreateWordetectService():
     if  _WordetectService._instance is None:
         _WordetectService._instance = _WordetectService()
         try:
-            model_path = get_actual_model_path(args.model_path)
             print_info("|||||| Loading model " + quote(cyansky(model_path)) + "... ", end="")
             _WordetectService.model = keras.models.load_model(model_path)
             print_info("[DONE]")
@@ -117,7 +117,7 @@ def CreateWordetectService():
 
 if __name__ == "__main__":
 
-    wds = CreateWordetectService()
+    wds = CreateWordetectService(args.model_path)
 
     print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)
