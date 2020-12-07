@@ -69,7 +69,7 @@ class _WordetectService:
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
          # resize the signal to ensure consistency of the lengths
-        self.afile_signal = self.afile_signal[:args.sample_rate]
+        self.afile_signal = self.afile_signal[:self.afile_sample_rate]
 
         mfccs = librosa.feature.mfcc(self.afile_signal,
                                      self.afile_sample_rate,
@@ -91,9 +91,9 @@ class _WordetectService:
 
         return pred_word, confidence
 
-    def highlight(self, predicted_word, confidence):
+    def highlight(self, predicted_word, confidence, highlight_confidence=0.9):
         if predicted_word in extract_filename(self.afile_fullpath):
-            if confidence > args.highlight_confidence:
+            if confidence > highlight_confidence:
                 print("{:.2f}".format(self.afile_duration), cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
             else:
                 print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
@@ -131,4 +131,4 @@ if __name__ == "__main__":
         if len(wds.afile_signal) >= args.sample_rate: # is cut to exact in dataprep()
             mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
             w, c  = wds.predict(mfccs)
-            wds.highlight(w, c)
+            wds.highlight(w, c, args.highlight_confidence)
