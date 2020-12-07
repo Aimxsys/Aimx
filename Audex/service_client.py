@@ -12,8 +12,10 @@ if __name__ == "__main__":
     audio_file = open(AUDIO_FILE_PATH, "rb")
 
     # package stuff to send and perform POST request
-    values   = {"file": (AUDIO_FILE_PATH, audio_file, "audio/wav")}
-    response = requests.post(URL, files=values)
-    data     = response.json()
+    payload = {"file": (AUDIO_FILE_PATH, audio_file, "audio/wav")}
 
-    print("Predicted keyword: {}".format(data["pred_word"]))
+    # send the package
+    response      = requests.post(URL, files=payload)
+    response_data = response.json()
+
+    print("Predicted keyword: {}".format(response_data["pred_word"]))
