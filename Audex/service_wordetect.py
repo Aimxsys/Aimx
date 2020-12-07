@@ -27,12 +27,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    ############################## Command Argument Verification ##############################
+    ############################## Command Argument Handling & Verification ##############################
 
     if provided(args.inferdata_path) and not args.inferdata_path.exists():
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
 
-    ###########################################################################################
+    ######################################################################################################
 
     print_script_start_preamble(nameofthis(__file__), vars(args))
 
