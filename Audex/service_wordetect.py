@@ -69,7 +69,7 @@ class _WordetectService:
         """
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
-         # resize the signal to ensure consistency of the lengths
+        # trim longer signals at exactly 1 second to ensure consistency of the lengths
         self.afile_signal = self.afile_signal[:self.afile_sample_rate]
 
         mfccs = librosa.feature.mfcc(self.afile_signal,
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(audiofile_fullpath, args.track_duration)
-        if len(wds.afile_signal) >= args.sample_rate: # is cut to exact in dataprep()
+        if len(wds.afile_signal) >= args.sample_rate: # process only signals of at least 1 sec
             mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
             w, c  = wds.predict(mfccs)
             wds.highlight(w, c, args.confidence_threshold)
