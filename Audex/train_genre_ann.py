@@ -11,47 +11,52 @@ import tensorflow.keras as keras
 from common_utils import *
 from  audex_utils import *
 
-# Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
-parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
-                                               ' audio files and their various spectrograms.')
+def process_clargs():
+    # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
+    parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
+                                                   ' audio files and their various spectrograms.')
 
-parser.add_argument("-traindata_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
-                                                           ', which by design is the output of the previous step of dataset preprocessing.')
+    parser.add_argument("-traindata_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
+                                                               ', which by design is the output of the previous step of dataset preprocessing.')
 
-parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
-parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
-parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
-parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
-                                                                  ' or 2 (one line per epoch). Default is 1.')
-parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
-parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
-parser.add_argument("-example",    action ='store_true',   help = 'Will show a working example on how to call the script.')
+    parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
+    parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
+    parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
+    parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
+                                                                      ' or 2 (one line per epoch). Default is 1.')
+    parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
+    parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
+    parser.add_argument("-example",    action ='store_true',   help = 'Will show a working example on how to call the script.')
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-########################## Command Argument Handling & Verification #######################
+    ########################## Command Argument Handling & Verification #######################
 
-if args.example:
-    print_info(nameofthis(__file__) + " -traindata_path most_recent_output -epochs 5")
-    exit()
+    if args.example:
+        print_info(nameofthis(__file__) + " -traindata_path most_recent_output -epochs 5")
+        exit()
 
-if provided(args.traindata_path) and not args.traindata_path.exists():
-    if str(args.traindata_path) is not Aimx.MOST_RECENT_OUTPUT:
-        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
+    if provided(args.traindata_path) and not args.traindata_path.exists():
+        if str(args.traindata_path) is not Aimx.MOST_RECENT_OUTPUT:
+            raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
 
-###########################################################################################
+    ###########################################################################################
 
-print_script_start_preamble(nameofthis(__file__), vars(args))
+    print_script_start_preamble(nameofthis(__file__), vars(args))
 
-# path to the traindata file that stores MFCCs and genre labels for each processed segment
-ARG_TRAINDATA_PATH = get_actual_traindata_path(args.traindata_path)
+    # path to the traindata file that stores MFCCs and genre labels for each processed segment
+    args.traindata_path = get_actual_traindata_path(args.traindata_path)
 
-if not args.savemodel and os.path.getsize(ARG_TRAINDATA_PATH) > 100_000_000: # > 100 Mb
-    args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
-                                         " would you rather save the final model? [yes / no] ")
-    print_info("As requested, proceeding with -savemodel =", args.savemodel)
+    if not args.savemodel and os.path.getsize(args.traindata_path) > 100_000_000: # > 100 Mb
+        args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
+                                             " would you rather save the final model? [yes / no] ")
+        print_info("As requested, proceeding with -savemodel =", args.savemodel)
+    
+    return args
 
 if __name__ == "__main__":
+
+    args = process_clargs()
 
     print_info("Dataset view (labels) from dataprep result meta:")
     cmd.Cmd().columnize(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
@@ -101,7 +106,7 @@ if __name__ == "__main__":
                                                                     lightyellow(timestamp),
                                                                     lightyellow(training_duration)))
 
-    trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(ARG_TRAINDATA_PATH)
+    trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
     save_training_result_meta(trainid, timestamp, str(training_duration), args.savemodel)

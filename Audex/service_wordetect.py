@@ -8,8 +8,7 @@ from audex_utils  import Aimx
 from audex_utils  import get_dataprep_result_meta
 from audex_utils  import get_actual_model_path
 
-if __name__ == "__main__":
-
+def process_clargs():
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
     parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with inference on audio files.')
 
@@ -36,6 +35,8 @@ if __name__ == "__main__":
     print_script_start_preamble(nameofthis(__file__), vars(args))
 
     args.model_path = get_actual_model_path(args.model_path)
+    
+    return args
 
 class _WordetectService:
     """
@@ -116,6 +117,8 @@ def CreateWordetectService(model_path):
     return _WordetectService._instance
 
 if __name__ == "__main__":
+
+    args = process_clargs()
 
     wds = CreateWordetectService(args.model_path)
 
