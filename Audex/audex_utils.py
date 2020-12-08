@@ -56,7 +56,7 @@ def to_genre_name(label_id):
 def get_dataprep_result_meta():
     if not hasattr(get_dataprep_result_meta, "cached"):
         with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as file:
-            print_info("|||||| Loading file  " + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
+            print_info("|||||| Loading file  " + quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH) + "... ", end="")
             jsonfile = json.load(file)
             print_info("[DONE]")
         get_dataprep_result_meta.cached = jsonfile
@@ -65,7 +65,7 @@ def get_dataprep_result_meta():
 def get_training_result_meta():
     if not hasattr(get_training_result_meta, "cached"):
         with open(Aimx.Training.RESULT_METADATA_FULLPATH, "r") as file:
-            print_info("|||||| Loading file  " + quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)) + "... ", end="")
+            print_info("|||||| Loading file  " + quote_path(Aimx.Training.RESULT_METADATA_FULLPATH) + "... ", end="")
             jsonfile = json.load(file)
             print_info("[DONE]")
         get_training_result_meta.cached = jsonfile
@@ -97,7 +97,7 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
     meta[Aimx.TIMESTAMP]             = timestamp
     meta[Aimx.DURATION]              = dataprep_duration
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file: 
-        print_info("|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
+        print_info("|||||| Writing file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "... ", end="")
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
@@ -116,7 +116,7 @@ def save_training_result_meta(trainid, timestamp, training_duration, savemodel=F
     meta[Aimx.TIMESTAMP]                    = timestamp
     meta[Aimx.DURATION]                     = training_duration
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
-        print_info("|||||| Writing file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "... ", end="")
+        print_info("|||||| Writing file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "... ", end="")
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
@@ -132,7 +132,7 @@ def load_traindata(arg_traindata_path):
         with open(actual_traindata_path, "r") as file:
             timestamp = str(time.ctime(os.path.getmtime(actual_traindata_path)))
             m = "most recent [" + timestamp + "] " if str(arg_traindata_path) == Aimx.MOST_RECENT_OUTPUT else ""
-            print_info("|||||| Loading " + m + "file  " + quote(cyansky(actual_traindata_path)) + "... ", end="")
+            print_info("|||||| Loading " + m + "file  " + quote_path(actual_traindata_path) + "... ", end="")
             traindata = json.load(file)
             print_info("[DONE]")            
     except FileNotFoundError:
@@ -165,13 +165,13 @@ def predict(model, x, y):
 
 def save_model(model, trainid):
     MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
-    print_info("|||||| Saving model", quote(cyansky(MODEL_FULLPATH)), "... ", end="")
+    print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
     model.save(MODEL_FULLPATH)
     print_info("[DONE]")
-    print_info("|||||| Copying file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "into model assets... ", end="")
+    print_info("|||||| Copying file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
     copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
     print_info("[DONE]")
-    print_info("|||||| Copying file", quote(cyansky(Aimx.Training.RESULT_METADATA_FULLPATH)), "into model assets... ", end="")
+    print_info("|||||| Copying file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
     copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
     print_info("[DONE]")
     
@@ -191,7 +191,7 @@ def save_traindata(traindata, traindata_filename):
     Path(Aimx.Paths.GEN_TRAINDATA).mkdir(parents=True, exist_ok=True)
     GEN_TRAINDATA_FULLPATH = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
     with open(GEN_TRAINDATA_FULLPATH, "w") as data_file:
-        print_info("|||||| Writing file", quote(cyansky(GEN_TRAINDATA_FULLPATH)), "... ", end="")
+        print_info("|||||| Writing file", quote_path(GEN_TRAINDATA_FULLPATH), "... ", end="")
         json.dump(traindata, data_file, indent=4)
         print_info("[DONE]")
 
@@ -200,12 +200,12 @@ def save_traindata(traindata, traindata_filename):
 # cases be used to switch quickly by updating dataprep_result_meta.json contents correspondingly.
 def update_dataprep_result_meta(traindata_filename, key, value):
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, "r") as file:
-        print_info("|||||| Loading file " + quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)) + "... ", end="")
+        print_info("|||||| Loading file " + quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH) + "... ", end="")
         prep_result_meta = json.load(file)
         print_info("[DONE]")
     prep_result_meta[key] = value
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file:
-        print_info("|||||| Writing file", quote(cyansky(Aimx.Dataprep.RESULT_METADATA_FULLPATH)), "... ", end="")
+        print_info("|||||| Writing file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "... ", end="")
         json.dump(prep_result_meta, file, indent=4)
         print_info("[DONE]")
 
@@ -234,7 +234,7 @@ def plot_history(history, trainid, show_interactive):
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
     PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
-    print_info("|||||| Saving file ", quote(cyansky(PLOT_FULLPATH)), "... ", end="")
+    print_info("|||||| Saving file ", quote_path(PLOT_FULLPATH), "... ", end="")
     pt.savefig(PLOT_FULLPATH)
     print_info("[DONE]")
 

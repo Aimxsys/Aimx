@@ -49,6 +49,9 @@ def provided(cmd_arg):
 def quote(s):
     return '\'' + str(s) + '\''
 
+def quote_path(path, frompoint='workdir'):
+    return '\'' + cyansky(path[path.find(frompoint):]) + '\''
+
 def get_all_dirs_in(dir):
     return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
 
@@ -154,14 +157,14 @@ def deprint(s):
 
 def read_json_file(json_fullpath):
     with open(json_fullpath, "r") as file:
-        print_info("|||||| Loading file " + quote(cyansky(json_fullpath)) + "... ", end="")
+        print_info("|||||| Loading file " + quote_path(json_fullpath) + "... ", end="")
         objson = json.load(file)
         print_info("[DONE]")
         return objson
 
 def write_json_file(json_fullpath, objson):
     with open(json_fullpath, 'w') as file:
-        print_info("|||||| Writing file", quote(cyansky(json_fullpath)), "... ", end="")
+        print_info("|||||| Writing file", quote_path(json_fullpath), "... ", end="")
         json.dump(objson, file, indent=4)
         print_info("[DONE]")
 

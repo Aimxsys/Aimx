@@ -109,7 +109,7 @@ def CreateWordetectService(model_path):
     if  _WordetectService._instance is None:
         _WordetectService._instance = _WordetectService()
         try:
-            print_info("|||||| Loading model " + quote(cyansky(model_path)) + "... ", end="")
+            print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
             _WordetectService.model = keras.models.load_model(model_path)
             print_info("[DONE]")
         except Exception as e:

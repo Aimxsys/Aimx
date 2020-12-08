@@ -55,14 +55,14 @@ audiofiles_path = Path(args.files_path)
 signal_packs = []
 
 if audiofiles_path.is_file():
-    print_info("|||||| Loading file " + quote(cyansky(audiofiles_path) + "..."), end="")
+    print_info("|||||| Loading file " + quote_path(audiofiles_path) + "...", end="")
     signal_packs.append((Path(audiofiles_path).name, librosa.load(audiofiles_path)))
     print_info("[DONE]")
 else: # directory
     (_, _, filenames) = next(os.walk(args.files_path)) # works
     for filename in filenames:
         file = os.path.join(args.files_path, filename)
-        print_info("|||||| Loading file " + quote(cyansky(file)) + "...", end="")
+        print_info("|||||| Loading file " + quote_path(file) + "...", end="")
         signal_packs.append((filename, librosa.load(file)))
         print_info("[DONE] & appended to signal pack")
 
