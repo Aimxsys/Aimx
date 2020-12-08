@@ -13,7 +13,7 @@ from audex_utils  import get_actual_model_path
 # TODO: Replace the hard-coded line below with automatically extracted dirlabels
 DATASET_VIEW_DEFAULT = ['alldirlabs']
 
-parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
+parser = argparse.ArgumentParser(description = 'This utility script tests the entire pipeline of ASR scripts in the solution.')
 
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
 parser.add_argument("-dataset_path",   type = Path,            help = 'Path to a dataset of sound files.')
