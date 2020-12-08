@@ -1,5 +1,7 @@
 import requests
 
+from common_utils import *
+
 SERVER_URL = "http://127.0.0.1:5000/predict"
 
 # audio file we'd like to send for predicting keyword
@@ -17,4 +19,4 @@ if __name__ == "__main__":
     response      = requests.post(SERVER_URL, files=payload)
     response_data = response.json()
 
-    print("Predicted keyword: {}".format(response_data["pred_word"]))
+    print_info("Predicted keyword: {}".format(response_data["pred_word"]))
