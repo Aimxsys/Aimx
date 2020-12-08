@@ -7,6 +7,7 @@ from flask             import Flask, request, jsonify
 from service_wordetect import CreateWordetectService
 from common_utils      import *
 from audex_utils       import get_actual_model_path
+from audex_utils       import WORKDIR
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')
@@ -37,25 +38,32 @@ def predict():
             "keyword": "down"
         }
     """
-    audiofile_local_fullpath = str("temp_down_" + str(random.randint(0, 100_000)))
+    audiofile_localpath = os.path.join(WORKDIR, extract_filename(request.files["file"].filename))
 
-    # get audio file from POST request and save it
+    # get audio file from POST request and
+    # save it locally for further processing
     audiofile_received = request.files["file"]
-    audiofile_received.save(audiofile_local_fullpath) # temporary local file, to be deleted later
+    audiofile_received.save(audiofile_localpath) # temporary local file, to be deleted later
 
     # instantiate keyword spotting service singleton and get prediction
     wds = CreateWordetectService(args.model_path)
     
-    wds.load_audiofile(audiofile_local_fullpath, track_duration=1)
-    mfccs = wds.dataprep()
-    w, c  = wds.predict(mfccs)
-    wds.highlight(w, c)
+    wds.load_audiofile(audiofile_localpath, track_duration=1)
+    if len(wds.afile_signal) >= wds.afile_sample_rate: # process only signals of at least 1 sec
+        mfccs = wds.dataprep()
+        w, c  = wds.predict(mfccs)
+        wds.highlight(w, c)
 
-    os.remove(audiofile_local_fullpath) # delete the audio file that's no longer needed
+        # send back result as a json file
+        result = {"pred_word": w}
+    else:
+        # send back result as a json file
+        result = {"pred_word": pinkred("SERVER PROCESSING ERROR: Audio file shorter than 1 second, must be at least 1 second.")}
 
-    # send back result as a json file
-    result = {"pred_word": w}
+    os.remove(audiofile_localpath) # delete the audio file that's no longer needed
+
     return jsonify(result)
+
 
 if __name__ == "__main__":
     app.run(debug=False)

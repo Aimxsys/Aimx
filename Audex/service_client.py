@@ -1,22 +1,44 @@
+import argparse
 import requests
 
 from common_utils import *
 
-SERVER_URL = "http://127.0.0.1:5000/predict"
+parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
 
-# audio file we'd like to send for predicting keyword
-AUDIO_FILE_PATH = "../workdir/test/ds_down_1.wav"
+parser.add_argument("-inferdata_path", type = Path, help='Path to the audio files on which model inference is to be tested.')
+parser.add_argument("-server_url",  default = "http://127.0.0.1:5000", type=str, help='Server URL.')
+parser.add_argument("-server_view", default = "/predict",              type=str, help='Server view.')
+
+args = parser.parse_args()
+
+########################## Command Argument Handling & Verification #######################
+
+if provided(args.inferdata_path) and not args.inferdata_path.exists():
+        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
+
+###########################################################################################
+
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 if __name__ == "__main__":
 
-    # open files
-    audio_file = open(AUDIO_FILE_PATH, "rb")
+    (_, _, filenames) = next(os.walk(args.inferdata_path))
 
-    # package stuff to send and perform POST request
-    payload = {"file": (AUDIO_FILE_PATH, audio_file, "audio/wav")}
+    for filename in filenames:
+        audiofile_fullpath = os.path.join(args.inferdata_path, filename)
+        
+        # open the audio file
+        audio_file = open(audiofile_fullpath, "rb") # TODO: Wrap this in RAII
 
-    # send the package
-    response      = requests.post(SERVER_URL, files=payload)
-    response_data = response.json()
+        # package stuff to send and perform POST request
+        files_payload = {"file": (audiofile_fullpath, audio_file, "audio/wav")}
 
-    print_info("Predicted keyword: {}".format(response_data["pred_word"]))
+        request_destination = args.server_url + args.server_view
+
+        # send the package
+        print_info("Sending request to:", request_destination)
+        print_info("Request contents:  ", files_payload)
+        response      = requests.post(request_destination, files=files_payload)
+        response_data = response.json()
+
+        print_info("Response came back:", response_data["pred_word"])
