@@ -5,10 +5,10 @@ import os
 from pathlib           import Path
 from flask             import Flask, request, jsonify
 from service_wordetect import CreateWordetectService
-from common_utils      import *
-from audex_utils       import get_actual_model_path
-from audex_utils       import WORKDIR
-from audex_utils       import Aimx
+from utils_common      import *
+from utils_audex       import get_actual_model_path
+from utils_audex       import WORKDIR
+from utils_audex       import Aimx
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')

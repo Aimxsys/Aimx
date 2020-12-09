@@ -5,8 +5,8 @@ import time
 import argparse
 import subprocess
 
-from common_utils import *
-from audex_utils import Aimx
+from utils_common import *
+from utils_audex import Aimx
 
 parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
 

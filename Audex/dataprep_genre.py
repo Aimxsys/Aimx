@@ -8,8 +8,8 @@ import librosa
 import math
 import os
 
-from common_utils import *
-from audex_utils  import *
+from utils_common import *
+from utils_audex  import *
 
 # Download from https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification
 
