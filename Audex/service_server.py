@@ -35,7 +35,7 @@ def predict():
     Word detection endpoint
     :return (json): This endpoint returns a json file with the following format:
         {
-            "keyword": "down"
+            "inference": "down"
         }
     """
     audiofile_localpath = os.path.join(WORKDIR, extract_filename(request.files["file"].filename))
@@ -55,10 +55,10 @@ def predict():
         wds.highlight(w, c)
 
         # send back result as a json file
-        result = {"pred_word": w}
+        result = {"inference": w}
     else:
         # send back result as a json file
-        result = {"pred_word": pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")}
+        result = {"inference": pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")}
 
     os.remove(audiofile_localpath) # delete the audio file that's no longer needed
 

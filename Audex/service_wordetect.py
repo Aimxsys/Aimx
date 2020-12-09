@@ -88,9 +88,9 @@ class _WordetectService:
         predictions   = self.model.predict(mfccs)
         confidence    = np.max(predictions)
         predmax_index = np.argmax(predictions)
-        pred_word     = self.label_mapping[predmax_index]
+        inference     = self.label_mapping[predmax_index]
 
-        return pred_word, confidence
+        return inference, confidence
 
     def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
         if predicted_word in extract_filename(self.afile_fullpath):

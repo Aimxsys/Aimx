@@ -40,4 +40,4 @@ if __name__ == "__main__":
             response      = requests.post(request_destination, files=files_payload)
             response_data = response.json()
 
-            print_info("Response came back:", response_data["pred_word"])
+            print_info("Response came back:", response_data["inference"])
