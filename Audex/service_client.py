@@ -14,7 +14,7 @@ args = parser.parse_args()
 ########################## Command Argument Handling & Verification #######################
 
 if provided(args.inferdata_path) and not args.inferdata_path.exists():
-        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
+    raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
 
 ###########################################################################################
 

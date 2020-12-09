@@ -12,7 +12,7 @@ from audex_utils       import WORKDIR
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')
 
-parser.add_argument("-model_path", type = Path, help = 'Path to the model to be loaded.')
+parser.add_argument("-model_path", type=Path, help='Path to the model to be loaded.')
 
 args = parser.parse_args()
 
