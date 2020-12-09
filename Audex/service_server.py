@@ -63,7 +63,7 @@ def predict():
         # send back result as a json file
         result = {"inference": pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")}
 
-    os.remove(audiofile_localpath) # delete the audio file that's no longer needed
+    os.remove(audiofile_localpath) # delete the temporary audio file that's no longer needed
 
     return jsonify(result)
 
