@@ -113,7 +113,8 @@ def CreateWordetectService(model_path):
             _WordetectService.model = keras.models.load_model(model_path)
             print_info("[DONE]")
         except Exception as e:
-            print(pinkred("Exception caught: " + str(e)))
+            print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
+            print(pinkred("Exception message: ") + red(str(e)))
     return _WordetectService._instance
 
 if __name__ == "__main__":

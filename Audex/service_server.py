@@ -8,6 +8,7 @@ from service_wordetect import CreateWordetectService
 from common_utils      import *
 from audex_utils       import get_actual_model_path
 from audex_utils       import WORKDIR
+from audex_utils       import Aimx
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')
@@ -18,7 +19,9 @@ args = parser.parse_args()
 
 ############################## Command Argument Handling & Verification ##############################
 
-# ...
+if provided(args.model_path) and not args.model_path.exists():
+    if str(args.model_path) is not Aimx.MOST_RECENT_OUTPUT:
+        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.model_path)))
 
 ######################################################################################################
 
