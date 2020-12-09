@@ -58,7 +58,7 @@ def predict():
         result = {"pred_word": w}
     else:
         # send back result as a json file
-        result = {"pred_word": pinkred("SERVER PROCESSING ERROR: Audio file shorter than 1 second, must be at least 1 second.")}
+        result = {"pred_word": pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")}
 
     os.remove(audiofile_localpath) # delete the audio file that's no longer needed
 
