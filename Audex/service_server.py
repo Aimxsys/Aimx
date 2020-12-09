@@ -40,17 +40,17 @@ def predict():
             "inference": "down"
         }
     """
-    audiofile_localpath = os.path.join(WORKDIR, extract_filename(request.files["file"].filename))
+    local_temp_audiofile_path = os.path.join(WORKDIR, extract_filename(request.files["file"].filename))
 
     # get audio file from POST request and
     # save it locally for further processing
     audiofile_received = request.files["file"]
-    audiofile_received.save(audiofile_localpath) # temporary local file, to be deleted later
+    audiofile_received.save(local_temp_audiofile_path)
 
     # instantiate keyword spotting service singleton and get prediction
     wds = CreateWordetectService(args.model_path)
     
-    wds.load_audiofile(audiofile_localpath, track_duration=1)
+    wds.load_audiofile(local_temp_audiofile_path, track_duration=1)
     if len(wds.afile_signal) >= wds.afile_sample_rate: # process only signals of at least 1 sec
         mfccs = wds.dataprep()
         w, c  = wds.predict(mfccs)
@@ -61,7 +61,7 @@ def predict():
         prediction = pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")
     
     response = {"inference": prediction}
-    os.remove(audiofile_localpath) # delete the temporary audio file that's no longer needed
+    os.remove(local_temp_audiofile_path) # delete the temporary audio file that's no longer needed
     return jsonify(response) # send back the result as a json file
 
 if __name__ == "__main__":
