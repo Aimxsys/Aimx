@@ -29,8 +29,7 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 
 args.model_path = get_actual_model_path(args.model_path)
 
-# instantiate flask app
-app = Flask(__name__)
+app = Flask(__name__) # instantiate Flask app
 
 @app.route("/predict", methods=["POST"])
 def predict():
