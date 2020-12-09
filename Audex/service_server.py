@@ -58,14 +58,14 @@ def predict():
         wds.highlight(w, c)
 
         # send back result as a json file
-        result = {"inference": w}
+        response = {"inference": w}
     else:
         # send back result as a json file
-        result = {"inference": pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")}
+        response = {"inference": pinkred("SERVER PROCESSING ERROR: Received audio file shorter than 1 second, must be at least 1 second.")}
 
     os.remove(audiofile_localpath) # delete the temporary audio file that's no longer needed
 
-    return jsonify(result)
+    return jsonify(response)
 
 if __name__ == "__main__":
     app.run(debug=False)
