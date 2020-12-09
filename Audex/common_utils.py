@@ -50,7 +50,8 @@ def quote(s):
     return '\'' + str(s) + '\''
 
 def quote_path(path, frompoint='workdir'):
-    return '\'' + cyansky(path[path.find(frompoint):]) + '\''
+    s = str(path)
+    return '\'' + cyansky(s[s.find(frompoint):]) + '\''
 
 def get_all_dirs_in(dir):
     return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
