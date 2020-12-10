@@ -135,8 +135,7 @@ dmypy.json
 ####################################
 
 .vs
-/venv_aimx
-/vlenv_aimx
+/venv_aimx*
 /Aimx.pyproj
 /Aimx.sln
 
