@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 # This script checks basic sanity of all scripts in the solution, respecting the pipeline whenever relevant
 # (for example: preprocess the data and then train on it). Useful when doing global renamings, etc.

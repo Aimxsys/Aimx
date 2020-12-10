@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from itertools import islice
 from pathlib import PurePath
 from pathlib import Path

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from pathlib import Path
 from datetime import timedelta
 import cmd
