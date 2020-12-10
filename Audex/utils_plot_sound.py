@@ -3,17 +3,17 @@ import scipy as sp
 import numpy as np
 from time import sleep
 
-import pygame
+#import pygame
 from   pygame import mixer
 import matplotlib.pyplot as pt
 
 from utils_common import *
 
-def play_sound(file_path, duration_s = 1):
-    mixer.init()
-    mixer.music.load(file_path)
-    mixer.music.play()
-    sleep(duration_s)
+#def play_sound(file_path, duration_s = 1):
+#    mixer.init()
+#    mixer.music.load(file_path)
+#    mixer.music.play()
+#    sleep(duration_s)
 
 # Audio experiments-related functions proper.
 def print_stats(signal_pack):
