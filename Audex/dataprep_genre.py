@@ -1,4 +1,4 @@
-﻿from itertools import islice
+from itertools import islice
 from pathlib import PurePath
 from pathlib import Path
 from datetime import timedelta
