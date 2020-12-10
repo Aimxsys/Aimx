@@ -24,13 +24,13 @@ parser.add_argument("-inferdata_path", type = Path,            help = 'Path to t
 
 args = parser.parse_args()
 
+print_script_start_preamble(nameofthis(__file__), vars(args))
+
 ########################## Command Argument Handling & Verification #######################
 
 # ...
 
 ###########################################################################################
-
-print_script_start_preamble(nameofthis(__file__), vars(args))
 
 start_time = time.time()
 

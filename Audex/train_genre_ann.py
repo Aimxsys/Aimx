@@ -32,6 +32,8 @@ def process_clargs():
 
     args = parser.parse_args()
 
+    print_script_start_preamble(nameofthis(__file__), vars(args))
+
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
@@ -43,8 +45,6 @@ def process_clargs():
             raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
 
     ###########################################################################################
-
-    print_script_start_preamble(nameofthis(__file__), vars(args))
 
     # path to the traindata file that stores MFCCs and genre labels for each processed segment
     args.traindata_path = get_actual_traindata_path(args.traindata_path)

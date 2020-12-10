@@ -19,6 +19,8 @@ parser.add_argument("-model_path", type=Path, help='Path to the model to be load
 
 args = parser.parse_args()
 
+print_script_start_preamble(nameofthis(__file__), vars(args))
+
 ############################## Command Argument Handling & Verification ##############################
 
 if provided(args.model_path) and not args.model_path.exists():
@@ -26,8 +28,6 @@ if provided(args.model_path) and not args.model_path.exists():
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.model_path)))
 
 ######################################################################################################
-
-print_script_start_preamble(nameofthis(__file__), vars(args))
 
 args.model_path = get_actual_model_path(args.model_path)
 

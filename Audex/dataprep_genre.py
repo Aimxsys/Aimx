@@ -42,6 +42,8 @@ parser.add_argument("-example",        action ='store_true',      help = 'Will s
 
 args = parser.parse_args()
 
+print_script_start_preamble(nameofthis(__file__), vars(args))
+
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
@@ -55,8 +57,6 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(DATASET_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
-
-print_script_start_preamble(nameofthis(__file__), vars(args))
 
 # Example command:
 # dataprep_genre.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
