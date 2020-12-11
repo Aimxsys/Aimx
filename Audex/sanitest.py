@@ -47,8 +47,12 @@ ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
 
-interp = [args.wenv + '/Scripts/python.exe'] if os.name == 'nt'    else []
-dotslash =                              './' if os.name == 'posix' else ''
+# Looks like when launching on Linux from a corresponding Aimx venv, the shebang is enough for it
+# to automatically pick up the right Python interpreter (from the venv you're launching from).
+# However, when launching on Windows from a corresponding Aimx venv, we need to spoonfeed it with
+# the right Python executable located in the /Scripts folder of the Windows venv.
+interp   = [args.wenv + '/Scripts/python.exe'] if os.name == 'nt'    else []
+dotslash =                                './' if os.name == 'posix' else ''
 
 start_time = time.time()
 
