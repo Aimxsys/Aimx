@@ -17,10 +17,10 @@ DATASET_VIEW_DEFAULT = ['alldirlabs']
 parser = argparse.ArgumentParser(description = 'This utility script tests the entire pipeline of ASR scripts in the solution.')
 
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
-parser.add_argument("-dataset_path",   type = Path,            help = 'Path to a dataset of sound files.')
-parser.add_argument("-dataset_depth",  default = 5,  type=int, help = 'Number of files to consider from each category.')
-parser.add_argument("-epochs",         default = 5,  type=int, help = 'Number of epochs to train.')
-parser.add_argument("-inferdata_path", type = Path,            help = 'Path to the audio files on which model inference is to be tested.')
+parser.add_argument("-dataset_path",   type = Path,           help = 'Path to a dataset of sound files.')
+parser.add_argument("-dataset_depth",  default = 5, type=int, help = 'Number of files to consider from each category.')
+parser.add_argument("-epochs",         default = 5, type=int, help = 'Number of epochs to train.')
+parser.add_argument("-inferdata_path", type = Path,           help = 'Path to the audio files on which model inference is to be tested.')
 
 args = parser.parse_args()
 
