@@ -14,9 +14,9 @@ def process_clargs():
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
     parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with inference on audio files.')
 
-    parser.add_argument("-inferdata_path",       type = Path,               help = 'Path to the audio files on which model inference is to be tested.')
-    parser.add_argument("-model_path",           type = Path,               help = 'Path to the model to be loaded.')
-    parser.add_argument("-confidence_threshold", default = 0.9, type=float, help = 'Highlight results if confidence is higher than this threshold.')
+    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
+    parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
+    parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
     parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
     parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')

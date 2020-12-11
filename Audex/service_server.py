@@ -15,8 +15,8 @@ from utils_audex       import Aimx
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')
 
-parser.add_argument("-model_path", type=Path,         help='Path to the model to be loaded.')
-parser.add_argument("-example", action ='store_true', help='Will show a working example on how to call the script.')
+parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type=Path, help='Path to the model to be loaded.')
+parser.add_argument("-example", action='store_true',                           help='Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
