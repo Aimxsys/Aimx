@@ -36,9 +36,9 @@ args.model_path = get_actual_model_path(args.model_path)
 
 ######################################################################################################
 
-app = Flask(__name__) # instantiate Flask app
+flask_app_server = Flask(__name__) # instantiate Flask app
 
-@app.route("/predict", methods=["POST"])
+@flask_app_server.route("/predict", methods=["POST"])
 def predict():
     """
     Word detection endpoint
@@ -72,4 +72,4 @@ def predict():
     return jsonify(response) # send back the result as a json file
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    flask_app_server.run(debug=False)
