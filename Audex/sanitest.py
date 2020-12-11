@@ -12,6 +12,11 @@ from utils_audex import Aimx
 
 parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
 
+parser.add_argument("-wenv", default = '../venv_aimx_win', type=str, help = 'Relative path to the corresponding Python venv'
+                                                                            ' if launching on a Windows machine.'
+                                                                            ' Ignore this argument if using the default venv path'
+                                                                            ' ' + quote('../venv_aimx_win') + ' or launching on Linux.')
+
 parser.add_argument("-plot_sound",     action ='store_true', help = 'Will test plotting the sound.')
 parser.add_argument("-dataprep_genre", action ='store_true', help = 'Will test data preprocessing on genre.')
 parser.add_argument("-dataprep_asr",   action ='store_true', help = 'Will test data preprocessing on ASR.')
@@ -42,8 +47,8 @@ ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
 
-interp = ['../venv_aimx_win/Scripts/python.exe'] if os.name == 'nt'    else []
-dotslash =                                  './' if os.name == 'posix' else ''
+interp = [args.wenv + '/Scripts/python.exe'] if os.name == 'nt'    else []
+dotslash =                              './' if os.name == 'posix' else ''
 
 start_time = time.time()
 
