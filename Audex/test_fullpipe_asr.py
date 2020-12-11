@@ -26,6 +26,7 @@ parser.add_argument("-dataset_path",   type = Path,           help = 'Path to a 
 parser.add_argument("-dataset_depth",  default = 5, type=int, help = 'Number of files to consider from each category.')
 parser.add_argument("-epochs",         default = 5, type=int, help = 'Number of epochs to train.')
 parser.add_argument("-inferdata_path", type = Path,           help = 'Path to the audio files on which model inference is to be tested.')
+parser.add_argument("-example",        action ='store_true',  help = 'Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
@@ -33,7 +34,10 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ########################## Command Argument Handling & Verification #######################
 
-# ...
+if args.example:
+    print_info(print_info(nameofthis(__file__) + " -dataset_path ../workdir/speech_commands_v001 -dataset_depth 55 -dataset_view down five"
+                                                 " -epochs 50 -inferdata_path ../workdir/infer_down_five_few"))
+    exit()
 
 ###########################################################################################
 

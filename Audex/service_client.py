@@ -10,12 +10,17 @@ parser = argparse.ArgumentParser(description = 'This scrip launches an ASR clien
 parser.add_argument("-inferdata_path", type = Path, help='Path to the audio files on which model inference is to be tested.')
 parser.add_argument("-server_url",  default = "http://127.0.0.1:5000", type=str, help='Server URL.')
 parser.add_argument("-server_view", default = "/predict",              type=str, help='Server view.')
+parser.add_argument("-example",     action  ='store_true',                       help='Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
 print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ########################## Command Argument Handling & Verification #######################
+
+if args.example:
+    print_info(print_info(nameofthis(__file__) + " -inferdata_path ../workdir/infer_down_five_few"))
+    exit()
 
 if provided(args.inferdata_path) and not args.inferdata_path.exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))

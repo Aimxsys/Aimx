@@ -15,13 +15,18 @@ from utils_audex       import Aimx
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')
 
-parser.add_argument("-model_path", type=Path, help='Path to the model to be loaded.')
+parser.add_argument("-model_path", type=Path,         help='Path to the model to be loaded.')
+parser.add_argument("-example", action ='store_true', help='Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
 print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ############################## Command Argument Handling & Verification ##############################
+
+if args.example:
+    print_info(print_info(nameofthis(__file__) + " -model_path most_recent_output"))
+    exit()
 
 if provided(args.model_path) and not args.model_path.exists():
     if str(args.model_path) is not Aimx.MOST_RECENT_OUTPUT:
