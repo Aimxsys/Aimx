@@ -42,6 +42,9 @@ ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
 
+interp = ['../venv_aimx_win/Scripts/python.exe'] if os.name == 'nt'    else []
+dotslash =                                  './' if os.name == 'posix' else ''
+
 start_time = time.time()
 
 # IMPORTANT: TODO: Note for later resolution from official Python documentation
@@ -56,48 +59,48 @@ start_time = time.time()
 if ARG_TEST_PLOT_SOUND: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py"))
-    subprocess.call(['plot_sound.py', '-files_path', '../workdir/sounds/two'], shell=True)
+    subprocess.call(interp + [dotslash + 'plot_sound.py', '-files_path', '../workdir/sounds/two'])
 
 ####################################################### Genre-related pipeline
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     # dataprep_genre.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py"))
-    subprocess.call(['dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)], shell=True)
+    subprocess.call(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)])
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -traindata_path most_recent_output -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py"))
-    subprocess.call(['train_genre_ann.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(interp + [dotslash + 'train_genre_ann.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)])
 
 if ARG_TEST_TRAIN_GENRE_CNN: # Genre classification using CNN
     # train_genre_cnn.py -traindata_path most_recent_output -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py"))
-    subprocess.call(['train_genre_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(interp + [dotslash + 'train_genre_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)])
 
 if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
     # train_genre_rnn.py -traindata_path most_recent_output -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py"))
-    subprocess.call(['train_genre_rnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)], shell=True)
+    subprocess.call(interp + [dotslash + 'train_genre_rnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs)])
 
 ####################################################### ASR-related pipeline
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     # dataprep_asr.py -dataset_path ../workdir/speech_commands_few -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py"))
-    subprocess.call(['dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_few', '-dataset_depth', str(args.dataset_depth)], shell=True)
+    subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_few', '-dataset_depth', str(args.dataset_depth)])
 
 if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
     # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py"))
-    subprocess.call(['train_asr_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'], shell=True)
+    subprocess.call(interp + [dotslash + 'train_asr_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
 
 ####################################################### Wordetect inference test
 
 if ARG_TEST_WORDETECT: # Wordetect service
     # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer_down
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT service_wordetect.py"))
-    subprocess.call(['service_wordetect.py', '-model_path', Aimx.MOST_RECENT_OUTPUT, '-inferdata_path', '../workdir/infer_bird'], shell=True)
+    subprocess.call(interp + [dotslash + 'service_wordetect.py', '-model_path', Aimx.MOST_RECENT_OUTPUT, '-inferdata_path', '../workdir/infer_bird'])
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT PIPELINE SANITY"))
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ TEST COMPLETE"))
