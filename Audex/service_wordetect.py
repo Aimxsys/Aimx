@@ -66,6 +66,7 @@ class _WordetectService:
         full_afile_signal, _                      = librosa.load(audiofile_fullpath)
         self.afile_duration = librosa.get_duration(full_afile_signal, self.afile_sample_rate)
 
+    # This dataprep is for inference
     def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Eextract mfccs from an audio file.
