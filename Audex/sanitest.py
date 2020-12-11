@@ -56,7 +56,7 @@ dotslash =                                './' if os.name == 'posix' else ''
 
 start_time = time.time()
 
-# IMPORTANT: TODO: Note for later resolution from official Python documentation
+# IMPORTANT: Note from the official Python documentation at:
 # https://docs.python.org/2/library/subprocess.html#frequently-used-arguments:
 # Warning Executing shell commands that incorporate unsanitized input from an untrusted
 # source makes a program vulnerable to shell injection, a serious security flaw
