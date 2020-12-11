@@ -56,13 +56,10 @@ if provided(args.dataset_path) and not args.dataset_path.exists():
 if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(DATASET_DIR_DEFAULT_NAME)))
 
-###########################################################################################
-
-# Example command:
-# dataprep_genre.py -dataset_path ../workdir/dataset_c1_f1 -n_mfcc 13 -n_fft 2048 -hop_length 512 -num_segments 5 -sample_rate 22050 -track_duration 30
-
 if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now, may need to be rewritten in a better way
     args.dataset_view = get_all_dirs_in(args.dataset_path)
+
+###########################################################################################
 
 SAMPLES_PER_TRACK = args.sample_rate * args.track_duration
 

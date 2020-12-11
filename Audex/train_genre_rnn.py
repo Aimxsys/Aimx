@@ -43,8 +43,6 @@ def process_clargs():
         if str(args.traindata_path) is not Aimx.MOST_RECENT_OUTPUT:
             raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
 
-    ###########################################################################################
-
     # path to the traindata file that stores MFCCs and genre labels for each processed segment
     args.traindata_path = get_actual_traindata_path(args.traindata_path)
 
@@ -52,6 +50,8 @@ def process_clargs():
         args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
                                              " would you rather save the final model? [yes / no] ")
         print_info("As requested, proceeding with -savemodel =", args.savemodel)
+
+    ###########################################################################################
     
     return args
 

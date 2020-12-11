@@ -39,9 +39,9 @@ def process_clargs():
     if provided(args.inferdata_path) and not args.inferdata_path.exists():
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
 
-    ######################################################################################################
-
     args.model_path = get_actual_model_path(args.model_path)
+
+    ######################################################################################################
     
     return args
 

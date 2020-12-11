@@ -32,9 +32,9 @@ if provided(args.model_path) and not args.model_path.exists():
     if str(args.model_path) is not Aimx.MOST_RECENT_OUTPUT:
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.model_path)))
 
-######################################################################################################
-
 args.model_path = get_actual_model_path(args.model_path)
+
+######################################################################################################
 
 app = Flask(__name__) # instantiate Flask app
 
