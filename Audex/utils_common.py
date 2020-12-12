@@ -38,7 +38,7 @@ def prompt_user_warning(warning_text, strictness='suggestion'):
         return False
     else:
         if strictness == 'yesorno':
-            print(pinkred("Unable to continue without a 'yes' or 'no' answer. Exiting..."))
+            print(pinkred("Unable to proceed without a 'yes' or 'no' answer. Exiting..."))
             exit()
         return None
 
