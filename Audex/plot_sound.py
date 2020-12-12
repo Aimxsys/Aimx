@@ -8,8 +8,8 @@ import matplotlib.pyplot as pt
 import os
 
 # Module imports from this project
-from utils_common     import *
-from utils_plot_sound import *
+from utils.utils_common     import *
+from utils.utils_plot_sound import *
 
 AUDIO_FILES_DIR_DEFAULT_NAME = "sounds"
 AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), AUDIO_FILES_DIR_DEFAULT_NAME)

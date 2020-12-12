@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 from termcolor import colored
 
-from utils_audex import *
+from utils.utils_audex import *
 
 def process_clargs():
     # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.

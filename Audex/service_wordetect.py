@@ -5,10 +5,10 @@ import argparse
 import tensorflow.keras as keras
 import numpy as np
 
-from utils_common import *
-from utils_audex  import Aimx
-from utils_audex  import get_dataprep_result_meta
-from utils_audex  import get_actual_model_path
+from utils.utils_common import *
+from utils.utils_audex  import Aimx
+from utils.utils_audex  import get_dataprep_result_meta
+from utils.utils_audex  import get_actual_model_path
 
 def process_clargs():
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.

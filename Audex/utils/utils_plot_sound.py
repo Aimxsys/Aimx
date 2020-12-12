@@ -9,7 +9,7 @@ from time import sleep
 #from   pygame import mixer
 import matplotlib.pyplot as pt
 
-from utils_common import *
+from utils.utils_common import *
 
 #def play_sound(file_path, duration_s = 1):
 #    mixer.init()

@@ -3,7 +3,7 @@
 import argparse
 import requests
 
-from utils_common import *
+from utils.utils_common import *
 
 parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
 

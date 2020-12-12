@@ -11,8 +11,8 @@ import json
 import math
 import os
 
-from utils_common import *
-from utils_audex  import *
+from utils.utils_common import *
+from utils.utils_audex  import *
 
 # Download from https://ai.googleblog.com/2017/08/launching-speech-commands-dataset.html
 
