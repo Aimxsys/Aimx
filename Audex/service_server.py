@@ -4,13 +4,13 @@ import argparse
 import random
 import os
 
-from pathlib           import Path
-from flask             import Flask, request, jsonify
-from service_wordetect import CreateWordetectService
-from utils.utils_common      import *
-from utils.utils_audex       import get_actual_model_path
-from utils.utils_audex       import WORKDIR
-from utils.utils_audex       import Aimx
+from pathlib            import Path
+from flask              import Flask, request, jsonify
+from service_wordetect  import CreateWordetectService
+from utils.utils_common import *
+from utils.utils_audex  import get_actual_model_path
+from utils.utils_audex  import WORKDIR
+from utils.utils_audex  import Aimx
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')
