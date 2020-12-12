@@ -4,11 +4,18 @@ import librosa
 import argparse
 import tensorflow.keras as keras
 import numpy as np
+import sys
+import os
 
-from utils.utils_common import *
-from utils.utils_audex  import Aimx
-from utils.utils_audex  import get_dataprep_result_meta
-from utils.utils_audex  import get_actual_model_path
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import Aimx
+from Audex.utils.utils_audex  import get_dataprep_result_meta
+from Audex.utils.utils_audex  import get_actual_model_path
 
 def process_clargs():
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.

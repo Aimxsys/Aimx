@@ -7,9 +7,9 @@ import time
 import argparse
 import subprocess
 
-from utils.utils_common import *
-from utils.utils_audex  import Aimx
-from utils.utils_audex  import get_actual_model_path
+from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import Aimx
+from Audex.utils.utils_audex  import get_actual_model_path
 
 # TODO: Replace the hard-coded line below with automatically extracted dirlabels
 DATASET_VIEW_DEFAULT = ['alldirlabs']

@@ -11,7 +11,7 @@ import os
 
 import matplotlib.pyplot as pt
 
-from utils.utils_common import *
+from Audex.utils.utils_common import *
 
 WORKDIR = os.path.join(Path().resolve().parent, "workdir")
 total_audios_length_sec = 0.0

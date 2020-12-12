@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 
+import os
+import sys
 import argparse
 import requests
 
-from utils.utils_common import *
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_common import *
 
 parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
 

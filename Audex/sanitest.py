@@ -2,13 +2,21 @@
 
 # This script checks basic sanity of all scripts in the solution, respecting the pipeline whenever relevant
 # (for example: preprocess the data and then train on it). Useful when doing global renamings, etc.
-from datetime import timedelta
+
+import os
+import sys
 import time
 import argparse
 import subprocess
+from datetime import timedelta
 
-from utils.utils_common import *
-from utils.utils_audex import Aimx
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import Aimx
 
 parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
 

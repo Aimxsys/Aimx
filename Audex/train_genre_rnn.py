@@ -2,15 +2,22 @@
 
 from pathlib import Path
 from datetime import timedelta
-import cmd
-import time
 import argparse
+import time
+import cmd
+import sys
+import os
 
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 from termcolor import colored
 
-from utils.utils_audex import *
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_audex import *
 
 def process_clargs():
     # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.

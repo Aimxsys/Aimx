@@ -2,15 +2,22 @@
 
 import argparse
 import random
+import sys
 import os
 
 from pathlib            import Path
 from flask              import Flask, request, jsonify
-from service_wordetect  import CreateWordetectService
-from utils.utils_common import *
-from utils.utils_audex  import get_actual_model_path
-from utils.utils_audex  import WORKDIR
-from utils.utils_audex  import Aimx
+
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.service_wordetect  import CreateWordetectService
+from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import get_actual_model_path
+from Audex.utils.utils_audex  import WORKDIR
+from Audex.utils.utils_audex  import Aimx
 
 # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
 parser = argparse.ArgumentParser(description = 'Inference service')

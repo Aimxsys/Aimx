@@ -5,11 +5,17 @@ from pathlib import Path
 import librosa
 import librosa.display
 import matplotlib.pyplot as pt
+import sys
 import os
 
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
 # Module imports from this project
-from utils.utils_common     import *
-from utils.utils_plot_sound import *
+from Audex.utils.utils_common     import *
+from Audex.utils.utils_plot_sound import *
 
 AUDIO_FILES_DIR_DEFAULT_NAME = "sounds"
 AUDIO_FILES_DIR_DEFAULT = os.path.join(os.getcwd(), AUDIO_FILES_DIR_DEFAULT_NAME)

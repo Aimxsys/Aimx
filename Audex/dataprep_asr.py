@@ -9,10 +9,16 @@ import argparse
 import librosa
 import json
 import math
+import sys
 import os
 
-from utils.utils_common import *
-from utils.utils_audex  import *
+# This looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import *
 
 # Download from https://ai.googleblog.com/2017/08/launching-speech-commands-dataset.html
 
