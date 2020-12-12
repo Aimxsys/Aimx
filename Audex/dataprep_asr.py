@@ -48,7 +48,7 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(print_info(nameofthis(__file__) + " -dataset_path ../workdir/dataset -dataset_depth 5"))
+    print_info(nameofthis(__file__) + " -dataset_path ../workdir/dataset -dataset_depth 5")
     exit()
 
 if provided(args.dataset_path) and not args.dataset_path.exists():

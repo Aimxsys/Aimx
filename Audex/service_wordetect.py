@@ -33,7 +33,7 @@ def process_clargs():
     ############################## Command Argument Handling & Verification ##############################
 
     if args.example:
-        print_info(print_info(nameofthis(__file__) + " service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer_down_five"))
+        print_info(nameofthis(__file__) + " -model_path most_recent_output -inferdata_path ../workdir/infer_down_five")
         exit()
 
     if provided(args.inferdata_path) and not args.inferdata_path.exists():
