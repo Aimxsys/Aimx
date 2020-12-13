@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+
+  audex:
+    build: ./
+    container_name: audex
+    restart: unless-stopped
+    expose:
+      - 900
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:1234"

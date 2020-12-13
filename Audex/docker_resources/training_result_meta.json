@@ -1,0 +1,10 @@
+{
+    "most_recent_output": "/Aimx/workdir/gen_models/model_cnn_e50_2v_977d_speech_commands_v001_13m_2048w_512h_5i_22050r_1s",
+    "dataset_view": [
+        "down",
+        "five"
+    ],
+    "total_audio_files_length_sec": 1928,
+    "timestamp": "2020-12-04 20:37:06",
+    "duration": "0:00:42"
+}
