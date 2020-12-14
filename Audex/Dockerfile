@@ -31,7 +31,7 @@ RUN mkdir /Aimx/workdir/gen_models
 RUN mkdir /Aimx/workdir/gen_models/model_cnn_e50_2v_977d_speech_commands_v001_13m_2048w_512h_5i_22050r_1s
 
 # Transfer accompanying resources from current dir to the corresponding dir in the container
-COPY ./docker_resources/uwsgi_server.ini /Aimx
+COPY ./docker_resources/uwsgi_server.ini /Aimx/Audex
 
 # Transfer functionality content from current dir to the corresponding dir in the container
 COPY ./__init__.py           /Aimx/Audex
@@ -59,6 +59,10 @@ COPY ./docker_resources/training_result_meta.json /Aimx/workdir
 # See the structure created by this point
 RUN pwd
 RUN tree -L 4
+
+# Workdir must be set to Audex in order for the whole thing to run correctly
+# (i.e. for paths like Audex's workdir to resolve to /Aimx/workdir, etc.)
+WORKDIR /Aimx/Audex
 
 # Start uWSGI using config file
 CMD ["uwsgi", "uwsgi_server.ini"]

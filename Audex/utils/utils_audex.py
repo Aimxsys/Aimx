@@ -13,7 +13,11 @@ import matplotlib.pyplot as pt
 
 from Audex.utils.utils_common import *
 
+# NOTE: Value depends on where the main script was called from:
+# Currently, it must be /Aimx/Audex for WORKDIR to get the right value "/Aimx/workdir
+# TODO: Perhaps can or should be made more launch-dir agnostic.
 WORKDIR = os.path.join(Path().resolve().parent, "workdir")
+
 total_audios_length_sec = 0.0
 
 class Aimx:
