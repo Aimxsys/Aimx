@@ -1,7 +1,7 @@
 # Audex
 
 # Pull the latest tensorflow image
-FROM tensorflow/tensorflow
+FROM tensorflow/tensorflow:2.3.1
 
 # Set the working directory to /Aimx
 WORKDIR /Aimx
@@ -31,13 +31,9 @@ COPY ./docker_resources/uwsgi_server.ini /Aimx/Audex
 # Transfer functionality content from current dir to the corresponding dir in the container
 COPY ./__init__.py           /Aimx/Audex
 COPY ./app_server.py         /Aimx/Audex
-COPY ./dataprep_asr.py       /Aimx/Audex
-COPY ./dataprep_genre.py     /Aimx/Audex
+COPY ./dataprep_*.py         /Aimx/Audex/
+COPY ./train_*.py            /Aimx/Audex/
 COPY ./service_wordetect.py  /Aimx/Audex
-COPY ./train_asr_cnn.py      /Aimx/Audex
-COPY ./train_genre_ann.py    /Aimx/Audex
-COPY ./train_genre_cnn.py    /Aimx/Audex
-COPY ./train_genre_rnn.py    /Aimx/Audex
 
 COPY ./utils/__init__.py     /Aimx/Audex/utils
 COPY ./utils/utils_audex.py  /Aimx/Audex/utils
