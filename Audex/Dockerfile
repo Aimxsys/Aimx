@@ -1,9 +1,7 @@
 # Audex
 
-FROM python:3.8
-
-# Pull tensorflow image with Python3
-FROM tensorflow/tensorflow:2.1.0-py3
+# Pull the latest tensorflow image
+FROM tensorflow/tensorflow
 
 # Set the working directory to /Aimx
 WORKDIR /Aimx
