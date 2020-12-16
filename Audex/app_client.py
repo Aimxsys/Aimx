@@ -17,9 +17,9 @@ DEFAULT_FLASK_APP_PORT = ":5000"
 parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
 
 parser.add_argument("-inferdata_path", type = Path, help='Path to the audio files on which model inference is to be tested.')
-parser.add_argument("-server_url",  default = "http://127.0.0.1" + DEFAULT_FLASK_APP_PORT, type=str, help='Server URL.')
-parser.add_argument("-server_view", default = "/predict",  type=str, help='Server view.')
-parser.add_argument("-example",     action  ='store_true',           help='Will show a working example on how to call the script.')
+parser.add_argument("-server_endpoint", default = "http://127.0.0.1" + DEFAULT_FLASK_APP_PORT, type=str, help='Server URL.')
+parser.add_argument("-server_view",     default = "/predict",  type=str, help='Server view.')
+parser.add_argument("-example",         action  ='store_true',           help='Will show a working example on how to call the script.')
 
 args = parser.parse_args()
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
             # package stuff to send and perform POST request
             files_payload = {"file": (audiofile_fullpath, audio_file, "audio/wav")}
 
-            request_destination = args.server_url + args.server_view
+            request_destination = args.server_endpoint + args.server_view
 
             # send the package
             print_info("Sending request to:", request_destination)
