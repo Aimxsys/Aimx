@@ -97,11 +97,11 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
         Aimx.TIMESTAMP:                    {},
         Aimx.DURATION:                     {}
     }
-    meta[Aimx.MOST_RECENT_OUTPUT]    = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
-    meta[Aimx.Dataprep.DATASET_VIEW] = dataset_view
-    meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH]   = round(total_audios_length_sec)
-    meta[Aimx.TIMESTAMP]             = timestamp
-    meta[Aimx.DURATION]              = dataprep_duration
+    meta[Aimx.MOST_RECENT_OUTPUT]           = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
+    meta[Aimx.Dataprep.DATASET_VIEW]        = dataset_view
+    meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH] = round(total_audios_length_sec)
+    meta[Aimx.TIMESTAMP]                    = timestamp
+    meta[Aimx.DURATION]                     = dataprep_duration
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("|||||| Writing file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "... ", end="")
         json.dump(meta, file, indent=4)
