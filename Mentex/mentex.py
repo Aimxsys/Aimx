@@ -46,7 +46,7 @@ class CMentex(object):
     def run(self):
         data = self.load_audio_file()
         self.plot_time_series(data)
-        ipd.Audio(data, rate=self.input_length)
+        self.play_audio(data)
 
 
 if __name__ == "__main__":
