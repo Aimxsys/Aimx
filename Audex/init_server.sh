@@ -16,5 +16,5 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 # build and run docker containers
-cd ~/Audex/server
+cd ~/Aimx/Audex/server
 sudo docker-compose up --build
