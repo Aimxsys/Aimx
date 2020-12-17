@@ -125,6 +125,8 @@ def build_model(input_shape):
 
     # flatten output and feed it into dense layer
     model.add(keras.layers.Flatten())
+    #model.add(keras.layers.Dense(256, activation='relu'))
+    #model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(64, activation='relu'))
     model.add(keras.layers.Dropout(0.3))
 
