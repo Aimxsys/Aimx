@@ -5,7 +5,8 @@ import sys
 import argparse
 import requests
 
-# This looks like a hack, but is ok for now to allow moving forward
+# Add this directory to path so that package is recognized.
+# Looks like a hack, but is ok for now to allow moving forward.
 # Source: https://stackoverflow.com/a/23891673/4973224
 # TODO: Replace with the idiomatic way.
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
