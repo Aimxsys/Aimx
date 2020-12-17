@@ -25,8 +25,9 @@ def process_clargs():
     parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
                                                    ' audio files and their various spectrograms.')
 
-    parser.add_argument("-traindata_path", type = Path, help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
-                                                               ', which by design is the output of the previous step of dataset preprocessing.')
+    parser.add_argument("-traindata_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path,
+                        help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
+                               ', which by design is the output of the previous step of dataset preprocessing.')
 
     parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
     parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
