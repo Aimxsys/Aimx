@@ -37,6 +37,10 @@ parser.add_argument("-epochs",         default = 5, type=int, help = 'Number of 
 parser.add_argument("-inferdata_path", type = Path,           help = 'Path to the audio files on which model inference is to be tested.')
 parser.add_argument("-example",        action ='store_true',  help = 'Will show a working example on how to call the script.')
 
+parser.add_argument("-skip_dataprep",  action ='store_true',  help = 'Will skip the dataprep step.')
+parser.add_argument("-skip_training",  action ='store_true',  help = 'Will skip the training step.')
+parser.add_argument("-skip_inference", action ='store_true',  help = 'Will skip the inference step.')
+
 args = parser.parse_args()
 
 print_script_start_preamble(nameofthis(__file__), vars(args))
@@ -68,21 +72,24 @@ start_time = time.time()
 
 ####################################################### ASR-related pipeline
 
-# dataprep_asr.py -dataset_path ../workdir/speech_commands_v001 -dataset_depth 5
-subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
-                + args.dataset_view)
-print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
+if not args.skip_dataprep:
+    # dataprep_asr.py -dataset_path ../workdir/speech_commands_v001 -dataset_depth 5
+    subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
+                    + args.dataset_view)
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
-# train_asr_cnn.py -traindata_path most_recent_output -epochs 5
-subprocess.call(interp + [dotslash + 'train_asr_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
-print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
+if not args.skip_training:
+    # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
+    subprocess.call(interp + [dotslash + 'train_asr_cnn.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
 
-# service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer_down
-subprocess.call(interp + [dotslash + 'service_wordetect.py', '-model_path', get_actual_model_path(Aimx.MOST_RECENT_OUTPUT), '-inferdata_path', str(args.inferdata_path)])
-print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
-
-print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ ASR FULL PIPELINE TEST OK"))
-
-print_info("Finished {} at {} with wall clock time (total): {} ".format(cyansky(nameofthis(__file__)),
-                                                                lightyellow(timestamp_now()),
-                                                                lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+if not args.skip_inference:
+    # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer_down
+    subprocess.call(interp + [dotslash + 'service_wordetect.py', '-model_path', get_actual_model_path(Aimx.MOST_RECENT_OUTPUT), '-inferdata_path', str(args.inferdata_path)])
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
+    
+    print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ ASR FULL PIPELINE TEST OK"))
+    
+    print_info("Finished {} at {} with wall clock time (total): {} ".format(cyansky(nameofthis(__file__)),
+                                                                    lightyellow(timestamp_now()),
+                                                                    lightyellow(timedelta(seconds = round(time.time() - start_time)))))
