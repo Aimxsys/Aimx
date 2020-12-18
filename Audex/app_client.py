@@ -29,7 +29,7 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(nameofthis(__file__) + " -inferdata_path ../workdir/infer_down_five_few")
+    print_info(nameofthis(__file__) + " -inferdata_path ../workdir/infer/signal_down_five_few")
     exit()
 
 if provided(args.inferdata_path) and not args.inferdata_path.exists():

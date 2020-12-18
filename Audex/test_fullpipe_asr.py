@@ -49,7 +49,7 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 
 if args.example:
     print_info(nameofthis(__file__) + " -dataset_path ../workdir/speech_commands_v001 -dataset_depth 55 -dataset_view down five"
-                                      " -epochs 50 -inferdata_path ../workdir/infer_down_five_few")
+                                      " -epochs 50 -inferdata_path ../workdir/infer/signal_down_five_few")
     exit()
 
 ###########################################################################################
@@ -84,7 +84,7 @@ if not args.skip_training:
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
 
 if not args.skip_inference:
-    # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer_down
+    # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer/signal_down
     subprocess.call(interp + [dotslash + 'service_wordetect.py', '-model_path', get_actual_model_path(Aimx.MOST_RECENT_OUTPUT), '-inferdata_path', str(args.inferdata_path)])
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py OK"))
     

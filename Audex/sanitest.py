@@ -116,9 +116,9 @@ if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
 ####################################################### Wordetect inference test
 
 if ARG_TEST_WORDETECT: # Wordetect service
-    # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer_down
+    # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer/signal_bird
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT service_wordetect.py"))
-    subprocess.call(interp + [dotslash + 'service_wordetect.py', '-inferdata_path', '../workdir/infer_bird'])
+    subprocess.call(interp + [dotslash + 'service_wordetect.py', '-inferdata_path', '../workdir/infer/signal_bird'])
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT PIPELINE SANITY"))
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ TEST COMPLETE"))
