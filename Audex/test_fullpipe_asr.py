@@ -48,7 +48,7 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(nameofthis(__file__) + " -dataset_path ../workdir/speech_commands_v001 -dataset_depth 55 -dataset_view down five"
+    print_info(nameofthis(__file__) + " -dataset_path ../workdir/datasets/speech_commands_v001 -dataset_depth 55 -dataset_view down five"
                                       " -epochs 50 -inferdata_path ../workdir/infer/signal_down_five_few")
     exit()
 
@@ -73,7 +73,7 @@ start_time = time.time()
 ####################################################### ASR-related pipeline
 
 if not args.skip_dataprep:
-    # dataprep_asr.py -dataset_path ../workdir/speech_commands_v001 -dataset_depth 5
+    # dataprep_asr.py -dataset_path ../workdir/datasets/speech_commands_v001 -dataset_depth 5
     subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
                     + args.dataset_view)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))

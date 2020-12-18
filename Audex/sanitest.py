@@ -82,9 +82,9 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
 ####################################################### Genre-related pipeline
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
-    # dataprep_genre.py -dataset_path ../workdir/dataset_c10_f100 -dataset_depth 5
+    # dataprep_genre.py -dataset_path ../workdir/datasets/dataset_c10_f100 -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py"))
-    subprocess.call(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)])
+    subprocess.call(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/datasets/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)])
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -traindata_path most_recent_output -epochs 5
@@ -104,9 +104,9 @@ if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
 ####################################################### ASR-related pipeline
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
-    # dataprep_asr.py -dataset_path ../workdir/speech_commands_few -dataset_depth 5
+    # dataprep_asr.py -dataset_path ../workdir/datasets/speech_commands_few -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py"))
-    subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/speech_commands_few', '-dataset_depth', str(args.dataset_depth)])
+    subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)])
 
 if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
     # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
