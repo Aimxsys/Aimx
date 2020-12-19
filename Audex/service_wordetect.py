@@ -68,6 +68,11 @@ class _WordetectService:
 
     label_mapping = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
+    # Numbers in the two rows below are related and go together,
+    # their calculation may be automated some time in the future.
+    inference_report_headers = "{:<5}  {:<4}  {:<16} {:<20}"
+    inference_report_columns = "{:>5.2f}  {:<4}  {:<25} {:<20}"
+
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
         self.afile_signal, self.afile_sample_rate = librosa.load(audiofile_fullpath, duration = track_duration)
@@ -111,11 +116,11 @@ class _WordetectService:
     def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
         if predicted_word in extract_filename(self.afile_fullpath):
             if confidence > confidence_threshold:
-                print("{:.2f}".format(self.afile_duration), cyan("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
+                print(self.inference_report_columns.format(self.afile_duration, cyan("{:.2f}".format(confidence)),    pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
             else:
-                print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word))
+                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
         else:
-            print("{:.2f}".format(self.afile_duration), pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word))
+            print(self.inference_report_columns.format(self.afile_duration,     pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
 
 def CreateWordetectService(model_path):
     """
@@ -141,7 +146,7 @@ if __name__ == "__main__":
 
     print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)
-    print_info("Len  Con  Filename  Inference")
+    print_info(wds.inference_report_headers.format("Len", "Con", "Filename", "Inference"))
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
 
