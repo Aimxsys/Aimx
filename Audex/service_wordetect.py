@@ -116,11 +116,14 @@ class _WordetectService:
     def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
         if predicted_word in extract_filename(self.afile_fullpath):
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.afile_duration, cyan("{:.2f}".format(confidence)),    pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.afile_duration, cyan("{:.2f}".format(confidence)),    yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
         else: # inference is wrong
-            print(self.inference_report_columns.format(self.afile_duration,     pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
+            if confidence > confidence_threshold:
+                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
+            else:
+                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
 
 def CreateWordetectService(model_path):
     """
