@@ -119,7 +119,7 @@ class _WordetectService:
                 print(self.inference_report_columns.format(self.afile_duration, cyan("{:.2f}".format(confidence)),    pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
             else:
                 print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
-        else:
+        else: # inference is wrong
             print(self.inference_report_columns.format(self.afile_duration,     pinkred("{:.2f}".format(confidence)), pinkred(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
 
 def CreateWordetectService(model_path):
