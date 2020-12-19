@@ -114,12 +114,14 @@ class _WordetectService:
         return inference, confidence
 
     def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
+        # inference is correct
         if predicted_word in extract_filename(self.afile_fullpath):
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.afile_duration, cyan("{:.2f}".format(confidence)),    yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.afile_duration,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
             else:
                 print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
-        else: # inference is wrong
+        # inference is wrong
+        else:
             if confidence > confidence_threshold:
                 print(self.inference_report_columns.format(self.afile_duration,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
             else:
