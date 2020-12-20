@@ -139,6 +139,29 @@ def build_model(input_shape):
 
     return model
 
+def build_model_rnn(input_shape):
+    """
+    Generates RNN-LSTM model
+    Param:
+        input_shape (tuple): Shape of input set
+    Returns:
+        model: RNN-LSTM model
+    """
+    model = keras.Sequential()
+
+    # 2 LSTM layers
+    model.add(keras.layers.LSTM(64, input_shape=input_shape, return_sequences=True))
+    model.add(keras.layers.LSTM(64))
+
+    # dense layer
+    model.add(keras.layers.Dense(64, activation='relu'))
+    model.add(keras.layers.Dropout(0.3))
+
+    # output layer
+    model.add(keras.layers.Dense(len(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
+
+    return model
+
 if __name__ == "__main__":
 
     args = process_clargs()
@@ -148,6 +171,7 @@ if __name__ == "__main__":
 
     # create network
     model = build_model(input_shape = (x_train.shape[1], x_train.shape[2], 1))
+    #model = build_model_rnn(input_shape = (x_train.shape[1], x_train.shape[2])) # Not yet working
 
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
                   loss      = 'sparse_categorical_crossentropy',
