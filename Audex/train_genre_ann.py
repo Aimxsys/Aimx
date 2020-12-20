@@ -74,7 +74,7 @@ def build_model(input_shape):
     model = keras.Sequential()
 
     # flatten output and feed it into dense layer
-    model.add(keras.layers.Flatten(input_shape = (inputs.shape[1], inputs.shape[2])))
+    model.add(keras.layers.Flatten(input_shape = input_shape))
     model.add(keras.layers.Dense(512, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
     #model.add(keras.layers.BatchNormalization(axis = 1))
     #model.add(keras.layers.Dropout(0.3))
