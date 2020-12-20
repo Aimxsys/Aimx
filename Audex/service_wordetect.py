@@ -57,7 +57,8 @@ class _WordetectService:
     """
     Singleton class for word detecting inference with trained models.
     """
-    model = None
+    model     = None
+    modelType = None
 
     afile_fullpath    = None
     afile_signal      = None
@@ -96,11 +97,15 @@ class _WordetectService:
         mfccs = librosa.feature.mfcc(self.afile_signal,
                                      self.afile_sample_rate,
                                      n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
-
-        # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
-        #            (# segments, # coefficients)
-        # (# samples, # segments, # coefficients, # channels)
-        mfccs = mfccs[np.newaxis, ..., np.newaxis]
+        if self.modelType == 'cnn':
+            # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
+            #            (# segments, # coefficients)
+            # (# samples, # segments, # coefficients, # channels)
+            mfccs = mfccs[np.newaxis, ..., np.newaxis] # shape for CNN model
+        elif self.modelType == 'rnn':
+            mfccs = mfccs[..., np.newaxis]             # shape for RNN model
+        else:
+            raise Exception("Wordetect received an unknown model type: " + self.modelType)
 
         return mfccs.T
 
@@ -136,7 +141,8 @@ def CreateWordetectService(model_path):
         _WordetectService._instance = _WordetectService()
         try:
             print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
-            _WordetectService.model = keras.models.load_model(model_path)
+            _WordetectService.model     = keras.models.load_model(model_path)
+            _WordetectService.modelType = extract_filename(model_path)[6:9]
             print_info("[DONE]")
         except Exception as e:
             print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
@@ -148,7 +154,7 @@ if __name__ == "__main__":
     args = process_clargs()
 
     wds = CreateWordetectService(args.model_path)
-
+    
     print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)
     print_info(wds.inference_report_headers.format("Len", "Con", "Filename", "Inference"))

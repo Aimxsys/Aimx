@@ -29,10 +29,11 @@ def process_clargs():
                         help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
                                ', which by design is the output of the previous step of dataset preprocessing.')
 
-    parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
-    parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
-    parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
-    parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
+    parser.add_argument("-ann_type",   default = "cnn", type=str, help = 'ANN type (CNN, RNN, etc).')
+    parser.add_argument("-batch_size", default = 32,    type=int, help = 'Batch size.')
+    parser.add_argument("-epochs",     default = 50,    type=int, help = 'Number of epochs to train.')
+    parser.add_argument("-patience",   default =  5,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
+    parser.add_argument("-verbose",    default =  1,    type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                       ' or 2 (one line per epoch). Default is 1.')
     parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
     parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
@@ -64,7 +65,7 @@ def process_clargs():
 
     return args
 
-def prepare_traindata(traindata_path, test_size, valid_size):
+def prepare_traindata(ann_type, traindata_path, test_size, valid_size):
     """
     Loads data and splits it into train, validation and test sets.
     Params:
@@ -84,10 +85,11 @@ def prepare_traindata(traindata_path, test_size, valid_size):
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)
     x_train, x_valid, y_train, y_valid = train_test_split(x_train, y_train, test_size = valid_size)
 
-    # add an axis to input sets; example resulting shape: (89, 259, 13, 1)
-    x_train = x_train[..., np.newaxis]
-    x_valid = x_valid[..., np.newaxis]
-    x_test  =  x_test[..., np.newaxis]
+    if ann_type == "cnn":
+        # add an axis to input sets; example resulting shape: (89, 259, 13, 1)
+        x_train = x_train[..., np.newaxis]
+        x_valid = x_valid[..., np.newaxis]
+        x_test  =  x_test[..., np.newaxis]
 
     print_info("Dataset view (labels) from dataprep result meta:")
     cmd.Cmd().columnize(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
@@ -98,7 +100,7 @@ def prepare_traindata(traindata_path, test_size, valid_size):
 
     return x_train, x_valid, x_test, y_train, y_valid, y_test
 
-def build_model(input_shape):
+def build_model_cnn(input_shape):
     """
     Generates CNN model
     Param:
@@ -167,11 +169,13 @@ if __name__ == "__main__":
     args = process_clargs()
 
     # get train, validation, test splits
-    x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_traindata(args.traindata_path, test_size = 0.25, valid_size = 0.2)
+    x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_traindata(args.ann_type, args.traindata_path, test_size = 0.25, valid_size = 0.2)
 
     # create network
-    model = build_model(input_shape = (x_train.shape[1], x_train.shape[2], 1))
-    #model = build_model_rnn(input_shape = (x_train.shape[1], x_train.shape[2])) # Not yet working
+    if (args.ann_type == "cnn"):
+        model = build_model_cnn(input_shape = (x_train.shape[1], x_train.shape[2], 1))
+    else:
+        model = build_model_rnn(input_shape = (x_train.shape[1], x_train.shape[2]))
 
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
                   loss      = 'sparse_categorical_crossentropy',
@@ -200,7 +204,7 @@ if __name__ == "__main__":
     print_info('\nEvaluating test accuracy:')
     model.evaluate(x_test, y_test, verbose = args.verbose)
         
-    trainid = "cnn_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
+    trainid = args.ann_type + "_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
     save_training_result_meta(trainid, timestamp, str(training_duration), args.savemodel)

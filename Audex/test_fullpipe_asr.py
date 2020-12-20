@@ -30,6 +30,7 @@ parser.add_argument("-wenv", default = '../venv_aimx_win', type=str, help = 'Rel
                                                                             ' Ignore this argument if using the default venv path'
                                                                             ' ' + quote('../venv_aimx_win') + ' or launching on Linux.')
 
+parser.add_argument("-ann_type",       default = "cnn", type=str, help = 'ANN type (CNN, RNN, etc).')
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
 parser.add_argument("-dataset_path",   type = Path,           help = 'Path to a dataset of sound files.')
 parser.add_argument("-dataset_depth",  default = 5, type=int, help = 'Number of files to consider from each category.')
@@ -80,7 +81,7 @@ if not args.skip_dataprep:
 
 if not args.skip_training:
     # train_asr.py -traindata_path most_recent_output -epochs 5
-    subprocess.call(interp + [dotslash + 'train_asr.py', '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
+    subprocess.call(interp + [dotslash + 'train_asr.py', '-ann_type', args.ann_type, '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py OK"))
 
 if not args.skip_inference:
