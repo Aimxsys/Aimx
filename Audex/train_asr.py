@@ -46,7 +46,7 @@ def process_clargs():
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
-        print_info(nameofthis(__file__) + " -traindata_path most_recent_output -epochs 5")
+        print_info(nameofthis(__file__) + " -epochs 5")
         exit()
 
     if provided(args.traindata_path) and not args.traindata_path.exists():

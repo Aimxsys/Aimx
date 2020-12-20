@@ -80,12 +80,12 @@ if not args.skip_dataprep:
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
 if not args.skip_training:
-    # train_asr.py -traindata_path most_recent_output -epochs 5
+    # train_asr.py -epochs 5
     subprocess.call(interp + [dotslash + 'train_asr.py', '-ann_type', args.ann_type, '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py OK"))
 
 if not args.skip_inference:
-    # service_wordetect.py -model_path most_recent_output -inferdata_path ../workdir/infer/signal_down
+    # service_wordetect.py -inferdata_path ../workdir/infer/signal_down
     subprocess.call(interp + [dotslash + 'service_wordetect.py', '-model_path', get_actual_model_path(Aimx.MOST_RECENT_OUTPUT), '-inferdata_path', str(args.inferdata_path)])
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py OK"))
     

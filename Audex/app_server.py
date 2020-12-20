@@ -33,7 +33,7 @@ print_script_start_preamble(nameofthis(__file__), vars(args))
 ############################## Command Argument Handling & Verification ##############################
 
 if args.example:
-    print_info(nameofthis(__file__) + " -model_path most_recent_output")
+    print_info(nameofthis(__file__))
     exit()
 
 if provided(args.model_path) and not args.model_path.exists():
