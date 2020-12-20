@@ -51,7 +51,7 @@ ARG_TEST_WORDETECT       = args.all
 ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr   or args.asr
 ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre or args.genre
 
-ARG_TEST_TRAIN_ASR_CNN   = args.all or args.nns or args.cnn or args.asr
+ARG_TEST_TRAIN_ASR       = args.all or args.nns or args.cnn or args.asr
 ARG_TEST_TRAIN_GENRE_ANN = args.all or args.nns or args.ann or args.genre
 ARG_TEST_TRAIN_GENRE_CNN = args.all or args.nns or args.cnn or args.genre
 ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
@@ -108,10 +108,10 @@ if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py"))
     subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)])
 
-if ARG_TEST_TRAIN_ASR_CNN: # ASR using CNN
-    # train_asr_cnn.py -traindata_path most_recent_output -epochs 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr_cnn.py"))
-    subprocess.call(interp + [dotslash + 'train_asr_cnn.py', '-epochs', str(args.epochs), '-savemodel'])
+if ARG_TEST_TRAIN_ASR:
+    # train_asr.py -traindata_path most_recent_output -epochs 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py"))
+    subprocess.call(interp + [dotslash + 'train_asr.py', '-epochs', str(args.epochs), '-savemodel'])
 
 ####################################################### Wordetect inference test
 
