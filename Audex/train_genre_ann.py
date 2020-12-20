@@ -64,6 +64,35 @@ def process_clargs():
     
     return args
 
+def build_model(input_shape):
+    """
+    Param:
+        input_shape (tuple): Shape of input set
+    Returns:
+        model: The model
+    """
+    model = keras.Sequential()
+
+    # flatten output and feed it into dense layer
+    model.add(keras.layers.Flatten(input_shape = (inputs.shape[1], inputs.shape[2])))
+    model.add(keras.layers.Dense(512, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
+    #model.add(keras.layers.BatchNormalization(axis = 1))
+    #model.add(keras.layers.Dropout(0.3))
+
+    model.add(keras.layers.Dense(256, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
+    model.add(keras.layers.BatchNormalization(axis = 1))
+    model.add(keras.layers.Dropout(0.3))
+
+    model.add(keras.layers.Dense(64, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
+    #model.add(keras.layers.BatchNormalization(axis = 1))
+    #model.add(keras.layers.Dropout(0.3))
+
+    # output layer
+    #model.add(keras.layers.Dense(10, activation='softmax'))
+    model.add(keras.layers.Dense(len(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
+
+    return model
+
 if __name__ == "__main__":
 
     args = process_clargs()
@@ -76,20 +105,7 @@ if __name__ == "__main__":
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
 
-    # build network topology
-    model = keras.Sequential([
-        keras.layers.Flatten(input_shape = (inputs.shape[1], inputs.shape[2])),
-        keras.layers.Dense(512, activation = 'relu'),#, kernel_regularizer = keras.regularizers.l2(0.001)),
-        #keras.layers.BatchNormalization(axis = 1),
-        #keras.layers.Dropout(0.3),
-        keras.layers.Dense(256, activation = 'relu'),#, kernel_regularizer = keras.regularizers.l2(0.001)),
-        keras.layers.BatchNormalization(axis = 1),
-        keras.layers.Dropout(0.3),
-        keras.layers.Dense( 64, activation = 'relu'),#, kernel_regularizer = keras.regularizers.l2(0.001)),
-        #keras.layers.BatchNormalization(axis = 1),
-        #keras.layers.Dropout(0.3),
-        keras.layers.Dense( 10, activation = 'softmax')
-    ])
+    model = build_model(input_shape = (inputs.shape[1], inputs.shape[2]))
 
     # compile model
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
