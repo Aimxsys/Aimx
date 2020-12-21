@@ -106,7 +106,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     label_id = 0
 
     # loop through all subfolders
-    for dirpath, _, audio_filenames in os.walk(dataset_path):
+    for dirpath, _, afnames in os.walk(dataset_path):
         
         # ensure we're processing at subfolder level
         if PurePath(dirpath).name is PurePath(dataset_path).name:
@@ -122,21 +122,21 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         print_info("\nProcessing label {} {}".format(cyan(label_id), label_name))
 
         # process all audio files in subfolders
-        for pbi, audio_filename in enumerate(islice(audio_filenames, args.dataset_depth)):
+        for pbi, afname in enumerate(islice(afnames, args.dataset_depth)):
 
-            if not audio_filename.endswith(".wav"):
+            if not afname.endswith(".wav"):
                 continue
 
             global total_audios_length_sec
             
-            progress_bar(pbi, min(len(audio_filenames), args.dataset_depth))
+            progress_bar(pbi, min(len(afnames), args.dataset_depth))
 
 		    # load audio file
-            audio_file_path          = os.path.join(dirpath, audio_filename)
-            signal, sample_rate      = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
+            af_path                  = os.path.join(dirpath, afname)
+            signal, sample_rate      = librosa.load(af_path, sr = sample_rate, duration = track_duration)
             total_audios_length_sec += librosa.get_duration(signal, sample_rate)
 
-            print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
+            print_info("\nTotal samples in signal (audio track) {} = {}".format(extract_filename(af_path), len(signal)),
                        verbose = args.verbose)
 
             # drop audio files with less than pre-decided number of samples
@@ -151,8 +151,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 # store data for analysed track
                 traindata[Aimx.TrainData.MFCC  ].append(mfcc.T.tolist())
                 traindata[Aimx.TrainData.LABELS].append(label_id)
-                traindata[Aimx.TrainData.FILES ].append(audio_file_path)
-                print_info("{}: {}".format(cyansky(audio_file_path), label_id), verbose = args.verbose)
+                traindata[Aimx.TrainData.FILES ].append(af_path)
+                print_info("{}: {}".format(cyansky(af_path), label_id), verbose = args.verbose)
 
         label_id += 1
     

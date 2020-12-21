@@ -42,12 +42,12 @@ if __name__ == "__main__":
     (_, _, filenames) = next(os.walk(args.inferdata_path))
 
     for filename in filenames:
-        audiofile_fullpath = os.path.join(args.inferdata_path, filename)
+        af_fullpath = os.path.join(args.inferdata_path, filename)
         
-        with open(audiofile_fullpath, "rb") as audio_file:
+        with open(af_fullpath, "rb") as af:
 
             # package stuff to send and perform POST request
-            files_payload = {"file": (audiofile_fullpath, audio_file, "audio/wav")}
+            files_payload = {"file": (af_fullpath, af, "audio/wav")}
 
             request_destination = args.server_endpoint + args.server_view
 

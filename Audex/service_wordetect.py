@@ -75,9 +75,9 @@ class _WordetectService:
     inference_report_headers = "{:<5}  {:<4}  {:<16} {:<20}"
     inference_report_columns = "{:>5.2f}  {:<4}  {:<25} {:<20}"
 
-    def load_audiofile(self, audiofile_fullpath, track_duration):
-        self.af_fullpath = audiofile_fullpath
-        self.af_signal, self.af_sr = librosa.load(audiofile_fullpath)
+    def load_audiofile(self, af_fullpath, track_duration):
+        self.af_fullpath = af_fullpath
+        self.af_signal, self.af_sr = librosa.load(af_fullpath)
         self.af_duration           = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for ASR CNN inference
@@ -160,8 +160,8 @@ if __name__ == "__main__":
     (_, _, filenames) = next(os.walk(args.inferdata_path))
 
     for filename in filenames:
-        audiofile_fullpath = os.path.join(args.inferdata_path, filename)
-        wds.load_audiofile(audiofile_fullpath, args.track_duration)
+        af_fullpath = os.path.join(args.inferdata_path, filename)
+        wds.load_audiofile(af_fullpath, args.track_duration)
         if len(wds.af_signal) >= args.sample_rate: # process only signals of at least 1 sec
             mfccs = wds.numerize(args.n_mfcc, args.n_fft, args.hop_length)
             w, c  = wds.predict(mfccs)
