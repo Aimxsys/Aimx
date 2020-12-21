@@ -66,8 +66,8 @@ def predict():
     wds = CreateWordetectService(args.model_path)
     
     wds.load_audiofile(local_temp_audiofile_path, track_duration=1)
-    if len(wds.afile_signal) >= wds.afile_sample_rate: # process only signals of at least 1 sec
-        mfccs = wds.dataprep()
+    if len(wds.af_signal) >= wds.af_sr: # process only signals of at least 1 sec
+        mfccs = wds.numerize()
         w, c  = wds.predict(mfccs)
         wds.highlight(w, c)
                 

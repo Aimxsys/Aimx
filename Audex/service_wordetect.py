@@ -60,10 +60,11 @@ class _WordetectService:
     model     = None
     modelType = None
 
-    afile_fullpath    = None
-    afile_signal      = None
-    afile_sample_rate = None
-    afile_duration    = None
+    # audio file currently being analyzed
+    af_fullpath = None
+    af_signal   = None
+    af_sr       = None
+    af_duration = None
 
     _instance = None
 
@@ -75,12 +76,12 @@ class _WordetectService:
     inference_report_columns = "{:>5.2f}  {:<4}  {:<25} {:<20}"
 
     def load_audiofile(self, audiofile_fullpath, track_duration):
-        self.afile_fullpath = audiofile_fullpath
-        self.afile_signal, self.afile_sample_rate = librosa.load(audiofile_fullpath)
-        self.afile_duration                       = librosa.get_duration(self.afile_signal, self.afile_sample_rate)
+        self.af_fullpath = audiofile_fullpath
+        self.af_signal, self.af_sr = librosa.load(audiofile_fullpath)
+        self.af_duration           = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for ASR CNN inference
-    def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
+    def numerize(self, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Eextract mfccs from an audio file.
         :param     n_mfcc (int): # of coefficients to extract
@@ -91,11 +92,9 @@ class _WordetectService:
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
         # trim longer signals at exactly 1 second to ensure consistency of the lengths
-        self.afile_signal = self.afile_signal[:self.afile_sample_rate]
+        self.af_signal = self.af_signal[:self.af_sr]
 
-        mfccs = librosa.feature.mfcc(self.afile_signal,
-                                     self.afile_sample_rate,
-                                     n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        mfccs = librosa.feature.mfcc(self.af_signal, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
@@ -118,18 +117,18 @@ class _WordetectService:
         return inference, confidence
 
     def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
-        if predicted_word in extract_filename(self.afile_fullpath):
+        if predicted_word in extract_filename(self.af_fullpath):
             # inference is correct
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.afile_duration,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.af_duration,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.af_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
         else:
             # inference is wrong
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.afile_duration,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
+                print(self.inference_report_columns.format(self.af_duration,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.afile_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.afile_fullpath)), pinkred(predicted_word)))
+                print(self.inference_report_columns.format(self.af_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
 
 def CreateWordetectService(model_path):
     """
@@ -163,7 +162,7 @@ if __name__ == "__main__":
     for filename in filenames:
         audiofile_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(audiofile_fullpath, args.track_duration)
-        if len(wds.afile_signal) >= args.sample_rate: # process only signals of at least 1 sec
-            mfccs = wds.dataprep(args.n_mfcc, args.n_fft, args.hop_length)
+        if len(wds.af_signal) >= args.sample_rate: # process only signals of at least 1 sec
+            mfccs = wds.numerize(args.n_mfcc, args.n_fft, args.hop_length)
             w, c  = wds.predict(mfccs)
             wds.highlight(w, c, args.confidence_threshold)
