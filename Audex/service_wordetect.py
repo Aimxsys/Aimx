@@ -77,7 +77,7 @@ class _WordetectService:
     def load_audiofile(self, audiofile_fullpath, track_duration):
         self.afile_fullpath = audiofile_fullpath
         self.afile_signal, self.afile_sample_rate = librosa.load(audiofile_fullpath)
-        self.afile_duration = librosa.get_duration(self.afile_signal, self.afile_sample_rate)
+        self.afile_duration                       = librosa.get_duration(self.afile_signal, self.afile_sample_rate)
 
     # This dataprep is for ASR CNN inference
     def dataprep(self, n_mfcc=13, n_fft=2048, hop_length=512):
