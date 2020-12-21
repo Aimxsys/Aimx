@@ -132,9 +132,10 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
             progress_bar(pbi, min(len(audio_filenames), args.dataset_depth))
 
 		    # load audio file
-            audio_file_path      = os.path.join(dirpath, audio_filename)
-            signal, sample_rate  = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
+            audio_file_path          = os.path.join(dirpath, audio_filename)
+            signal, sample_rate      = librosa.load(audio_file_path, sr = sample_rate, duration = track_duration)
             total_audios_length_sec += librosa.get_duration(signal, sample_rate)
+
             print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(audio_file_path).name, len(signal)),
                        verbose = args.verbose)
 
