@@ -39,10 +39,10 @@ if provided(args.inferdata_path) and not args.inferdata_path.exists():
 
 if __name__ == "__main__":
 
-    (_, _, filenames) = next(os.walk(args.inferdata_path))
+    (_, _, afnames) = next(os.walk(args.inferdata_path))
 
-    for filename in filenames:
-        af_fullpath = os.path.join(args.inferdata_path, filename)
+    for afname in afnames:
+        af_fullpath = os.path.join(args.inferdata_path, afname)
         
         with open(af_fullpath, "rb") as af:
 

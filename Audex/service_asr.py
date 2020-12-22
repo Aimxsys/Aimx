@@ -162,10 +162,10 @@ if __name__ == "__main__":
     print_info("On files in:", args.inferdata_path)
     print_info(asr.inference_report_headers.format("Len", "Con", "Filename", "Inference"))
 
-    (_, _, filenames) = next(os.walk(args.inferdata_path))
+    (_, _, afnames) = next(os.walk(args.inferdata_path))
 
-    for filename in filenames:
-        af_fullpath = os.path.join(args.inferdata_path, filename)
+    for afname in afnames:
+        af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.track_duration)
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             continue
