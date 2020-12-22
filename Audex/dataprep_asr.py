@@ -65,7 +65,7 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default dataset directory " + quote(pinkred(DATASET_DIR_DEFAULT_NAME)))
 
 if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now, may need to be rewritten in a better way
-    args.dataset_view = get_all_dirs_in(args.dataset_path)
+    args.dataset_view = get_all_dirnames_in(args.dataset_path)
 
 ###########################################################################################
 
