@@ -156,20 +156,20 @@ if __name__ == "__main__":
 
     args = process_clargs()
 
-    wds = CreateAsrService(args.model_path)
+    asr = CreateAsrService(args.model_path)
     
-    print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
+    print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
     print_info("On files in:", args.inferdata_path)
-    print_info(wds.inference_report_headers.format("Len", "Con", "Filename", "Inference"))
+    print_info(asr.inference_report_headers.format("Len", "Con", "Filename", "Inference"))
 
     (_, _, filenames) = next(os.walk(args.inferdata_path))
 
     for filename in filenames:
         af_fullpath = os.path.join(args.inferdata_path, filename)
-        wds.load_audiofile(af_fullpath, args.track_duration)
-        if len(wds.af_signal) < args.sample_rate: # process only signals of at least 1 sec
+        asr.load_audiofile(af_fullpath, args.track_duration)
+        if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             continue
-        for i in range(int(wds.af_duration)):
-            mfccs = wds.numerize(startsec=i)
-            w, c  = wds.predict(mfccs)
-            wds.highlight(w, c, args.confidence_threshold)
+        for i in range(int(asr.af_duration)):
+            mfccs = asr.numerize(startsec=i)
+            w, c  = asr.predict(mfccs)
+            asr.highlight(w, c, args.confidence_threshold)
