@@ -58,6 +58,9 @@ def quote_path(path, frompoint='workdir'):
 def get_all_dirs_in(dir):
     return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
 
+def get_all_filenames_in(dir):
+    return [PurePath(f).name for f in os.scandir(dir) if f.is_file()]
+
 def timestamp_now(precision='seconds'):
     return datetime.now().isoformat(' ', precision)
 
