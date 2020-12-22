@@ -14,7 +14,7 @@ from flask              import Flask, request, jsonify
 # TODO: Replace with the idiomatic way.
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Audex.service_wordetect  import CreateWordetectService
+from Audex.service_asr        import CreateWordetectService
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import get_actual_model_path
 from Audex.utils.utils_audex  import WORKDIR
