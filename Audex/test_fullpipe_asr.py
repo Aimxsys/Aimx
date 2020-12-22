@@ -75,18 +75,18 @@ start_time = time.time()
 
 if not args.skip_dataprep:
     # dataprep_asr.py -dataset_path ../workdir/datasets/speech_commands_v001 -dataset_depth 5
-    subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
-                    + args.dataset_view)
+    subprocess.run(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
+                    + args.dataset_view, check=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
 
 if not args.skip_training:
     # train_asr.py -epochs 5
-    subprocess.call(interp + [dotslash + 'train_asr.py', '-ann_type', args.ann_type, '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'])
+    subprocess.run(interp + [dotslash + 'train_asr.py', '-ann_type', args.ann_type, '-traindata_path', Aimx.MOST_RECENT_OUTPUT, '-epochs', str(args.epochs), '-savemodel'], check=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py OK"))
 
 if not args.skip_inference:
     # service_asr.py -inferdata_path ../workdir/infer/signal_down
-    subprocess.call(interp + [dotslash + 'service_asr.py', '-model_path', get_actual_model_path(Aimx.MOST_RECENT_OUTPUT), '-inferdata_path', str(args.inferdata_path)])
+    subprocess.run(interp + [dotslash + 'service_asr.py', '-model_path', get_actual_model_path(Aimx.MOST_RECENT_OUTPUT), '-inferdata_path', str(args.inferdata_path)], check=True)
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py OK"))
     
     print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ ASR FULL PIPELINE TEST OK"))

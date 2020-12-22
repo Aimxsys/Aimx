@@ -77,48 +77,48 @@ start_time = time.time()
 if ARG_TEST_PLOT_SOUND: # Sound plots
     # plot_sound.py -files_path ../workdir/sounds/two
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT plot_sound.py"))
-    subprocess.call(interp + [dotslash + 'plot_sound.py', '-files_path', '../workdir/sounds/two'])
+    subprocess.run(interp + [dotslash + 'plot_sound.py', '-files_path', '../workdir/sounds/two'], check=True)
 
 ####################################################### Genre-related pipeline
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
     # dataprep_genre.py -dataset_path ../workdir/datasets/dataset_c10_f100 -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py"))
-    subprocess.call(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/datasets/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)])
+    subprocess.run(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/datasets/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py"))
-    subprocess.call(interp + [dotslash + 'train_genre_ann.py', '-epochs', str(args.epochs)])
+    subprocess.run(interp + [dotslash + 'train_genre_ann.py', '-epochs', str(args.epochs)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_CNN: # Genre classification using CNN
     # train_genre_cnn.py -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py"))
-    subprocess.call(interp + [dotslash + 'train_genre_cnn.py', '-epochs', str(args.epochs)])
+    subprocess.run(interp + [dotslash + 'train_genre_cnn.py', '-epochs', str(args.epochs)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
     # train_genre_rnn.py -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py"))
-    subprocess.call(interp + [dotslash + 'train_genre_rnn.py', '-epochs', str(args.epochs)])
+    subprocess.run(interp + [dotslash + 'train_genre_rnn.py', '-epochs', str(args.epochs)], check=True)
 
 ####################################################### ASR-related pipeline
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     # dataprep_asr.py -dataset_path ../workdir/datasets/speech_commands_few -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py"))
-    subprocess.call(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)])
+    subprocess.run(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)], check=True)
 
 if ARG_TEST_TRAIN_ASR:
     # train_asr.py -epochs 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py"))
-    subprocess.call(interp + [dotslash + 'train_asr.py', '-epochs', str(args.epochs), '-savemodel'])
+    subprocess.run(interp + [dotslash + 'train_asr.py', '-epochs', str(args.epochs), '-savemodel'], check=True)
 
 ####################################################### ASR inference test
 
 if ARG_TEST_ASR:
     # service_asr.py -inferdata_path ../workdir/infer/signal_bird
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT service_asr.py"))
-    subprocess.call(interp + [dotslash + 'service_asr.py', '-inferdata_path', '../workdir/infer/signal_bird'])
+    subprocess.run(interp + [dotslash + 'service_asr.py', '-inferdata_path', '../workdir/infer/signal_bird'], check=True)
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT PIPELINE SANITY"))
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ TEST COMPLETE"))
