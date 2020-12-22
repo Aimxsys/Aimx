@@ -33,7 +33,7 @@ COPY ./__init__.py           /Aimx/Audex
 COPY ./app_server.py         /Aimx/Audex
 COPY ./dataprep_*.py         /Aimx/Audex/
 COPY ./train_*.py            /Aimx/Audex/
-COPY ./service_wordetect.py  /Aimx/Audex
+COPY ./service_asr.py        /Aimx/Audex
 
 COPY ./utils/__init__.py     /Aimx/Audex/utils
 COPY ./utils/utils_audex.py  /Aimx/Audex/utils
