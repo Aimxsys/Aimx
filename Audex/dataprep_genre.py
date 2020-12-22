@@ -42,7 +42,7 @@ parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
 parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
 parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
-parser.add_argument("-track_duration", default =    30, type=int, help = 'Only load up to this much audio (in seconds).')
+parser.add_argument("-load_duration",  default =    30, type=int, help = 'Only load up to this much audio (in seconds).')
 parser.add_argument("-cutname",        action ='store_true',      help = 'Will generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Will print more detailed output messages.')
 parser.add_argument("-example",        action ='store_true',      help = 'Will show a working example on how to call the script.')
@@ -68,9 +68,9 @@ if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now
 
 ###########################################################################################
 
-SAMPLES_PER_TRACK = args.sample_rate * args.track_duration
+SAMPLES_PER_TRACK = args.sample_rate * args.load_duration
 
-def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, track_duration = 30):
+def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, load_duration = 30):
     """
     Extracts MFCC from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
@@ -80,7 +80,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
         :param: num_segments (int): Number of segments we want to divide sample tracks into.
     """
     traindata_id = compose_traindata_id(args.dataset_depth, args.dataset_view, dataset_path,
-                                       n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration)
+                                       n_mfcc, n_fft, hop_length, num_segments, sample_rate, load_duration)
 
     # dictionary to store mapping, labels, and MFCC
     traindata = {
@@ -95,13 +95,13 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
     expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv preprocess_dataset()")
-    print_info("traindata_id   =", traindata_id)
-    print_info("n_mfcc         =", n_mfcc)
-    print_info("n_fft          =", n_fft)
-    print_info("hop_length     =", hop_length)
-    print_info("num_segments   =", num_segments)
-    print_info("sample_rate    =", sample_rate)
-    print_info("track_duration =", track_duration)
+    print_info("traindata_id  =", traindata_id)
+    print_info("n_mfcc        =", n_mfcc)
+    print_info("n_fft         =", n_fft)
+    print_info("hop_length    =", hop_length)
+    print_info("num_segments  =", num_segments)
+    print_info("sample_rate   =", sample_rate)
+    print_info("load_duration =", load_duration)
 
     label_id = 0
 
@@ -132,7 +132,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
 		    # load audio file
             af_path             = os.path.join(dirpath, afname)
-            signal, sample_rate = librosa.load(af_path, sr = sample_rate, duration = track_duration)
+            signal, sample_rate = librosa.load(af_path, sr = sample_rate, duration = load_duration)
             print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(af_path).name, len(signal)),
                         verbose = args.verbose)
 
@@ -169,7 +169,7 @@ if __name__ == "__main__":
                                                                 hop_length = args.hop_length,
                                                               num_segments = args.num_segments,
                                                                sample_rate = args.sample_rate, 
-                                                            track_duration = args.track_duration)
+                                                             load_duration = args.load_duration)
     traindata_filename = traindata_id + ".json"
 
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))

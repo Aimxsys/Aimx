@@ -181,16 +181,16 @@ def save_model(model, trainid):
     copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
     print_info("[DONE]")
     
-def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, track_duration):
+def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, load_duration):
     traindata_id =  str(len(dataset_view)) + "v_"
     traindata_id += str(dataset_depth)     + "d_"
     traindata_id += PurePath(dataset_path).name # the traindata file name
-    traindata_id += "_" + str(n_mfcc)         + "m" \
-                 +  "_" + str(n_fft)          + "w" \
-                 +  "_" + str(hop_length)     + "h" \
-                 +  "_" + str(num_segments)   + "i" \
-                 +  "_" + str(sample_rate)    + "r" \
-                 +  "_" + str(track_duration) + "s"
+    traindata_id += "_" + str(n_mfcc)        + "m" \
+                 +  "_" + str(n_fft)         + "w" \
+                 +  "_" + str(hop_length)    + "h" \
+                 +  "_" + str(num_segments)  + "i" \
+                 +  "_" + str(sample_rate)   + "r" \
+                 +  "_" + str(load_duration) + "s"
     return traindata_id
 
 def save_traindata(traindata, traindata_filename):

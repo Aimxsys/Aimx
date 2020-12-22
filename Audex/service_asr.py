@@ -31,7 +31,7 @@ def process_clargs():
     parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
     parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
     parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
-    parser.add_argument("-track_duration", default =     1, type=int, help = 'Only load up to this much audio (in seconds).')
+    parser.add_argument("-load_duration",  default =     1, type=int, help = 'Only load up to this much audio (in seconds).')
     parser.add_argument("-example",        action ='store_true',      help = 'Will show a working example on how to call the script.')
 
     args = parser.parse_args()
@@ -76,9 +76,9 @@ class _AsrService:
     inference_report_headers = "{:<5}  {:<4}  {:<16} {:<20}"
     inference_report_columns = "{:>5.2f}  {:<4}  {:<25} {:<20}"
 
-    def load_audiofile(self, af_fullpath, track_duration):
+    def load_audiofile(self, af_fullpath, load_duration):
         self.af_fullpath = af_fullpath
-        self.af_signal, self.af_sr = librosa.load(af_fullpath, duration=track_duration)
+        self.af_signal, self.af_sr = librosa.load(af_fullpath, duration=load_duration)
         self.af_duration           = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for ASR CNN inference
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     for afname in afnames:
         af_fullpath = os.path.join(args.inferdata_path, afname)
-        asr.load_audiofile(af_fullpath, args.track_duration)
+        asr.load_audiofile(af_fullpath, args.load_duration)
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             continue
         for i in range(int(asr.af_duration)):

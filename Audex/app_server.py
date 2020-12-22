@@ -65,7 +65,7 @@ def predict():
     # instantiate keyword spotting service singleton and get prediction
     asr = CreateAsrService(args.model_path)
     
-    asr.load_audiofile(local_temp_af_path, track_duration=1)
+    asr.load_audiofile(local_temp_af_path, load_duration=1)
     if len(asr.af_signal) >= asr.af_sr: # process only signals of at least 1 sec
         mfccs = asr.numerize()
         w, c  = asr.predict(mfccs)
