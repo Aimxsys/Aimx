@@ -61,10 +61,11 @@ class _AsrService:
     modelType = None
 
     # audio file currently being analyzed
-    af_fullpath = None
-    af_signal   = None
-    af_sr       = None
-    af_duration = None
+    af_fullpath  = None
+    af_signal    = None
+    af_signalsec = None
+    af_sr        = None
+    af_duration  = None
 
     _instance = None
 
@@ -77,11 +78,11 @@ class _AsrService:
 
     def load_audiofile(self, af_fullpath, track_duration):
         self.af_fullpath = af_fullpath
-        self.af_signal, self.af_sr = librosa.load(af_fullpath)
+        self.af_signal, self.af_sr = librosa.load(af_fullpath, duration=track_duration)
         self.af_duration           = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for ASR CNN inference
-    def numerize(self, n_mfcc=13, n_fft=2048, hop_length=512):
+    def numerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Eextract mfccs from an audio file.
         :param     n_mfcc (int): # of coefficients to extract
@@ -92,9 +93,13 @@ class _AsrService:
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
         # trim longer signals at exactly 1 second to ensure consistency of the lengths
-        self.af_signal = self.af_signal[:self.af_sr]
+        # Otherwise you'll get an error that starts with a warning (here a 1-second model is called on a 2-second interval):
+        #  "WARNING:tensorflow:Model was constructed with shape (None, 44, 13, 1) for input Tensor("conv2d_input:0", shape=(None, 44, 13, 1), dtype=float32),
+        # but it was called on an input with incompatible shape (None, 87, 13, 1)."
+        # Therefore, TODO: Generalize the line below so that the array interval length is extracted from the model.
+        self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec+1)*self.af_sr]
 
-        mfccs = librosa.feature.mfcc(self.af_signal, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        mfccs = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
@@ -162,7 +167,9 @@ if __name__ == "__main__":
     for filename in filenames:
         af_fullpath = os.path.join(args.inferdata_path, filename)
         wds.load_audiofile(af_fullpath, args.track_duration)
-        if len(wds.af_signal) >= args.sample_rate: # process only signals of at least 1 sec
-            mfccs = wds.numerize(args.n_mfcc, args.n_fft, args.hop_length)
+        if len(wds.af_signal) < args.sample_rate: # process only signals of at least 1 sec
+            continue
+        for i in range(int(wds.af_duration)):
+            mfccs = wds.numerize(startsec=i)
             w, c  = wds.predict(mfccs)
             wds.highlight(w, c, args.confidence_threshold)
