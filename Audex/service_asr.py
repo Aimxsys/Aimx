@@ -53,7 +53,7 @@ def process_clargs():
     
     return args
 
-class _WordetectService:
+class _AsrService:
     """
     Singleton class for word detecting inference with trained models.
     """
@@ -103,7 +103,7 @@ class _WordetectService:
         elif self.modelType == 'rnn':
             mfccs = mfccs[..., np.newaxis]             # shape for RNN model
         else:
-            raise Exception("Wordetect received an unknown model type: " + self.modelType)
+            raise Exception("ASR received an unknown model type: " + self.modelType)
 
         return mfccs.T
 
@@ -130,28 +130,28 @@ class _WordetectService:
             else:
                 print(self.inference_report_columns.format(self.af_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
 
-def CreateWordetectService(model_path):
+def CreateAsrService(model_path):
     """
-    Factory function for WordetectService class.
+    Factory function for AsrService class.
     """
     # ensure an instance is created only on first call
-    if  _WordetectService._instance is None:
-        _WordetectService._instance = _WordetectService()
+    if  _AsrService._instance is None:
+        _AsrService._instance = _AsrService()
         try:
             print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
-            _WordetectService.model     = keras.models.load_model(model_path)
-            _WordetectService.modelType = extract_filename(model_path)[6:9]
+            _AsrService.model     = keras.models.load_model(model_path)
+            _AsrService.modelType = extract_filename(model_path)[6:9]
             print_info("[DONE]")
         except Exception as e:
             print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
             print(pinkred("Exception message: ") + red(str(e)))
-    return _WordetectService._instance
+    return _AsrService._instance
 
 if __name__ == "__main__":
 
     args = process_clargs()
 
-    wds = CreateWordetectService(args.model_path)
+    wds = CreateAsrService(args.model_path)
     
     print_info("\nPredicting with dataset view (labels):", wds.label_mapping)
     print_info("On files in:", args.inferdata_path)

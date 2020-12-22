@@ -46,7 +46,7 @@ args = parser.parse_args()
 print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
-ARG_TEST_WORDETECT       = args.all
+ARG_TEST_ASR             = args.all
 
 ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr   or args.asr
 ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre or args.genre
@@ -113,9 +113,9 @@ if ARG_TEST_TRAIN_ASR:
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py"))
     subprocess.call(interp + [dotslash + 'train_asr.py', '-epochs', str(args.epochs), '-savemodel'])
 
-####################################################### Wordetect inference test
+####################################################### ASR inference test
 
-if ARG_TEST_WORDETECT: # Wordetect service
+if ARG_TEST_ASR:
     # service_asr.py -inferdata_path ../workdir/infer/signal_bird
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT service_asr.py"))
     subprocess.call(interp + [dotslash + 'service_asr.py', '-inferdata_path', '../workdir/infer/signal_bird'])

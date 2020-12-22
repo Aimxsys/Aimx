@@ -14,7 +14,7 @@ from flask              import Flask, request, jsonify
 # TODO: Replace with the idiomatic way.
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Audex.service_asr        import CreateWordetectService
+from Audex.service_asr        import CreateAsrService
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import get_actual_model_path
 from Audex.utils.utils_audex  import WORKDIR
@@ -63,7 +63,7 @@ def predict():
     af_received.save(local_temp_af_path)
 
     # instantiate keyword spotting service singleton and get prediction
-    wds = CreateWordetectService(args.model_path)
+    wds = CreateAsrService(args.model_path)
     
     wds.load_audiofile(local_temp_af_path, track_duration=1)
     if len(wds.af_signal) >= wds.af_sr: # process only signals of at least 1 sec
