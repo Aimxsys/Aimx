@@ -93,7 +93,7 @@ class _AsrService:
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
         # trim longer signals at exactly 1 second to ensure consistency of the lengths
-        # Otherwise you'll get an error that starts with a warning (here a 1-second model is called on a 2-second interval):
+        # Otherwise you'll get an error that starts with a warning (here a 1-second TF model is called on a 2-second audio interval):
         #  "WARNING:tensorflow:Model was constructed with shape (None, 44, 13, 1) for input Tensor("conv2d_input:0", shape=(None, 44, 13, 1), dtype=float32),
         # but it was called on an input with incompatible shape (None, 87, 13, 1)."
         # Therefore, TODO: Generalize the line below so that the array interval length is extracted from the model.
