@@ -71,6 +71,9 @@ class _AsrService:
 
     label_mapping = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
+    # TODO: Use this to deduce file name column length automatically for inference report
+    #filename_column_len = len(max(get_all_filenames_in(args.inferdata_path), key=len))
+    
     # Numbers in the two rows below are related and go together,
     # their calculation may be automated some time in the future.
     inference_report_headers = "{:<5}  {:<4}  {:<16} {:<20}"
@@ -164,7 +167,7 @@ if __name__ == "__main__":
     print_info(asr.inference_report_headers.format("Len", "Con", "Filename", "Inference"))
 
     (_, _, afnames) = next(os.walk(args.inferdata_path))
-
+    
     for afname in afnames:
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
