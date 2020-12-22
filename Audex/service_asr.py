@@ -87,7 +87,7 @@ class _AsrService:
     # This dataprep is for ASR CNN inference
     def numerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
         """
-        # Eextract mfccs from an audio file.
+        # Extract mfccs from an audio file.
         :param     n_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
@@ -95,7 +95,7 @@ class _AsrService:
         """
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
 
-        # trim longer signals at exactly 1 second to ensure consistency of the lengths
+        # Trim longer signals at exactly 1 second to ensure consistency of the lengths
         # Otherwise you'll get an error that starts with a warning (here a 1-second TF model is called on a 2-second audio interval):
         #  "WARNING:tensorflow:Model was constructed with shape (None, 44, 13, 1) for input Tensor("conv2d_input:0", shape=(None, 44, 13, 1), dtype=float32),
         # but it was called on an input with incompatible shape (None, 87, 13, 1)."
