@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-"""Plot the live microphone signal(s) with matplotlib.
-
-Matplotlib and NumPy have to be installed.
-
 """
-
+Plot the live microphone signal(s) with matplotlib.
+Matplotlib and NumPy have to be installed.
+"""
 import argparse
 import queue
 import sys
@@ -14,12 +12,15 @@ import matplotlib.pyplot as pt
 import numpy as np
 import sounddevice as sd
 
-def int_or_str(text):
-    """Helper function for argument parsing."""
-    try:
-        return int(text)
-    except ValueError:
-        return text
+import sys
+import os
+# Add this directory to path so that package is recognized.
+# Looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_common import int_or_str
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('-l', '--list-devices', action='store_true',  help='show list of audio devices and exit')

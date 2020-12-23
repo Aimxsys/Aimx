@@ -20,6 +20,13 @@ init() # colorama
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
+def int_or_str(text):
+    """Helper function for argument parsing."""
+    try:
+        return int(text)
+    except ValueError:
+        return text
+
 def print_script_start_preamble(script_filename, args):
     print_info("========================================================================================")
     print_info("===========================  SCRIPT START STANDARD PREAMBLE  ===========================")

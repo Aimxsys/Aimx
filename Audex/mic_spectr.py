@@ -1,21 +1,23 @@
-
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Show a text-mode spectrogram using live microphone data."""
 import argparse
-import math
 import shutil
+import math
 
 import numpy as np
 import sounddevice as sd
 
-usage_line = ' press <enter> to quit, +<enter> or -<enter> to change scaling '
+import sys
+import os
+# Add this directory to path so that package is recognized.
+# Looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-def int_or_str(text):
-    """Helper function for argument parsing."""
-    try:
-        return int(text)
-    except ValueError:
-        return text
+from Audex.utils.utils_common import int_or_str
+
+usage_line = ' press <enter> to quit, +<enter> or -<enter> to change scaling '
 
 try:
     columns, _ = shutil.get_terminal_size()
