@@ -87,7 +87,7 @@ try:
     fftsize = math.ceil(samplerate / delta_f)
     low_bin = math.floor(low / delta_f)
 
-    def callback(indata, frames, time, status):
+    def spectrogram_callback(indata, frames, time, status):
         if status:
             text = ' ' + str(status) + ' '
             print('\x1b[34;40m', text.center(args.columns, '#'),
@@ -101,7 +101,7 @@ try:
         else:
             print('no input')
 
-    with sd.InputStream(device = args.device, channels = 1, callback=callback,
+    with sd.InputStream(device = args.device, channels = 1, callback = spectrogram_callback,
                         blocksize  = int(samplerate * args.block_duration / 1000),
                         samplerate = samplerate):
         while True:
@@ -121,3 +121,12 @@ except KeyboardInterrupt:
     parser.exit('Interrupted by user')
 except Exception as e:
     parser.exit(type(e).__name__ + ': ' + str(e))
+
+# This is an independent section.
+# This section will instead of spectrogram display perceived volume.
+#def print_volume(indata, outdata, frames, time, status):
+#    volume_norm = np.linalg.norm(indata) * 10
+#    print ("|" * int(volume_norm))
+#
+#with sd.Stream(callback=print_volume):
+#    sd.sleep(5_000) # milliseconds
