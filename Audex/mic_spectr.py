@@ -73,13 +73,13 @@ if high <= low:
 colors = 30, 34, 35, 91, 93, 97
 chars = ' :%#\t#%:'
 gradient = []
+
 for bg, fg in zip(colors, colors[1:]):
     for char in chars:
         if char == '\t':
             bg, fg = fg, bg
         else:
             gradient.append('\x1b[{};{}m{}'.format(fg, bg + 10, char))
-
 try:
     samplerate = sd.query_devices(args.device, 'input')['default_samplerate']
 
@@ -90,8 +90,7 @@ try:
     def spectrogram_callback(indata, frames, time, status):
         if status:
             text = ' ' + str(status) + ' '
-            print('\x1b[34;40m', text.center(args.columns, '#'),
-                  '\x1b[0m', sep='')
+            print('\x1b[34;40m', text.center(args.columns, '#'), '\x1b[0m', sep='')
         if any(indata):
             magnitude = np.abs(np.fft.rfft(indata[:, 0], n=fftsize))
             magnitude *= args.gain / fftsize
@@ -114,8 +113,7 @@ try:
                 elif ch == '-':
                     args.gain /= 2
                 else:
-                    print('\x1b[31;40m', usage_line.center(args.columns, '#'),
-                          '\x1b[0m', sep='')
+                    print('\x1b[31;40m', usage_line.center(args.columns, '#'), '\x1b[0m', sep='')
                     break
 except KeyboardInterrupt:
     parser.exit('Interrupted by user')
