@@ -66,6 +66,7 @@ class _AsrService:
     af_signalsec       = None # which second
     af_sr              = None 
     af_loaded_duration = None # seconds
+    af_currsec         = None # the second currently being processed (numerized)
 
     _instance = None
 
@@ -77,7 +78,7 @@ class _AsrService:
     # Numbers in the two rows below are related and go together,
     # their calculation may be automated some time in the future.
     inference_report_headers = "{:<5}  {:<4}  {:<16} {:<20}"
-    inference_report_columns = "{:>5.2f}  {:<4}  {:<25} {:<20}"
+    inference_report_columns = "{:>5.2f} - {:<3}  {:<4}  {:<25} {:<20}"
 
     def load_audiofile(self, af_fullpath, load_duration):
         self.af_fullpath = af_fullpath
@@ -95,6 +96,8 @@ class _AsrService:
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
         #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
+
+        self.af_currsec = startsec
 
         # Trim longer signals so they're exactly 1 second in length to ensure consistency of the lengths
         # Otherwise you'll get an error that starts with a warning (here a 1-second TF model is called on a 2-second audio interval):
@@ -130,15 +133,15 @@ class _AsrService:
         if predicted_word in extract_filename(self.af_fullpath):
             # inference is correct
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.af_loaded_duration,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration, self.af_currsec,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.af_loaded_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration, self.af_currsec, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
         else:
             # inference is wrong
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.af_loaded_duration,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration, self.af_currsec,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.af_loaded_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration, self.af_currsec, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
 
 def CreateAsrService(model_path):
     """
