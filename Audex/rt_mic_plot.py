@@ -54,13 +54,13 @@ if args.list_devices:
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,  parents=[parser])
 
-parser.add_argument('channels',           type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
-parser.add_argument('-d', '--device',     type=int_or_str,                                        help='Input device (numeric ID or substring)')
-parser.add_argument('-w', '--window',     type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
-parser.add_argument('-i', '--interval',   type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
-parser.add_argument('-b', '--blocksize',  type=int,                                               help='Block size (in samples)')
-parser.add_argument('-r', '--samplerate', type=float,                                             help='Sampling rate of audio device')
-parser.add_argument('-n', '--downsample', type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
+parser.add_argument('-channels',   type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
+parser.add_argument('-device',     type=int_or_str,                                        help='Input device (numeric ID or substring)')
+parser.add_argument('-window',     type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
+parser.add_argument('-interval',   type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
+parser.add_argument('-blocksize',  type=int,                                               help='Block size (in samples)')
+parser.add_argument('-samplerate', type=float,                                             help='Sampling rate of audio device')
+parser.add_argument('-downsample', type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
 
 args = parser.parse_args(remaining)
 

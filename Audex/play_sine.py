@@ -48,9 +48,9 @@ if args.list_devices:
 
 parser = argparse.ArgumentParser(    description=__doc__,    formatter_class=argparse.RawDescriptionHelpFormatter,    parents=[parser])
 
-parser.add_argument('frequency', nargs='?', metavar='FREQUENCY', type=float, default=500, help='frequency in Hz (default: %(default)s)')
-parser.add_argument('-d', '--device',                            type=int_or_str,         help='output device (numeric ID or substring)')
-parser.add_argument('-a', '--amplitude',                         type=float, default=0.2, help='amplitude (default: %(default)s)')
+parser.add_argument('-frequency', nargs='?', type=float, default=500, help='frequency in Hz (default: %(default)s)')
+parser.add_argument('-device',               type=int_or_str,         help='output device (numeric ID or substring)')
+parser.add_argument('-amplitude',            type=float, default=0.2, help='amplitude (default: %(default)s)')
 args = parser.parse_args(remaining)
 
 start_idx = 0
