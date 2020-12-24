@@ -61,11 +61,11 @@ class _AsrService:
     modelType = None
 
     # audio file currently being analyzed
-    af_fullpath  = None
-    af_signal    = None
-    af_signalsec = None
-    af_sr        = None
-    af_duration  = None
+    af_fullpath        = None
+    af_signal          = None
+    af_signalsec       = None
+    af_sr              = None
+    af_loaded_duration = None
 
     _instance = None
 
@@ -82,7 +82,7 @@ class _AsrService:
     def load_audiofile(self, af_fullpath, load_duration):
         self.af_fullpath = af_fullpath
         self.af_signal, self.af_sr = librosa.load(af_fullpath, duration=load_duration)
-        self.af_duration           = librosa.get_duration(self.af_signal, self.af_sr)
+        self.af_loaded_duration    = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for ASR CNN inference
     def numerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
@@ -129,15 +129,15 @@ class _AsrService:
         if predicted_word in extract_filename(self.af_fullpath):
             # inference is correct
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.af_duration,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration,    cyan("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.af_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), cyan(predicted_word)))
         else:
             # inference is wrong
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(self.af_duration,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration,     red("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
             else:
-                print(self.inference_report_columns.format(self.af_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
+                print(self.inference_report_columns.format(self.af_loaded_duration, pinkred("{:.2f}".format(confidence)), yellow(extract_filename(self.af_fullpath)), pinkred(predicted_word)))
 
 def CreateAsrService(model_path):
     """
@@ -173,7 +173,7 @@ if __name__ == "__main__":
         asr.load_audiofile(af_fullpath, args.load_duration)
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             continue
-        for i in range(int(asr.af_duration)):
+        for i in range(int(asr.af_loaded_duration)):
             mfccs = asr.numerize(startsec=i)
             w, c  = asr.predict(mfccs)
             asr.highlight(w, c, args.confidence_threshold)
