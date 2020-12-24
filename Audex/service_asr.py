@@ -88,6 +88,7 @@ class _AsrService:
     def numerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Extract mfccs from an audio file.
+        :param   startsec (int): second in the signal from which numerization starts
         :param     n_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
