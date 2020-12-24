@@ -125,7 +125,7 @@ class _AsrService:
 
         return inference, confidence
 
-    def highlight(self, predicted_word, confidence, confidence_threshold=0.9):
+    def report(self, predicted_word, confidence, confidence_threshold=0.9):
         if predicted_word in extract_filename(self.af_fullpath):
             # inference is correct
             if confidence > confidence_threshold:
@@ -176,4 +176,4 @@ if __name__ == "__main__":
         for i in range(int(asr.af_loaded_duration)):
             mfccs = asr.numerize(startsec=i)
             w, c  = asr.predict(mfccs)
-            asr.highlight(w, c, args.confidence_threshold)
+            asr.report(w, c, args.confidence_threshold)

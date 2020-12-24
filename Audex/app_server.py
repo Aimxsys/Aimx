@@ -69,7 +69,7 @@ def predict():
     if len(asr.af_signal) >= asr.af_sr: # process only signals of at least 1 sec
         mfccs = asr.numerize()
         w, c  = asr.predict(mfccs)
-        asr.highlight(w, c)
+        asr.report(w, c)
                 
         prediction = w
     else:
