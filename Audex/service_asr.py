@@ -63,9 +63,9 @@ class _AsrService:
     # audio file currently being analyzed
     af_fullpath        = None
     af_signal          = None
-    af_signalsec       = None
-    af_sr              = None
-    af_loaded_duration = None
+    af_signalsec       = None # which second
+    af_sr              = None 
+    af_loaded_duration = None # seconds
 
     _instance = None
 
