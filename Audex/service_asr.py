@@ -77,8 +77,9 @@ class _AsrService:
     
     # Numbers in the two rows below are related and go together,
     # their calculation may be automated some time in the future.
-    inference_report_headers = "{:<5}  {:<4}  {:<16} {:<20}"
-    inference_report_columns = "{:>5.2f} - {:<3}  {:<4}  {:<25} {:<20}"
+    #                           Len    Con  Filename Inference
+    inference_report_headers = "{:<10}  {:<4}  {:<16} {:<20}"
+    inference_report_columns = "{:>5.2f} - {:<3} {:<4}  {:<25} {:<20}"
 
     def load_audiofile(self, af_fullpath, load_duration):
         self.af_fullpath = af_fullpath
@@ -168,7 +169,7 @@ if __name__ == "__main__":
     
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
     print_info("On files in:", args.inferdata_path)
-    print_info(asr.inference_report_headers.format("Len", "Con", "Filename", "Inference"))
+    print_info(asr.inference_report_headers.format("Loaded Sec", "Con", "Filename", "Inference"))
 
     (_, _, afnames) = next(os.walk(args.inferdata_path))
     
