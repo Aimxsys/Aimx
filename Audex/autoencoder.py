@@ -10,10 +10,10 @@ class Autoencoder:
     with mirrored encoder and decoder components.
     """
     def __init__(self, input_shape, conv_filters, conv_kernels, conv_strides, latent_space_dim):
-        self.input_shape      = input_shape  # [28, 28, 1]
-        self.conv_filters     = conv_filters # [2, 4, 8]
-        self.conv_kernels     = conv_kernels # [3, 5, 3]
-        self.conv_strides     = conv_strides # [1, 2, 2]
+        self.input_shape      = input_shape      # [28, 28, 1]
+        self.conv_filters     = conv_filters     # [2, 4, 8]
+        self.conv_kernels     = conv_kernels     # [3, 5, 3]
+        self.conv_strides     = conv_strides     # [1, 2, 2]
         self.latent_space_dim = latent_space_dim # 2
 
         self.encoder = None
@@ -54,8 +54,7 @@ class Autoencoder:
 
     def _add_conv_transpose_layers(self, x):
         """ Add conv transpose blocks. """
-        # loop through all the conv layers in reverse order and stop at the
-        # first layer
+        # loop through all the conv layers in reverse order and stop at the first layer
         for layer_index in reversed(range(1, self._num_conv_layers)):
             x = self._add_conv_transpose_layer(layer_index, x)
         return x
@@ -96,7 +95,7 @@ class Autoencoder:
         return Input(shape=self.input_shape, name="encoder_input")
 
     def _add_conv_layers(self, encoder_input):
-        """Create all convolutional blocks in encoder."""
+        """ Create all convolutional blocks in encoder. """
         x = encoder_input
         for layer_index in range(self._num_conv_layers):
             x = self._add_conv_layer(layer_index, x)
