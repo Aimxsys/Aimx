@@ -27,6 +27,7 @@ class Autoencoder:
 
     def summary(self):
         self.encoder.summary()
+        self.decoder.summary()
 
     def _build(self):
         self._build_encoder()
