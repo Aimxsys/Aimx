@@ -126,9 +126,9 @@ class Autoencoder:
 if __name__ == "__main__":
     autoencoder = Autoencoder(
         input_shape      = (28, 28, 1),
-        conv_filters     = (32, 64, 64, 64),
+        conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         conv_kernels     = (3, 3, 3, 3),
-        conv_strides     = (1, 2, 2, 1),
+        conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
         latent_space_dim = 2
     )
     autoencoder.summary()
