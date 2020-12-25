@@ -74,7 +74,7 @@ class Autoencoder:
 
     def _add_bottleneck(self, x):
         """ Flatten data and add bottleneck (Dense layer). """
-        self._shape_before_bottleneck = K.int_shape(x)[1:]
+        self._shape_before_bottleneck = K.int_shape(x)[1:] # ignore the first dimention, take only width, height and number of channels
         x = Flatten()(x)
         x = Dense(self.latent_space_dim, name="encoder_output")(x)
         return x
