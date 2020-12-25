@@ -34,30 +34,30 @@ class Autoencoder:
         #self._build_autoencoder()
 
     def _build_encoder(self):
-        encoder_input         = self._add_encoder_input()
-        conv_layers           = self._add_conv_layers(encoder_input)
-        bottleneck            = self._add_bottleneck(conv_layers)
+        encoder_input         = self._new_encoder_input()
+        conv_layers           = self._new_conv_layers(encoder_input)
+        bottleneck            = self._new_bottleneck(conv_layers)
         self.encoder          = Model(encoder_input, bottleneck, name="encoder")
 
     def _build_decoder(self):
-        decoder_input         = self._add_decoder_input()
-        dense_layer           = self._add_dense_layer(decoder_input)
-        reshape_layer         = self._add_reshape_layer(dense_layer)
-        conv_transpose_layers = self._add_conv_transpose_layers(reshape_layer)
-        decoder_output        = self._add_decoder_output(conv_transpose_layers)
+        decoder_input         = self._new_decoder_input()
+        dense_layer           = self._new_dense_layer(decoder_input)
+        reshape_layer         = self._new_reshape_layer(dense_layer)
+        conv_transpose_layers = self._new_conv_transpose_layers(reshape_layer)
+        decoder_output        = self._new_decoder_output(conv_transpose_layers)
         self.decoder          = Model(decoder_input, decoder_output, name="decoder")
 
-    def _add_encoder_input(self):
+    def _new_encoder_input(self):
         return Input(shape=self.input_shape, name="encoder_input")
 
-    def _add_conv_layers(self, encoder_input):
+    def _new_conv_layers(self, encoder_input):
         """ Create all convolutional blocks in encoder. """
         x = encoder_input
         for layer_index in range(self._num_conv_layers):
-            x = self._add_conv_layer(layer_index, x)
+            x = self._new_conv_layer(layer_index, x)
         return x
 
-    def _add_conv_layer(self, layer_index, x):
+    def _new_conv_layer(self, layer_index, x):
         """ Add a convolutional block to a graph of layers, consisting of conv 2d + ReLU + batch normalization. """
         layer_number = layer_index + 1
         conv_layer = Conv2D(
@@ -72,32 +72,32 @@ class Autoencoder:
         x = BatchNormalization(name = f"encoder_bn_{layer_number}")(x)
         return x
 
-    def _add_bottleneck(self, x):
+    def _new_bottleneck(self, x):
         """ Flatten data and add bottleneck (Dense layer). """
         self._shape_before_bottleneck = K.int_shape(x)[1:]
         x = Flatten()(x)
         x = Dense(self.latent_space_dim, name="encoder_output")(x)
         return x
 
-    def _add_decoder_input(self):
+    def _new_decoder_input(self):
         return Input(shape=self.latent_space_dim, name="decoder_input")
 
-    def _add_dense_layer(self, decoder_input):
+    def _new_dense_layer(self, decoder_input):
         num_neurons = np.prod(self._shape_before_bottleneck) # [1, 2, 4] -> 8
         dense_layer = Dense(num_neurons, name="decoder_dense")(decoder_input)
         return dense_layer
 
-    def _add_reshape_layer(self, dense_layer):
+    def _new_reshape_layer(self, dense_layer):
         return Reshape(self._shape_before_bottleneck)(dense_layer)
 
-    def _add_conv_transpose_layers(self, x):
+    def _new_conv_transpose_layers(self, x):
         """ Add conv transpose blocks. """
         # loop through all the conv layers in reverse order and stop at the first layer
         for layer_index in reversed(range(1, self._num_conv_layers)):
-            x = self._add_conv_transpose_layer(layer_index, x)
+            x = self._new_conv_transpose_layer(layer_index, x)
         return x
 
-    def _add_conv_transpose_layer(self, layer_index, x):
+    def _new_conv_transpose_layer(self, layer_index, x):
         layer_num = self._num_conv_layers - layer_index
         conv_transpose_layer = Conv2DTranspose(
             filters          = self.conv_filters[layer_index],
@@ -111,7 +111,7 @@ class Autoencoder:
         x = BatchNormalization(name = f"decoder_bn_{layer_num}")(x)
         return x
 
-    def _add_decoder_output(self, x):
+    def _new_decoder_output(self, x):
         conv_transpose_layer = Conv2DTranspose(
             filters          = 1,
             kernel_size      = self.conv_kernels[0],
