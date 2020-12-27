@@ -86,12 +86,12 @@ def update_plot(frame):
     global plotdata
     while True:
         try:
-            data = qu.get_nowait()
+            qu_data = qu.get_nowait()
         except queue.Empty:
             break
-        shift                = len(data)
+        shift                = len(qu_data)
         plotdata             = np.roll(plotdata, -shift, axis=0)
-        plotdata[-shift:, :] = data
+        plotdata[-shift:, :] = qu_data
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:, column])
     return lines
@@ -115,9 +115,9 @@ try:
     ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False)
     fig.tight_layout(pad=0)
 
-    stream    = sd.InputStream(device=args.device, channels=max(args.channels), samplerate=args.samplerate, callback=audio_callback)
-    animation = FuncAnimation(fig, update_plot, interval=args.interval, blit=True)
-    with stream:
+    input_stream = sd.InputStream(device=args.device, channels=max(args.channels), samplerate=args.samplerate, callback=audio_callback)
+    animation    = FuncAnimation(fig, update_plot, interval=args.interval, blit=True)
+    with input_stream:
         pt.show()
 except Exception as e:
     parser.exit(type(e).__name__ + ': ' + str(e))
