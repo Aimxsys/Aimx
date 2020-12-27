@@ -118,7 +118,7 @@ try:
 except KeyboardInterrupt:
     parser.exit('Interrupted by user')
 except Exception as e:
-    parser.exit(type(e).__name__ + ': ' + str(e))
+    parser.exit(type(e).__name__ + ': ' + str(e)) # test
 
 # This is an independent section.
 # This section will instead of spectrogram display perceived volume.
