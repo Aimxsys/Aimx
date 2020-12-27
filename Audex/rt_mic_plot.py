@@ -76,7 +76,7 @@ def audio_callback(indata, frames, time, status):
     if status:
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
-    audio_queue.put(indata[::args.downsample, channel_mapping])
+    audio_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1)
 
 def update_plot_callback(frame):
     """ This is called by matplotlib for each plot update.
