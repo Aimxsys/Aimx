@@ -69,14 +69,14 @@ if any(c < 1 for c in args.channels):
 
 mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
-qu = queue.Queue()
+audio_queue = queue.Queue()
 
 def audio_callback(indata, frames, time, status):
     """ Called (from a separate thread) for each audio block. """
     if status:
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
-    qu.put(indata[::args.downsample, mapping])
+    audio_queue.put(indata[::args.downsample, mapping])
 
 def update_plot(frame):
     """ This is called by matplotlib for each plot update.
@@ -86,12 +86,12 @@ def update_plot(frame):
     global plotdata
     while True:
         try:
-            qu_data = qu.get_nowait()
+            audio_queue_data = audio_queue.get_nowait() # of shape (114, 1)
         except queue.Empty:
             break
-        shift                = len(qu_data)
-        plotdata             = np.roll(plotdata, -shift, axis=0)
-        plotdata[-shift:, :] = qu_data
+        shift                = len(audio_queue_data)
+        plotdata             = np.roll(plotdata, -shift, axis=0) # of shape (882, 1)
+        plotdata[-shift:, :] = audio_queue_data
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:, column])
     return lines
@@ -115,8 +115,11 @@ try:
     ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False)
     fig.tight_layout(pad=0)
 
-    input_stream = sd.InputStream(device=args.device, channels=max(args.channels), samplerate=args.samplerate, callback=audio_callback)
-    animation    = FuncAnimation(fig, update_plot, interval=args.interval, blit=True)
+    input_stream = sd.InputStream(device     = args.device,
+                                  channels   = max(args.channels),
+                                  samplerate = args.samplerate,
+                                  callback   = audio_callback)
+    animation = FuncAnimation(fig, update_plot, interval=args.interval, blit=True)
     with input_stream:
         pt.show()
 except Exception as e:
