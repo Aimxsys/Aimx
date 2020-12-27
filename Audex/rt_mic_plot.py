@@ -67,7 +67,7 @@ args = parser.parse_args(remaining)
 if any(c < 1 for c in args.channels):
     parser.error('Argument CHANNEL: must be >= 1')
 
-mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
+channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
 audio_queue = queue.Queue()
 
@@ -76,7 +76,7 @@ def audio_callback(indata, frames, time, status):
     if status:
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
-    audio_queue.put(indata[::args.downsample, mapping])
+    audio_queue.put(indata[::args.downsample, channel_mapping])
 
 def update_plot(frame):
     """ This is called by matplotlib for each plot update.
