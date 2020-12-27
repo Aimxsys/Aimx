@@ -72,7 +72,7 @@ mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 qu = queue.Queue()
 
 def audio_callback(indata, frames, time, status):
-    """ This is called (from a separate thread) for each audio block. """
+    """ Called (from a separate thread) for each audio block. """
     if status:
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
