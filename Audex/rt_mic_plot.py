@@ -78,7 +78,7 @@ def audio_callback(indata, frames, time, status):
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_queue.put(indata[::args.downsample, channel_mapping])
 
-def update_plot(frame):
+def update_plot_callback(frame):
     """ This is called by matplotlib for each plot update.
     Typically, audio callbacks happen more frequently than plot updates,
     therefore the queue tends to contain multiple blocks of audio data.
@@ -119,7 +119,7 @@ try:
                                   channels   = max(args.channels),
                                   samplerate = args.samplerate,
                                   callback   = audio_callback)
-    animation = FuncAnimation(fig, update_plot, interval=args.interval, blit=True)
+    animation = FuncAnimation(fig, update_plot_callback, interval=args.interval, blit=True)
     with input_stream:
         pt.show()
 except Exception as e:
