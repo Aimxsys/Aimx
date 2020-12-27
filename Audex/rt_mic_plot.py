@@ -107,7 +107,7 @@ try:
     fig, ax = pt.subplots()
     lines   = ax.plot(plotdata)
     if len(args.channels) > 1:
-        ax.legend(['channel {}'.format(c) for c in args.channels], loc='lower left', ncol=len(args.channels))
+        ax.legend(['channel {}'.format(c) for c in args.channels], loc='lower left', ncol = len(args.channels))
 
     ax.axis((0, len(plotdata), -1, 1))
     ax.set_yticks([0])
@@ -119,7 +119,7 @@ try:
                                   channels   = max(args.channels),
                                   samplerate = args.samplerate,
                                   callback   = audio_callback)
-    animation = FuncAnimation(fig, update_plot_callback, interval=args.interval, blit=True)
+    animation = FuncAnimation(fig, update_plot_callback, interval = args.interval, blit=True)
     with input_stream:
         pt.show()
 except Exception as e:
