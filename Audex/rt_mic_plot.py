@@ -44,7 +44,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_common import *
 
 parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument('-l', '--list-devices', action='store_true',  help='show list of audio devices and exit')
+parser.add_argument('-list_devices', action='store_true', help='show list of audio devices and exit')
 
 args, remaining = parser.parse_known_args()
 
