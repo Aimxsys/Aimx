@@ -117,7 +117,7 @@ try:
 
     input_stream = sd.InputStream(device     = args.device,
                                   #blocksize  = 0, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
-                                                   # Default and special value 0 means audio_callback will receive an optimal (and possibly
+                                                   # Default and special value 0 means audio_callback() will receive an optimal (and possibly
                                                    # varying) number of frames based on host requirements and the requested latency settings.
                                   channels   = max(args.channels),
                                   samplerate = args.samplerate,
