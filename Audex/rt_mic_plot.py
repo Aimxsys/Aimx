@@ -112,11 +112,12 @@ try:
     if len(args.channels) > 1:
         ax.legend(['channel {}'.format(c) for c in args.channels], loc='lower left', ncol = len(args.channels))
 
-    ax.axis((0, len(plotdata), -1, 1))
-    ax.set_yticks([0])
-    ax.yaxis.grid(True)
-    ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False)
-    fig.tight_layout(pad=0)
+    # Adjust some plot parameters for a prettier realtime show
+    ax.axis((0, len(plotdata), -1, 1)) # (-1, 1) amounts to suppressing sensitivity
+    ax.set_yticks([0])                 # hides all horizontal grid lines on the canvas but the central one
+    ax.yaxis.grid(True)                # shows the horizontal grid lines defined in the lines above
+    #ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False) # hides all (irrelevant) axis texts
+    fig.tight_layout(pad=0)            # adjusts the plot padding
 
     input_stream = sd.InputStream(device     = args.device,
                                   #blocksize = 0, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
