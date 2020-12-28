@@ -108,7 +108,7 @@ try:
     plotdata     = np.zeros((plotdata_len, len(args.channels)))
 
     fig, ax = pt.subplots()
-    lines   = ax.plot(plotdata)
+    lines   = ax.plot(plotdata) # later used in update_plot_callback()
     if len(args.channels) > 1:
         ax.legend(['channel {}'.format(c) for c in args.channels], loc='lower left', ncol = len(args.channels))
 
