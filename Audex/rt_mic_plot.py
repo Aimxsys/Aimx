@@ -52,7 +52,7 @@ if args.list_devices:
     print(sd.query_devices())
     parser.exit(0)
 
-parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,  parents=[parser])
+parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter,  parents=[parser])
 
 parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
 parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
