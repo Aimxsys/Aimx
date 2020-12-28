@@ -96,7 +96,7 @@ def audio_callback(indata, frames, time, status):
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1)
-    print("{:.2f}".format(input_stream.cpu_load), end='\r')
+    print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
 def update_plot_callback(frame):
     """ This is called by matplotlib for each plot update.
@@ -121,7 +121,9 @@ def update_plot_callback(frame):
 
 try:
     if args.samplerate is None:
-        device_info     = sd.query_devices(args.device, 'input')
+        device_info = sd.query_devices(args.device, 'input')
+        print_info("Device info:")
+        pprint.pprint(device_info)
         args.samplerate = device_info['default_samplerate']
 
     plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample))
