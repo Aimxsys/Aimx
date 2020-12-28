@@ -56,7 +56,7 @@ if args.list_devices:
 
 parser = argparse.ArgumentParser(description=__doc__ + '\n\nSupported keys:' + usage_line, formatter_class=argparse.RawDescriptionHelpFormatter, parents=[parser])
 
-parser.add_argument('-block-duration', type=float, metavar='DURATION',      default=50,          help='Block size (default %(default)s milliseconds)')
+parser.add_argument('-block_duration', type=float, metavar='DURATION',      default=50,          help='Block size (default %(default)s milliseconds)')
 parser.add_argument('-columns',        type=int,                            default=columns,     help='Width of spectrogram')
 parser.add_argument('-device',         type=int_or_str,                                          help='Input device (numeric ID or substring)')
 parser.add_argument('-gain',           type=float, default=10,                                   help='Initial gain factor (default %(default)s)')
