@@ -112,7 +112,7 @@ def update_plot_callback(frame):
         shift    = len(audio_queue_data)
         plotdata = np.roll(plotdata, -shift, axis=0) # of shape (882, 1)
         try:
-            plotdata[-shift:, :] = audio_queue_data # broadcasting audio_queue_data of shape (114, 1) into plotdata shape (882, 1)
+            plotdata[-shift:, :] = audio_queue_data # broadcasting audio_queue_data of shape (114, 1) into plotdata of shape (882, 1)
         except ValueError as e:
             sys.exit("Captured audio stream data does not fit into target array:\n   " + repr(e))
     for column, line in enumerate(lines):
