@@ -41,7 +41,7 @@ import os
 # TODO: Replace with the idiomatic way.
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Audex.utils.utils_common import int_or_str
+from Audex.utils.utils_common import *
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('-l', '--list-devices', action='store_true',  help='show list of audio devices and exit')
@@ -63,6 +63,8 @@ parser.add_argument('-samplerate',      type=float,                             
 parser.add_argument('-downsample',      type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
 
 args = parser.parse_args(remaining)
+
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 if any(c < 1 for c in args.channels):
     parser.error('Argument CHANNEL: must be >= 1')
