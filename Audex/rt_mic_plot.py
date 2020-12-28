@@ -66,8 +66,12 @@ args = parser.parse_args(remaining)
 
 print_script_start_preamble(nameofthis(__file__), vars(args))
 
+########################## Command Argument Handling & Verification #######################
+
 if any(c < 1 for c in args.channels):
     parser.error('Argument CHANNEL: must be >= 1')
+
+###########################################################################################
 
 channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
