@@ -77,8 +77,21 @@ channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
 audio_queue = queue.Queue()
 
+# This is the audio callback function which consumes, processes or generates audio data in response to requests from an active stream.
+# When a stream is running (e.g. coming from a mic), PortAudio calls the stream callback periodically. The callback function is
+# responsible for processing and filling input and output buffers, respectively. As usual, the PortAudio stream callback runs at
+# very high or real-time priority. It is required to consistently meet its time deadlines. Do not allocate memory, access the file system,
+# call library functions or call other functions from the stream callback that may block or take an unpredictable amount of time to complete.
+# With the exception of property object cpu_load it is not permissible to call PortAudio API functions from within the stream callback.
 def audio_callback(indata, frames, time, status):
-    """ Called (from a separate thread) for each audio block. """
+    """ Called (from a separate thread) for each audio block.
+    In order for a stream to maintain glitch-free operation the callback must consume and return audio data faster than it is recorded
+    and/or played. PortAudio anticipates that each callback invocation may execute for a duration approaching the duration of 'frames'
+    audio frames at the stream's sampling frequency. It is reasonable to expect to be able to utilise 70% or more of the available
+    CPU time in the PortAudio callback. However, due to buffer size adaption and other factors, not all host APIs are able to guarantee
+    audio stability under heavy CPU load with arbitrary fixed callback buffer sizes. When high callback CPU utilisation is required
+    the most robust behavior can be achieved by using blocksize=0.
+    """
     if status:
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
