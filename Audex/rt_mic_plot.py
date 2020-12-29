@@ -67,6 +67,12 @@ def process_clargs():
 
     if any(c < 1 for c in args.channels):
         parser.error('Argument CHANNEL: must be >= 1')
+
+    if args.samplerate is None:
+        device_info = sd.query_devices(args.device, 'input')
+        print_info("Device info:")
+        pprint.pprint(device_info)
+        args.samplerate = device_info['default_samplerate']
     
     ###########################################################################################
     
@@ -120,12 +126,6 @@ try:
     channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
     audio_queue = queue.Queue()
-
-    if args.samplerate is None:
-        device_info = sd.query_devices(args.device, 'input')
-        print_info("Device info:")
-        pprint.pprint(device_info)
-        args.samplerate = device_info['default_samplerate']
 
     plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample))
     plotdata     = np.zeros((plotdata_len, len(args.channels)))
