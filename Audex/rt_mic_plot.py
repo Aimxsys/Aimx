@@ -57,8 +57,6 @@ def process_clargs():
     
     args = parser.parse_args()
     
-    print_script_start_preamble(nameofthis(__file__), vars(args))
-    
     ########################## Command Argument Handling & Verification #######################
     
     if args.list_devices:
@@ -75,6 +73,8 @@ def process_clargs():
         args.samplerate = device_info['default_samplerate']
     
     ###########################################################################################
+    
+    print_script_start_preamble(nameofthis(__file__), vars(args))
     
     return args
 
