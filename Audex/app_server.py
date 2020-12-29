@@ -28,8 +28,6 @@ parser.add_argument("-example", action='store_true',                           h
 
 args = parser.parse_args()
 
-print_script_start_preamble(nameofthis(__file__), vars(args))
-
 ############################## Command Argument Handling & Verification ##############################
 
 if args.example:
@@ -43,6 +41,8 @@ if provided(args.model_path) and not args.model_path.exists():
 args.model_path = get_actual_model_path(args.model_path)
 
 ######################################################################################################
+
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 flask_app_server = Flask(__name__) # instantiate Flask app
 

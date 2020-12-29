@@ -41,8 +41,6 @@ def process_clargs():
 
     args = parser.parse_args()
 
-    print_script_start_preamble(nameofthis(__file__), vars(args))
-
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
@@ -62,6 +60,8 @@ def process_clargs():
         print_info("As requested, proceeding with -savemodel =", args.savemodel)
     
     ###########################################################################################
+    
+    print_script_start_preamble(nameofthis(__file__), vars(args))
 
     return args
 

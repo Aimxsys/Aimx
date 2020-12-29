@@ -38,8 +38,6 @@ parser.add_argument("-example",          action ='store_true', help = 'Will show
 
 args = parser.parse_args()
 
-print_script_start_preamble(nameofthis(__file__), vars(args))
-
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
@@ -53,6 +51,8 @@ if not provided(args.files_path) and not Path(AUDIO_FILES_DIR_DEFAULT).exists():
     raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain default audio directory " + quote(pinkred(AUDIO_FILES_DIR_DEFAULT_NAME)))
 
 ###########################################################################################
+
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ARG_PLOT_FREQUENCIES = args.plot_all or args.plot_frequencies
 ARG_PLOT_SIGNALS     = args.plot_all or args.plot_signals

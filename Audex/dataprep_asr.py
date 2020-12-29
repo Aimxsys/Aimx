@@ -50,8 +50,6 @@ parser.add_argument("-example",        action ='store_true',      help = 'Will s
 
 args = parser.parse_args()
 
-print_script_start_preamble(nameofthis(__file__), vars(args))
-
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
@@ -68,6 +66,8 @@ if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now
     args.dataset_view = get_all_dirnames_in(args.dataset_path)
 
 ###########################################################################################
+
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segments = 5, sample_rate = 22050, load_duration = 30):
     """

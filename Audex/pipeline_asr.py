@@ -44,8 +44,6 @@ parser.add_argument("-skip_inference", action ='store_true',  help = 'Will skip 
 
 args = parser.parse_args()
 
-print_script_start_preamble(nameofthis(__file__), vars(args))
-
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
@@ -54,6 +52,8 @@ if args.example:
     exit()
 
 ###########################################################################################
+
+print_script_start_preamble(nameofthis(__file__), vars(args))
 
 # Looks like when launching on Linux from a corresponding Aimx venv, the shebang is enough for it
 # to automatically pick up the right Python interpreter (from the venv you're launching from).
