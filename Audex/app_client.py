@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(description = 'This scrip launches an ASR clien
 parser.add_argument("-inferdata_path", type = Path, help='Path to the audio files on which model inference is to be tested.')
 parser.add_argument("-server_endpoint", default = "http://127.0.0.1" + DEFAULT_FLASK_APP_PORT, type=str, help='Server URL.')
 parser.add_argument("-server_view",     default = "/predict",  type=str, help='Server view.')
-parser.add_argument("-example",         action  ='store_true',           help='Will show a working example on how to call the script.')
+parser.add_argument("-example",         action  ='store_true',           help='Show a working example on how to call the script.')
 
 args = parser.parse_args()
 

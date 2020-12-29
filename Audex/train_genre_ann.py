@@ -34,9 +34,9 @@ def process_clargs():
     parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
     parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                       ' or 2 (one line per epoch). Default is 1.')
-    parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
-    parser.add_argument("-savemodel",  action ='store_true',   help = 'Will save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
-    parser.add_argument("-example",    action ='store_true',   help = 'Will show a working example on how to call the script.')
+    parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, show an interactive plot of the training history.')
+    parser.add_argument("-savemodel",  action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
+    parser.add_argument("-example",    action ='store_true',   help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
 

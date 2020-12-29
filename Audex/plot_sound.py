@@ -28,13 +28,13 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
                                                ' audio files and their various spectrograms.')
 
 parser.add_argument("-files_path",       type = Path,  default = AUDIO_FILES_DIR_DEFAULT, help = 'Path to a sound files directory or a single file.')
-parser.add_argument("-plot_all",         action ='store_true', help = 'Will plot all available charts and spectrograms.')
-parser.add_argument("-plot_signals",     action ='store_true', help = 'Will plot time-domain signals of the sound files.')
-parser.add_argument("-plot_frequencies", action ='store_true', help = 'Will plot frequency domains of the sound files.')
-parser.add_argument("-plot_specs",       action ='store_true', help = 'Will plot spectrograms of the sound files.')
-parser.add_argument("-plot_melspecs",    action ='store_true', help = 'Will plot Mel spectrograms of the sound files.')
-parser.add_argument("-plot_mfccs",       action ='store_true', help = 'Will plot MFCCs of the sound files.')
-parser.add_argument("-example",          action ='store_true', help = 'Will show a working example on how to call the script.')
+parser.add_argument("-plot_all",         action ='store_true', help = 'Plot all available charts and spectrograms.')
+parser.add_argument("-plot_signals",     action ='store_true', help = 'Plot time-domain signals of the sound files.')
+parser.add_argument("-plot_frequencies", action ='store_true', help = 'Plot frequency domains of the sound files.')
+parser.add_argument("-plot_specs",       action ='store_true', help = 'Plot spectrograms of the sound files.')
+parser.add_argument("-plot_melspecs",    action ='store_true', help = 'Plot Mel spectrograms of the sound files.')
+parser.add_argument("-plot_mfccs",       action ='store_true', help = 'Plot MFCCs of the sound files.')
+parser.add_argument("-example",          action ='store_true', help = 'Show a working example on how to call the script.')
 
 args = parser.parse_args()
 

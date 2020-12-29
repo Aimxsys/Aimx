@@ -46,7 +46,7 @@ from Audex.utils.utils_common import *
 def process_clargs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
     
-    parser.add_argument('-list_devices',    action='store_true',                                    help='Shows the list of audio devices and exits')
+    parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
     parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
     parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
     parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
