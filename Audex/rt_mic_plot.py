@@ -43,35 +43,38 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import *
 
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument('-list_devices', action='store_true', help='show list of audio devices and exit')
-
-args, remaining = parser.parse_known_args()
-
-if args.list_devices:
-    print(sd.query_devices())
-    parser.exit(0)
-
-parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter,  parents=[parser])
-
-parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
-parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
-parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
-parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
-parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
-parser.add_argument('-samplerate',      type=float,                                             help='Sampling rate of audio device')
-parser.add_argument('-downsample',      type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
-
-args = parser.parse_args(remaining)
-
-print_script_start_preamble(nameofthis(__file__), vars(args))
-
-########################## Command Argument Handling & Verification #######################
-
-if any(c < 1 for c in args.channels):
-    parser.error('Argument CHANNEL: must be >= 1')
-
-###########################################################################################
+def process_clargs():
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument('-list_devices', action='store_true', help='show list of audio devices and exit')
+    
+    args, remaining = parser.parse_known_args()
+    
+    if args.list_devices:
+        print(sd.query_devices())
+        parser.exit(0)
+    
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter,  parents=[parser])
+    
+    parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
+    parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
+    parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
+    parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
+    parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
+    parser.add_argument('-samplerate',      type=float,                                             help='Sampling rate of audio device')
+    parser.add_argument('-downsample',      type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
+    
+    args = parser.parse_args(remaining)
+    
+    print_script_start_preamble(nameofthis(__file__), vars(args))
+    
+    ########################## Command Argument Handling & Verification #######################
+    
+    if any(c < 1 for c in args.channels):
+        parser.error('Argument CHANNEL: must be >= 1')
+    
+    ###########################################################################################
+    
+    return args
 
 # This is the audio callback function which consumes, processes or generates audio data in response to requests from an active stream.
 # When a stream is running (e.g. coming from a mic), PortAudio calls the stream callback periodically. The callback function is
@@ -116,6 +119,8 @@ def update_plot_callback(frame):
     return lines
 
 try:
+    args = process_clargs()
+
     channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
     audio_queue = queue.Queue()
