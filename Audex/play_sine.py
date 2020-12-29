@@ -36,22 +36,33 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import int_or_str
+from Audex.utils.utils_common import print_info
 
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument('-list_devices', action='store_true', help='Show the list of audio devices and exits')
+parser = argparse.ArgumentParser(    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-args, remaining = parser.parse_known_args()
-
-if args.list_devices:
-    print(sd.query_devices())
-    parser.exit(0)
-
-parser = argparse.ArgumentParser(    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter, parents=[parser])
-
+parser.add_argument('-list_devices', action='store_true',             help='Show the list of audio devices and exits')
 parser.add_argument('-frequency', nargs='?', type=float, default=500, help='Frequency in Hz (default: %(default)s)')
 parser.add_argument('-device',               type=int_or_str,         help='Output device (numeric ID or substring)')
 parser.add_argument('-amplitude',            type=float, default=0.2, help='Amplitude (default: %(default)s)')
-args = parser.parse_args(remaining)
+
+args = parser.parse_args()
+
+########################## Command Argument Handling & Verification #######################
+    
+if args.list_devices:
+    print_info(sd.query_devices())
+    exit()
+
+if any(c < 1 for c in args.channels):
+    parser.error('Argument CHANNEL: must be >= 1')
+
+if args.samplerate is None:
+    device_info = sd.query_devices(args.device, 'input')
+    args.samplerate = device_info['default_samplerate']
+    print_info("Device info:")
+    pprint.pprint(device_info)
+    
+###########################################################################################
 
 start_idx = 0
 

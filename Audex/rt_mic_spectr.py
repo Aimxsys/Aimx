@@ -37,6 +37,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import int_or_str
+from Audex.utils.utils_common import print_info
 
 usage_line = ' press <enter> to quit, +<enter> or -<enter> to change scaling '
 
@@ -45,24 +46,24 @@ try:
 except AttributeError:
     columns = 80
 
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument('-list-devices', action='store_true', help='Show the list of audio devices and exits')
+parser = argparse.ArgumentParser(description=__doc__ + '\n\nSupported keys:' + usage_line, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-args, remaining = parser.parse_known_args()
-
-if args.list_devices:
-    print(sd.query_devices())
-    parser.exit(0)
-
-parser = argparse.ArgumentParser(description=__doc__ + '\n\nSupported keys:' + usage_line, formatter_class=argparse.RawDescriptionHelpFormatter, parents=[parser])
-
+parser.add_argument('-list_devices',   action='store_true',                                      help='Show the list of audio devices and exits')
 parser.add_argument('-block_duration', type=float, metavar='DURATION',      default=50,          help='Block size (default %(default)s milliseconds)')
 parser.add_argument('-columns',        type=int,                            default=columns,     help='Width of spectrogram')
 parser.add_argument('-device',         type=int_or_str,                                          help='Input device (numeric ID or substring)')
 parser.add_argument('-gain',           type=float, default=10,                                   help='Initial gain factor (default %(default)s)')
 parser.add_argument('-range', type=float, nargs=2, metavar=('LOW', 'HIGH'), default=[100, 2000], help='Frequency range (default %(default)s Hz)')
 
-args = parser.parse_args(remaining)
+args = parser.parse_args()
+
+########################## Command Argument Handling & Verification #######################
+
+if args.list_devices:
+    print_info(sd.query_devices())
+    exit()
+
+###########################################################################################
 
 low, high = args.range
 if high <= low:
