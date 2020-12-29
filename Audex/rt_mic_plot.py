@@ -68,9 +68,9 @@ def process_clargs():
 
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
+        args.samplerate = device_info['default_samplerate']
         print_info("Device info:")
         pprint.pprint(device_info)
-        args.samplerate = device_info['default_samplerate']
     
     ###########################################################################################
     
