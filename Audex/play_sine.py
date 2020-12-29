@@ -66,7 +66,7 @@ try:
         global start_idx
         t = (start_idx + np.arange(frames)) / samplerate
         t = t.reshape(-1, 1)
-        outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t)
+        outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # of shape (1136, 1)
         start_idx += frames
 
     with sd.OutputStream(device = args.device, channels=1, callback=callback, samplerate = samplerate):
