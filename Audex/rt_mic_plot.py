@@ -73,10 +73,6 @@ if any(c < 1 for c in args.channels):
 
 ###########################################################################################
 
-channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
-
-audio_queue = queue.Queue()
-
 # This is the audio callback function which consumes, processes or generates audio data in response to requests from an active stream.
 # When a stream is running (e.g. coming from a mic), PortAudio calls the stream callback periodically. The callback function is
 # responsible for processing and filling input and output buffers, respectively. As usual, the PortAudio stream callback runs at
@@ -120,6 +116,10 @@ def update_plot_callback(frame):
     return lines
 
 try:
+    channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
+
+    audio_queue = queue.Queue()
+
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
         print_info("Device info:")
