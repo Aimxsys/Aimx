@@ -138,7 +138,7 @@ try:
     ax.axis((0, len(plotdata), -1, 1)) # (-1, 1) amounts to suppressing sensitivity
     ax.set_yticks([0])                 # hides all horizontal grid lines on the canvas but the central one
     ax.yaxis.grid(True)                # shows the horizontal grid lines defined in the lines above
-    #ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False) # hides all (irrelevant) axis texts
+    #ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False) # hides all axis texts
     fig.tight_layout(pad=0)            # adjusts the plot padding
 
     input_stream = sd.InputStream(device     = args.device,
