@@ -44,17 +44,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_common import *
 
 def process_clargs():
-    parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument('-list_devices', action='store_true', help='show list of audio devices and exit')
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
     
-    args, remaining = parser.parse_known_args()
-    
-    if args.list_devices:
-        print(sd.query_devices())
-        parser.exit(0)
-    
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter,  parents=[parser])
-    
+    parser.add_argument('-list_devices',    action='store_true',                                    help='Shows the list of audio devices and exits')
     parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
     parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
     parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
@@ -63,12 +55,16 @@ def process_clargs():
     parser.add_argument('-samplerate',      type=float,                                             help='Sampling rate of audio device')
     parser.add_argument('-downsample',      type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
     
-    args = parser.parse_args(remaining)
+    args = parser.parse_args()
     
     print_script_start_preamble(nameofthis(__file__), vars(args))
     
     ########################## Command Argument Handling & Verification #######################
     
+    if args.list_devices:
+        print_info(sd.query_devices())
+        exit()
+
     if any(c < 1 for c in args.channels):
         parser.error('Argument CHANNEL: must be >= 1')
     
