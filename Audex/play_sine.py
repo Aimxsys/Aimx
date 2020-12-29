@@ -53,15 +53,6 @@ if args.list_devices:
     print_info(sd.query_devices())
     exit()
 
-if any(c < 1 for c in args.channels):
-    parser.error('Argument CHANNEL: must be >= 1')
-
-if args.samplerate is None:
-    device_info = sd.query_devices(args.device, 'input')
-    args.samplerate = device_info['default_samplerate']
-    print_info("Device info:")
-    pprint.pprint(device_info)
-    
 ###########################################################################################
 
 start_idx = 0
@@ -78,8 +69,7 @@ try:
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t)
         start_idx += frames
 
-    with sd.OutputStream(device=args.device, channels=1, callback=callback,
-                         samplerate=samplerate):
+    with sd.OutputStream(device = args.device, channels=1, callback=callback, samplerate = samplerate):
         print('####' * 20)
         print('press Return to quit')
         print('####' * 20)
