@@ -71,7 +71,7 @@ try:
 
     with sd.OutputStream(device = args.device, channels=1, callback=callback, samplerate = samplerate):
         print('####' * 20)
-        print('press Return to quit')
+        print("Press 'Enter' to quit")
         print('####' * 20)
         input()
 except KeyboardInterrupt:
