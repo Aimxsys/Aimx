@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Play a sine signal."""
+""" Play a sine signal. """
 import argparse
 import sys
 
@@ -38,7 +38,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_common import int_or_str
 from Audex.utils.utils_common import print_info
 
-parser = argparse.ArgumentParser(    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('-list_devices', action='store_true',             help='Show the list of audio devices and exits')
 parser.add_argument('-frequency', nargs='?', type=float, default=500, help='Frequency in Hz (default: %(default)s)')
@@ -65,7 +65,9 @@ try:
             print(status, file=sys.stderr)
         global start_idx
         t = (start_idx + np.arange(frames)) / samplerate
+        print("t.shape =", t.shape)
         t = t.reshape(-1, 1)
+        print("t.shape =", t.shape)
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # of shape (1136, 1)
         start_idx += frames
 
