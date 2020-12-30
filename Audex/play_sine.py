@@ -60,7 +60,7 @@ start_idx = 0
 try:
     samplerate = sd.query_devices(args.device, 'output')['default_samplerate']
 
-    def callback(outdata, frames, time, status):
+    def audio_callback(outdata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
         global start_idx                                                     # For frames == 1136:
@@ -69,7 +69,7 @@ try:
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # matrix of shape (1136, 1)
         start_idx += frames
 
-    with sd.OutputStream(device = args.device, channels=1, callback=callback, samplerate = samplerate):
+    with sd.OutputStream(device = args.device, channels=1, callback=audio_callback, samplerate = samplerate):
         print_info('####' * 20)
         print_info("Playing sine with device's default sample rate of: ", samplerate)
         print_info("Press 'Enter' to quit")
