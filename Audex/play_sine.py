@@ -67,7 +67,7 @@ try:
         t = (start_idx + np.arange(frames)) / sr                             # vector of shape (1136,)
         t = t.reshape(-1, 1)                                                 # matrix of shape (1136, 1)
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # matrix of shape (1136, 1) <- A*sin(2*pi*f*t)
-        start_idx += frames
+        start_idx += frames # prepare for the next batch of frames to render
 
     with sd.OutputStream(device = args.device, channels=1, callback=audio_callback, samplerate = sr):
         print_info('####' * 20)
