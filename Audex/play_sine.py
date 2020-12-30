@@ -55,9 +55,9 @@ if args.list_devices:
 
 ###########################################################################################
 
-start_idx = 0
-
 try:
+    start_idx = 0
+
     sr = sd.query_devices(args.device, 'output')['default_samplerate']
 
     def audio_callback(outdata, frames, time, status):
