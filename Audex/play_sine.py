@@ -64,11 +64,9 @@ try:
         if status:
             print(status, file=sys.stderr)
         global start_idx
-        t = (start_idx + np.arange(frames)) / samplerate
-        print("t.shape =", t.shape)
-        t = t.reshape(-1, 1)
-        print("t.shape =", t.shape)
-        outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # of shape (1136, 1)
+        t = (start_idx + np.arange(frames)) / samplerate                     # vector of shape (1136,)
+        t = t.reshape(-1, 1)                                                 # matrix of shape (1136, 1)
+        outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # matrix of shape (1136, 1)
         start_idx += frames
 
     with sd.OutputStream(device = args.device, channels=1, callback=callback, samplerate = samplerate):
