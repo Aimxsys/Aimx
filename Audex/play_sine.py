@@ -63,7 +63,7 @@ try:
     def callback(outdata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
-        global start_idx
+        global start_idx                                                     # For frames == 1136:
         t = (start_idx + np.arange(frames)) / samplerate                     # vector of shape (1136,)
         t = t.reshape(-1, 1)                                                 # matrix of shape (1136, 1)
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # matrix of shape (1136, 1)
