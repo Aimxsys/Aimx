@@ -70,9 +70,10 @@ try:
         start_idx += frames
 
     with sd.OutputStream(device = args.device, channels=1, callback=callback, samplerate = samplerate):
-        print('####' * 20)
-        print("Press 'Enter' to quit")
-        print('####' * 20)
+        print_info('####' * 20)
+        print_info("Playing sine with device's default sample rate of: ", samplerate)
+        print_info("Press 'Enter' to quit")
+        print_info('####' * 20)
         input()
 except KeyboardInterrupt:
     parser.exit('')
