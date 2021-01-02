@@ -72,7 +72,10 @@ try:
         print_info("CPU utilization:", "{:.2f}".format(output_stream.cpu_load), end='\r')
 
     with sd.OutputStream(samplerate = sr,
-                         blocksize  = None, # will deduce optimal size automatically, for example 1136
+                         blocksize  = None, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
+                                            # Default and special value 0 means audio_callback() will receive an optimal (and possibly
+                                            # varying) number of frames based on host requirements and the requested latency settings.
+                                            # Will deduce optimal size automatically, for example 1136
                          latency    = None,
                          device     = args.device,
                          channels   = 1,
