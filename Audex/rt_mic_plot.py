@@ -143,12 +143,13 @@ try:
     #ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False) # hides all axis texts
     fig.tight_layout(pad=0)            # adjusts the plot padding
 
-    with sd.InputStream(device     = args.device,
-                        #blocksize = 0, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
-                                        # Default and special value 0 means audio_callback() will receive an optimal (and possibly
-                                        # varying) number of frames based on host requirements and the requested latency settings.
-                        channels   = max(args.channels),
-                        samplerate = args.samplerate,
+    with sd.InputStream(samplerate = args.samplerate,
+                        blocksize  = None, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
+                                           # Default and special value 0 means audio_callback() will receive an optimal (and possibly
+                                           # varying) number of frames based on host requirements and the requested latency settings.
+                        latency    = None,
+                        device     = args.device,
+                        channels   = max(args.channels),                        
                         callback   = audio_callback) as input_stream:
         animation = FuncAnimation(fig, update_plot_callback, interval = args.interval, blit=True)
         pt.show()
