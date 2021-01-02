@@ -60,9 +60,8 @@ try:
 
     sr = sd.query_devices(args.device, 'output')['default_samplerate']
 
-    # outdata.shape == (1136, 1) and does not depend on the selected speaker
+    # outdata.shape == (1136, 1) where the first number is the blocksize argument in sd.InputStream() below.
     def audio_callback(outdata, frames, time, status): 
-        print(outdata.shape)
         if status:
             print(status, file=sys.stderr)
         global start_idx                                                     # For frames == 1136:
@@ -71,7 +70,12 @@ try:
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # matrix of shape (1136, 1) <- A*sin(2*pi*f*t)
         start_idx += frames # prepare for the next batch of frames to render
 
-    with sd.OutputStream(device = args.device, channels=1, callback=audio_callback, samplerate = sr):
+    with sd.OutputStream(samplerate = sr,
+                         blocksize  = None, # will deduce optimal size automatically, for example 1136
+                         latency    = None,
+                         device     = args.device,
+                         channels   = 1,
+                         callback   = audio_callback):
         print_info('####' * 20)
         print_info("Playing sine with device's default sample rate of: ", sr)
         print_info("Press 'Enter' to quit")
