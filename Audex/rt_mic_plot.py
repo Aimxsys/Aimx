@@ -86,6 +86,7 @@ def process_clargs():
 # With the exception of property object cpu_load it is not permissible to call PortAudio API functions from within the stream callback.
 def audio_callback(indata, frames, time, status):
     """ Called (from a separate thread) for each audio block.
+    indata.shape == (1136, 1) where the first number is the blocksize argument in sd.InputStream() below.
     In order for a stream to maintain glitch-free operation the callback must consume and return audio data faster than it is recorded
     and/or played. PortAudio anticipates that each callback invocation may execute for a duration approaching the duration of 'frames'
     audio frames at the stream's sampling frequency. It is reasonable to expect to be able to utilise 70% or more of the available
