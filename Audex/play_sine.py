@@ -60,7 +60,9 @@ try:
 
     sr = sd.query_devices(args.device, 'output')['default_samplerate']
 
-    def audio_callback(outdata, frames, time, status):
+    # outdata.shape == (1136, 1) and does not depend on the selected speaker
+    def audio_callback(outdata, frames, time, status): 
+        print(outdata.shape)
         if status:
             print(status, file=sys.stderr)
         global start_idx                                                     # For frames == 1136:
