@@ -69,13 +69,14 @@ try:
         t = t.reshape(-1, 1)                                                 # matrix of shape (1136, 1)
         outdata[:] = args.amplitude * np.sin(2 * np.pi * args.frequency * t) # matrix of shape (1136, 1) <- A*sin(2*pi*f*t)
         start_idx += frames # prepare for the next batch of frames to render
+        print_info("CPU utilization:", "{:.2f}".format(output_stream.cpu_load), end='\r')
 
     with sd.OutputStream(samplerate = sr,
                          blocksize  = None, # will deduce optimal size automatically, for example 1136
                          latency    = None,
                          device     = args.device,
                          channels   = 1,
-                         callback   = audio_callback):
+                         callback   = audio_callback) as output_stream:
         print_info('####' * 20)
         print_info("Playing sine with device's default sample rate of: ", sr)
         print_info("Press 'Enter' to quit")
