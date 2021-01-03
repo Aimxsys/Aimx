@@ -120,7 +120,7 @@ def update_plot_callback(frame):
         try:
             plotdata[-shift:, :] = audio_queue_item # broadcasting audio_queue_data of shape (114, 1) into plotdata of shape (882, 1)
         except ValueError as e:
-            sys.exit(pinkred("Captured audio stream data does not fit into target array:\n   ") + repr(e))
+            sys.exit(pinkred("Captured audio stream data chunk (audio_queue_item) does not fit into target array:\n   ") + repr(e))
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:, column])
     return lines
