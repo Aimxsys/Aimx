@@ -110,13 +110,13 @@ def update_plot_callback(frame):
         try:
             # Extract audio data from audio_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
-            audio_queue_data = audio_queue.get_nowait() # of shape (114, 1)
+            audio_queue_item = audio_queue.get_nowait() # of shape (114, 1)
         except queue.Empty:
             break
-        shift    = len(audio_queue_data)
+        shift    = len(audio_queue_item)
         plotdata = np.roll(plotdata, -shift, axis=0) # of shape (882, 1)
         try:
-            plotdata[-shift:, :] = audio_queue_data # broadcasting audio_queue_data of shape (114, 1) into plotdata of shape (882, 1)
+            plotdata[-shift:, :] = audio_queue_item # broadcasting audio_queue_data of shape (114, 1) into plotdata of shape (882, 1)
         except ValueError as e:
             sys.exit(pinkred("Captured audio stream data does not fit into target array:\n   ") + repr(e))
     for column, line in enumerate(lines):
