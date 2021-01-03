@@ -101,7 +101,7 @@ try:
         else:
             print('no input')
 
-    with sd.InputStream(samplerate = samplerate,                        
+    with sd.InputStream(samplerate = samplerate,
                         blocksize  = int(samplerate * args.block_duration / 1000),
                         device     = args.device,
                         channels   = 1,
