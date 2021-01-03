@@ -98,7 +98,7 @@ def audio_callback(indata, frames, time, status):
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1) downsampled by args.downsample
-    print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
+    #print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
 def update_plot_callback(frame):
     """ This is called by matplotlib for each plot update.
@@ -108,6 +108,8 @@ def update_plot_callback(frame):
     global plotdata
     while True:
         try:
+            # Extract audio data from audio_queue whose size varies
+            # from 1 up to about 5 observed in Leo's original environment
             audio_queue_data = audio_queue.get_nowait() # of shape (114, 1)
         except queue.Empty:
             break
