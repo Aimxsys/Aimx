@@ -95,7 +95,7 @@ def audio_callback(indata, frames, time, status):
     the most robust behavior can be achieved by using blocksize=0.
     """
     if status:
-        print(status, file=sys.stderr)
+        print(status, file = sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1) downsampled by args.downsample
     #print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
