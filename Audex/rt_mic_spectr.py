@@ -71,8 +71,8 @@ if high <= low:
 
 # Create a nice output gradient using ANSI escape sequences.
 # Stolen from https://gist.github.com/maurisvh/df919538bcef391bc89f
-colors = 30, 34, 35, 91, 93, 97
-chars = ' :%#\t#%:'
+colors   = 30, 34, 35, 91, 93, 97
+chars    = ' :%#\t#%:'
 gradient = []
 
 for bg, fg in zip(colors, colors[1:]):
