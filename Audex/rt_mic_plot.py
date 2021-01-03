@@ -28,6 +28,7 @@ import argparse
 import queue
 import sys
 
+import tensorflow.keras as keras
 from   matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as pt
 import numpy as np
@@ -42,10 +43,17 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import Aimx
+from Audex.utils.utils_audex  import get_dataprep_result_meta
+from Audex.utils.utils_audex  import get_actual_model_path
 
 def process_clargs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
+
+    # ANN-related arguments
+    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
     
+    # Original, mic-related arguments
     parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
     parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
     parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
@@ -71,6 +79,8 @@ def process_clargs():
         args.samplerate = device_info['default_samplerate']
         print_info("Device info:")
         pprint.pprint(device_info)
+
+    args.model_path = get_actual_model_path(args.model_path)
     
     ###########################################################################################
     
@@ -146,6 +156,11 @@ try:
     ax.yaxis.grid(True)                # shows the horizontal grid lines defined in the lines above
     #ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False) # hides all axis texts
     fig.tight_layout(pad=0)            # adjusts the plot padding
+
+    print_info("|||||| Loading model " + quote_path(args.model_path) + "... ", end="")
+    model     = keras.models.load_model(args.model_path)
+    modelType = extract_filename(args.model_path)[6:9] # from name: model_cnn_...
+    print_info("[DONE]")
 
     with sd.InputStream(samplerate = args.samplerate,
                         blocksize  = None, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
