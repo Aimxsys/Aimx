@@ -112,6 +112,8 @@ def update_plot_callback(frame):
             # from 1 up to about 5 observed in Leo's original environment
             audio_queue_item = audio_queue.get_nowait() # of shape (114, 1)
         except queue.Empty:
+            # Empty queue just means no audio data to render,
+            # that's ok, just break and move on to the next cycle
             break
         shift    = len(audio_queue_item)
         plotdata = np.roll(plotdata, -shift, axis=0) # of shape (882, 1)
