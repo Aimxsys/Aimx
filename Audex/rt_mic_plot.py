@@ -110,7 +110,7 @@ def update_plot_callback(frame):
         try:
             # Extract audio data from audio_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
-            audio_queue_item = audio_queue.get_nowait() # of shape (114, 1)
+            audio_queue_item = audio_queue.get_nowait() # of shape (114, 1) with default args.downsample == 10
         except queue.Empty:
             # Empty queue just means no audio data to render,
             # that's ok, just break and move on to the next cycle
@@ -133,7 +133,7 @@ try:
     audio_queue = queue.Queue()
 
     plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample))
-    plotdata     = np.zeros((plotdata_len, len(args.channels)))
+    plotdata     = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1)
 
     fig, ax = pt.subplots()
     lines   = ax.plot(plotdata) # later used in update_plot_callback()
