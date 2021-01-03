@@ -133,7 +133,7 @@ try:
     audio_queue = queue.Queue()
 
     plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample))
-    plotdata     = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1)
+    plotdata     = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1) with arg defaults
 
     fig, ax = pt.subplots()
     lines   = ax.plot(plotdata) # later used in update_plot_callback()
