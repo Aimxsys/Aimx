@@ -93,7 +93,7 @@ def audio_callback(indata, frames, time, status):
     if status:
         print(status, file = sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
-    audio_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1) downsampled by args.downsample
+    audio_signals_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1) downsampled by args.downsample
     print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
 def inference_callback(frame):
@@ -113,17 +113,17 @@ def inference_callback(frame):
         try:
             # Extract audio data from audio_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
-            audio_queue_item = audio_queue.get_nowait() # of shape (114, 1) with default args.downsample == 10
+            audio_signal = audio_signals_queue.get_nowait() # of shape (114, 1) with default args.downsample == 10
         except queue.Empty:
             # Empty queue just means no audio data to render,
             # that's ok, just break and move on to the next cycle
             break
-        shift    = len(audio_queue_item)
+        shift    = len(audio_signal)
         plotdata = np.roll(plotdata, -shift, axis=0) # roll old chunk to make room for new; of shape (882, 1)
         try:
-            plotdata[-shift:, :] = audio_queue_item # broadcasting audio_queue_item of shape (114, 1) into plotdata of shape (882, 1)
+            plotdata[-shift:, :] = audio_signal # broadcasting audio_signal of shape (114, 1) into plotdata of shape (882, 1)
         except ValueError as e:
-            sys.exit(pinkred("Captured audio stream data chunk (audio_queue_item) does not fit into target array:\n   ") + repr(e))
+            sys.exit(pinkred("Captured audio stream data chunk (audio_signal) does not fit into target array:\n   ") + repr(e))
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:, column])
     return lines
@@ -133,7 +133,7 @@ try:
 
     channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
-    audio_queue = queue.Queue()
+    audio_signals_queue = queue.Queue()
 
     plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample))
     plotdata     = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1) with arg defaults
