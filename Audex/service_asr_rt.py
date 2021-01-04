@@ -106,7 +106,7 @@ class _AsrServiceRT:
         # but it was called on an input with incompatible shape (None, 87, 13, 1)."
         # Therefore, TODO: Generalize the line below so that the array interval length is extracted from the model.
         LENGTH_SEC = 1
-        self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr]
+        self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # resulting shape (22020,)
 
         mfccs = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
