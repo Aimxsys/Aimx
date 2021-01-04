@@ -47,11 +47,17 @@ from Audex.utils.utils_audex  import Aimx
 from Audex.utils.utils_audex  import get_dataprep_result_meta
 from Audex.utils.utils_audex  import get_actual_model_path
 
+from Audex.service_asr_rt import *
+
 def process_clargs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
 
     # ANN-related arguments
     parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
+    parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
+    parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
+    
+    parser.add_argument("-load_duration",  default = 1,     type=int, help = 'Only load up to this much audio (in seconds).')
     
     # Original, mic-related arguments
     parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
@@ -108,19 +114,20 @@ def audio_callback(indata, frames, time, status):
         print(status, file = sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1) downsampled by args.downsample
-
-    # TODO:NEXT
-    #mfccs = asr.numerize(startsec=i)
-    #w, c  = asr.predict(mfccs)
-    #asr.report(w, c, args.confidence_threshold)
-
     print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
-def update_plot_callback(frame):
+def inference_callback(frame):
     """ This is called by matplotlib for each plot update.
     Typically, audio callbacks happen more frequently than plot updates,
     therefore the queue tends to contain multiple blocks of audio data.
     """
+    # Inference on mic data
+    for i in range(int(asr.af_loaded_duration)):
+        mfccs = asr.numerize(startsec=i)
+        w, c  = asr.predict(mfccs)
+        asr.report(w, c, args.confidence_threshold)
+
+    # Plot mic data
     global plotdata
     while True:
         try:
@@ -132,7 +139,7 @@ def update_plot_callback(frame):
             # that's ok, just break and move on to the next cycle
             break
         shift    = len(audio_queue_item)
-        plotdata = np.roll(plotdata, -shift, axis=0) # of shape (882, 1)
+        plotdata = np.roll(plotdata, -shift, axis=0) # roll old chunk to make room for new; of shape (882, 1)
         try:
             plotdata[-shift:, :] = audio_queue_item # broadcasting audio_queue_data of shape (114, 1) into plotdata of shape (882, 1)
         except ValueError as e:
@@ -168,6 +175,18 @@ try:
     modelType = extract_filename(args.model_path)[6:9] # from name: model_cnn_...
     print_info("[DONE]")
 
+    asr = CreateAsrServiceRT(args.model_path)
+    
+    print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
+
+    (_, _, afnames) = next(os.walk(args.inferdata_path))
+    
+    for afname in afnames:
+        af_fullpath = os.path.join(args.inferdata_path, afname)
+        asr.load_audiofile(af_fullpath, args.load_duration)
+        if len(asr.af_signal) < args.samplerate/2: # process only signals of at least 1 sec
+            continue
+
     with sd.InputStream(samplerate = args.samplerate,
                         blocksize  = None, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
                                            # Default and special value 0 means audio_callback() will receive an optimal (and possibly
@@ -176,7 +195,7 @@ try:
                         device     = args.device,
                         channels   = max(args.channels),                        
                         callback   = audio_callback) as input_stream:
-        animation = FuncAnimation(fig, update_plot_callback, interval = args.interval, blit=True)
+        animation = FuncAnimation(fig, inference_callback, interval = args.interval, blit=True)
         pt.show()
 except Exception as e:
     parser.exit(type(e).__name__ + ': ' + str(e))
