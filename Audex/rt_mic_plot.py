@@ -141,7 +141,7 @@ def inference_callback(frame):
         shift    = len(audio_queue_item)
         plotdata = np.roll(plotdata, -shift, axis=0) # roll old chunk to make room for new; of shape (882, 1)
         try:
-            plotdata[-shift:, :] = audio_queue_item # broadcasting audio_queue_data of shape (114, 1) into plotdata of shape (882, 1)
+            plotdata[-shift:, :] = audio_queue_item # broadcasting audio_queue_item of shape (114, 1) into plotdata of shape (882, 1)
         except ValueError as e:
             sys.exit(pinkred("Captured audio stream data chunk (audio_queue_item) does not fit into target array:\n   ") + repr(e))
     for column, line in enumerate(lines):
