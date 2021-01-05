@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import librosa
-import argparse
 import tensorflow.keras as keras
 import numpy as np
 import sys
