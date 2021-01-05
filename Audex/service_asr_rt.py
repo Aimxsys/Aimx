@@ -30,12 +30,6 @@ class _AsrServiceRT:
     # Extract label mapping from the dataprep result metadata file
     label_mapping = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
-    # Numbers in the two rows below are related and go together,
-    # their calculation may be automated some time in the future.
-    #                           Len    Con  Filename Inference
-    inference_report_headers = "{:<10}  {:<4}  {:<16} {:<20}"
-    inference_report_columns = "{:>5.2f} - {:<3} {:<4}  {:<25} {:<20}"
-
     # This dataprep is for ASR CNN inference
     def numerize(self, audio_signal, sample_rate, n_mfcc=13, n_fft=2048, hop_length=512):
         """
@@ -45,16 +39,6 @@ class _AsrServiceRT:
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
-        #mfccs = np.empty([n_mfcc, 44]) # TODO: Revisit this line later
-
-        # Trim longer signals so they're exactly 1 second in length to ensure consistency of the lengths
-        # Otherwise you'll get an error that starts with a warning (here a 1-second TF model was called on a 2-second audio interval):
-        #  "WARNING:tensorflow:Model was constructed with shape (None, 44, 13, 1) for input Tensor("conv2d_input:0", shape=(None, 44, 13, 1), dtype=float32),
-        # but it was called on an input with incompatible shape (None, 87, 13, 1)."
-        # Therefore, TODO: Generalize the line below so that the array interval length is extracted from the model.
-        # LENGTH_SEC = 1
-        # self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # resulting shape (22020,)
-
         mfccs = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
@@ -81,9 +65,9 @@ class _AsrServiceRT:
         if True: # Original criteria (TODO: change when ready): predicted_word in extract_filename(self.af_fullpath):
             # inference is correct
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(   cyan("{:.2f}".format(confidence)), cyan(predicted_word)))
+                print(   cyan("{:.2f}".format(confidence)), cyan(predicted_word))
             else:
-                print(self.inference_report_columns.format(pinkred("{:.2f}".format(confidence)), cyan(predicted_word)))
+                print(pinkred("{:.2f}".format(confidence)), cyan(predicted_word))
         else:
             # inference is wrong
             if confidence > confidence_threshold:
