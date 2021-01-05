@@ -174,6 +174,7 @@ try:
                         blocksize  = args.blocksize, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
                                                      # Default and special value 0 means audio_callback() will receive an optimal (and possibly
                                                      # varying) number of frames based on host requirements and the requested latency settings.
+                                                     # Will deduce optimal size automatically, for example 1136 with default args
                         latency    = None,
                         device     = args.device,
                         channels   = max(args.channels),                        
