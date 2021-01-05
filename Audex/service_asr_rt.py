@@ -16,7 +16,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import Aimx
 from Audex.utils.utils_audex  import get_dataprep_result_meta
-from Audex.utils.utils_audex  import get_actual_model_path
 
 class _AsrServiceRT:
     """
