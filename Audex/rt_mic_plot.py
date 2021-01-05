@@ -46,7 +46,7 @@ def process_clargs():
     parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
     parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
     parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
-    parser.add_argument('-samplerate',      type=float,                                             help='Sampling rate of audio device')
+    parser.add_argument('-sample_rate',     type=float,                                             help='Sampling rate of audio device')
     parser.add_argument('-downsample',      type=int,   default=10,             metavar='N',        help='Display every Nth sample (default: %(default)s)')
     
     args = parser.parse_args()
@@ -60,9 +60,9 @@ def process_clargs():
     if any(c < 1 for c in args.channels):
         parser.error('Argument CHANNEL: must be >= 1')
 
-    if args.samplerate is None:
+    if args.sample_rate is None:
         device_info = sd.query_devices(args.device, 'input')
-        args.samplerate = device_info['default_samplerate'] # 44100
+        args.sample_rate = device_info['default_samplerate'] # 44100
         print_info("Device info:")
         pprint.pprint(device_info)
 
@@ -113,7 +113,7 @@ def inference_callback(frame):
             audio_signal_squeezed = np.squeeze(audio_signal)
             deprint(audio_signal_squeezed.shape, "      audio_signal_squeezed.shape") # (114, 1) while (22050,) in the static working ASR
             # Inference on mic data
-            mfccs = asr.numerize(audio_signal_squeezed, args.samplerate)
+            mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate)
             # BAD: The first shape below is:
             # NOT affected by -duration_window
             # YES affected by -downsample (below is with default 10, making it 1 gives a shape of (1, 3, 13, 1))
@@ -145,9 +145,9 @@ try:
     audio_signals_queue = queue.Queue()
 
     # Original defaults:    200               44100                          10
-    #plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample)) # original
-    plotdata_len  = int(args.duration_window * args.samplerate / (100 * args.downsample))
-    plotdata     = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1) with arg defaults
+    #plotdata_len = int(args.duration_window * args.sample_rate / (1000 * args.downsample)) # original
+    plotdata_len  = int(args.duration_window * args.sample_rate / (100 * args.downsample))
+    plotdata      = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1) with arg defaults
 
     fig, ax = pt.subplots()
     lines   = ax.plot(plotdata) # later used in update_plot_callback()
@@ -170,7 +170,7 @@ try:
     
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
 
-    with sd.InputStream(samplerate = args.samplerate,
+    with sd.InputStream(samplerate = args.sample_rate,
                         blocksize  = args.blocksize, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
                                                      # Default and special value 0 means audio_callback() will receive an optimal (and possibly
                                                      # varying) number of frames based on host requirements and the requested latency settings.
