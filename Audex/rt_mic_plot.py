@@ -120,7 +120,7 @@ def inference_callback(frame):
             # ASR has   (1, 44, 13, 1) that's working correctly
             deprint(mfccs.shape, "mfccs.shape") # (1,  1, 13, 1) with default args
             w, c  = asr.predict(mfccs)
-            asr.report(w, c, args.confidence_threshold)        
+            asr.report(w, c, args.confidence_threshold)
         except queue.Empty:
             # Empty queue just means no audio data to render,
             # that's ok, just break and move on to the next cycle
