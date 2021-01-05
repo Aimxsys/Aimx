@@ -62,7 +62,7 @@ def process_clargs():
 
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
-        args.samplerate = device_info['default_samplerate']
+        args.samplerate = device_info['default_samplerate'] # 44100
         print_info("Device info:")
         pprint.pprint(device_info)
 
@@ -94,26 +94,33 @@ def audio_callback(indata, frames, time, status):
         print(status, file = sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_signals_queue.put(indata[::args.downsample, channel_mapping]) # indata of shape (1136, 1) downsampled by args.downsample
-    print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
+    #print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
 def inference_callback(frame):
     """ This is called by matplotlib for each plot update.
     Typically, audio callbacks happen more frequently than plot updates,
     therefore the queue tends to contain multiple blocks of audio data.
     """
-    # Inference on mic data
-    for i in range(int(asr.af_loaded_duration)):
-        mfccs = asr.numerize(startsec=i)
-        w, c  = asr.predict(mfccs)
-        asr.report(w, c, args.confidence_threshold)
-
     # Plot mic data
     global plotdata
     while True:
         try:
-            # Extract audio data from audio_queue whose size varies
+            # Extract an audio_signal from audio_signals_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
             audio_signal = audio_signals_queue.get_nowait() # of shape (114, 1) with default args.downsample == 10
+            # TODO: Do ASR here on audio_signal similar to how it's done on af_signal in service_asr.py
+            audio_signal_squeezed = np.squeeze(audio_signal)
+            deprint(audio_signal_squeezed.shape, "      audio_signal_squeezed.shape") # (114, 1) while (22050,) in the static working ASR
+            # Inference on mic data
+            mfccs = asr.numerize(audio_signal_squeezed, args.samplerate)
+            # BAD: The first shape below is:
+            # NOT affected by -duration_window
+            # YES affected by -downsample (below is with default 10, making it 1 gives a shape of (1, 3, 13, 1))
+            # BAD:BELOW (1,  1, 13, 1) with defaults
+            # ASR has   (1, 44, 13, 1) that's working correctly
+            deprint(mfccs.shape, "mfccs.shape") # (1,  1, 13, 1) with default args
+            w, c  = asr.predict(mfccs)
+            asr.report(w, c, args.confidence_threshold)        
         except queue.Empty:
             # Empty queue just means no audio data to render,
             # that's ok, just break and move on to the next cycle
@@ -121,9 +128,10 @@ def inference_callback(frame):
         shift    = len(audio_signal)
         plotdata = np.roll(plotdata, -shift, axis=0) # roll old chunk to make room for new; of shape (882, 1)
         try:
-            plotdata[-shift:, :] = audio_signal # broadcasting audio_signal of shape (114, 1) into plotdata of shape (882, 1)
+            deprint(plotdata.shape, "    plotdata.shape\n")
+            plotdata[-shift:, :] = audio_signal # broadcast audio_signal of shape (114, 1) into plotdata of shape (882, 1) with default args
         except ValueError as e:
-            sys.exit(pinkred("Captured audio stream data chunk (audio_signal) does not fit into target array:\n   ") + repr(e))
+            sys.exit(pinkred("Captured audio stream data chunk (audio_signal) does not fit into target array 'plotdata':\n   ") + repr(e))
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:, column])
     return lines
@@ -135,7 +143,9 @@ try:
 
     audio_signals_queue = queue.Queue()
 
-    plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample))
+    # Original defaults:    200               44100                          10
+    #plotdata_len = int(args.duration_window * args.samplerate / (1000 * args.downsample)) # original
+    plotdata_len  = int(args.duration_window * args.samplerate / (100 * args.downsample))
     plotdata     = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1) with arg defaults
 
     fig, ax = pt.subplots()
@@ -159,22 +169,15 @@ try:
     
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
 
-    (_, _, afnames) = next(os.walk(args.inferdata_path))
-    
-    for afname in afnames:
-        af_fullpath = os.path.join(args.inferdata_path, afname)
-        asr.load_audiofile(af_fullpath, args.load_duration)
-        if len(asr.af_signal) < args.samplerate/2: # process only signals of at least 1 sec
-            continue
-
     with sd.InputStream(samplerate = args.samplerate,
-                        blocksize  = None, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
-                                           # Default and special value 0 means audio_callback() will receive an optimal (and possibly
-                                           # varying) number of frames based on host requirements and the requested latency settings.
+                        blocksize  = args.blocksize, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
+                                                     # Default and special value 0 means audio_callback() will receive an optimal (and possibly
+                                                     # varying) number of frames based on host requirements and the requested latency settings.
                         latency    = None,
                         device     = args.device,
                         channels   = max(args.channels),                        
                         callback   = audio_callback) as input_stream:
+
         animation = FuncAnimation(fig, inference_callback, interval = args.interval, blit=True)
         pt.show()
 except Exception as e:
