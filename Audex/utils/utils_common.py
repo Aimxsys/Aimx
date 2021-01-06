@@ -162,8 +162,13 @@ def print_info(s, *args, verbose = True, **kwargs):
     if verbose:
         print(yellow(s), *args, **kwargs)
 
+# print-function for debugging
 def deprint(s, *args, **kwargs):
     print(pinkred(s), *args, **kwargs)
+
+# print-function for debugging, columnizes
+def decolprint(x, xname):
+    deprint("{:<20}".format("{}".format(x)), xname)
 
 ################################ PROTOTYPE / UNTESTED / NON-PRODUCTION FUNCTIONS BELOW THIS LINE
 ################################ May likely be useful in the future.
