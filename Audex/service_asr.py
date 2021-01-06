@@ -106,9 +106,9 @@ class _AsrService:
         # but it was called on an input with incompatible shape (None, 87, 13, 1)."
         # Therefore, TODO: Generalize the line below so that the array interval length is extracted from the model.
         LENGTH_SEC = 1
-        self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr]
+        self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # (22050,) next undergo mfcc-ing
 
-        mfccs = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        mfccs = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
@@ -117,7 +117,7 @@ class _AsrService:
         elif self.modelType == 'rnn':
             mfccs = mfccs[..., np.newaxis]             # shape for RNN model
         else:
-            raise Exception("ASR received an unknown model type: " + self.modelType)
+            raise Exception(pinkred("ASR received an unknown model type: " + self.modelType))
 
         return mfccs.T
 

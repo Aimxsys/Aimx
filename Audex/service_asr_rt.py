@@ -46,7 +46,7 @@ class _AsrServiceRT:
         elif self.modelType == 'rnn':
             mfccs = mfccs[..., np.newaxis]             # shape for RNN model
         else:
-            raise Exception("ASR received an unknown model type: " + self.modelType)
+            raise Exception(pinkred("ASR received an unknown model type: " + self.modelType))
 
         return mfccs.T
 
