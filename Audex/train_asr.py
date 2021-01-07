@@ -173,9 +173,11 @@ if __name__ == "__main__":
 
     # create network
     if (args.ann_type == "cnn"):
-        model = build_model_cnn(input_shape = (x_train.shape[1], x_train.shape[2], 1))
+        inputshape = (x_train.shape[1], x_train.shape[2], 1)
+        model = build_model_cnn(input_shape = inputshape)
     else:
-        model = build_model_rnn(input_shape = (x_train.shape[1], x_train.shape[2]))
+        inputshape = (x_train.shape[1], x_train.shape[2])
+        model = build_model_rnn(input_shape = inputshape)
 
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
                   loss      = 'sparse_categorical_crossentropy',
@@ -207,7 +209,7 @@ if __name__ == "__main__":
     trainid = args.ann_type + "_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
-    save_training_result_meta(trainid, timestamp, str(training_duration), args.savemodel)
+    save_training_result_meta(trainid, timestamp, str(training_duration), inputshape, args.savemodel)
 
     if (args.savemodel):
         save_model(model, trainid)

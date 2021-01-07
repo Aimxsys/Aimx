@@ -40,6 +40,7 @@ class Aimx:
 
     class Training:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
+        INPUT_SHAPE              = "input_shape"
 
     MOST_RECENT_OUTPUT  = "most_recent_output"
     TIMESTAMP           = "timestamp"
@@ -107,9 +108,10 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
-def save_training_result_meta(trainid, timestamp, training_duration, savemodel=False):
+def save_training_result_meta(trainid, timestamp, training_duration, inputshape, savemodel=False):
     meta = {
         Aimx.MOST_RECENT_OUTPUT:           {},
+        Aimx.Training.INPUT_SHAPE:         {},
         Aimx.Dataprep.DATASET_VIEW:        {},
         Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: {},
         Aimx.TIMESTAMP:                    {},
@@ -117,6 +119,7 @@ def save_training_result_meta(trainid, timestamp, training_duration, savemodel=F
     }
     model_fullpath = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
     meta[Aimx.MOST_RECENT_OUTPUT]           = model_fullpath
+    meta[Aimx.Training.INPUT_SHAPE]         = str(inputshape)
     meta[Aimx.Dataprep.DATASET_VIEW]        = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
     meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH] = get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH]
     meta[Aimx.TIMESTAMP]                    = timestamp

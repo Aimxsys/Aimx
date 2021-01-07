@@ -104,7 +104,8 @@ if __name__ == "__main__":
     # create train/test split
     inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
 
-    model = build_model(input_shape = (inputs.shape[1], inputs.shape[2]))
+    inputshape = (inputs.shape[1], inputs.shape[2])
+    model = build_model(input_shape = inputshape)
 
     # compile model
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
@@ -134,7 +135,7 @@ if __name__ == "__main__":
     trainid = "ann_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
-    save_training_result_meta(trainid, timestamp, str(training_duration), args.savemodel)
+    save_training_result_meta(trainid, timestamp, str(training_duration), inputshape, args.savemodel)
 
     if (args.savemodel):
         save_model(model, trainid)
