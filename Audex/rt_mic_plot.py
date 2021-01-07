@@ -72,7 +72,7 @@ def process_clargs():
     
     print_script_start_preamble(nameofthis(__file__), vars(args))
     
-    return args
+    return args, parser
 
 # This is the audio callback function which consumes, processes or generates audio data in response to requests from an active stream.
 # When a stream is running (e.g. coming from a mic), PortAudio calls the stream callback periodically. The callback function is
@@ -95,7 +95,17 @@ def audio_callback(indata, frames, time, status):
     # Fancy indexing with mapping creates a (necessary!) copy:
     audio_signal = indata[::args.downsample, channel_mapping] # args.downsample-d indata of shape (1136, 1) with rest of default args
     audio_signals_queue.put(audio_signal)
+    do_asr(audio_signal)
     #print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
+
+def do_asr(audio_signal):
+    decolprint(audio_signal.shape, "audio_signal")                             # (114, 1) while (22050, 1) in the static working ASR
+    audio_signal_squeezed = np.squeeze(audio_signal)
+    decolprint(          audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
+    mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate)
+    decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs") # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
+    w, c  = asr.predict(mfccs)
+    asr.report(w, c, args.confidence_threshold)
 
 def inference_callback(frame):
     """ This is called by matplotlib for each plot update.
@@ -110,15 +120,9 @@ def inference_callback(frame):
             # Extract an audio_signal from audio_signals_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
             audio_signal = audio_signals_queue.get_nowait()                            # (114, 1) with default args.downsample == 10
-            empty_queue_ticks = 0
             print_info(" audio_signals_queue GOT SIGNAL")
-            decolprint(    audio_signal.shape, "audio_signal")                         # (114, 1) while (22050, 1) in the static working ASR
-            audio_signal_squeezed = np.squeeze(audio_signal)
-            decolprint(          audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
-            mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate)
-            decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs") # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
-            w, c  = asr.predict(mfccs)
-            asr.report(w, c, args.confidence_threshold)
+            empty_queue_ticks = 0
+            #do_asr(audio_signal)
         except queue.Empty:
             # Empty queue just means no audio data to render,
             # that's ok, just break and move on to the next cycle
@@ -137,7 +141,7 @@ def inference_callback(frame):
     return lines
 
 try:
-    args = process_clargs()
+    args, parser = process_clargs()
 
     channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
@@ -180,7 +184,14 @@ try:
                         channels   = max(args.channels),                        
                         callback   = audio_callback) as input_stream:
 
-        animation = FuncAnimation(fig, inference_callback, interval = args.interval, blit=True)
-        pt.show()
+        #animation = FuncAnimation(fig, inference_callback, interval = args.interval, blit=True)
+        #pt.show()
+        print_info('####' * 20)
+        print_info("Processing mic stream with mic's default sample rate of: ", args.sample_rate)
+        print_info("Press 'Enter' to quit")
+        print_info('####' * 20)
+        input()
+except KeyboardInterrupt:
+    parser.exit('')
 except Exception as e:
     parser.exit(type(e).__name__ + ': ' + str(e))
