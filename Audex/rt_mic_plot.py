@@ -25,6 +25,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import Aimx
 from Audex.utils.utils_audex  import get_dataprep_result_meta
+from Audex.utils.utils_audex  import get_training_result_meta
 from Audex.utils.utils_audex  import get_actual_model_path
 
 from Audex.service_asr_rt import *
@@ -187,6 +188,7 @@ try:
         #pt.show()
         print_info('####' * 20)
         print_info("Processing audio stream with mic default sample rate of:", args.sample_rate)
+        print_info("Model input shape (adjust the audio chunks accordingly):", get_training_result_meta()[Aimx.Training.INPUT_SHAPE])
         print_info("Press 'Enter' to quit")
         print_info('####' * 20)
         input()
