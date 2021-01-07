@@ -94,7 +94,7 @@ def audio_callback(indata, frames, time, status):
         print(status, file = sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy of size args.blocksize downsampled by args.downsample
     audio_signal = indata[::args.downsample, channel_mapping]
-    audio_signals_queue.put(audio_signal)
+    audio_signals_plotq.put(audio_signal)
     do_asr(audio_signal)
     #print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
@@ -117,10 +117,10 @@ def inference_callback(frame):
     global plotdata
     while True:
         try:
-            # Extract an audio_signal from audio_signals_queue whose size varies
+            # Extract an audio_signal from audio_signals_plotq whose size varies
             # from 1 up to about 5 observed in Leo's original environment
-            audio_signal = audio_signals_queue.get_nowait() # (114, 1) with default args.downsample == 10
-            print_info(" audio_signals_queue GOT SIGNAL")
+            audio_signal = audio_signals_plotq.get_nowait() # (114, 1) with default args.downsample == 10
+            print_info(" audio_signals_plotq GOT SIGNAL")
             empty_queue_ticks = 0
             #do_asr(audio_signal)
         except queue.Empty:
@@ -145,12 +145,11 @@ try:
 
     channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
-    audio_signals_queue = queue.Queue()
+    audio_signals_plotq = queue.Queue()
     empty_queue_ticks = 0
 
     # Original defaults:    200               44100                          10
-    #plotdata_len = int(args.duration_window * args.sample_rate / (1000 * args.downsample)) # original
-    plotdata_len  = int(args.duration_window * args.sample_rate / (100 * args.downsample))
+    plotdata_len = int(args.duration_window * args.sample_rate / (1000 * args.downsample)) # original
     plotdata      = np.zeros((plotdata_len, len(args.channels))) # resulting shape (882, 1) with arg defaults
 
     fig, ax = pt.subplots()
@@ -187,7 +186,7 @@ try:
         #animation = FuncAnimation(fig, inference_callback, interval = args.interval, blit=True)
         #pt.show()
         print_info('####' * 20)
-        print_info("Processing mic stream with mic's default sample rate of: ", args.sample_rate)
+        print_info("Processing audio stream with mic default sample rate of:", args.sample_rate)
         print_info("Press 'Enter' to quit")
         print_info('####' * 20)
         input()
