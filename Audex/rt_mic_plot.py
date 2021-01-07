@@ -102,34 +102,33 @@ def inference_callback(frame):
     Typically, audio callbacks happen more frequently than plot updates,
     therefore the queue tends to contain multiple blocks of audio data.
     """
+    global empty_queue_ticks
     # Plot mic data
     global plotdata
     while True:
         try:
             # Extract an audio_signal from audio_signals_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
-            audio_signal = audio_signals_queue.get_nowait() # of shape (114, 1) with default args.downsample == 10
-            # TODO: Do ASR here on audio_signal similar to how it's done on af_signal in service_asr.py
+            audio_signal = audio_signals_queue.get_nowait()                            # (114, 1) with default args.downsample == 10
+            empty_queue_ticks = 0
+            print_info(" audio_signals_queue GOT SIGNAL")
+            decolprint(    audio_signal.shape, "audio_signal")                         # (114, 1) while (22050, 1) in the static working ASR
             audio_signal_squeezed = np.squeeze(audio_signal)
-            deprint(audio_signal_squeezed.shape, "      audio_signal_squeezed.shape") # (114, 1) while (22050,) in the static working ASR
-            # Inference on mic data
+            decolprint(          audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
             mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate)
-            # BAD: The first shape below is:
-            # NOT affected by -duration_window
-            # YES affected by -downsample (below is with default 10, making it 1 gives a shape of (1, 3, 13, 1))
-            # BAD:BELOW (1,  1, 13, 1) with defaults
-            # ASR has   (1, 44, 13, 1) that's working correctly
-            deprint(mfccs.shape, "mfccs.shape") # (1,  1, 13, 1) with default args
+            decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs") # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
             w, c  = asr.predict(mfccs)
             asr.report(w, c, args.confidence_threshold)
         except queue.Empty:
             # Empty queue just means no audio data to render,
             # that's ok, just break and move on to the next cycle
+            print_info(empty_queue_ticks, end="")
+            empty_queue_ticks += 1
             break
         shift    = len(audio_signal)
         plotdata = np.roll(plotdata, -shift, axis=0) # roll old chunk to make room for new; of shape (882, 1)
         try:
-            deprint(plotdata.shape, "    plotdata.shape\n")
+            decolprint(plotdata.shape, "plotdata containing current audio_signal\n")
             plotdata[-shift:, :] = audio_signal # broadcast audio_signal of shape (114, 1) into plotdata of shape (882, 1) with default args
         except ValueError as e:
             sys.exit(pinkred("Captured audio stream data chunk (audio_signal) does not fit into target array 'plotdata':\n   ") + repr(e))
@@ -143,6 +142,7 @@ try:
     channel_mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
 
     audio_signals_queue = queue.Queue()
+    empty_queue_ticks = 0
 
     # Original defaults:    200               44100                          10
     #plotdata_len = int(args.duration_window * args.sample_rate / (1000 * args.downsample)) # original
