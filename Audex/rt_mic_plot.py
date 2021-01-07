@@ -171,6 +171,7 @@ try:
     print_info("[DONE]")
 
     asr = CreateAsrServiceRT(args.model_path)
+    asr.model.summary()
     
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
 
