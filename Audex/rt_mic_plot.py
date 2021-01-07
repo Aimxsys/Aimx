@@ -119,7 +119,7 @@ def inference_callback(frame):
         try:
             # Extract an audio_signal from audio_signals_queue whose size varies
             # from 1 up to about 5 observed in Leo's original environment
-            audio_signal = audio_signals_queue.get_nowait()                            # (114, 1) with default args.downsample == 10
+            audio_signal = audio_signals_queue.get_nowait() # (114, 1) with default args.downsample == 10
             print_info(" audio_signals_queue GOT SIGNAL")
             empty_queue_ticks = 0
             #do_asr(audio_signal)
