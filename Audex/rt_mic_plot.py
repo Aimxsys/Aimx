@@ -47,7 +47,7 @@ def process_clargs():
     parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
     parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
     parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
-    parser.add_argument('-sample_rate',     type=float,                                             help='Sampling rate of audio device')
+    parser.add_argument('-sample_rate',     type=int,                                               help='Sampling rate of audio device')
     parser.add_argument('-downsample',      type=int,   default=1,              metavar='N',        help='Display every Nth sample (default: %(default)s)')
     
     args = parser.parse_args()
@@ -82,7 +82,7 @@ def process_clargs():
 # call library functions or call other functions from the stream callback that may block or take an unpredictable amount of time to complete.
 # With the exception of property object cpu_load it is not permissible to call PortAudio API functions from within the stream callback.
 def audio_callback(indata, frames, time, status):
-    """ Called (from a separate thread) for each audio block.
+    """ Called (from a separate thread) for each audio block of size blocksize.
     indata.shape == (1136, 1) where the first number is the blocksize argument in sd.InputStream() below.
     In order for a stream to maintain glitch-free operation the callback must consume and return audio data faster than it is recorded
     and/or played. PortAudio anticipates that each callback invocation may execute for a duration approaching the duration of 'frames'
@@ -104,7 +104,7 @@ def do_asr(audio_signal):
     audio_signal_squeezed = np.squeeze(audio_signal)
     decolprint(          audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
     mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate)
-    decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs") # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
+    decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs (transposed) with arg.sample_rate " + str(args.sample_rate)) # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
     w, c  = asr.predict(mfccs)
     asr.report(w, c, args.confidence_threshold)
 
