@@ -54,8 +54,8 @@ def process_clargs():
     # path to the traindata file that stores MFCCs and genre labels for each processed segment
     args.traindata_path = get_actual_traindata_path(args.traindata_path)
 
-    if not args.savemodel and os.path.getsize(args.traindata_path) > 100_000_000: # > 100 Mb
-        args.savemodel = prompt_user_warning("Attempting to train on a large >100Mb traindata without '-savemodel',"
+    if not args.savemodel and os.path.getsize(args.traindata_path) > 50_000_000: # > 50 Mb
+        args.savemodel = prompt_user_warning("Attempting to train on a large >50Mb traindata without '-savemodel',"
                                              " would you rather save the final model? [yes / no] ")
         print_info("As requested, proceeding with -savemodel =", args.savemodel)
     
