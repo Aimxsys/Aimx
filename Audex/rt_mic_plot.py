@@ -108,7 +108,7 @@ def do_asr(audio_signal):
     w, c  = asr.predict(mfccs)
     asr.report(w, c, args.confidence_threshold)
 
-def inference_callback(frame):
+def plotsound_callback(frame):
     """ This is called by matplotlib for each plot update.
     Typically, audio callbacks happen more frequently than plot updates,
     therefore the queue tends to contain multiple blocks of audio data.
@@ -185,7 +185,7 @@ try:
                         channels   = max(args.channels),                        
                         callback   = audio_callback) as input_stream:
 
-        #animation = FuncAnimation(fig, inference_callback, interval = args.interval, blit=True)
+        #animation = FuncAnimation(fig, plotsound_callback, interval = args.interval, blit=True)
         #pt.show()
         print_info('####' * 20)
         print_info("Processing audio stream with mic default sample rate of:", args.sample_rate)
