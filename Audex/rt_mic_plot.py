@@ -38,7 +38,9 @@ def process_clargs():
     parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
     
-    parser.add_argument("-load_duration",  default = 1,     type=int, help = 'Only load up to this much audio (in seconds).')
+    parser.add_argument("-n_mfcc",         default =    13, type=int,                help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",          default =  2048, type=int,                help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length",     default =   512, type=int,                help = 'Sliding window for the FFT. Measured in # of samples.')
     
     # Original, mic-related arguments
     parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
@@ -103,7 +105,7 @@ def do_asr(audio_signal):
     decolprint(audio_signal.shape, "audio_signal")                             # (114, 1) while (22050, 1) in the static working ASR
     audio_signal_squeezed = np.squeeze(audio_signal)
     decolprint(          audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
-    mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate)
+    mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
     decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs (transposed) with arg.sample_rate " + str(args.sample_rate)) # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
     w, c  = asr.predict(mfccs)
     asr.report(w, c, args.confidence_threshold)
