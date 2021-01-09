@@ -116,12 +116,12 @@ def build_model_cnn(input_shape):
     model.add(keras.layers.BatchNormalization())
     model.add(keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'))
 
-    # 2nd conv layer
+    # 2nd conv layer (see 1st layer for named arguments)
     model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_regularizer = keras.regularizers.l2(0.001)))
     model.add(keras.layers.BatchNormalization())
     model.add(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same'))
 
-    # 3rd conv layer
+    # 3rd conv layer (see 1st layer for named arguments)
     model.add(keras.layers.Conv2D(32, (2, 2), activation='relu', kernel_regularizer = keras.regularizers.l2(0.001)))
     model.add(keras.layers.BatchNormalization())
     model.add(keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
