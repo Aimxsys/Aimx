@@ -143,6 +143,7 @@ if __name__ == "__main__":
     autoencoder = Autoencoder(
         input_shape      = (28, 28, 1),
         conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
+        # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
         conv_kernels     = (3, 3, 3, 3),
         conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
         latent_space_dim = 2
