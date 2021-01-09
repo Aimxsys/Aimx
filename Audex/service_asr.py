@@ -179,6 +179,6 @@ if __name__ == "__main__":
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             continue
         for i in range(int(asr.af_loaded_duration)):
-            mfccs = asr.numerize(startsec=i)
+            mfccs = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
             w, c  = asr.predict(mfccs)
             asr.report(w, c, args.confidence_threshold)
