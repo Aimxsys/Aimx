@@ -88,7 +88,7 @@ class Autoencoder:
         """ Flatten data and add bottleneck (Dense layer). """
         # Save the shape just before flattening
         # to be able to restore it later in the decoder
-        self._shape_before_bottleneck = K.int_shape(x)[1:] # ignore the first dimension, take only width, height and number of channels
+        self._shape_before_bottleneck = K.int_shape(x)[1:] # first dimension is batch size, ignore it and take only width, height and number of channels
 
         x = tf.keras.layers.Flatten()(x)
         x = tf.keras.layers.Dense(self.latent_space_dim, name="encoder_output")(x)
