@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow.keras        import Model
 from tensorflow.keras.layers import Input, Conv2D, ReLU, BatchNormalization, Flatten, Dense, Reshape, Conv2DTranspose, Activation
 from tensorflow.keras        import backend as K
 
@@ -49,7 +48,7 @@ class Autoencoder:
         encoder_input         = self._add_encoder_input()
         conv_layers           = self._add_conv_layers(encoder_input)
         bottleneck            = self._add_bottleneck(conv_layers)
-        self.encoder          = Model(encoder_input, bottleneck, name="encoder")
+        self.encoder          = tf.keras.Model(encoder_input, bottleneck, name="encoder")
 
     def _build_decoder(self):
         decoder_input         = self._add_decoder_input()
@@ -57,7 +56,7 @@ class Autoencoder:
         reshape_layer         = self._add_reshape_layer(dense_layer)
         conv_transpose_layers = self._add_conv_transpose_layers(reshape_layer)
         decoder_output        = self._add_decoder_output(conv_transpose_layers)
-        self.decoder          = Model(decoder_input, decoder_output, name="decoder")
+        self.decoder          = tf.keras.Model(decoder_input, decoder_output, name="decoder")
 
     def _add_encoder_input(self):
         return tf.keras.layers.Input(shape=self.input_shape, name="encoder_input")
