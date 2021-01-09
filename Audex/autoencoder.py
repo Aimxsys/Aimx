@@ -5,6 +5,16 @@ from tensorflow.keras        import backend as K
 
 import numpy as np
 
+import sys
+import os
+# Add this directory to path so that package is recognized.
+# Looks like a hack, but is ok for now to allow moving forward
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_common import *
+
 class Autoencoder:
     """
     Autoencoder represents a Deep Convolutional autoencoder architecture
