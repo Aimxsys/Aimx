@@ -187,8 +187,8 @@ try:
                         channels   = max(args.channels),                        
                         callback   = audio_callback) as input_stream:
 
-        animation = FuncAnimation(fig, plotsound_callback, interval = args.interval, blit=True)
-        pt.show()
+        #animation = FuncAnimation(fig, plotsound_callback, interval = args.interval, blit=True)
+        #pt.show()
         print_info('####' * 20)
         print_info("Processing audio stream with mic default sample rate of:", args.sample_rate)
         print_info("Model input shape (adjust the audio chunks accordingly):", get_training_result_meta()[Aimx.Training.INPUT_SHAPE])
