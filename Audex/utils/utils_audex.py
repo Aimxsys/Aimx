@@ -92,38 +92,28 @@ def get_actual_model_path(arg):
 
 def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration, total_audios_length_sec):
     meta = {
-        Aimx.MOST_RECENT_OUTPUT:           {},
-        Aimx.Dataprep.DATASET_VIEW:        {},
-        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: {},
-        Aimx.TIMESTAMP:                    {},
-        Aimx.DURATION:                     {}
+        Aimx.MOST_RECENT_OUTPUT:           os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename),
+        Aimx.Dataprep.DATASET_VIEW:        dataset_view,
+        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: round(total_audios_length_sec),
+        Aimx.TIMESTAMP:                    timestamp,
+        Aimx.DURATION:                     dataprep_duration
     }
-    meta[Aimx.MOST_RECENT_OUTPUT]           = os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename)
-    meta[Aimx.Dataprep.DATASET_VIEW]        = dataset_view
-    meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH] = round(total_audios_length_sec)
-    meta[Aimx.TIMESTAMP]                    = timestamp
-    meta[Aimx.DURATION]                     = dataprep_duration
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("|||||| Writing file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "... ", end="")
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
 def save_training_result_meta(trainid, timestamp, training_duration, inputshape, savemodel=False):
-    meta = {
-        Aimx.MOST_RECENT_OUTPUT:           {},
-        Aimx.Training.INPUT_SHAPE:         {},
-        Aimx.Dataprep.DATASET_VIEW:        {},
-        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: {},
-        Aimx.TIMESTAMP:                    {},
-        Aimx.DURATION:                     {}
-    }
+    
     model_fullpath = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
-    meta[Aimx.MOST_RECENT_OUTPUT]           = model_fullpath
-    meta[Aimx.Training.INPUT_SHAPE]         = str(inputshape)
-    meta[Aimx.Dataprep.DATASET_VIEW]        = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
-    meta[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH] = get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH]
-    meta[Aimx.TIMESTAMP]                    = timestamp
-    meta[Aimx.DURATION]                     = training_duration
+    meta = {
+        Aimx.MOST_RECENT_OUTPUT:           model_fullpath,
+        Aimx.Training.INPUT_SHAPE:         str(inputshape),
+        Aimx.Dataprep.DATASET_VIEW:        get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW],
+        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH: get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH],
+        Aimx.TIMESTAMP:                    timestamp,
+        Aimx.DURATION:                     training_duration
+    }
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("|||||| Writing file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "... ", end="")
         json.dump(meta, file, indent=4)
