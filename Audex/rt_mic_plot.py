@@ -38,9 +38,9 @@ def process_clargs():
     parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
     
-    parser.add_argument("-n_mfcc",         default =    13, type=int,                help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",          default =  2048, type=int,                help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length",     default =   512, type=int,                help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-n_mfcc",     type=int, help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",      type=int, help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length", type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
     
     # Original, mic-related arguments
     parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
@@ -70,9 +70,12 @@ def process_clargs():
         pprint.pprint(device_info)
 
     args.model_path = get_actual_model_path(args.model_path)
-    args.n_mfcc     = eval(get_training_result_meta()[Aimx.Training.INPUT_SHAPE])[1] # evaluate string to tuple
-    args.blocksize  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]
-    
+
+    args.n_mfcc       = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]      if not provided(args.n_mfcc)     else 13
+    args.n_fft        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]       if not provided(args.n_fft)      else 2048
+    args.n_hop_length = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]  if not provided(args.hop_length) else 512
+    args.blocksize    = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"] if not provided(args.blocksize)  else 0
+        
     ###########################################################################################
     
     print_script_start_preamble(nameofthis(__file__), vars(args))

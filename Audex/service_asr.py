@@ -27,12 +27,13 @@ def process_clargs():
     parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
-    parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
-    parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
-    parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
-    parser.add_argument("-load_duration",  default =     1, type=int, help = 'Only load up to this much audio (in seconds).')
+    parser.add_argument("-n_mfcc",         type=int, help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",          type=int, help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length",     type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-num_segments",   type=int, help = 'Number of segments we want to divide sample tracks into.')
+    parser.add_argument("-sample_rate",    type=int, help = 'Sample rate at which to read the audio files.')
+    parser.add_argument("-load_duration",  type=int, help = 'Only load up to this much audio (in seconds).')
+
     parser.add_argument("-example",        action ='store_true',      help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
@@ -47,7 +48,13 @@ def process_clargs():
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
 
     args.model_path = get_actual_model_path(args.model_path)
-    args.n_mfcc     = eval(get_training_result_meta()[Aimx.Training.INPUT_SHAPE])[1] # evaluate string to tuple
+
+    args.n_mfcc        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]        if not provided(args.n_mfcc)        else 13
+    args.n_fft         = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]         if not provided(args.n_fft)         else 2048
+    args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else 512
+    args.num_segments  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["num_segments"]  if not provided(args.num_segments)  else 5
+    args.sample_rate   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]   if not provided(args.hop_length)    else 22050
+    args.load_duration = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["load_duration"] if not provided(args.load_duration) else 1
     
     ######################################################################################################
     
