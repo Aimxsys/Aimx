@@ -16,6 +16,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import Aimx
 from Audex.utils.utils_audex  import get_dataprep_result_meta
+from Audex.utils.utils_audex  import get_training_result_meta
 from Audex.utils.utils_audex  import get_actual_model_path
 
 def process_clargs():
@@ -46,7 +47,8 @@ def process_clargs():
         raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
 
     args.model_path = get_actual_model_path(args.model_path)
-
+    args.n_mfcc     = eval(get_training_result_meta()[Aimx.Training.INPUT_SHAPE])[1] # evaluate string to tuple
+    
     ######################################################################################################
     
     print_script_start_preamble(nameofthis(__file__), vars(args))
