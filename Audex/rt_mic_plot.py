@@ -71,6 +71,7 @@ def process_clargs():
 
     args.model_path = get_actual_model_path(args.model_path)
     args.n_mfcc     = eval(get_training_result_meta()[Aimx.Training.INPUT_SHAPE])[1] # evaluate string to tuple
+    args.blocksize  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]
     
     ###########################################################################################
     
