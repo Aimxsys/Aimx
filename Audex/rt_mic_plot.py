@@ -120,7 +120,6 @@ def do_asr(audio_signal):
     else:
         deprint(cyan("SILENCE"))
 
-
 def plotsound_callback(frame):
     """ This is called by matplotlib for each plot update.
     Typically, audio callbacks happen more frequently than plot updates,
