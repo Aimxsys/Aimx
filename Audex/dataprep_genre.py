@@ -162,6 +162,15 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 
 if __name__ == "__main__":
 
+    signal_numerization_params = {
+        "n_mfcc"        : args.n_mfcc,
+        "n_fft"         : args.n_fft,
+        "hop_length"    : args.hop_length,
+        "num_segments"  : args.num_segments,
+        "sample_rate"   : args.sample_rate, 
+        "load_duration" : args.load_duration
+    }
+
     start_time = time.time()
 
     traindata, traindata_id = preprocess_dataset(args.dataset_path, n_mfcc = args.n_mfcc,        
@@ -182,7 +191,8 @@ if __name__ == "__main__":
     save_traindata(traindata, traindata_filename)
 
     # save as most recent data preprocess result metadata
-    save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], timestamp, str(dataprep_duration), total_audios_length_sec)
+    save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], timestamp, str(dataprep_duration), total_audios_length_sec,
+                              signal_numerization_params)
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp),
