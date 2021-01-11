@@ -46,6 +46,7 @@ class Aimx:
     MOST_RECENT_OUTPUT  = "most_recent_output"
     TIMESTAMP           = "timestamp"
     DURATION            = "duration"
+    NOTES               = "notes"
 
 def to_genre_name(label_id):
     return [
@@ -98,7 +99,8 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
         Aimx.Dataprep.DATASET_VIEW:               dataset_view,
         Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        round(total_audios_length_sec),
         Aimx.TIMESTAMP:                           timestamp,
-        Aimx.DURATION:                            dataprep_duration
+        Aimx.DURATION:                            dataprep_duration,
+        Aimx.NOTES:                               ""
     }
     with open(Aimx.Dataprep.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("|||||| Writing file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "... ", end="")
@@ -115,7 +117,8 @@ def save_training_result_meta(trainid, timestamp, training_duration, inputshape,
         Aimx.Dataprep.DATASET_VIEW:               get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW],               # extract from dataprep metadata & forward to training metadata
         Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH],        # extract from dataprep metadata & forward to training metadata
         Aimx.TIMESTAMP:                           timestamp,
-        Aimx.DURATION:                            training_duration
+        Aimx.DURATION:                            training_duration,
+        Aimx.NOTES:                               ""
     }
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
         print_info("|||||| Writing file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "... ", end="")
