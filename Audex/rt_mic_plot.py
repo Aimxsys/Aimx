@@ -107,18 +107,22 @@ def audio_callback(indata, frames, time, status):
     #print_info("CPU utilization:", "{:.2f}".format(input_stream.cpu_load), end='\r')
 
 def do_asr(audio_signal):
-    decolprint(round(np.average(librosa.core.amplitude_to_db(audio_signal))), "dB")
-    decolprint(audio_signal.shape, "audio_signal")                             # (114, 1) while (22050, 1) in the static working ASR
-    audio_signal_squeezed = np.squeeze(audio_signal)
-    decolprint(          audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
-    mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
-    decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs (transposed) with arg.sample_rate " + str(args.sample_rate)) # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
-    loudness = round(np.average(librosa.core.amplitude_to_db(audio_signal)))
-    if loudness > -75:
+    global previously_silence
+    dB = int(np.average(librosa.core.amplitude_to_db(audio_signal)))
+    if dB > -71:
+        audio_signal_squeezed = np.squeeze(audio_signal)
+        mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
         w, c  = asr.predict(mfccs)
-        asr.report(w, c, args.confidence_threshold)
-    else:
-        deprint(cyan("SILENCE"))
+        if previously_silence: # show numerization params as a reminder
+            print('') # just so next text starts from a new line
+            decolprint(audio_signal.shape,          "audio_signal")          # (114, 1) while (22050, 1) in the static working ASR
+            decolprint(audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
+            decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs (transposed) with arg.sample_rate " + str(args.sample_rate)) # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
+            previously_silence = False
+        asr.report(w, c, args.confidence_threshold, str(dB) + " dB")
+    else: # silence
+        print(blue(int(np.average(librosa.core.amplitude_to_db(audio_signal)))), end="dB") # silence in dB
+        previously_silence = True
 
 def plotsound_callback(frame):
     """ This is called by matplotlib for each plot update.
@@ -186,6 +190,7 @@ try:
     asr.model.summary()
     
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
+    previously_silence = True
 
     with sd.InputStream(samplerate = args.sample_rate,
                         blocksize  = args.blocksize, # Number of frames passed to audio_callback(), i.e. granularity for a blocking r/w stream.
