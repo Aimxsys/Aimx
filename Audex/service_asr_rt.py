@@ -28,6 +28,9 @@ class _AsrServiceRT:
     # Extract label mapping from the dataprep result metadata file
     label_mapping = get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]
 
+    #                           Con    Infer  dB
+    inference_report_columns = "{:<4}  {:<15} {:<5}"
+
     # This dataprep is for ASR CNN inference
     def numerize(self, audio_signal, sample_rate, n_mfcc=13, n_fft=2048, hop_length=512):
         """
@@ -59,19 +62,19 @@ class _AsrServiceRT:
 
         return inference, confidence
 
-    def report(self, predicted_word, confidence, confidence_threshold=0.9):
+    def report(self, predicted_word, confidence, confidence_threshold=0.9, addinfo=""):
         if True: # Original criteria (TODO: change when ready): predicted_word in extract_filename(self.af_fullpath):
             # inference is correct
             if confidence > confidence_threshold:
-                print(   cyan("{:.2f}".format(confidence)), cyan(predicted_word))
+                print(self.inference_report_columns.format(   cyan("{:.2f}".format(confidence)), cyan(predicted_word), addinfo))
             else:
-                print(pinkred("{:.2f}".format(confidence)), cyan(predicted_word))
+                print(self.inference_report_columns.format(pinkred("{:.2f}".format(confidence)), cyan(predicted_word), addinfo))
         else:
             # inference is wrong
             if confidence > confidence_threshold:
-                print(    red("{:.2f}".format(confidence)), pinkred(predicted_word))
+                print(self.inference_report_columns.format(    red("{:.2f}".format(confidence)), pinkred(predicted_word), addinfo))
             else:
-                print(pinkred("{:.2f}".format(confidence)), pinkred(predicted_word))
+                print(self.inference_report_columns.format(pinkred("{:.2f}".format(confidence)), pinkred(predicted_word), addinfo))
 
 def CreateAsrServiceRT(model_path):
     """
