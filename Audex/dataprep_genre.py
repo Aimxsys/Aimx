@@ -147,6 +147,8 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 # extract mfccs for each segment
                 features = librosa.feature.mfcc(signal[seg_first_sample:seg_last_sample],
                                                 sample_rate, n_mfcc = n_mfcc, n_fft = n_fft, hop_length = hop_length)
+                #features = librosa.feature.melspectrogram(signal[seg_first_sample:seg_last_sample],
+                #                                          sample_rate, n_fft=n_fft, hop_length=hop_length)
                 features = features.T
 
                 # store only mfcc feature with expected number of vectors
