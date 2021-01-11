@@ -50,7 +50,7 @@ if high <= low:
     parser.error('HIGH must be greater than LOW')
 
 # Create a nice output gradient using ANSI escape sequences.
-# From https://gist.github.com/maurisvh/df919538bcef391bc89f
+# Originally from https://gist.github.com/maurisvh/df919538bcef391bc89f
 colors   = 30, 34, 35, 91, 93, 97
 chars    = ' :%#\t#%:'
 gradient = []
