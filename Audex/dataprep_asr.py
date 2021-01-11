@@ -52,7 +52,7 @@ args = parser.parse_args()
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(nameofthis(__file__) + " -dataset_path ../workdir/dataset -dataset_depth 5")
+    print_info(nameofthis(__file__) + " -dataset_path ../workdir/datasets/speech_commands -dataset_view backnoise down seven -dataset_depth 5")
     exit()
 
 if provided(args.dataset_path) and not args.dataset_path.exists():
