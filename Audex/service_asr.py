@@ -30,7 +30,6 @@ def process_clargs():
     parser.add_argument("-n_mfcc",         type=int, help = 'Number of MFCC to extract.')
     parser.add_argument("-n_fft",          type=int, help = 'Length of the FFT window.   Measured in # of samples.')
     parser.add_argument("-hop_length",     type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
-    parser.add_argument("-num_segments",   type=int, help = 'Number of segments we want to divide sample tracks into.')
     parser.add_argument("-sample_rate",    type=int, help = 'Sample rate at which to read the audio files.')
     parser.add_argument("-load_duration",  type=int, help = 'Only load up to this much audio (in seconds).')
 
@@ -52,7 +51,6 @@ def process_clargs():
     args.n_mfcc        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]        if not provided(args.n_mfcc)        else 13
     args.n_fft         = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]         if not provided(args.n_fft)         else 2048
     args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else 512
-    args.num_segments  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["num_segments"]  if not provided(args.num_segments)  else 5
     args.sample_rate   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]   if not provided(args.hop_length)    else 22050
     args.load_duration = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["load_duration"] if not provided(args.load_duration) else 1
     
