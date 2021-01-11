@@ -40,7 +40,7 @@ def process_clargs():
     ############################## Command Argument Handling & Verification ##############################
 
     if args.example:
-        print_info(nameofthis(__file__) + " -inferdata_path ../workdir/infer/signal_down_five")
+        print_info(nameofthis(__file__) + " -inferdata_path ../workdir/infer/signal_down_backnoise_five_TRIMMED")
         exit()
 
     if provided(args.inferdata_path) and not args.inferdata_path.exists():
