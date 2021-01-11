@@ -41,6 +41,7 @@ class _AsrServiceRT:
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
         mfccs = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        #mfccs = librosa.feature.melspectrogram(audio_signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
