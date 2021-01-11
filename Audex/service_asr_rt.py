@@ -69,9 +69,9 @@ class _AsrServiceRT:
         else:
             # inference is wrong
             if confidence > confidence_threshold:
-                print(self.inference_report_columns.format(    red("{:.2f}".format(confidence)), pinkred(predicted_word)))
+                print(    red("{:.2f}".format(confidence)), pinkred(predicted_word))
             else:
-                print(self.inference_report_columns.format(pinkred("{:.2f}".format(confidence)), pinkred(predicted_word)))
+                print(pinkred("{:.2f}".format(confidence)), pinkred(predicted_word))
 
 def CreateAsrServiceRT(model_path):
     """
