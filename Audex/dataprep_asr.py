@@ -140,11 +140,11 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
                 signal = signal[:args.sample_rate]
 
                 # extract MFCCs
-                mfcc = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
-                #mfcc = librosa.feature.melspectrogram(signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
+                features = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+                #features = librosa.feature.melspectrogram(signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
 
                 # store data for analysed track
-                traindata[Aimx.TrainData.MFCC  ].append(mfcc.T.tolist())
+                traindata[Aimx.TrainData.MFCC  ].append(features.T.tolist())
                 traindata[Aimx.TrainData.LABELS].append(label_id)
                 traindata[Aimx.TrainData.FILES ].append(af_path)
                 print_info("{}: {}".format(cyansky(af_path), label_id), verbose = args.verbose)

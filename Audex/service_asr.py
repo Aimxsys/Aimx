@@ -115,19 +115,19 @@ class _AsrService:
         LENGTH_SEC = 1
         self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # (22050,) next undergo mfcc-ing
 
-        mfccs = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
-        #mfccs = librosa.feature.melspectrogram(self.af_signal, self.af_sr, n_fft=n_fft, hop_length=hop_length)
+        features = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
+        #features = librosa.feature.melspectrogram(self.af_signal, self.af_sr, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
-            # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
+            # convert the 2d feature array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
             # (# samples, # segments, # coefficients, # channels)
-            mfccs = mfccs[np.newaxis, ..., np.newaxis] # shape for CNN model
+            features = features[np.newaxis, ..., np.newaxis] # shape for CNN model
         elif self.modelType == 'rnn':
-            mfccs = mfccs[..., np.newaxis]             # shape for RNN model
+            features = features[..., np.newaxis]             # shape for RNN model
         else:
             raise Exception(pinkred("ASR received an unknown model type: " + self.modelType))
 
-        return mfccs.T
+        return features.T
 
     def predict(self, mfccs):
         # make a prediction and get the predicted label and confidence
@@ -187,6 +187,6 @@ if __name__ == "__main__":
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             continue
         for i in range(int(asr.af_loaded_duration)):
-            mfccs = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
-            w, c  = asr.predict(mfccs)
+            features = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+            w, c     = asr.predict(features)
             asr.report(w, c, args.confidence_threshold)

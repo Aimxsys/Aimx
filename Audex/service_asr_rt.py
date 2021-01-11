@@ -40,19 +40,19 @@ class _AsrServiceRT:
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
-        mfccs = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
-        #mfccs = librosa.feature.melspectrogram(audio_signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
+        features = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        #features = librosa.feature.melspectrogram(audio_signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
             # (# samples, # segments, # coefficients, # channels)
-            mfccs = mfccs[np.newaxis, ..., np.newaxis] # shape for CNN model
+            features = features[np.newaxis, ..., np.newaxis] # shape for CNN model
         elif self.modelType == 'rnn':
-            mfccs = mfccs[..., np.newaxis]             # shape for RNN model
+            features = features[..., np.newaxis]             # shape for RNN model
         else:
             raise Exception(pinkred("ASR received an unknown model type: " + self.modelType))
 
-        return mfccs.T
+        return features.T
 
     def predict(self, mfccs):
         # make a prediction and get the predicted label and confidence
