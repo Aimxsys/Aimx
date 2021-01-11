@@ -27,13 +27,13 @@ def process_clargs():
     parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
-    parser.add_argument("-n_mfcc",         type=int, help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",          type=int, help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length",     type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
-    parser.add_argument("-sample_rate",    type=int, help = 'Sample rate at which to read the audio files.')
-    parser.add_argument("-load_duration",  type=int, help = 'Only load up to this much audio (in seconds).')
+    parser.add_argument("-n_mfcc",        type=int, default = 13,    help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",         type=int, default = 2048,  help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length",    type=int, default = 512,   help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-sample_rate",   type=int, default = 22050, help = 'Sample rate at which to read the audio files.')
+    parser.add_argument("-load_duration", type=int, default = 1,     help = 'Only load up to this much audio (in seconds).')
 
-    parser.add_argument("-example",        action ='store_true',      help = 'Show a working example on how to call the script.')
+    parser.add_argument("-example",       action ='store_true',      help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
 
@@ -48,11 +48,11 @@ def process_clargs():
 
     args.model_path = get_actual_model_path(args.model_path)
 
-    args.n_mfcc        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]        if not provided(args.n_mfcc)        else 13
-    args.n_fft         = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]         if not provided(args.n_fft)         else 2048
-    args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else 512
-    args.sample_rate   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]   if not provided(args.hop_length)    else 22050
-    args.load_duration = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["load_duration"] if not provided(args.load_duration) else 1
+    args.n_mfcc        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]        if not provided(args.n_mfcc)        else args.n_mfcc
+    args.n_fft         = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]         if not provided(args.n_fft)         else args.n_fft
+    args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else args.hop_length
+    args.sample_rate   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]   if not provided(args.hop_length)    else args.sample_rate
+    args.load_duration = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["load_duration"] if not provided(args.load_duration) else args.load_duration
     
     ######################################################################################################
     

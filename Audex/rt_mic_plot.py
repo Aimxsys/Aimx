@@ -38,9 +38,9 @@ def process_clargs():
     parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
     
-    parser.add_argument("-n_mfcc",     type=int, help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",      type=int, help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length", type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-n_mfcc",     type=int, default = 13,   help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",      type=int, default = 2048, help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length", type=int, default = 512,  help = 'Sliding window for the FFT. Measured in # of samples.')
     
     # Original, mic-related arguments
     parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
@@ -48,7 +48,7 @@ def process_clargs():
     parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
     parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
     parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
-    parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
+    parser.add_argument('-blocksize',       type=int,   default=0,                                  help='Block size (in samples)')
     parser.add_argument('-sample_rate',     type=int,                                               help='Sampling rate of audio device')
     parser.add_argument('-downsample',      type=int,   default=1,              metavar='N',        help='Display every Nth sample (default: %(default)s)')
     
@@ -71,10 +71,10 @@ def process_clargs():
 
     args.model_path = get_actual_model_path(args.model_path)
 
-    args.n_mfcc       = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]      if not provided(args.n_mfcc)     else 13
-    args.n_fft        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]       if not provided(args.n_fft)      else 2048
-    args.n_hop_length = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]  if not provided(args.hop_length) else 512
-    args.blocksize    = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"] if not provided(args.blocksize)  else 0
+    args.n_mfcc       = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]      if not provided(args.n_mfcc)     else args.n_mfcc
+    args.n_fft        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]       if not provided(args.n_fft)      else args.n_fft
+    args.n_hop_length = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]  if not provided(args.hop_length) else args.hop_length
+    args.blocksize    = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"] if not provided(args.blocksize)  else args.sample_rate
         
     ###########################################################################################
     
