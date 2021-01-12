@@ -92,7 +92,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
     }
 
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
-    expected_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
+    exact_num_of_mfcc_vectors_per_segment = math.ceil(samples_per_segment / hop_length) # mfccs are calculater per hop
 
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv dataprep()")
     print_info("traindata_id  =", traindata_id)
@@ -149,7 +149,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
                 features = features.T
 
                 # store only mfcc feature with expected number of vectors
-                if len(features) == expected_num_of_mfcc_vectors_per_segment:
+                if len(features) == exact_num_of_mfcc_vectors_per_segment:
                     traindata[Aimx.TrainData.MFCC  ].append(features.tolist())
                     traindata[Aimx.TrainData.LABELS].append(label_id)
                     print_info("{}, si:{}".format(cyansky(af_path), si+1), verbose = args.verbose)
