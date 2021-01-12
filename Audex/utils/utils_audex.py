@@ -129,8 +129,8 @@ def load_traindata(arg_traindata_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
         :param data_path (str): Path to json file containing traindata
-        :return inputs (ndarray: the "mfcc"   section in the json traindata) 
-        :return labels (ndarray: the "labels" section in the json traindata, one label per segment)
+        :return inputs (2d-ndarray: the "mfcc"   section in the json traindata) 
+        :return labels (1d-ndarray: the "labels" section in the json traindata, one label per segment)
     """
     actual_traindata_path = get_actual_traindata_path(arg_traindata_path)
     try:
