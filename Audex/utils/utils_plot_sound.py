@@ -59,7 +59,7 @@ def plot_spectrogram(signal_pack, y_axis = "linear"):
     HOP_LENGTH = 512  # TODO: Hoist HOP_LENGTH into cmd arg (this is the same argument as in the function below)
     stft_scale = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
     print_info("stft.shape =", stft_scale.shape, "of type", type(stft_scale[0][0]))        
-    y_scale = np.abs(stft_scale) ** 2
+    y_scale = np.abs(stft_scale) ** 2 # the spectrogram
     print_info("y_scale.shape =", y_scale.shape, "of type", type(y_scale[0][0]))
     y_log_scale = librosa.power_to_db(y_scale)
     pt.figure(figsize = (15, 8)).canvas.set_window_title("Spectrogram")
