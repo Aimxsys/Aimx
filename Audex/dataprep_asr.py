@@ -103,7 +103,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
     for dirpath, _, afnames in os.walk(dataset_path):
         
         # ensure we're processing at subfolder level
-        if PurePath(dirpath).name is PurePath(dataset_path).name:
+        if extract_filename(dirpath) is extract_filename(dataset_path):
             continue
 
         # process only those dir-labels that are in the requested view
@@ -111,7 +111,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
             continue
 
         # save genre label (i.e. subfolder name) in the mapping
-        label_name = PurePath(dirpath).name
+        label_name = extract_filename(dirpath)
         traindata[Aimx.TrainData.MAPPING].append(label_name)
         print_info("\nProcessing label {} {}".format(cyan(label_id), label_name))
 

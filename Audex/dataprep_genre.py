@@ -109,14 +109,14 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
     for dirpath, _, afnames in os.walk(dataset_path):
 
         # ensure we're processing at subfolder level
-        if PurePath(dirpath).name is PurePath(dataset_path).name:
+        if extract_filename(dirpath) is extract_filename(dataset_path):
             continue
         
         if extract_filename(dirpath) not in args.dataset_view:
             continue
 
         # save genre label (i.e. subfolder name) in the mapping
-        label_name = PurePath(dirpath).name
+        label_name = extract_filename(dirpath)
         traindata[Aimx.TrainData.MAPPING].append(label_name)
         print_info("\nProcessing label {} {}".format(cyan(label_id), label_name))
 
@@ -133,7 +133,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
 		    # load audio file
             af_path             = os.path.join(dirpath, afname)
             signal, sample_rate = librosa.load(af_path, sr = sample_rate, duration = load_duration)
-            print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(af_path).name, len(signal)), verbose = args.verbose)
+            print_info("\nTotal samples in signal (audio track) {} = {}".format(extract_filename(af_path), len(signal)), verbose = args.verbose)
 
             # process all segments of the audio file, extract mfccs
             # and store the data to be fed to the NN for processing

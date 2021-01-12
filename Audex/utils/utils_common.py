@@ -63,10 +63,10 @@ def quote_path(path, frompoint='workdir'):
     return '\'' + cyansky(s[s.find(frompoint):]) + '\''
 
 def get_all_dirnames_in(dir):
-    return [PurePath(f).name for f in os.scandir(dir) if f.is_dir()]
+    return [extract_filename(f) for f in os.scandir(dir) if f.is_dir()]
 
 def get_all_filenames_in(dir):
-    return [PurePath(f).name for f in os.scandir(dir) if f.is_file()]
+    return [extract_filename(f) for f in os.scandir(dir) if f.is_file()]
 
 def timestamp_now(precision='seconds'):
     return datetime.now().isoformat(' ', precision)
