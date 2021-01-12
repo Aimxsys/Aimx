@@ -99,12 +99,12 @@ if __name__ == "__main__":
     print_info("Dataset view (labels) from dataprep result meta:")
     cmd.Cmd().columnize(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW], displaywidth=100)
 
-    inputs, labels = load_traindata(args.traindata_path)
+    x, y = load_traindata(args.traindata_path) # x = inputs, y = labels (in number form)
 
     # create train/test split
-    inputs_train, inputs_test, labels_train, labels_test = train_test_split(inputs, labels, test_size = 0.3)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3)
 
-    inputshape = (inputs.shape[1], inputs.shape[2])
+    inputshape = (x.shape[1], x.shape[2])
     model = build_model(input_shape = inputshape)
 
     # compile model
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     # train model
-    history = model.fit(inputs_train, labels_train, validation_data = (inputs_test, labels_test),
+    history = model.fit(x_train, y_train, validation_data = (x_test, y_test),
                         batch_size = args.batch_size,
                         epochs     = args.epochs,
                         verbose    = args.verbose,
