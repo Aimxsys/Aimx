@@ -57,14 +57,14 @@ def plot_spectrogram(signal_pack, y_axis = "linear"):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_spectrogram()")
     FRAME_SIZE = 2048 # TODO: Hoist FRAME_SIZE into cmd arg (this is the same argument as in the function below)
     HOP_LENGTH = 512  # TODO: Hoist HOP_LENGTH into cmd arg (this is the same argument as in the function below)
-    stft_scale = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
-    print_info("stft.shape =", stft_scale.shape, "of type", type(stft_scale[0][0]))        
-    y_scale = np.abs(stft_scale) ** 2 # the spectrogram
-    print_info("y_scale.shape =", y_scale.shape, "of type", type(y_scale[0][0]))
-    y_log_scale = librosa.power_to_db(y_scale)
+    stft            = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
+    spectrogram     = np.abs(stft) ** 2
+    log_spectrogram = librosa.power_to_db(spectrogram)
+    print_info("stft.shape =",               stft.shape, "of type", type(stft[0][0]))        
+    print_info("spectrogram.shape =", spectrogram.shape, "of type", type(spectrogram[0][0]))
     pt.figure(figsize = (15, 8)).canvas.set_window_title("Spectrogram")
     pt.title(signal_pack[0])
-    librosa.display.specshow(y_log_scale, sr = signal_pack[1][1], hop_length = HOP_LENGTH, x_axis = "time", y_axis = y_axis)
+    librosa.display.specshow(log_spectrogram, sr = signal_pack[1][1], hop_length = HOP_LENGTH, x_axis = "time", y_axis = y_axis)
     pt.colorbar()
 
 def plot_melspec(signal_pack):
