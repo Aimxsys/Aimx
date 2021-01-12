@@ -137,24 +137,22 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 
             # process all segments of the audio file, extract mfccs
             # and store the data to be fed to the NN for processing
-            for segment in range(num_segments):
+            for si in range(num_segments):
 
                 # calculate first and last sample for the current segment
-                seg_first_sample = samples_per_segment * segment
-                seg_last_sample  = seg_first_sample + samples_per_segment
+                si_a = si   * samples_per_segment # first sample in the segment
+                si_b = si_a + samples_per_segment # last  sample in the segment
 
                 # extract mfccs for each segment
-                features = librosa.feature.mfcc(signal[seg_first_sample:seg_last_sample],
-                                                sample_rate, n_mfcc = n_mfcc, n_fft = n_fft, hop_length = hop_length)
-                #features = librosa.feature.melspectrogram(signal[seg_first_sample:seg_last_sample],
-                #                                          sample_rate, n_fft=n_fft, hop_length=hop_length)
+                features = librosa.feature.mfcc(           signal[si_a:si_b], sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+                #features = librosa.feature.melspectrogram(signal[si_a:si_b], sample_rate,                n_fft=n_fft, hop_length=hop_length)
                 features = features.T
 
                 # store only mfcc feature with expected number of vectors
                 if len(features) == expected_num_of_mfcc_vectors_per_segment:
                     traindata[Aimx.TrainData.MFCC  ].append(features.tolist())
                     traindata[Aimx.TrainData.LABELS].append(label_id)
-                    print_info("{}, segment:{}".format(cyansky(af_path), segment+1), verbose = args.verbose)
+                    print_info("{}, si:{}".format(cyansky(af_path), si+1), verbose = args.verbose)
 
         label_id += 1
 
