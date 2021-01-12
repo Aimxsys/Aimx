@@ -130,8 +130,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
             signal, sample_rate      = librosa.load(af_path, sr = sample_rate, duration = load_duration)
             total_audios_length_sec += librosa.get_duration(signal, sample_rate)
 
-            print_info("\nTotal samples in signal (audio track) {} = {}".format(extract_filename(af_path), len(signal)),
-                       verbose = args.verbose)
+            print_info("\nTotal samples in signal (audio track) {} = {}".format(extract_filename(af_path), len(signal)), verbose = args.verbose)
 
             # drop audio files with less than pre-decided number of samples
             if len(signal) >= args.sample_rate: # i.e. only those longer than 1 sec

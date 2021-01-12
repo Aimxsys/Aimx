@@ -133,8 +133,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
 		    # load audio file
             af_path             = os.path.join(dirpath, afname)
             signal, sample_rate = librosa.load(af_path, sr = sample_rate, duration = load_duration)
-            print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(af_path).name, len(signal)),
-                        verbose = args.verbose)
+            print_info("\nTotal samples in signal (audio track) {} = {}".format(PurePath(af_path).name, len(signal)), verbose = args.verbose)
 
             # process all segments of the audio file, extract mfccs
             # and store the data to be fed to the NN for processing
