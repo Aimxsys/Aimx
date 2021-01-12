@@ -144,7 +144,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
                 si_b = si_a + samples_per_segment # last  sample in the segment
 
                 # extract mfccs for each segment
-                features = librosa.feature.mfcc(           signal[si_a:si_b], sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+                features  = librosa.feature.mfcc(          signal[si_a:si_b], sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
                 #features = librosa.feature.melspectrogram(signal[si_a:si_b], sample_rate,                n_fft=n_fft, hop_length=hop_length)
                 features = features.T
 

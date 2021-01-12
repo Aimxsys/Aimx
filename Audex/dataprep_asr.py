@@ -139,8 +139,8 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
                 signal = signal[:args.sample_rate]
 
                 # extract MFCCs
-                features = librosa.feature.mfcc(signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
-                #features = librosa.feature.melspectrogram(signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
+                features  = librosa.feature.mfcc(          signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+                #features = librosa.feature.melspectrogram(signal, sample_rate,                n_fft=n_fft, hop_length=hop_length)
 
                 # store data for analysed track
                 traindata[Aimx.TrainData.MFCC  ].append(features.T.tolist())
