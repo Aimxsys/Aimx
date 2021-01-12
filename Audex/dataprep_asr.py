@@ -68,7 +68,7 @@ if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now
 
 print_script_start_preamble(nameofthis(__file__), vars(args))
 
-def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_rate = 22050, load_duration = 30):
+def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_rate = 22050, load_duration = 30):
     """
     Extracts MFCC from music dataset and saves them into a json file along witgh genre labels.
         :param  dataset_path (str): Path to dataset.
@@ -89,7 +89,7 @@ def preprocess_dataset(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512
        Aimx.TrainData.MFCC     : []
     }
 
-    print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv preprocess_dataset()")
+    print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv dataprep()")
     print_info("traindata_id   =", traindata_id)
     print_info("n_mfcc         =", n_mfcc)
     print_info("n_fft          =", n_fft)
@@ -165,11 +165,11 @@ if __name__ == "__main__":
     
     start_time = time.time()
 
-    traindata, traindata_id = preprocess_dataset(args.dataset_path, n_mfcc = args.n_mfcc,        
-                                                                     n_fft = args.n_fft,         
-                                                                hop_length = args.hop_length,
-                                                               sample_rate = args.sample_rate, 
-                                                             load_duration = args.load_duration)
+    traindata, traindata_id = dataprep(args.dataset_path, n_mfcc = args.n_mfcc,        
+                                                           n_fft = args.n_fft,         
+                                                      hop_length = args.hop_length,
+                                                     sample_rate = args.sample_rate, 
+                                                   load_duration = args.load_duration)
     traindata_filename = traindata_id + ".json"
 
     dataprep_duration = timedelta(seconds = round(time.time() - start_time))
