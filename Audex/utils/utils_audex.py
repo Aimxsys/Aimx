@@ -145,8 +145,8 @@ def load_traindata(arg_traindata_path):
         exit() # cannot proceed without traindata file
     
     print_info("Reading traindata into numpy arrays... ", end="")
-    inputs = np.array(traindata["mfcc"])   # json list to numpy array (MFCCs  turn into a 2d array)
-    labels = np.array(traindata["labels"]) # json list to numpy array (labels turn into a 1d array)
+    inputs = np.array(traindata[Aimx.TrainData.MFCC])   # json list to numpy array (MFCCs  turn into a 2d array)
+    labels = np.array(traindata[Aimx.TrainData.LABELS]) # json list to numpy array (labels turn into a 1d array)
     print_info("[DONE]\n")
 
     return inputs, labels
