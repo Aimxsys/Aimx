@@ -144,7 +144,7 @@ def load_traindata(arg_traindata_path):
         print_info("Data file " + quote(actual_traindata_path) + " not provided or not found. Exiting...")
         exit() # cannot proceed without traindata file
     
-    print_info("Reading traindata... ", end="")
+    print_info("Reading traindata into numpy arrays... ", end="")
     inputs = np.array(traindata["mfcc"])   # json list to numpy array (MFCCs  turn into a 2d array)
     labels = np.array(traindata["labels"]) # json list to numpy array (labels turn into a 1d array)
     print_info("[DONE]\n")
