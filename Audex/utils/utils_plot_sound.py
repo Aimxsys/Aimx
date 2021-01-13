@@ -59,11 +59,12 @@ def plot_spectrogram(signal_pack, y_axis = "linear"):
     HOP_LENGTH = 512  # TODO: Hoist HOP_LENGTH into cmd arg (this is the same argument as in the function below)
     stft            = librosa.stft(signal_pack[1][0], n_fft = FRAME_SIZE, hop_length = HOP_LENGTH)
     spectrogram     = np.abs(stft) ** 2
-    log_spectrogram = librosa.power_to_db(spectrogram)
+    log_spectrogram = librosa.power_to_db(spectrogram) # log-amplitude
     print_info("stft.shape =",               stft.shape, "of type", type(stft[0][0]))        
     print_info("spectrogram.shape =", spectrogram.shape, "of type", type(spectrogram[0][0]))
     pt.figure(figsize = (15, 8)).canvas.set_window_title("Spectrogram")
     pt.title(signal_pack[0])
+    # if y_axis == "log" below, the spectrogram will be log-frequency in addition to log-amplitude
     librosa.display.specshow(log_spectrogram, sr = signal_pack[1][1], hop_length = HOP_LENGTH, x_axis = "time", y_axis = y_axis)
     pt.colorbar()
 
