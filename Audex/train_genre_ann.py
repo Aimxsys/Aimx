@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # create train/test split
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3)
 
-    inputshape = (x.shape[1], x.shape[2])
+    inputshape = (x.shape[1], x.shape[2]) # x.shape == (150, 259, 13)
     model = build_model(input_shape = inputshape)
 
     # compile model
