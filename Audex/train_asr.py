@@ -173,10 +173,10 @@ if __name__ == "__main__":
 
     # create network
     if (args.ann_type == "cnn"):
-        inputshape = (x_train.shape[1], x_train.shape[2], 1)
+        inputshape = (x_train.shape[1], x_train.shape[2], 1) # x.shape == (11, 44, 13, 1) for (signals, mfccvectors, mfccs, depth)
         model = build_model_cnn(input_shape = inputshape)
     else:
-        inputshape = (x_train.shape[1], x_train.shape[2])
+        inputshape = (x_train.shape[1], x_train.shape[2])    # x.shape == (11, 44, 13, 1) for (signals, mfccvectors, mfccs, depth)
         model = build_model_rnn(input_shape = inputshape)
 
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),

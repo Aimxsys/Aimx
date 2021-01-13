@@ -124,7 +124,7 @@ if __name__ == "__main__":
     x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_traindata(args.traindata_path, test_size = 0.25, valid_size = 0.2)
 
     # create network
-    inputshape = (x_train.shape[1], x_train.shape[2])
+    inputshape = (x_train.shape[1], x_train.shape[2])  # x.shape == (150, 259, 13) for (signalsegments, mfccvectors, mfccs)
     model = build_model(input_shape = inputshape) # 130, 13
 
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
