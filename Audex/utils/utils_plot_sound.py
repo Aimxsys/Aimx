@@ -22,7 +22,7 @@ def print_stats(signal_pack):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv stats")
     sample_duration = 1/signal_pack[1][1]
     signal_duration = sample_duration * len(signal_pack[1][0])
-    ft = np.fft.fft(signal_pack[1][0]) # ft itself is a complex-valued array
+    ft = np.fft.fft(signal_pack[1][0]) # ft itself is a complex-valued array (in audio analysis we don't care about the imaginary part, which represents phase)
     print_info(f"{signal_pack[0]} signal shape:     {signal_pack[1][0].shape}")
     print_info(f"{signal_pack[0]} signal size:      {signal_pack[1][0].size}")
     print_info(f"{signal_pack[0]} sampling rate:    {signal_pack[1][1]}")
@@ -44,7 +44,7 @@ def plot_signals_single_chart(signal_packs):
 def plot_frequency_distribution(signal_pack, f_ratio=1):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_frequency_distribution()")
     ft   = sp.fft.fft(signal_pack[1][0])
-    magn = np.abs(ft) # ft itself is a complex-valued array
+    magn = np.abs(ft) # ft itself is a complex-valued array (in audio analysis we don't care about the imaginary part, which represents phase)
     freq = np.linspace(0, signal_pack[1][1], len(magn))
     num_freq_bins = int(len(freq) * f_ratio) # TODO: Hoist f_ratio into cmd arg
     pt.figure(figsize = (18, 4)).canvas.set_window_title("Frequency Distribution")
