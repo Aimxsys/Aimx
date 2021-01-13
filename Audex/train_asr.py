@@ -86,7 +86,7 @@ def prepare_traindata(ann_type, traindata_path, test_size, valid_size):
     x_train, x_valid, y_train, y_valid = train_test_split(x_train, y_train, test_size = valid_size)
 
     if ann_type == "cnn":
-        # add an axis to input sets; example resulting shape: (89, 259, 13, 1)
+        # add an axis to input sets; example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
         x_train = x_train[..., np.newaxis]
         x_valid = x_valid[..., np.newaxis]
         x_test  =  x_test[..., np.newaxis]
