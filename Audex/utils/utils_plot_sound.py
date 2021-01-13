@@ -44,7 +44,7 @@ def plot_signals_single_chart(signal_packs):
 def plot_frequency_distribution(signal_pack, f_ratio=1):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_frequency_distribution()")
     ft   = sp.fft.fft(signal_pack[1][0])
-    magn = np.abs(ft)
+    magn = np.abs(ft) # ft itself is a complex array
     freq = np.linspace(0, signal_pack[1][1], len(magn))
     num_freq_bins = int(len(freq) * f_ratio) # TODO: Hoist f_ratio into cmd arg
     pt.figure(figsize = (18, 4)).canvas.set_window_title("Frequency Distribution")
