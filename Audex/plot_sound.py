@@ -61,7 +61,7 @@ ARG_PLOT_MELSPECS    = args.plot_all or args.plot_melspecs
 ARG_PLOT_MFCCS       = args.plot_all or args.plot_mfccs
 
 afiles_path = Path(args.files_path)
-signal_packs = []
+signal_packs = [] # (afname, signal, sample_rate)
 
 if afiles_path.is_file():
     print_info("|||||| Loading file " + quote_path(afiles_path) + "...", end="")
