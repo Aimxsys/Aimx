@@ -82,9 +82,9 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
 ####################################################### Genre-related pipeline
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
-    # dataprep_genre.py -dataset_path ../workdir/datasets/dataset_c10_f100 -dataset_depth 5
+    # dataprep_genre.py -dataset_path ../workdir/datasets/genre_c10_f100 -dataset_depth 5
     print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py"))
-    subprocess.run(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/datasets/dataset_c10_f100', '-dataset_depth', str(args.dataset_depth)], check=True)
+    subprocess.run(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/datasets/genre_c10_f100', '-dataset_depth', str(args.dataset_depth)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
     # train_genre_ann.py -epochs 5
