@@ -129,7 +129,7 @@ def load_traindata(arg_traindata_path):
     """
     Loads training data from json file and reads them into arrays for NN processing.
         :param data_path (str): Path to json file containing traindata
-        :return inputs (2d-ndarray: the "mfcc"   section in the json traindata) 
+        :return inputs (3d-ndarray: the "mfcc"   section in the json traindata) 
         :return labels (1d-ndarray: the "labels" section in the json traindata, one label per segment)
     """
     actual_traindata_path = get_actual_traindata_path(arg_traindata_path)
@@ -145,7 +145,7 @@ def load_traindata(arg_traindata_path):
         exit() # cannot proceed without traindata file
     
     print_info("Reading traindata into numpy arrays... ", end="")
-    inputs = np.array(traindata[Aimx.TrainData.MFCC])   # json list to numpy array (MFCCs  turn into a 2d array)
+    inputs = np.array(traindata[Aimx.TrainData.MFCC])   # json list to numpy array (MFCCs  turn into a 3d array)
     labels = np.array(traindata[Aimx.TrainData.LABELS]) # json list to numpy array (labels turn into a 1d array)
     print_info("[DONE]\n")
 
