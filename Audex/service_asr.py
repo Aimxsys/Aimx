@@ -115,6 +115,7 @@ class _AsrService:
         LENGTH_SEC = 1
         self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # (22050,) next undergo mfcc-ing
 
+        # extract mfccs (mfcc() does FFT under the hood)
         features = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
         #features = librosa.feature.melspectrogram(self.af_signal, self.af_sr, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':

@@ -86,6 +86,7 @@ def plot_melspec(signal_pack):
 def plot_mfcc(signal_pack):
     print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv plot_mfcc()")
     # TODO: Hoist n_mfcc into cmd arg (as argument for -plot_mfccs)
+    # extract mfccs (mfcc() does FFT under the hood)
     mfccs = librosa.feature.mfcc(signal_pack[1][0], n_mfcc=20, sr = signal_pack[1][1])
     print_info("mfcc.shape =", mfccs.shape)
     pt.figure(figsize=(15,10)).canvas.set_window_title("MFCC")

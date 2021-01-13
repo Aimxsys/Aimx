@@ -138,7 +138,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
                 # ensure strict consistency of the length of the signal (exactly 1 second)
                 signal = signal[:args.sample_rate]
 
-                # extract MFCCs
+                # extract MFCCs (mfcc() does FFT under the hood)
                 features  = librosa.feature.mfcc(          signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
                 #features = librosa.feature.melspectrogram(signal, sample_rate,                n_fft=n_fft, hop_length=hop_length)
 

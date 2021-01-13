@@ -40,6 +40,7 @@ class _AsrServiceRT:
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
+        # extract mfccs (mfcc() does FFT under the hood)
         features = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
         #features = librosa.feature.melspectrogram(audio_signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
