@@ -48,7 +48,7 @@ def process_clargs():
     parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
     parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
     parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
-    parser.add_argument('-blocksize',       type=int,   default=0,                                  help='Block size (in samples)')
+    parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
     parser.add_argument('-sample_rate',     type=int,                                               help='Sampling rate of audio device')
     parser.add_argument('-downsample',      type=int,   default=1,              metavar='N',        help='Display every Nth sample (default: %(default)s)')
     
