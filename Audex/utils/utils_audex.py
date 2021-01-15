@@ -119,7 +119,7 @@ def save_training_result_meta(history, trainid, timestamp, training_duration, in
         Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH],        # extract from dataprep metadata & forward to training metadata
         Aimx.TIMESTAMP:                           timestamp,
         Aimx.DURATION:                            training_duration,
-        Aimx.Training.VAL_ACCURACY:               history.history["val_accuracy"],
+        Aimx.Training.VAL_ACCURACY:               list(np.around(history.history["val_accuracy"], 2)),
         Aimx.NOTES:                               ""
     }
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
