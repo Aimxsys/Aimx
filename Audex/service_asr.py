@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from itertools import islice
 import librosa
 import argparse
 import tensorflow.keras as keras
@@ -24,7 +25,8 @@ def process_clargs():
     parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with inference on audio files.')
 
     parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
-    parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
+    parser.add_argument("-inferdata_path",  type = Path,                             help = 'Path to the audio files on which model inference is to be tested.')
+    parser.add_argument("-inferdata_range", type=int, nargs='*', default=[0, 10],    help = 'Range in -inferdata_path on which to do inference.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
     parser.add_argument("-n_mfcc",        type=int, default = 13,    help = 'Number of MFCC to extract.')
@@ -182,7 +184,9 @@ if __name__ == "__main__":
 
     (_, _, afnames) = next(os.walk(args.inferdata_path))
     
-    for afname in afnames:
+    START = args.inferdata_range[0]; # of the range in -inferdata_path on which to do inference
+    END   = args.inferdata_range[1]; # of the range in -inferdata_path on which to do inference
+    for i, afname in enumerate(islice(afnames, START, END)):
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
