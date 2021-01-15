@@ -209,7 +209,7 @@ if __name__ == "__main__":
     trainid = args.ann_type + "_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
-    save_training_result_meta(trainid, timestamp, str(training_duration), inputshape, args.savemodel)
+    save_training_result_meta(history, trainid, timestamp, str(training_duration), inputshape, args.savemodel)
 
     if (args.savemodel):
         save_model(model, trainid)
