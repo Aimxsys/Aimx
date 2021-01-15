@@ -100,6 +100,34 @@ def prepare_traindata(ann_type, traindata_path, test_size, valid_size):
 
     return x_train, x_valid, x_test, y_train, y_valid, y_test
 
+def build_model_ann(input_shape):
+    """
+    Param:
+        input_shape (tuple): Shape of input set
+    Returns:
+        model: The model
+    """
+    model = keras.Sequential()
+
+    # flatten output and feed it into dense layer
+    model.add(keras.layers.Flatten(input_shape = input_shape))
+    model.add(keras.layers.Dense(512, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
+    #model.add(keras.layers.BatchNormalization(axis = 1))
+    #model.add(keras.layers.Dropout(0.3))
+
+    model.add(keras.layers.Dense(256, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
+    model.add(keras.layers.BatchNormalization(axis = 1))
+    model.add(keras.layers.Dropout(0.3))
+
+    model.add(keras.layers.Dense(64, activation = 'relu'))#, kernel_regularizer = keras.regularizers.l2(0.001)))
+    #model.add(keras.layers.BatchNormalization(axis = 1))
+    #model.add(keras.layers.Dropout(0.3))
+
+    # output layer
+    model.add(keras.layers.Dense(len(get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW]), activation='softmax'))
+
+    return model
+
 def build_model_cnn(input_shape):
     """
     Generates CNN model
@@ -172,11 +200,14 @@ if __name__ == "__main__":
     x_train, x_valid, x_test, y_train, y_valid, y_test = prepare_traindata(args.ann_type, args.traindata_path, test_size = 0.25, valid_size = 0.2)
 
     # create network
-    if (args.ann_type == "cnn"):
+    if args.ann_type == "ann":
+        inputshape = (x_train.shape[1], x_train.shape[2])    # x.shape == (11, 44, 13)    for (signals, mfccvectors, mfccs)
+        model = build_model_ann(input_shape = inputshape)
+    if args.ann_type == "cnn":
         inputshape = (x_train.shape[1], x_train.shape[2], 1) # x.shape == (11, 44, 13, 1) for (signals, mfccvectors, mfccs, depth)
         model = build_model_cnn(input_shape = inputshape)
     else:
-        inputshape = (x_train.shape[1], x_train.shape[2])    # x.shape == (11, 44, 13, 1) for (signals, mfccvectors, mfccs, depth)
+        inputshape = (x_train.shape[1], x_train.shape[2])    # x.shape == (11, 44, 13)    for (signals, mfccvectors, mfccs)
         model = build_model_rnn(input_shape = inputshape)
 
     model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.0001),
