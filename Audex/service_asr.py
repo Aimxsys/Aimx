@@ -190,6 +190,7 @@ if __name__ == "__main__":
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
+            print_info("skipped a short (< 1s) signal")
             continue
         for i in range(int(asr.af_loaded_duration)):
             features = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
