@@ -26,7 +26,7 @@ def process_clargs():
 
     parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
     parser.add_argument("-inferdata_path",  type = Path,                             help = 'Path to the audio files on which model inference is to be tested.')
-    parser.add_argument("-inferdata_range", type=int, nargs='*', default=[0, 10],    help = 'Range in -inferdata_path on which to do inference.')
+    parser.add_argument("-inferdata_range", type=int, nargs='*', default=[0, 50],    help = 'Range in -inferdata_path on which to do inference.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
     parser.add_argument("-n_mfcc",        type=int, default = 13,    help = 'Number of MFCC to extract.')
