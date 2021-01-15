@@ -125,10 +125,10 @@ class _AsrService:
             #            (# segments, # coefficients)
             # (# samples, # segments, # coefficients, # channels)
             features = features[np.newaxis, ..., np.newaxis] # shape for CNN model
-        elif self.modelType == 'rnn':
+        elif self.modelType == 'rnn' or self.modelType == 'ann':
             features = features[..., np.newaxis]             # shape for RNN model
         else:
-            raise Exception(pinkred("ASR received an unknown model type: " + self.modelType))
+            raise Exception(pinkred("ASR received an unknown model type: " + quote(self.modelType)))
 
         return features.T
 
