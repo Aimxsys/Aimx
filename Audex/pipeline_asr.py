@@ -47,8 +47,8 @@ args = parser.parse_args()
 ########################## Command Argument Handling & Verification #######################
 
 if args.example:
-    print_info(nameofthis(__file__) + " -dataset_path ../workdir/datasets/speech_commands_v001 -dataset_depth 55 -dataset_view down five"
-                                      " -epochs 50 -inferdata_path ../workdir/infer/signal_down_five_few")
+    print_info(nameofthis(__file__) + " -dataset_path ../workdir/datasets/speech_commands -dataset_depth 100 -dataset_view down seven backnoise"
+                                      " -epochs 100 -inferdata_path ../workdir/infer/signal_down_backnoise_five_TRIMMED")
     exit()
 
 ###########################################################################################
