@@ -32,7 +32,7 @@ def process_clargs():
     parser.add_argument("-ann_type",   default = "cnn", type=str, help = 'ANN type (CNN, RNN, etc).')
     parser.add_argument("-batch_size", default = 32,    type=int, help = 'Batch size.')
     parser.add_argument("-epochs",     default = 50,    type=int, help = 'Number of epochs to train.')
-    parser.add_argument("-patience",   default =  5,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
+    parser.add_argument("-patience",   default = 10,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
     parser.add_argument("-verbose",    default =  1,    type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                          ' or 2 (one line per epoch). Default is 1.')
     parser.add_argument("-showplot",   action ='store_true',      help = 'At the end, will show an interactive plot of the training history.')
