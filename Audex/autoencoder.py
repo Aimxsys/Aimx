@@ -28,9 +28,9 @@ class Autoencoder:
         self.conv_strides     = conv_strides     # (1, 2, 2)-tuple
         self.latent_space_dim = latent_space_dim # 2
 
-        self.encoder = None
-        self.decoder = None
-        self.model   = None
+        self.model_enc = None
+        self.model_dec = None
+        self.model_ae  = None
 
         self._num_conv_layers = len(conv_filters)
         self._shape_before_bottleneck = None
@@ -39,18 +39,18 @@ class Autoencoder:
         self._build()
 
     def summary(self):
-        self.encoder.summary()
-        self.decoder.summary()
-        self.model.summary()
+        self.model_enc.summary()
+        self.model_dec.summary()
+        self.model_ae.summary()
 
     def compile(self, learning_rate=0.0001):
         opt = Adam(learning_rate=learning_rate)
         mse = MeanSquaredError()
-        self.model.compile(optimizer=opt, loss=mse)
+        self.model_ae.compile(optimizer=opt, loss=mse)
 
     def train(self, x_train, batch_size, num_epochs):
         # Passing x_train as target data is essentially the trick to make this NN generative
-        self.model.fit(x_train, x_train, batch_size=batch_size, epochs=num_epochs, shuffle=True)
+        self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=num_epochs, shuffle=True)
 
     def _build(self):
         self._build_encoder()
@@ -58,11 +58,11 @@ class Autoencoder:
         self._build_autoencoder()
 
     def _build_encoder(self):
-        encoder_input         = self._add_encoder_input()
-        conv_layers           = self._add_conv_layers(encoder_input)
-        bottleneck            = self._add_bottleneck(conv_layers)
-        self._model_input     = encoder_input
-        self.encoder          = tf.keras.Model(encoder_input, bottleneck, name="encoder")
+        encoder_input     = self._add_encoder_input()
+        conv_layers       = self._add_conv_layers(encoder_input)
+        bottleneck        = self._add_bottleneck(conv_layers)
+        self._model_input = encoder_input
+        self.model_enc    = tf.keras.Model(encoder_input, bottleneck, name="encoder")
 
     def _build_decoder(self):
         decoder_input         = self._add_decoder_input()
@@ -70,12 +70,12 @@ class Autoencoder:
         reshape_layer         = self._add_reshape_layer(dense_layer)
         conv_transpose_layers = self._add_conv_transpose_layers(reshape_layer)
         decoder_output        = self._add_decoder_output(conv_transpose_layers)
-        self.decoder          = tf.keras.Model(decoder_input, decoder_output, name="decoder")
+        self.model_dec        = tf.keras.Model(decoder_input, decoder_output, name="decoder")
 
     def _build_autoencoder(self):
-        model_input  = self._model_input
-        model_output = self.decoder(self.encoder(model_input))
-        self.model   = tf.keras.Model(model_input, model_output, name="autoencoder")
+        model_input   = self._model_input
+        model_output  = self.model_dec(self.model_enc(model_input))
+        self.model_ae = tf.keras.Model(model_input, model_output, name="autoencoder")
 
     def _add_encoder_input(self):
         return tf.keras.layers.Input(shape=self.input_shape, name="encoder_input")
