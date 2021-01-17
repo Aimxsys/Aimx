@@ -139,10 +139,10 @@ if __name__ == "__main__":
     
     # train model
     history = model.fit(x_train, y_train, validation_data = (x_valid, y_valid),
-                       batch_size = args.batch_size,
-                       epochs     = args.epochs,
-                       verbose    = args.verbose,
-                       callbacks  = [earlystop_callback])
+                        batch_size = args.batch_size,
+                        epochs     = args.epochs,
+                        verbose    = args.verbose,
+                        callbacks  = [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
