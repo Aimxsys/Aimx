@@ -90,7 +90,6 @@ if __name__ == "__main__":
     )
     args = process_clargs()
     x_train, _, _, _ = load_mnist()
-    x_train = x_train[:1000]
     autoencoder.summary()
     autoencoder.compile(LEARNING_RATE)
-    autoencoder.train(x_train, args.batch_size, args.epochs)
+    autoencoder.train(x_train[:1000], args.batch_size, args.epochs)
