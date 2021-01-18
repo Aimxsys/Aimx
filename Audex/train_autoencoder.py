@@ -80,9 +80,6 @@ def load_mnist():
     return x_train, y_train, x_test, y_test
 
 if __name__ == "__main__":
-    args = process_clargs()
-    x_train, _, _, _ = load_mnist()
-    x_train = x_train[:1000]
     autoencoder = Autoencoder(
         input_shape      = (28, 28, 1),
         conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
@@ -91,6 +88,9 @@ if __name__ == "__main__":
         conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
         latent_space_dim = 2
     )
+    args = process_clargs()
+    x_train, _, _, _ = load_mnist()
+    x_train = x_train[:1000]
     autoencoder.summary()
     autoencoder.compile(LEARNING_RATE)
     autoencoder.train(x_train, args.batch_size, args.epochs)
