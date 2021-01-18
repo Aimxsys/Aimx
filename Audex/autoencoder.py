@@ -48,9 +48,9 @@ class Autoencoder:
         mse = MeanSquaredError()
         self.model_ae.compile(optimizer=opt, loss=mse)
 
-    def train(self, x_train, batch_size, num_epochs):
+    def train(self, x_train, batch_size, epochs):
         # Passing x_train as target data is essentially the trick to make this NN generative
-        self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=num_epochs, shuffle=True)
+        self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=epochs, shuffle=True)
 
     def _build(self):
         self._build_encoder()
