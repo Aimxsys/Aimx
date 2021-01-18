@@ -4,6 +4,7 @@ from tensorflow.keras            import backend as K
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses     import MeanSquaredError
 
+import pickle
 import numpy as np
 
 import sys
@@ -15,6 +16,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import *
+from Audex.utils.utils_audex  import *
 
 class Autoencoder:
     """
@@ -36,6 +38,10 @@ class Autoencoder:
         self._shape_before_bottleneck = None
         self._model_input             = None
 
+        self.MODEL_FULLPATH   = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_ae_trainid")
+        self.PARAMS_FULLPATH  = os.path.join(self.MODEL_FULLPATH, "parameters.pkl")
+        self.WEIGHTS_FULLPATH = os.path.join(self.MODEL_FULLPATH, "weights.h5")
+
         self._build()
 
     def summary(self):
@@ -51,6 +57,40 @@ class Autoencoder:
     def train(self, x_train, batch_size, epochs):
         # Passing x_train as target data is essentially the trick to make this NN generative
         self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=epochs, shuffle=True)
+
+    def save(self):
+        self._save_parameters()
+        self._save_weights()
+
+    def load_weights(self, weights_path):
+        self.model_ae.load_weights(weights_path)
+
+    @classmethod
+    def load(cls):
+        MODEL_FULLPATH   = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_ae_trainid")
+        PARAMS_FULLPATH  = os.path.join(MODEL_FULLPATH, "parameters.pkl")
+        WEIGHTS_FULLPATH = os.path.join(MODEL_FULLPATH, "weights.h5")
+        with open(PARAMS_FULLPATH, "rb") as f:
+            params = pickle.load(f)
+        autoencoder  = Autoencoder(*params)
+        weights_path = os.path.join(MODEL_FULLPATH, "weights.h5")
+        autoencoder.load_weights(weights_path)
+        return autoencoder
+
+    def _save_parameters(self):
+        params = [
+            self.input_shape,
+            self.conv_filters,
+            self.conv_kernels,
+            self.conv_strides,
+            self.latent_space_dim
+        ]
+        Path(self.MODEL_FULLPATH).mkdir(parents=True, exist_ok=True)
+        with open(self.PARAMS_FULLPATH, "wb") as f:
+            pickle.dump(params, f)
+
+    def _save_weights(self):
+        self.model_ae.save_weights(self.WEIGHTS_FULLPATH)
 
     def _build(self):
         self._build_encoder()

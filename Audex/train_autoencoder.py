@@ -94,4 +94,7 @@ if __name__ == "__main__":
     args             = process_clargs()
     x_train, _, _, _ = load_mnist()
 
-    autoencoder.train(x_train[:1000], args.batch_size, args.epochs)
+    autoencoder.train(x_train[:500], args.batch_size, args.epochs)
+    autoencoder.save()
+    autoencoder2 = Autoencoder.load()
+    autoencoder2.summary()
