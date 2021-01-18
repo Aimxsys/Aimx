@@ -33,7 +33,7 @@ def process_clargs():
                                ', which by design is the output of the previous step of dataset preprocessing.')
 
     parser.add_argument("-batch_size", default = 32,    type=int, help = 'Batch size.')
-    parser.add_argument("-epochs",     default = 50,    type=int, help = 'Number of epochs to train.')
+    parser.add_argument("-epochs",     default =  1,    type=int, help = 'Number of epochs to train.')
     parser.add_argument("-patience",   default = 10,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
     parser.add_argument("-verbose",    default =  1,    type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                          ' or 2 (one line per epoch). Default is 1.')
