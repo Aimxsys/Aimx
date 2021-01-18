@@ -171,6 +171,17 @@ def predict(model, x, y):
     print_info("Target: {} = {}, Predicted label: {} = {}".format(y, to_genre_name(y), predicted_index[0], to_genre_name(predicted_index[0])))
 
 def save_model(model, trainid):
+    """
+    From TF documentation: https://www.tensorflow.org/tutorials/keras/save_and_load
+      Call model.save() to save a model's architecture, weights, and training configuration in a single file/folder.
+      This allows you to export a model so it can be used without access to the original Python code.
+      Since the optimizer-state is recovered, you can resume training from exactly where you left off.
+      An entire model can be saved in two different file formats (SavedModel and HDF5).
+      The TensorFlow SavedModel format is the default file format in TF2.x. However, models can be saved in HDF5 format.
+      Saving a fully-functional model is very useful—you can load them in TensorFlow.js and then train and run them in web browsers,
+      or convert them to run on mobile devices using TensorFlow Lite.
+    This method uses the TensorFlow SavedModel format which is the default file format in TF2.x as quoted above.
+    """
     MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
     model.save(MODEL_FULLPATH)
