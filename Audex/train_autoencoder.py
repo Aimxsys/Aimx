@@ -79,7 +79,10 @@ def load_mnist():
 
     return x_train, y_train, x_test, y_test
 
-def train(x_train, learning_rate, batch_size, epochs):
+if __name__ == "__main__":
+    args = process_clargs()
+    x_train, _, _, _ = load_mnist()
+    x_train = x_train[:1000]
     autoencoder = Autoencoder(
         input_shape      = (28, 28, 1),
         conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
@@ -89,11 +92,5 @@ def train(x_train, learning_rate, batch_size, epochs):
         latent_space_dim = 2
     )
     autoencoder.summary()
-    autoencoder.compile(learning_rate)
-    autoencoder.train(x_train, batch_size, epochs)
-    return autoencoder
-
-if __name__ == "__main__":
-    args = process_clargs()
-    x_train, _, _, _ = load_mnist()
-    autoencoder = train(x_train[:5000], LEARNING_RATE, args.batch_size, args.epochs)
+    autoencoder.compile(LEARNING_RATE)
+    autoencoder.train(x_train, args.batch_size, args.epochs)
