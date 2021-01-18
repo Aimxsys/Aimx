@@ -88,8 +88,10 @@ if __name__ == "__main__":
         conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
         latent_space_dim = 2
     )
-    args = process_clargs()
-    x_train, _, _, _ = load_mnist()
     autoencoder.summary()
     autoencoder.compile(LEARNING_RATE)
+
+    args             = process_clargs()
+    x_train, _, _, _ = load_mnist()
+
     autoencoder.train(x_train[:1000], args.batch_size, args.epochs)
