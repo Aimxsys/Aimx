@@ -21,9 +21,9 @@ def process_clargs():
     # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
     parser = argparse.ArgumentParser(description = '[TODO: Script description].')
 
-    parser.add_argument("-num_genims",  default = 8, type=int, help = 'Number of images to generate.')
-    parser.add_argument("-scatterplot", default = 0, type=int, help = 'Show a scatter plot of the latent space.')
-    parser.add_argument("-example", action ='store_true',      help = 'Show a working example on how to call the script.')
+    parser.add_argument("-num_genims",         default = 8, type=int, help = 'Number of images to generate.')
+    parser.add_argument("-show_latent_points", default = 0, type=int, help = 'Number of points to show on a scatter plot of the latent space.')
+    parser.add_argument("-example", action ='store_true',             help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
 
