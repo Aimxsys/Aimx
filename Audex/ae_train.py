@@ -1,7 +1,7 @@
 #!/usr/bin/env python
   
 from tensorflow.keras.datasets import mnist
-from autoencoder import Autoencoder
+from ae import Autoencoder
 
 from pathlib  import Path
 from datetime import timedelta
