@@ -77,7 +77,6 @@ if __name__ == "__main__":
     reconstructed_images, _ = ae.reconstruct(sample_images)
     plot_reconstructed_images(sample_images, reconstructed_images)
 
-    num_latent_points_to_show = 6000
-    sample_images, sample_labels = select_images(x_test, y_test, num_latent_points_to_show)
+    sample_images, sample_labels = select_images(x_test, y_test, args.show_latent_points)
     _, latent_representations = ae.reconstruct(sample_images)
     plot_images_encoded_in_latent_space(latent_representations, sample_labels)
