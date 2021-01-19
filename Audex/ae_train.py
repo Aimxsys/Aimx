@@ -25,8 +25,7 @@ from Audex.utils.utils_audex import *
 
 def process_clargs():
     # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
-    parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with'
-                                                   ' audio files and their various spectrograms.')
+    parser = argparse.ArgumentParser(description = '[TODO: Script description].')
 
     parser.add_argument("-traindata_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path,
                         help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
