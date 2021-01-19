@@ -82,24 +82,24 @@ if ARG_TEST_PLOT_SOUND: # Sound plots
 ####################################################### Genre-related pipeline
 
 if ARG_TEST_DATAPREP_GENRE: # Data preprocessing
-    # dataprep_genre.py -dataset_path ../workdir/datasets/genre_c10_f100 -dataset_depth 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_genre.py"))
-    subprocess.run(interp + [dotslash + 'dataprep_genre.py', '-dataset_path', '../workdir/datasets/genre_c10_f100', '-dataset_depth', str(args.dataset_depth)], check=True)
+    # genre_dataprep.py -dataset_path ../workdir/datasets/genre_c10_f100 -dataset_depth 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_dataprep.py"))
+    subprocess.run(interp + [dotslash + 'genre_dataprep.py', '-dataset_path', '../workdir/datasets/genre_c10_f100', '-dataset_depth', str(args.dataset_depth)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_ANN: # Genre classification using vanilla NN (no CNN or anything)
-    # train_genre_ann.py -epochs 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_ann.py"))
-    subprocess.run(interp + [dotslash + 'train_genre_ann.py', '-epochs', str(args.epochs)], check=True)
+    # genre_train_ann.py.py -epochs 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_train_ann.py.py"))
+    subprocess.run(interp + [dotslash + 'genre_train_ann.py', '-epochs', str(args.epochs)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_CNN: # Genre classification using CNN
-    # train_genre_cnn.py -epochs 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_cnn.py"))
-    subprocess.run(interp + [dotslash + 'train_genre_cnn.py', '-epochs', str(args.epochs)], check=True)
+    # genre_train_cnn.py -epochs 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_train_cnn.py"))
+    subprocess.run(interp + [dotslash + 'genre_train_cnn.py', '-epochs', str(args.epochs)], check=True)
 
 if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
-    # train_genre_rnn.py -epochs 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_genre_rnn.py"))
-    subprocess.run(interp + [dotslash + 'train_genre_rnn.py', '-epochs', str(args.epochs)], check=True)
+    # genre_train_rnn.py -epochs 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT genre_train_rnn.py"))
+    subprocess.run(interp + [dotslash + 'genre_train_rnn.py', '-epochs', str(args.epochs)], check=True)
 
 ####################################################### ASR-related pipeline
 
