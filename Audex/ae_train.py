@@ -37,6 +37,8 @@ def process_clargs():
     parser.add_argument("-patience",   default = 10,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
     parser.add_argument("-verbose",    default =  1,    type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                          ' or 2 (one line per epoch). Default is 1.')
+
+    parser.add_argument("-dim_latent", default = 10,    type=int, help = 'Dimension of the latent space.')
     parser.add_argument("-showplot",   action ='store_true',      help = 'At the end, will show an interactive plot of the training history.')
     parser.add_argument("-savemodel",  action ='store_true',      help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
     parser.add_argument("-example",    action ='store_true',      help = 'Show a working example on how to call the script.')
@@ -80,18 +82,19 @@ def load_mnist():
     return x_train, y_train, x_test, y_test
 
 if __name__ == "__main__":
+    args = process_clargs()
+
     autoencoder = Autoencoder(
         input_shape      = (28, 28, 1),
         conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
         conv_kernels     = (3, 3, 3, 3),
         conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
-        latent_space_dim = 2
+        latent_space_dim = args.dim_latent
     )
     autoencoder.summary()
     autoencoder.compile(LEARNING_RATE)
 
-    args             = process_clargs()
     x_train, _, _, _ = load_mnist()
 
     autoencoder.train(x_train[:500], args.batch_size, args.epochs)
