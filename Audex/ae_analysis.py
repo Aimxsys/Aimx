@@ -2,9 +2,42 @@
 
 import numpy as np
 import matplotlib.pyplot as pt
+import argparse
+import sys
+import os
 
 from ae       import Autoencoder
 from ae_train import load_mnist
+
+# Add this directory to path so that package is recognized.
+# Looks like a hack, but is ok for now to allow moving forward.
+# Source: https://stackoverflow.com/a/23891673/4973224
+# TODO: Replace with the idiomatic way.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from Audex.utils.utils_audex import *
+
+def process_clargs():
+    # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
+    parser = argparse.ArgumentParser(description = '[TODO: Script description].')
+
+    parser.add_argument("-num_genims",  default = 8, type=int, help = 'Number of images to generate.')
+    parser.add_argument("-scatterplot", default = 0, type=int, help = 'Show a scatter plot of the latent space.')
+    parser.add_argument("-example", action ='store_true',      help = 'Show a working example on how to call the script.')
+
+    args = parser.parse_args()
+
+    ########################## Command Argument Handling & Verification #######################
+
+    if args.example:
+        print_info(nameofthis(__file__))
+        exit()
+    
+    ###########################################################################################
+    
+    print_script_start_preamble(nameofthis(__file__), vars(args))
+
+    return args
 
 def select_images(images, labels, num_images=10):
     sample_images_index = np.random.choice(range(len(images)), num_images)
@@ -36,11 +69,11 @@ def plot_images_encoded_in_latent_space(latent_representations, sample_labels):
     pt.show()
 
 if __name__ == "__main__":
+    args = process_clargs()
     ae = Autoencoder.load()
     x_train, y_train, x_test, y_test = load_mnist()
 
-    num_reconstructed_images_to_show = 8
-    sample_images, _        = select_images(x_test, y_test, num_reconstructed_images_to_show)
+    sample_images, _        = select_images(x_test, y_test, args.num_genims)
     reconstructed_images, _ = ae.reconstruct(sample_images)
     plot_reconstructed_images(sample_images, reconstructed_images)
 
