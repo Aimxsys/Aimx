@@ -102,7 +102,7 @@ class Autoencoder:
         conv_layers       = self._add_conv_layers(encoder_input)
         bottleneck        = self._add_bottleneck(conv_layers)
         self._model_input = encoder_input
-        self.model_enc    = tf.keras.Model(encoder_input, bottleneck, name="encoder")
+        self.model_enc    = tf.keras.Model(encoder_input, bottleneck, name="ENCODER")
 
     def _build_decoder(self):
         decoder_input         = self._add_decoder_input()
@@ -110,12 +110,12 @@ class Autoencoder:
         reshape_layer         = self._add_reshape_layer(dense_layer)
         conv_transpose_layers = self._add_conv_transpose_layers(reshape_layer)
         decoder_output        = self._add_decoder_output(conv_transpose_layers)
-        self.model_dec        = tf.keras.Model(decoder_input, decoder_output, name="decoder")
+        self.model_dec        = tf.keras.Model(decoder_input, decoder_output, name="DECODER")
 
     def _build_autoencoder(self):
         model_input   = self._model_input
         model_output  = self.model_dec(self.model_enc(model_input))
-        self.model_ae = tf.keras.Model(model_input, model_output, name="autoencoder")
+        self.model_ae = tf.keras.Model(model_input, model_output, name="AUTOENCODER")
 
     def _add_encoder_input(self):
         return tf.keras.layers.Input(shape=self.input_shape, name="encoder_input")
