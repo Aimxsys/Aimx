@@ -73,10 +73,10 @@ if __name__ == "__main__":
     ae = Autoencoder.load()
     x_train, y_train, x_test, y_test = load_mnist()
 
-    sample_images, _        = select_images(x_test, y_test, args.num_genims)
-    reconstructed_images, _ = ae.reconstruct(sample_images)
-    plot_reconstructed_images(sample_images, reconstructed_images)
+    sample_images, _ = select_images(x_test, y_test, args.num_genims)
+    genims, _        = ae.reconstruct(sample_images)
+    plot_reconstructed_images(sample_images, genims)
 
     sample_images, sample_labels = select_images(x_test, y_test, args.show_latent_points)
-    _, latent_reps = ae.reconstruct(sample_images)
+    _, latent_reps               = ae.reconstruct(sample_images)
     plot_images_encoded_in_latent_space(latent_reps, sample_labels)
