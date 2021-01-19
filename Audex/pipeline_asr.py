@@ -74,10 +74,10 @@ start_time = time.time()
 ####################################################### ASR-related pipeline
 
 if not args.skip_dataprep:
-    # dataprep_asr.py -dataset_path ../workdir/datasets/speech_commands_v001 -dataset_depth 5
-    subprocess.run(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
+    # asr_dataprep.py -dataset_path ../workdir/datasets/speech_commands_v001 -dataset_depth 5
+    subprocess.run(interp + [dotslash + 'asr_dataprep.py', '-dataset_path', str(args.dataset_path), '-dataset_depth', str(args.dataset_depth), '-dataset_view']
                     + args.dataset_view, check=True)
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py OK"))
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT asr_dataprep.py OK"))
 
 if not args.skip_training:
     # train_asr.py -epochs 5

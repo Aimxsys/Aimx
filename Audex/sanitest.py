@@ -104,9 +104,9 @@ if ARG_TEST_TRAIN_GENRE_RNN: # Genre classification using RNN
 ####################################################### ASR-related pipeline
 
 if ARG_TEST_DATAPREP_ASR: # Data preprocessing
-    # dataprep_asr.py -dataset_path ../workdir/datasets/speech_commands_few -dataset_depth 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT dataprep_asr.py"))
-    subprocess.run(interp + [dotslash + 'dataprep_asr.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)], check=True)
+    # asr_dataprep.py -dataset_path ../workdir/datasets/speech_commands_few -dataset_depth 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT asr_dataprep.py"))
+    subprocess.run(interp + [dotslash + 'asr_dataprep.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)], check=True)
 
 if ARG_TEST_TRAIN_ASR:
     # train_asr.py -epochs 5
