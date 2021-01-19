@@ -77,6 +77,7 @@ if __name__ == "__main__":
     genims, _        = ae.reconstruct(sample_images)
     plot_reconstructed_images(sample_images, genims)
 
-    sample_images, sample_labels = select_images(x_test, y_test, args.show_latent_points)
-    _, latent_reps               = ae.reconstruct(sample_images)
-    plot_images_encoded_in_latent_space(latent_reps, sample_labels)
+    if args.show_latent_points > 0:
+        sample_images, sample_labels = select_images(x_test, y_test, args.show_latent_points)
+        _, latent_reps               = ae.reconstruct(sample_images)
+        plot_images_encoded_in_latent_space(latent_reps, sample_labels)
