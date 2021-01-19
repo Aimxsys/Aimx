@@ -109,16 +109,16 @@ if ARG_TEST_DATAPREP_ASR: # Data preprocessing
     subprocess.run(interp + [dotslash + 'asr_dataprep.py', '-dataset_path', '../workdir/datasets/speech_commands_few', '-dataset_depth', str(args.dataset_depth)], check=True)
 
 if ARG_TEST_TRAIN_ASR:
-    # train_asr.py -epochs 5
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT train_asr.py"))
-    subprocess.run(interp + [dotslash + 'train_asr.py', '-epochs', str(args.epochs), '-savemodel'], check=True)
+    # asr_train.py -epochs 5
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT asr_train.py"))
+    subprocess.run(interp + [dotslash + 'asr_train.py', '-epochs', str(args.epochs), '-savemodel'], check=True)
 
 ####################################################### ASR inference test
 
 if ARG_TEST_ASR:
-    # service_asr.py -inferdata_path ../workdir/infer/signal_bird
-    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT service_asr.py"))
-    subprocess.run(interp + [dotslash + 'service_asr.py', '-inferdata_path', '../workdir/infer/signal_bird'], check=True)
+    # asr_service.py -inferdata_path ../workdir/infer/signal_bird
+    print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT asr_service.py"))
+    subprocess.run(interp + [dotslash + 'asr_service.py', '-inferdata_path', '../workdir/infer/signal_bird'], check=True)
 
 print(magenta("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT PIPELINE SANITY"))
 print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ TEST COMPLETE"))

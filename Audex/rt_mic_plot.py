@@ -28,7 +28,7 @@ from Audex.utils.utils_audex  import get_dataprep_result_meta
 from Audex.utils.utils_audex  import get_training_result_meta
 from Audex.utils.utils_audex  import get_actual_model_path
 
-from Audex.service_asr_rt import *
+from Audex.asr_service_rt import *
 
 def process_clargs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
