@@ -67,6 +67,11 @@ class Autoencoder:
     def load_weights(self, weights_path):
         self.model_ae.load_weights(weights_path)
 
+    def reconstruct(self, images):
+        latent = self.model_enc.predict(images)
+        genim  = self.model_dec.predict(latent)
+        return genim, latent
+
     @classmethod
     def load(cls):
         MODEL_FULLPATH   = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_ae_trainid")
@@ -200,13 +205,13 @@ class Autoencoder:
         output_layer = tf.keras.layers.Activation("sigmoid", name="sigmoid_layer")(x)
         return output_layer
 
-if __name__ == "__main__":
-    autoencoder = Autoencoder(
-        input_shape      = (28, 28, 1),
-        conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
-        # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
-        conv_kernels     = (3, 3, 3, 3),
-        conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
-        latent_space_dim = 2
-    )
-    autoencoder.summary()
+#if __name__ == "__main__":
+#    autoencoder = Autoencoder(
+#        input_shape      = (28, 28, 1),
+#        conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
+#        # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
+#        conv_kernels     = (3, 3, 3, 3),
+#        conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
+#        latent_space_dim = 10
+#    )
+#    autoencoder.summary()
