@@ -31,11 +31,12 @@ def process_clargs():
                         help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
                                ', which by design is the output of the previous step of dataset preprocessing.')
 
-    parser.add_argument("-batch_size", default = 32, type=int, help = 'Batch size.')
-    parser.add_argument("-epochs",     default =  1, type=int, help = 'Number of epochs to train.')
-    parser.add_argument("-patience",   default = 10, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
-    parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
-                                                                      ' or 2 (one line per epoch). Default is 1.')
+    parser.add_argument("-ann_type",   default = "aen", type=str, help = 'ANN type. Default is aen (autoencoder network).')
+    parser.add_argument("-batch_size", default = 32,    type=int, help = 'Batch size.')
+    parser.add_argument("-epochs",     default =  1,    type=int, help = 'Number of epochs to train.')
+    parser.add_argument("-patience",   default = 10,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
+    parser.add_argument("-verbose",    default =  1,    type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
+                                                                         ' or 2 (one line per epoch). Default is 1.')
 
     parser.add_argument("-dim_latent", default = 10, type=int, help = 'Dimension of the latent space.')
     parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
@@ -83,8 +84,9 @@ def load_mnist():
 if __name__ == "__main__":
     args = process_clargs()
 
+    inputshape = (28, 28, 1)
     autoencoder = Autoencoder(
-        input_shape      = (28, 28, 1),
+        input_shape      = inputshape,
         conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
         conv_kernels     = (3, 3, 3, 3),
@@ -94,9 +96,27 @@ if __name__ == "__main__":
     autoencoder.summary()
     autoencoder.compile(LEARNING_RATE)
 
+    start_time = time.time()
+
     x_train, _, _, _ = load_mnist()
 
-    autoencoder.train(x_train[:5000], args.batch_size, args.epochs)
-    autoencoder.save()
+    history = autoencoder.train(x_train[:50], args.batch_size, args.epochs)
+
+    training_duration = timedelta(seconds = round(time.time() - start_time))
+    timestamp = timestamp_now()
+
+    print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
+                                                                    lightyellow(timestamp),
+                                                                    lightyellow(training_duration)))
+
+    trainid = args.ann_type + "_e" + str(args.epochs) + "_mnist"# + extract_filename(args.traindata_path)
+
+    # save as most recent training result metadata
+    save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.savemodel)
+
+    if (args.savemodel):
+        save_model(autoencoder.model_ae, trainid)
+        autoencoder.save()
+
     autoencoder2 = Autoencoder.load()
     autoencoder2.summary()
