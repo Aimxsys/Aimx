@@ -43,6 +43,7 @@ class Aimx:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
         INPUT_SHAPE              = "input_shape"
         VAL_ACCURACY             = "val_accuracy"
+        LOSS                     = "loss"
 
     MOST_RECENT_OUTPUT  = "most_recent_output"
     TIMESTAMP           = "timestamp"
@@ -120,6 +121,22 @@ def save_training_result_meta(history, trainid, timestamp, training_duration, in
         Aimx.TIMESTAMP:                           timestamp,
         Aimx.DURATION:                            training_duration,
         Aimx.Training.VAL_ACCURACY:               list(np.around(history.history["val_accuracy"], 2)),
+        Aimx.NOTES:                               ""
+    }
+    with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
+        print_info("|||||| Writing file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "... ", end="")
+        json.dump(meta, file, indent=4)
+        print_info("[DONE]")
+
+def save_training_result_meta_ae(history, trainid, timestamp, training_duration, inputshape, savemodel=False):
+    
+    model_fullpath = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
+    meta = {
+        Aimx.MOST_RECENT_OUTPUT:                  model_fullpath,
+        Aimx.Training.INPUT_SHAPE:                str(inputshape),
+        Aimx.TIMESTAMP:                           timestamp,
+        Aimx.DURATION:                            training_duration,
+        Aimx.Training.LOSS:                       list(np.around(history.history["loss"], 2)),
         Aimx.NOTES:                               ""
     }
     with open(Aimx.Training.RESULT_METADATA_FULLPATH, 'w') as file: 
