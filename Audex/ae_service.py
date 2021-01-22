@@ -36,7 +36,7 @@ def process_clargs():
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
-        print_info(nameofthis(__file__))
+        print_info(nameofthis(__file__) + "[TODO: REPLACE THIS WITH AN ACTUAL EXAMPLE]")
         exit()
     
     ###########################################################################################
