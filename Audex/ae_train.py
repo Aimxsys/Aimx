@@ -110,7 +110,7 @@ if __name__ == "__main__":
                                                                     lightyellow(timestamp),
                                                                     lightyellow(training_duration)))
 
-    trainid = args.ann_type + "_e" + str(args.epochs) + "_mnist"# + extract_filename(args.traindata_path)
+    trainid = args.ann_type + "_e" + str(args.epochs) + "_" + str(args.mnist_size) + "_mnist"
 
     # save as most recent training result metadata
     save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.savemodel)
