@@ -181,10 +181,14 @@ try:
     #ax.tick_params(bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False) # hides all axis texts
     fig.tight_layout(pad=0)            # adjusts the plot padding
 
-    print_info("|||||| Loading model " + quote_path(args.model_path) + "... ", end="")
-    model     = keras.models.load_model(args.model_path)
-    modelType = extract_filename(args.model_path)[6:9] # from name: model_cnn_...
-    print_info("[DONE]")
+    try:
+        print_info("|||||| Loading model " + quote_path(args.model_path) + "... ", end="")
+        model     = keras.models.load_model(args.model_path)
+        modelType = extract_filename(args.model_path)[6:9] # from name: model_cnn_...
+        print_info("[DONE]")
+    except Exception as e:
+        print(pinkred("\nException caught while trying to load the model: " + quote_path(args.model_path)))
+        print(pinkred("Exception message: ") + red(str(e)))
 
     asr = CreateAsrServiceRT(args.model_path)
     asr.model.summary()
