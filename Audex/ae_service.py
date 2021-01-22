@@ -38,6 +38,11 @@ def process_clargs():
     if args.example:
         print_info(nameofthis(__file__) + "[TODO: REPLACE THIS WITH AN ACTUAL EXAMPLE]")
         exit()
+
+    if provided(args.inferdata_path) and not args.inferdata_path.exists():
+        raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.inferdata_path)))
+
+    args.model_path = get_actual_model_path(args.model_path)
     
     ###########################################################################################
     
