@@ -35,6 +35,7 @@ def process_clargs():
     parser.add_argument("-batch_size", default = 32,    type=int, help = 'Batch size.')
     parser.add_argument("-epochs",     default =  1,    type=int, help = 'Number of epochs to train.')
     parser.add_argument("-patience",   default = 10,    type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
+    parser.add_argument("-mnist_size", default = 10,    type=int, help = 'Number of images to train on from the MNIST dataset.')
     parser.add_argument("-verbose",    default =  1,    type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                          ' or 2 (one line per epoch). Default is 1.')
 
@@ -100,7 +101,7 @@ if __name__ == "__main__":
 
     x_train, _, _, _ = load_mnist()
 
-    history = autoencoder.train(x_train[:50], args.batch_size, args.epochs)
+    history = autoencoder.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
