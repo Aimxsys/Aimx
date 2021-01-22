@@ -75,7 +75,7 @@ class Autoencoder:
         return genim, latent
 
     @classmethod
-    def load(cls):
+    def load_custom(cls):
         MODEL_FULLPATH   = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_ae_trainid")
         PARAMS_FULLPATH  = os.path.join(MODEL_FULLPATH, "parameters.pkl")
         WEIGHTS_FULLPATH = os.path.join(MODEL_FULLPATH, "weights.h5")
