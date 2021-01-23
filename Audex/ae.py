@@ -62,7 +62,7 @@ class Autoencoder:
 
     def save_model(self, trainid):
         MODEL_FULLPATH  = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
-        PARAMS_FULLPATH = os.path.join(MODEL_FULLPATH, "parameters.pkl")
+        PARAMS_FULLPATH = os.path.join(MODEL_FULLPATH, FILENAME_HYPARAMS)
         Path(MODEL_FULLPATH).mkdir(parents=True, exist_ok=True)
         params = [
             self.input_shape,
