@@ -89,7 +89,9 @@ def plot_images_encoded_in_latent_space(latent_reps, sample_labels):
 
 if __name__ == "__main__":
     args = process_clargs()
+
     ae = Autoencoder.load_model(args.model_path)
+
     x_train, y_train, x_test, y_test = load_mnist()
 
     sample_images, _ = select_images(x_test, y_test, args.num_genims)
