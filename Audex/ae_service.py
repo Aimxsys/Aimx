@@ -25,8 +25,8 @@ def process_clargs():
     parser.add_argument("-inferdata_path",                              type = Path, help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-inferdata_range", default=[0, 50], nargs='*', type = int,  help = 'Range in -inferdata_path on which to do inference.')
 
-    parser.add_argument("-num_genims",         default = 8,             type = int,  help = 'Number of images to generate.')
-    parser.add_argument("-show_latent_points", default = 0,             type = int,  help = 'Number of points to show on a scatter plot of the latent space.')
+    parser.add_argument("-num_genims",         default = 10,            type = int,  help = 'Number of images to generate.')
+    parser.add_argument("-show_latent_points", default =  0,            type = int,  help = 'Number of points to show on a scatter plot of the latent space.')
     parser.add_argument("-example", action ='store_true',                            help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
