@@ -21,6 +21,8 @@ from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import *
 
 class Autoencoder:
+    FILENAME_WEIGHTS  = "weights.h5"
+    FILENAME_HYPARAMS = "hyparams.pkl"
     """
     Autoencoder represents a Deep Convolutional autoencoder architecture
     with mirrored encoder and decoder components.
@@ -74,7 +76,7 @@ class Autoencoder:
         with open(PARAMS_FULLPATH, "wb") as f:
             pickle.dump(params, f)
         # Save weights
-        self.model_ae.save_weights(os.path.join(MODEL_FULLPATH, "weights.h5"))
+        self.model_ae.save_weights(os.path.join(MODEL_FULLPATH, self.FILENAME_WEIGHTS))
         print_info("[DONE]")
         # Save assets
         ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
@@ -93,8 +95,8 @@ class Autoencoder:
 
     @classmethod
     def load_model(cls, model_path):
-        PARAMS_FULLPATH  = os.path.join(model_path, "parameters.pkl")
-        WEIGHTS_FULLPATH = os.path.join(model_path, "weights.h5")
+        PARAMS_FULLPATH  = os.path.join(model_path, cls.FILENAME_HYPARAMS)
+        WEIGHTS_FULLPATH = os.path.join(model_path, cls.FILENAME_WEIGHTS)
         try:
             print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
             with open(PARAMS_FULLPATH, "rb") as p:
@@ -103,7 +105,7 @@ class Autoencoder:
             ae.load_weights(WEIGHTS_FULLPATH)
             print_info("[DONE]")
         except Exception as e:
-            print(pinkred("\nException caught while trying to load the model: " + quote_path(args.model_path)))
+            print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
             print(pinkred("Exception message: ") + red(str(e)))
         return ae
 
