@@ -49,7 +49,7 @@ def process_clargs():
 
     return args
 
-def select_images(images, labels, num_genims=10):
+def select_random_images(images, labels, num_genims=10):
     sample_images_index = np.random.choice(range(len(images)), num_genims)
     sample_images       = images[sample_images_index]
     sample_labels       = labels[sample_images_index]
@@ -94,11 +94,11 @@ if __name__ == "__main__":
 
     x_train, y_train, x_test, y_test = load_mnist()
 
-    sample_images, _ = select_images(x_test, y_test, args.num_genims)
+    sample_images, _ = select_random_images(x_test, y_test, args.num_genims)
     genims, _        = ae.reconstruct(sample_images)
     plot_reconstructed_images(sample_images, genims, extract_filename(args.model_path), args.showgenims)
 
     if args.show_latent_points > 0:
-        sample_images, sample_labels = select_images(x_test, y_test, args.show_latent_points)
+        sample_images, sample_labels = select_random_images(x_test, y_test, args.show_latent_points)
         _, latent_reps               = ae.reconstruct(sample_images)
         plot_images_encoded_in_latent_space(latent_reps, sample_labels)
