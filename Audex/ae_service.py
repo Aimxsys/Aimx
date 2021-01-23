@@ -29,8 +29,6 @@ def process_clargs():
     parser.add_argument("-show_latent_points", default = 0,             type = int,  help = 'Number of points to show on a scatter plot of the latent space.')
     parser.add_argument("-example", action ='store_true',                            help = 'Show a working example on how to call the script.')
 
-    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
-
     args = parser.parse_args()
 
     ########################## Command Argument Handling & Verification #######################
@@ -81,7 +79,7 @@ def plot_images_encoded_in_latent_space(latent_reps, sample_labels):
 
 if __name__ == "__main__":
     args = process_clargs()
-    ae = Autoencoder.load_custom(args.model_path)
+    ae = Autoencoder.load_model(args.model_path)
     x_train, y_train, x_test, y_test = load_mnist()
 
     sample_images, _ = select_images(x_test, y_test, args.num_genims)

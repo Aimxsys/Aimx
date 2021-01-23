@@ -116,8 +116,4 @@ if __name__ == "__main__":
     save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.savemodel)
 
     if (args.savemodel):
-        save_model(autoencoder.model_ae, trainid)
-        autoencoder.save()
-
-    autoencoder2 = Autoencoder.load_custom()
-    autoencoder2.summary()
+        autoencoder.save_model(trainid)

@@ -40,10 +40,6 @@ class Autoencoder:
         self._shape_before_bottleneck = None
         self._model_input             = None
 
-        self.MODEL_FULLPATH   = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_ae_trainid")
-        self.PARAMS_FULLPATH  = os.path.join(self.MODEL_FULLPATH, "parameters.pkl")
-        self.WEIGHTS_FULLPATH = os.path.join(self.MODEL_FULLPATH, "weights.h5")
-
         self._build()
 
     def summary(self):
@@ -62,9 +58,30 @@ class Autoencoder:
         history = self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=epochs, shuffle=True)
         return history
 
-    def save(self):
-        self._save_parameters()
-        self._save_weights()
+    def save_model(self, trainid):
+        MODEL_FULLPATH  = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
+        PARAMS_FULLPATH = os.path.join(MODEL_FULLPATH, "parameters.pkl")
+        Path(MODEL_FULLPATH).mkdir(parents=True, exist_ok=True)
+        params = [
+            self.input_shape,
+            self.conv_filters,
+            self.conv_kernels,
+            self.conv_strides,
+            self.latent_space_dim
+        ]
+        # Save parameters
+        print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
+        with open(PARAMS_FULLPATH, "wb") as f:
+            pickle.dump(params, f)
+        # Save weights
+        self.model_ae.save_weights(os.path.join(MODEL_FULLPATH, "weights.h5"))
+        print_info("[DONE]")
+        # Save assets
+        ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
+        Path(ASSETS_FULLPATH).mkdir(parents=True, exist_ok=True) # create model assets directory (similar to TF2.x default's)
+        print_info("|||||| Copying file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
+        copy2(Aimx.Training.RESULT_METADATA_FULLPATH, ASSETS_FULLPATH)
+        print_info("[DONE]")
 
     def load_weights(self, weights_path):
         self.model_ae.load_weights(weights_path)
@@ -75,31 +92,20 @@ class Autoencoder:
         return genim, latent
 
     @classmethod
-    def load_custom(cls):
-        MODEL_FULLPATH   = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_ae_trainid")
-        PARAMS_FULLPATH  = os.path.join(MODEL_FULLPATH, "parameters.pkl")
-        WEIGHTS_FULLPATH = os.path.join(MODEL_FULLPATH, "weights.h5")
-        with open(PARAMS_FULLPATH, "rb") as f:
-            params = pickle.load(f)
-        autoencoder  = Autoencoder(*params)
-        weights_path = os.path.join(MODEL_FULLPATH, "weights.h5")
-        autoencoder.load_weights(weights_path)
-        return autoencoder
-
-    def _save_parameters(self):
-        params = [
-            self.input_shape,
-            self.conv_filters,
-            self.conv_kernels,
-            self.conv_strides,
-            self.latent_space_dim
-        ]
-        Path(self.MODEL_FULLPATH).mkdir(parents=True, exist_ok=True)
-        with open(self.PARAMS_FULLPATH, "wb") as f:
-            pickle.dump(params, f)
-
-    def _save_weights(self):
-        self.model_ae.save_weights(self.WEIGHTS_FULLPATH)
+    def load_model(cls, model_path):
+        PARAMS_FULLPATH  = os.path.join(model_path, "parameters.pkl")
+        WEIGHTS_FULLPATH = os.path.join(model_path, "weights.h5")
+        try:
+            print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
+            with open(PARAMS_FULLPATH, "rb") as p:
+                params = pickle.load(p)
+            ae = Autoencoder(*params)
+            ae.load_weights(WEIGHTS_FULLPATH)
+            print_info("[DONE]")
+        except Exception as e:
+            print(pinkred("\nException caught while trying to load the model: " + quote_path(args.model_path)))
+            print(pinkred("Exception message: ") + red(str(e)))
+        return ae
 
     def _build(self):
         self._build_encoder()
