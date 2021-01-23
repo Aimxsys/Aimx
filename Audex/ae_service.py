@@ -27,7 +27,8 @@ def process_clargs():
 
     parser.add_argument("-num_genims",         default = 10,            type = int,  help = 'Number of images to generate.')
     parser.add_argument("-show_latent_points", default =  0,            type = int,  help = 'Number of points to show on a scatter plot of the latent space.')
-    parser.add_argument("-example", action ='store_true',                            help = 'Show a working example on how to call the script.')
+    parser.add_argument("-showgenims", action ='store_true',                         help = 'At the end, will show genims in an interactive window.')
+    parser.add_argument("-example",    action ='store_true',                         help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
 
@@ -54,7 +55,7 @@ def select_images(images, labels, num_images=10):
     sample_labels       = labels[sample_images_index]
     return sample_images, sample_labels
 
-def plot_reconstructed_images(images, reconstructed_images):
+def plot_reconstructed_images(images, reconstructed_images, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
     num_images = len(images)
@@ -67,7 +68,16 @@ def plot_reconstructed_images(images, reconstructed_images):
         ax = fig.add_subplot(2, num_images, i + num_images + 1)
         ax.axis("off")
         ax.imshow(reconstructed_image, cmap="gray_r")
-    pt.show()
+
+    # save the plot as most recent (often useful when comparing to a next NN run)
+    Path(Aimx.Paths.GEN_GENIMS).mkdir(parents=True, exist_ok=True)
+    GENIM_FULLPATH = os.path.join(Aimx.Paths.GEN_GENIMS, modelname + ".png")
+    print_info("|||||| Saving file ", quote_path(GENIM_FULLPATH), "... ", end="")
+    pt.savefig(GENIM_FULLPATH)
+    print_info("[DONE]")
+
+    if showinteractive:
+        pt.show()
 
 def plot_images_encoded_in_latent_space(latent_reps, sample_labels):
     pt.figure(figsize=(10, 10))
@@ -84,7 +94,7 @@ if __name__ == "__main__":
 
     sample_images, _ = select_images(x_test, y_test, args.num_genims)
     genims, _        = ae.reconstruct(sample_images)
-    plot_reconstructed_images(sample_images, genims)
+    plot_reconstructed_images(sample_images, genims, extract_filename(args.model_path), args.showgenims)
 
     if args.show_latent_points > 0:
         sample_images, sample_labels = select_images(x_test, y_test, args.show_latent_points)
