@@ -275,3 +275,26 @@ def plot_history(history, trainid, show_interactive):
 
     if show_interactive:
         pt.show()
+
+def plot_history_ae(history, trainid, show_interactive):
+    """ 
+    Plots the loss for the training set as a function of epochs
+    """
+    fig, axs = pt.subplots(1, figsize=(8, 6))
+    fig.canvas.set_window_title("Loss - " + trainid)
+    fig.suptitle(trainid, fontsize=12)
+
+    axs.plot(history.history["loss"],     label="loss")
+    axs.set_ylabel("Loss")
+    axs.set_xlabel("Epoch")
+    axs.legend(loc="upper right")
+
+    # save the plot as most recent (often useful when comparing to a next NN run)
+    Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
+    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
+    print_info("|||||| Saving file ", quote_path(PLOT_FULLPATH), "... ", end="")
+    pt.savefig(PLOT_FULLPATH)
+    print_info("[DONE]")
+
+    if show_interactive:
+        pt.show()

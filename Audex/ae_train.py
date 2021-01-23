@@ -117,3 +117,5 @@ if __name__ == "__main__":
 
     if (args.savemodel):
         autoencoder.save_model(trainid)
+
+    plot_history_ae(history, trainid, args.showplot) # loss as a function of epochs
