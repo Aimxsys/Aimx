@@ -55,7 +55,7 @@ def select_random_images(images, labels, num_genims=10):
     sample_labels       = labels[sample_images_index]
     return sample_images, sample_labels
 
-def plot_reconstructed_images(images, reconstructed_images, modelname, showinteractive):
+def plot_genims(images, reconstructed_images, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
     num_images = len(images)
@@ -94,10 +94,12 @@ if __name__ == "__main__":
 
     x_train, y_train, x_test, y_test = load_mnist()
 
+    # Genims
     sample_images, _ = select_random_images(x_test, y_test, args.num_genims)
     genims, _        = ae.reconstruct(sample_images)
-    plot_reconstructed_images(sample_images, genims, extract_filename(args.model_path), args.showgenims)
+    plot_genims(sample_images, genims, extract_filename(args.model_path), args.showgenims)
 
+    # Scatter plot
     if args.show_latent_points > 0:
         sample_images, sample_labels = select_random_images(x_test, y_test, args.show_latent_points)
         _, latent_reps               = ae.reconstruct(sample_images)
