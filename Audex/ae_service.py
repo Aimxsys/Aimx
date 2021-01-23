@@ -50,9 +50,9 @@ def process_clargs():
     return args
 
 def select_random_images(images, labels, num_genims=10):
-    sample_images_index = np.random.choice(range(len(images)), num_genims)
-    sample_images       = images[sample_images_index]
-    sample_labels       = labels[sample_images_index]
+    x = np.random.choice(range(len(images)), num_genims)
+    sample_images = images[x]
+    sample_labels = labels[x]
     return sample_images, sample_labels
 
 def plot_genims(images, reconstructed_images, modelname, showinteractive):
