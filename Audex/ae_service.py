@@ -61,8 +61,8 @@ def plot_gencs(gencs, labels, modelname, showinteractive):
     pt.colorbar()
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_GENCS).mkdir(parents=True, exist_ok=True)
-    GENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_GENCS, modelname + ".png")
+    Path(Aimx.Paths.GEN_PLOTS_GENCS).mkdir(parents=True, exist_ok=True)
+    GENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENCS, modelname + ".png")
     print_info("|||||| Saving file ", quote_path(GENCS_FULLPATH), "... ", end="")
     pt.savefig(GENCS_FULLPATH)
     print_info("[DONE]")
