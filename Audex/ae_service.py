@@ -25,7 +25,7 @@ def process_clargs():
     parser.add_argument("-inferdata_path",                              type = Path, help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-inferdata_range", default=[0, 50], nargs='*', type = int,  help = 'Range in -inferdata_path on which to do inference.')
 
-    parser.add_argument("-num_genims", default = 10,                    type = int,  help = 'Number of images to generate. If small, will also plot latent space points.')
+    parser.add_argument("-num_samples", default = 10,                   type = int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
     parser.add_argument("-showgencs",  action ='store_true',                         help = 'At the end, will show gencs in an interactive window.')
     parser.add_argument("-showgenims", action ='store_true',                         help = 'At the end, will show genims in an interactive window.')
@@ -50,11 +50,11 @@ def process_clargs():
 
     return args
 
-def pick_images(images, labels, num_genims=10, randomize=True):
+def pick_images(images, labels, num_samples=10, randomize=True):
     if randomize:
-        indexes = np.random.choice(range(len(images)), num_genims)
+        indexes = np.random.choice(range(len(images)), num_samples)
     else:
-        indexes = np.arange(num_genims)
+        indexes = np.arange(num_samples)
     sample_images = images[indexes]
     sample_labels = labels[indexes]
     return sample_images, sample_labels
@@ -112,9 +112,11 @@ if __name__ == "__main__":
 
     _, _, x_test, y_test = load_mnist()
 
-    sample_images, sample_labels = pick_images(x_test, y_test, args.num_genims, args.randomize)
+    sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
 
     gencs, genims = ae.regen(sample_images)
+
+    deprint(gencs.shape)
 
     plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs)
     plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
