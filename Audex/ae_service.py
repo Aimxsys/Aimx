@@ -56,9 +56,9 @@ def pick_random_images(images, labels, num_genims=10):
     return sample_images, sample_labels
 
 
-def plot_gencs(gencs, sample_labels, modelname, showinteractive):
+def plot_gencs(gencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
-    pt.scatter(gencs[:, 0], gencs[:, 1], cmap="rainbow", c=sample_labels, alpha=0.5, s=2)
+    pt.scatter(gencs[:, 0], gencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
     pt.colorbar()
 
     # save the plot as most recent (often useful when comparing to a next NN run)
