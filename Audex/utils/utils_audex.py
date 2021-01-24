@@ -22,7 +22,7 @@ total_audios_length_sec = 0.0
 
 class Aimx:
     class Paths:
-        GEN_PLOTS        = os.path.join(WORKDIR, "gen_plots")
+        GEN_PLOTS_TRAIN  = os.path.join(WORKDIR, "gen_plots")
         GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
         GEN_GENIMS       = os.path.join(WORKDIR, "gen_genims")
@@ -269,8 +269,8 @@ def plot_history(history, trainid, show_interactive):
     axs[1].legend(loc="upper right")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
+    Path(Aimx.Paths.GEN_PLOTS_TRAIN).mkdir(parents=True, exist_ok=True)
+    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_TRAIN, trainid + ".png")
     print_info("|||||| Saving file ", quote_path(PLOT_FULLPATH), "... ", end="")
     pt.savefig(PLOT_FULLPATH)
     print_info("[DONE]")
@@ -292,8 +292,8 @@ def plot_history_ae(history, trainid, show_interactive):
     axs.legend(loc="upper right")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_PLOTS).mkdir(parents=True, exist_ok=True)
-    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS, trainid + ".png")
+    Path(Aimx.Paths.GEN_PLOTS_TRAIN).mkdir(parents=True, exist_ok=True)
+    PLOT_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_TRAIN, trainid + ".png")
     print_info("|||||| Saving file ", quote_path(PLOT_FULLPATH), "... ", end="")
     pt.savefig(PLOT_FULLPATH)
     print_info("[DONE]")
