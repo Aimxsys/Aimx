@@ -91,7 +91,7 @@ class Autoencoder:
     def regen(self, images):
         latent = self.model_enc.predict(images)
         genim  = self.model_dec.predict(latent)
-        return genim, latent
+        return latent, genim
 
     @classmethod
     def load_model(cls, model_path):
