@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     ae = Autoencoder.load_model(args.model_path)
 
-    x_train, y_train, x_test, y_test = load_mnist()
+    _, _, x_test, y_test = load_mnist()
 
     sample_images, sample_labels = pick_images(x_test, y_test, args.num_genims, args.randomize)
 
