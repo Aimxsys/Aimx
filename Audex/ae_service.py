@@ -55,8 +55,8 @@ def pick_images(images, labels, num_samples=10, randomize=True):
         indexes = np.random.choice(range(len(images)), num_samples)
     else:
         indexes = np.arange(num_samples)
-    sample_images = images[indexes]
-    sample_labels = labels[indexes]
+    sample_images = images[indexes] # num_samples images
+    sample_labels = labels[indexes] # num_samples labels
     return sample_images, sample_labels
 
 def plot_gencs(gencs, labels, modelname, showinteractive):
