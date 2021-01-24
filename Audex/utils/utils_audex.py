@@ -26,6 +26,7 @@ class Aimx:
         GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")
         GEN_GENIMS       = os.path.join(WORKDIR, "gen_genims")
+        GEN_GENCS        = os.path.join(WORKDIR, "gen_gencs")
     
     class Dataprep:
         RESULT_METADATA_FULLPATH   = os.path.join(WORKDIR, "dataprep_result_meta.json")
