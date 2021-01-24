@@ -88,7 +88,7 @@ class Autoencoder:
     def load_weights(self, weights_path):
         self.model_ae.load_weights(weights_path)
 
-    def reconstruct(self, images):
+    def regen(self, images):
         latent = self.model_enc.predict(images)
         genim  = self.model_dec.predict(latent)
         return genim, latent

@@ -96,11 +96,11 @@ if __name__ == "__main__":
 
     # Genims
     sample_images, _ = pick_random_images(x_test, y_test, args.num_genims)
-    genims, _        = ae.reconstruct(sample_images)
+    genims, _        = ae.regen(sample_images)
     plot_genims(sample_images, genims, extract_filename(args.model_path), args.showgenims)
 
     # Scatter plot
     if args.show_latent_points > 0:
         sample_images, sample_labels = pick_random_images(x_test, y_test, args.show_latent_points)
-        _, latent_reps               = ae.reconstruct(sample_images)
+        _, latent_reps               = ae.regen(sample_images)
         plot_images_encoded_in_latent_space(latent_reps, sample_labels)
