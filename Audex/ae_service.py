@@ -71,7 +71,7 @@ def plot_gencs(gencs, labels, modelname, showinteractive):
     if showinteractive:
         pt.show()
 
-def plot_genims(images, genims, modelname, showinteractive):
+def plot_genims(genims, images, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
     num_images = len(images)
@@ -106,5 +106,5 @@ if __name__ == "__main__":
 
     gencs, genims = ae.regen(sample_images)
 
-    plot_gencs(gencs, sample_labels,   extract_filename(args.model_path), args.showgencs > 0)
-    plot_genims(sample_images, genims, extract_filename(args.model_path), args.showgenims)
+    plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs > 0)
+    plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
