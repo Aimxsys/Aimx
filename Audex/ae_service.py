@@ -55,6 +55,22 @@ def pick_random_images(images, labels, num_genims=10):
     sample_labels = labels[x]
     return sample_images, sample_labels
 
+
+def plot_gencs(genc, sample_labels, modelname, showinteractive):
+    pt.figure(figsize=(10, 10))
+    pt.scatter(genc[:, 0], genc[:, 1], cmap="rainbow", c=sample_labels, alpha=0.5, s=2)
+    pt.colorbar()
+
+    # save the plot as most recent (often useful when comparing to a next NN run)
+    Path(Aimx.Paths.GEN_GENCS).mkdir(parents=True, exist_ok=True)
+    GENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_GENCS, modelname + ".png")
+    print_info("|||||| Saving file ", quote_path(GENCS_FULLPATH), "... ", end="")
+    pt.savefig(GENCS_FULLPATH)
+    print_info("[DONE]")
+
+    if showinteractive:
+        pt.show()
+
 def plot_genims(images, genims, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
@@ -79,21 +95,6 @@ def plot_genims(images, genims, modelname, showinteractive):
     if showinteractive:
         pt.show()
 
-def plot_gencs(genc, sample_labels, modelname, showinteractive):
-    pt.figure(figsize=(10, 10))
-    pt.scatter(genc[:, 0], genc[:, 1], cmap="rainbow", c=sample_labels, alpha=0.5, s=2)
-    pt.colorbar()
-
-    # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_GENCS).mkdir(parents=True, exist_ok=True)
-    GENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_GENCS, modelname + ".png")
-    print_info("|||||| Saving file ", quote_path(GENCS_FULLPATH), "... ", end="")
-    pt.savefig(GENCS_FULLPATH)
-    print_info("[DONE]")
-
-    if showinteractive:
-        pt.show()
-
 if __name__ == "__main__":
     args = process_clargs()
 
@@ -104,5 +105,5 @@ if __name__ == "__main__":
     # Genims
     sample_images, sample_labels = pick_random_images(x_test, y_test, args.num_genims)
     gencs, genims = ae.regen(sample_images)
-    plot_genims(sample_images, genims, extract_filename(args.model_path), args.showgenims)
     plot_gencs(gencs, sample_labels,   extract_filename(args.model_path), args.showgencs > 0)
+    plot_genims(sample_images, genims, extract_filename(args.model_path), args.showgenims)
