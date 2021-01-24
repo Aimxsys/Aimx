@@ -50,8 +50,8 @@ def process_clargs():
 
     return args
 
-def pick_images(images, labels, num_genims=10, pickrandom=True):
-    if pickrandom:
+def pick_images(images, labels, num_genims=10, randomize=True):
+    if randomize:
         indexes = np.random.choice(range(len(images)), num_genims)
     else:
         indexes = np.arange(num_genims)
