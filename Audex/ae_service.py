@@ -102,8 +102,9 @@ if __name__ == "__main__":
 
     x_train, y_train, x_test, y_test = load_mnist()
 
-    # Genims
     sample_images, sample_labels = pick_random_images(x_test, y_test, args.num_genims)
+
     gencs, genims = ae.regen(sample_images)
+
     plot_gencs(gencs, sample_labels,   extract_filename(args.model_path), args.showgencs > 0)
     plot_genims(sample_images, genims, extract_filename(args.model_path), args.showgenims)
