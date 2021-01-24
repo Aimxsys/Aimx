@@ -72,17 +72,17 @@ def plot_gencs(gencs, labels, modelname, showinteractive):
     else:
         pt.close()
 
-def plot_genims(genims, images, modelname, showinteractive):
+def plot_genims(genims, origimages, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
-    num_images = len(images)
+    num_images = len(origimages)
     if num_images > 100: return # too many genims, takes long to plot and indistinguishable to human eye
-    for i, (image, genim) in enumerate(zip(images, genims)):
+    for i, (origimage, genim) in enumerate(zip(origimages, genims)):
         # Original image
-        image = image.squeeze()
+        origimage = origimage.squeeze()
         ax = fig.add_subplot(2, num_images, i + 1)
         ax.axis("off")
-        ax.imshow(image, cmap="gray_r")
+        ax.imshow(origimage, cmap="gray_r")
         # Genim
         genim = genim.squeeze()
         ax = fig.add_subplot(2, num_images, i + num_images + 1)
