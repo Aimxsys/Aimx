@@ -76,15 +76,15 @@ def plot_genims(genims, images, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
     num_images = len(images)
-    for i, (image, reconstructed_image) in enumerate(zip(images, genims)):
+    for i, (image, genim) in enumerate(zip(images, genims)):
         image = image.squeeze()
         ax = fig.add_subplot(2, num_images, i + 1)
         ax.axis("off")
         ax.imshow(image, cmap="gray_r")
-        reconstructed_image = reconstructed_image.squeeze()
+        genim = genim.squeeze()
         ax = fig.add_subplot(2, num_images, i + num_images + 1)
         ax.axis("off")
-        ax.imshow(reconstructed_image, cmap="gray_r")
+        ax.imshow(genim, cmap="gray_r")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_GENIMS).mkdir(parents=True, exist_ok=True)
