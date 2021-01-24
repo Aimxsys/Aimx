@@ -52,11 +52,11 @@ def process_clargs():
 
 def pick_images(images, labels, num_genims=10, pickrandom=True):
     if pickrandom:
-        x = np.random.choice(range(len(images)), num_genims)
+        indexes = np.random.choice(range(len(images)), num_genims)
     else:
-        x = np.arange(num_genims)
-    sample_images = images[x]
-    sample_labels = labels[x]
+        indexes = np.arange(num_genims)
+    sample_images = images[indexes]
+    sample_labels = labels[indexes]
     return sample_images, sample_labels
 
 def plot_gencs(gencs, labels, modelname, showinteractive):
