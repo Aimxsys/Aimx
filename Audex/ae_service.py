@@ -55,7 +55,6 @@ def pick_random_images(images, labels, num_genims=10):
     sample_labels = labels[x]
     return sample_images, sample_labels
 
-
 def plot_gencs(gencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
     pt.scatter(gencs[:, 0], gencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
