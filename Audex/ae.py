@@ -89,9 +89,9 @@ class Autoencoder:
         self.model_ae.load_weights(weights_path)
 
     def regen(self, images):
-        latent = self.model_enc.predict(images)
-        genim  = self.model_dec.predict(latent)
-        return latent, genim
+        genc  = self.model_enc.predict(images)
+        genim = self.model_dec.predict(genc)
+        return genc, genim
 
     @classmethod
     def load_model(cls, model_path):

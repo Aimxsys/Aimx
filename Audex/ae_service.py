@@ -79,11 +79,9 @@ def plot_genims(images, reconstructed_images, modelname, showinteractive):
     if showinteractive:
         pt.show()
 
-def plot_images_encoded_in_latent_space(latent_reps, sample_labels):
+def plot_gencs(genc, sample_labels):
     pt.figure(figsize=(10, 10))
-    pt.scatter(latent_reps[:, 0],
-               latent_reps[:, 1],
-               cmap="rainbow", c=sample_labels, alpha=0.5, s=2)
+    pt.scatter(genc[:, 0], genc[:, 1], cmap="rainbow", c=sample_labels, alpha=0.5, s=2)
     pt.colorbar()
     pt.show()
 
@@ -102,5 +100,5 @@ if __name__ == "__main__":
     # Scatter plot
     if args.show_latent_points > 0:
         sample_images, sample_labels = pick_random_images(x_test, y_test, args.show_latent_points)
-        latent_reps, _               = ae.regen(sample_images)
-        plot_images_encoded_in_latent_space(latent_reps, sample_labels)
+        gencs, _ = ae.regen(sample_images)
+        plot_gencs(gencs, sample_labels)
