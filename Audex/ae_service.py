@@ -88,8 +88,8 @@ def plot_genims(genims, images, modelname, showinteractive):
         ax.imshow(genim, cmap="gray_r")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_GENIMS).mkdir(parents=True, exist_ok=True)
-    GENIM_FULLPATH = os.path.join(Aimx.Paths.GEN_GENIMS, modelname + ".png")
+    Path(Aimx.Paths.GEN_PLOTS_GENIMS).mkdir(parents=True, exist_ok=True)
+    GENIM_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENIMS, modelname + ".png")
     print_info("|||||| Saving file ", quote_path(GENIM_FULLPATH), "... ", end="")
     pt.savefig(GENIM_FULLPATH)
     print_info("[DONE]")
