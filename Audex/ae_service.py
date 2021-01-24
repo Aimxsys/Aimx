@@ -26,6 +26,7 @@ def process_clargs():
     parser.add_argument("-inferdata_range", default=[0, 50], nargs='*', type = int,  help = 'Range in -inferdata_path on which to do inference.')
 
     parser.add_argument("-num_genims", default = 10,                    type = int,  help = 'Number of images to generate.')
+    parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
     parser.add_argument("-showgencs",  action ='store_true',                         help = 'At the end, will show gencs in an interactive window.')
     parser.add_argument("-showgenims", action ='store_true',                         help = 'At the end, will show genims in an interactive window.')
     parser.add_argument("-example",    action ='store_true',                         help = 'Show a working example on how to call the script.')
@@ -49,8 +50,11 @@ def process_clargs():
 
     return args
 
-def pick_random_images(images, labels, num_genims=10):
-    x = np.random.choice(range(len(images)), num_genims)
+def pick_images(images, labels, num_genims=10, pickrandom=True):
+    if pickrandom:
+        x = np.random.choice(range(len(images)), num_genims)
+    else:
+        x = np.arange(num_genims)
     sample_images = images[x]
     sample_labels = labels[x]
     return sample_images, sample_labels
@@ -106,7 +110,7 @@ if __name__ == "__main__":
 
     x_train, y_train, x_test, y_test = load_mnist()
 
-    sample_images, sample_labels = pick_random_images(x_test, y_test, args.num_genims)
+    sample_images, sample_labels = pick_images(x_test, y_test, args.num_genims, args.randomize)
 
     gencs, genims = ae.regen(sample_images)
 
