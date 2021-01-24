@@ -76,6 +76,7 @@ def plot_genims(genims, images, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
     num_images = len(images)
+    if num_images > 100: return # too many genims, takes long to plot and indistinguishable to human eye
     for i, (image, genim) in enumerate(zip(images, genims)):
         image = image.squeeze()
         ax = fig.add_subplot(2, num_images, i + 1)
