@@ -93,6 +93,11 @@ class Autoencoder:
         genim = self.model_dec.predict(genc)
         return genc, genim
 
+    def gen_random(self, n):
+        gencs  = np.random.rand(10,2)
+        genims = self.model_dec.predict(gencs)
+        return genims
+
     @classmethod
     def load_model(cls, model_path):
         PARAMS_FULLPATH  = os.path.join(model_path, cls.FILENAME_HYPARAMS)

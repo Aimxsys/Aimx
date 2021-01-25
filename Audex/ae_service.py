@@ -111,6 +111,30 @@ def plot_regenims(genims, origimages, modelname, showinteractive):
     else:
         pt.close()
 
+def plot_genims(genims, modelname, showinteractive):
+    fig = pt.figure(figsize=(15, 3))
+
+    num_genims = len(genims)
+    if num_genims > 100: return # too many genims, takes long to plot and indistinguishable to human eye
+    for i, genim in enumerate(genims):
+        
+        genim = genim.squeeze()
+        ax = fig.add_subplot(2, num_genims, i + num_genims + 1)
+        ax.axis("off")
+        ax.imshow(genim, cmap="gray_r")
+
+    # save the plot as most recent (often useful when comparing to a next NN run)
+    Path(Aimx.Paths.GEN_PLOTS_GENIMS).mkdir(parents=True, exist_ok=True)
+    GENIM_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENIMS, modelname + ".png")
+    print_info("|||||| Saving file ", quote_path(GENIM_FULLPATH), "... ", end="")
+    pt.savefig(GENIM_FULLPATH)
+    print_info("[DONE]")
+
+    if showinteractive:
+        pt.show()
+    else:
+        pt.close()
+
 if __name__ == "__main__":
     args, parser = process_clargs()
 
@@ -126,9 +150,8 @@ if __name__ == "__main__":
     while count > 0:
         count -= 1
         if args.mode_gen:
-            sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
             genims = ae.gen_random(args.num_samples)
-            plot_regenims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
+            plot_genims(genims, extract_filename(args.model_path), args.showgenims)
 
         elif args.mode_regen:
             sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
