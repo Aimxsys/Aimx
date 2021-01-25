@@ -25,7 +25,7 @@ def process_clargs():
     parser.add_argument("-inferdata_path",                              type = Path, help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-inferdata_range", default=[0, 50], nargs='*', type = int,  help = 'Range in -inferdata_path on which to do inference.')
 
-    parser.add_argument("-repeat",      default = 10,                   type = int,  help = 'Repeat the run of the service specified number of times.')
+    parser.add_argument("-repeat",      default =  1,                   type = int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_samples", default = 10,                   type = int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
     parser.add_argument("-showgencs",  action ='store_true',                         help = 'At the end, will show gencs in an interactive window.')
