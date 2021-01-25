@@ -158,5 +158,5 @@ if __name__ == "__main__":
  
             gencs, genims = ae.regen(sample_images)
  
-            plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs)
+            plot_gencs(gencs,     sample_labels, extract_filename(args.model_path), args.showgencs)
             plot_regenims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
