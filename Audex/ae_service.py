@@ -105,6 +105,8 @@ def plot_genims(genims, origimages, modelname, showinteractive):
 
     if showinteractive:
         pt.show()
+    else:
+        pt.close()
 
 if __name__ == "__main__":
     args, parser = process_clargs()
