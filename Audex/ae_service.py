@@ -129,6 +129,7 @@ if __name__ == "__main__":
             sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
             genims = ae.gen_random(args.num_samples)
             plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
+
         elif args.mode_regen:
             sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
  
