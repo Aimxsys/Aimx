@@ -44,7 +44,6 @@ class Aimx:
     class Training:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
         INPUT_SHAPE              = "input_shape"
-        DIM_LATENT               = "dim_latent"
         VAL_ACCURACY             = "val_accuracy"
         LOSS                     = "loss"
 
@@ -137,7 +136,6 @@ def save_training_result_meta_ae(history, trainid, timestamp, training_duration,
     meta = {
         Aimx.MOST_RECENT_OUTPUT:                  model_fullpath,
         Aimx.Training.INPUT_SHAPE:                str(inputshape),
-        Aimx.Training.DIM_LATENT:                 dim_latent,
         Aimx.TIMESTAMP:                           timestamp,
         Aimx.DURATION:                            training_duration,
         Aimx.Training.LOSS:                       list(np.around(history.history["loss"], 2)),

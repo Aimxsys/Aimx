@@ -93,8 +93,8 @@ class Autoencoder:
         genims = self.model_dec.predict(gencs)  # decode from latent space into genim
         return gencs, genims
 
-    def gen_random(self, n, dim_latent):
-        gencs  = np.random.rand(n, dim_latent)  # n 1d arrays of size dim_latent
+    def gen_random(self, n):
+        gencs  = np.random.rand(n, self.latent_space_dim)  # n 1d arrays of size dim_latent
         genims = self.model_dec.predict(gencs)
         return genims
 
