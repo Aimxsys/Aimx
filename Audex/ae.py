@@ -27,12 +27,12 @@ class Autoencoder:
     Autoencoder represents a Deep Convolutional autoencoder architecture
     with mirrored encoder and decoder components.
     """
-    def __init__(self, input_shape, conv_filters, conv_kernels, conv_strides, latent_space_dim):
-        self.input_shape      = input_shape      # (28, 28, 1)
-        self.conv_filters     = conv_filters     # (2, 4, 8)-tuple
-        self.conv_kernels     = conv_kernels     # (3, 5, 3)-tuple
-        self.conv_strides     = conv_strides     # (1, 2, 2)-tuple
-        self.latent_space_dim = latent_space_dim # 2
+    def __init__(self, input_shape, conv_filters, conv_kernels, conv_strides, dim_latent):
+        self.input_shape  = input_shape  # (28, 28, 1)
+        self.conv_filters = conv_filters # (2, 4, 8)-tuple
+        self.conv_kernels = conv_kernels # (3, 5, 3)-tuple
+        self.conv_strides = conv_strides # (1, 2, 2)-tuple
+        self.dim_latent   = dim_latent   # 2
 
         self.model_enc = None
         self.model_dec = None
@@ -69,7 +69,7 @@ class Autoencoder:
             self.conv_filters,
             self.conv_kernels,
             self.conv_strides,
-            self.latent_space_dim
+            self.dim_latent
         ]
         # Save parameters
         print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
@@ -94,7 +94,7 @@ class Autoencoder:
         return gencs, genims
 
     def gen_random(self, n):
-        gencs  = np.random.rand(n, self.latent_space_dim)  # n 1d arrays of size dim_latent
+        gencs  = np.random.rand(n, self.dim_latent)  # n 1d arrays of size dim_latent
         genims = self.model_dec.predict(gencs)
         return genims
 
@@ -171,11 +171,11 @@ class Autoencoder:
         self._shape_before_bottleneck = K.int_shape(x)[1:] # first dimension is batch size, ignore it and take only width, height and number of channels
         
         x = tf.keras.layers.Flatten()(x)
-        x = tf.keras.layers.Dense(self.latent_space_dim, name="encoder_output")(x)
+        x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output")(x)
         return x
 
     def _add_decoder_input(self):
-        return tf.keras.layers.Input(shape=self.latent_space_dim, name="decoder_input")
+        return tf.keras.layers.Input(shape=self.dim_latent, name="decoder_input")
 
     def _add_dense_layer(self, decoder_input):
         # Here we want the same number of neurons as there are in the layer before the bottleneck,
@@ -227,6 +227,6 @@ class Autoencoder:
 #        # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
 #        conv_kernels     = (3, 3, 3, 3),
 #        conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
-#        latent_space_dim = 10
+#        dim_latent = 10
 #    )
 #    autoencoder.summary()
