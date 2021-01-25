@@ -30,6 +30,9 @@ def process_clargs():
     parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
     parser.add_argument("-showgencs",  action ='store_true',                         help = 'At the end, will show gencs in an interactive window.')
     parser.add_argument("-showgenims", action ='store_true',                         help = 'At the end, will show genims in an interactive window.')
+    parser.add_argument("-mode_gen",   action ='store_true',                         help = 'This mode will generate a genim from latent space.')
+    parser.add_argument("-mode_regen", action ='store_true',                         help = 'This mode will regenerate an image.')
+
     parser.add_argument("-example",    action ='store_true',                         help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
@@ -122,9 +125,14 @@ if __name__ == "__main__":
 
     while count > 0:
         count -= 1
-        sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
+        if args.mode_gen:
+            sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
+            genims = ae.gen_random(args.num_samples)
+            plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
+        elif args.mode_regen:
+            sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
  
-        gencs, genims = ae.regen(sample_images)
+            gencs, genims = ae.regen(sample_images)
  
-        plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs)
-        plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
+            plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs)
+            plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
