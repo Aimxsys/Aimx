@@ -25,6 +25,7 @@ def process_clargs():
     parser.add_argument("-inferdata_path",                              type = Path, help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-inferdata_range", default=[0, 50], nargs='*', type = int,  help = 'Range in -inferdata_path on which to do inference.')
 
+    parser.add_argument("-repeat",      default = 10,                   type = int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_samples", default = 10,                   type = int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
     parser.add_argument("-showgencs",  action ='store_true',                         help = 'At the end, will show gencs in an interactive window.')
@@ -48,7 +49,7 @@ def process_clargs():
     
     print_script_start_preamble(nameofthis(__file__), vars(args))
 
-    return args
+    return args, parser
 
 def pick_images(images, labels, num_samples=10, randomize=True):
     if randomize:
@@ -106,17 +107,22 @@ def plot_genims(genims, origimages, modelname, showinteractive):
         pt.show()
 
 if __name__ == "__main__":
-    args = process_clargs()
+    args, parser = process_clargs()
 
     ae = Autoencoder.load_model(args.model_path)
 
     _, _, x_test, y_test = load_mnist()
 
-    sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
+    # x_test.shape == (10000, 28, 28, 1)
+    # y_test.shape == (10000,)
 
-    gencs, genims = ae.regen(sample_images)
+    count = args.repeat
 
-    deprint(gencs.shape)
-
-    plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs)
-    plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
+    while count > 0:
+        count -= 1
+        sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
+ 
+        gencs, genims = ae.regen(sample_images)
+ 
+        plot_gencs(gencs,   sample_labels, extract_filename(args.model_path), args.showgencs)
+        plot_genims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
