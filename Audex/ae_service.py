@@ -145,11 +145,11 @@ if __name__ == "__main__":
     # x_test.shape == (10000, 28, 28, 1)
     # y_test.shape == (10000,)
 
-    count = args.repeat
+    repeat = args.repeat
     dim_latent = get_training_result_meta()[Aimx.Training.DIM_LATENT]
 
-    while count > 0:
-        count -= 1
+    while repeat > 0:
+        repeat -= 1
         if args.mode_gen:
             genims = ae.gen_random(args.num_samples, dim_latent)
             plot_genims(genims, extract_filename(args.model_path), args.showgenims)
