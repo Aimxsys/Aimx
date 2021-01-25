@@ -93,8 +93,8 @@ class Autoencoder:
         genim = self.model_dec.predict(genc)
         return genc, genim
 
-    def gen_random(self, n):
-        gencs  = np.random.rand(10,2)
+    def gen_random(self, n, dim_latent):
+        gencs  = np.random.rand(n, dim_latent)
         genims = self.model_dec.predict(gencs)
         return genims
 
