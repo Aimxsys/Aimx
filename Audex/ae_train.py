@@ -72,8 +72,7 @@ def process_clargs():
 
 LEARNING_RATE = 0.0005
 
-def load_mnist():
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+def normalize_traindata_pixels(x_train, y_train, x_test, y_test):
 
     x_train = x_train.astype("float32") / 255
     x_train = x_train.reshape(x_train.shape + (1,))
@@ -87,19 +86,21 @@ if __name__ == "__main__":
 
     inputshape = (28, 28, 1)
     autoencoder = Autoencoder(
-        input_shape      = inputshape,
-        conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
+        input_shape  = inputshape,
+        conv_filters = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
-        conv_kernels     = (3, 3, 3, 3),
-        conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
-        latent_space_dim = args.dim_latent
+        conv_kernels = (3, 3, 3, 3),
+        conv_strides = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
+        dim_latent   = args.dim_latent
     )
     autoencoder.summary()
     autoencoder.compile(LEARNING_RATE)
 
     start_time = time.time()
 
-    x_train, _, _, _ = load_mnist()
+    (x_train, _), (_, _) = mnist.load_data()
+
+    x_train, _, _, _ = normalize_traindata_pixels(x_train, _, _, _)
 
     history = autoencoder.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
 
