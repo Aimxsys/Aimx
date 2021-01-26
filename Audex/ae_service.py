@@ -55,7 +55,7 @@ def process_clargs():
 
     return args, parser
 
-def pick_images(images, labels, num_samples=10, randomize=True):
+def pick_from(images, labels, num_samples=10, randomize=True):
     if randomize:
         indexes = np.random.choice(range(len(images)), num_samples)
     else:
@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
         # Regenerate images from selected dataset samples   |><|
         elif args.mode_regen:
-            sample_images, sample_labels = pick_images(x_test, y_test, args.num_infers, args.randomize)
+            sample_images, sample_labels = pick_from(x_test, y_test, args.num_infers, args.randomize)
  
             vencs, genims = ae.regen(sample_images)
  
