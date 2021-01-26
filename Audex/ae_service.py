@@ -71,7 +71,8 @@ def plot_vencs(vencs, labels, modelname, showinteractive):
     # Print encodings if not too many
     if len(vencs) < 20:
         for i in range(len(vencs)):
-            print(pinkred(i), np.around(vencs[i], 2), cyan(labels[i]))
+            label = "SEE GENIM" if np.isnan(labels[i]) else labels[i]
+            print(pinkred(i), np.around(vencs[i], 2), cyan(label))
 
     # Scatterplot first two coordinates of the vencs in the latent space,
     # which will be the exact representation in case the latent space is two-dimensional.
@@ -166,8 +167,10 @@ if __name__ == "__main__":
         if args.mode_gen:
             vencs, genims = ae.gen_random(args.num_infers)
 
-            plot_vencs(vencs, np.arange(args.num_infers), extract_filename(args.model_path), args.showvencs)
-            plot_genims(genims, extract_filename(args.model_path), args.showgenims)
+            labels = np.full((args.num_infers,), np.nan) # nan to signify "unknown" (whatever the genim turns out to be)
+
+            plot_vencs(vencs, labels, extract_filename(args.model_path), args.showvencs)
+            plot_genims(genims,       extract_filename(args.model_path), args.showgenims)
 
         # Regenerate images from selected dataset samples   |><|
         elif args.mode_regen:
