@@ -66,7 +66,7 @@ def pick_from(images, labels, num_samples=10, randomize=True):
 
 def plot_vencs(vencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
-    deprint(vencs.shape, "vencs.shape means generate", vencs.shape[0], "vencs of size", vencs.shape[1])
+    deprint("vencs.shape", vencs.shape, "means generate", vencs.shape[0], "vencs of size", vencs.shape[1])
     pt.scatter(vencs[:, 0], vencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
     pt.colorbar()
 
