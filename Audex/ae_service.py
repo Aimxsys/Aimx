@@ -152,6 +152,7 @@ if __name__ == "__main__":
 
     while repeat > 0:
         repeat -= 1
+
         if args.mode_gen: # generate images from latent space vencs
             genims = ae.gen_random(args.num_samples)
             plot_genims(genims, extract_filename(args.model_path), args.showgenims)
