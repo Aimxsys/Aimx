@@ -29,7 +29,7 @@ def process_clargs():
     parser.add_argument("-repeat",      default =  1,                   type = int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_samples", default = 10,                   type = int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
-    parser.add_argument("-showgencs",  action ='store_true',                         help = 'At the end, will show gencs in an interactive window.')
+    parser.add_argument("-showvencs",  action ='store_true',                         help = 'At the end, will show vencs in an interactive window.')
     parser.add_argument("-showgenims", action ='store_true',                         help = 'At the end, will show genims in an interactive window.')
     parser.add_argument("-mode_gen",   action ='store_true',                         help = 'This mode will generate a genim from latent space.')
     parser.add_argument("-mode_regen", action ='store_true',                         help = 'This mode will regenerate an image.')
@@ -64,17 +64,17 @@ def pick_images(images, labels, num_samples=10, randomize=True):
     sample_labels = labels[indexes] # num_samples labels
     return sample_images, sample_labels
 
-def plot_gencs(gencs, labels, modelname, showinteractive):
+def plot_vencs(vencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
-    deprint(gencs.shape, "gencs.shape means generate", gencs.shape[0], "gencs of size", gencs.shape[1])
-    pt.scatter(gencs[:, 0], gencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
+    deprint(vencs.shape, "vencs.shape means generate", vencs.shape[0], "vencs of size", vencs.shape[1])
+    pt.scatter(vencs[:, 0], vencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
     pt.colorbar()
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_PLOTS_GENCS).mkdir(parents=True, exist_ok=True)
-    GENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENCS, modelname + ".png")
-    print_info("|||||| Saving file ", quote_path(GENCS_FULLPATH), "... ", end="")
-    pt.savefig(GENCS_FULLPATH)
+    Path(Aimx.Paths.GEN_PLOTS_VENCS).mkdir(parents=True, exist_ok=True)
+    VENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_VENCS, modelname + ".png")
+    print_info("|||||| Saving file ", quote_path(VENCS_FULLPATH), "... ", end="")
+    pt.savefig(VENCS_FULLPATH)
     print_info("[DONE]")
 
     if showinteractive:
@@ -159,7 +159,7 @@ if __name__ == "__main__":
         elif args.mode_regen: # regenerate images from selected dataset samples
             sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
  
-            gencs, genims = ae.regen(sample_images)
+            vencs, genims = ae.regen(sample_images)
  
-            plot_gencs(gencs,     sample_labels, extract_filename(args.model_path), args.showgencs)
+            plot_vencs(vencs,     sample_labels, extract_filename(args.model_path), args.showvencs)
             plot_regenims(genims, sample_images, extract_filename(args.model_path), args.showgenims)

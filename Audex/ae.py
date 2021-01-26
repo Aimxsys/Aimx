@@ -89,13 +89,13 @@ class Autoencoder:
         self.model_ae.load_weights(weights_path)
 
     def regen(self, images):
-        gencs  = self.model_enc.predict(images) # encode into latent space
-        genims = self.model_dec.predict(gencs)  # decode from latent space into genim
-        return gencs, genims
+        vencs  = self.model_enc.predict(images) # encode into latent space
+        genims = self.model_dec.predict(vencs)  # decode from latent space into genim
+        return vencs, genims
 
     def gen_random(self, n):
-        gencs  = np.random.rand(n, self.dim_latent)  # n 1d arrays of size dim_latent
-        genims = self.model_dec.predict(gencs)
+        vencs  = np.random.rand(n, self.dim_latent)  # n 1d arrays of size dim_latent
+        genims = self.model_dec.predict(vencs)
         return genims
 
     @classmethod

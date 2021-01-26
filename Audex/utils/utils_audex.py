@@ -24,7 +24,7 @@ class Aimx:
     class Paths:
         GEN_PLOTS_TRAIN  = os.path.join(WORKDIR, "gen_plots_train")
         GEN_PLOTS_GENIMS = os.path.join(WORKDIR, "gen_plots_genims")
-        GEN_PLOTS_GENCS  = os.path.join(WORKDIR, "gen_plots_gencs")
+        GEN_PLOTS_VENCS  = os.path.join(WORKDIR, "gen_plots_vencs")
         GEN_SAVED_MODELS = os.path.join(WORKDIR, "gen_models")
         GEN_TRAINDATA    = os.path.join(WORKDIR, "gen_traindata")        
     
