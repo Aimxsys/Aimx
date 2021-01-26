@@ -67,18 +67,19 @@ def pick_from(images, labels, num_samples=10, randomize=True):
 def plot_vencs(vencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
     print(pinkred("vencs.shape"), vencs.shape, "means generate", vencs.shape[0], "latent space encodings of size", vencs.shape[1])
+    print_info("Genims in", quote_path(Aimx.Paths.GEN_PLOTS_GENIMS))
 
     # Print encodings if not too many
     if len(vencs) < 20:
         for i in range(len(vencs)):
-            label = "SEE GENIM" if np.isnan(labels[i]) else labels[i]
-            print(pinkred(i), np.around(vencs[i], 2), cyan(label))
+            print(pinkred(i), np.around(vencs[i], 2), cyan(labels[i] if labels is not None else "None"))
 
     # Scatterplot first two coordinates of the vencs in the latent space,
     # which will be the exact representation in case the latent space is two-dimensional.
     # Note that to map the venc to its digit, look at the corresponding color on the colormap.
     pt.scatter(vencs[:, 0], vencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
-    pt.colorbar()
+    if labels is not None:
+        pt.colorbar()
 
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_PLOTS_VENCS).mkdir(parents=True, exist_ok=True)
@@ -165,7 +166,7 @@ if __name__ == "__main__":
 
         # Generate images from latent space vencs             <| 
         if args.mode_gen:
-            labels = np.full((args.num_infers,), np.nan) # nan to signify "unknown" (whatever the genim turns out to be)
+            labels = None # signify "unknown" (whatever the genim turns out to be)
 
             vencs, genims = ae.gen_random(args.num_infers)
 
