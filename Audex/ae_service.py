@@ -153,11 +153,13 @@ if __name__ == "__main__":
     while repeat > 0:
         repeat -= 1
 
-        if args.mode_gen: # generate images from latent space vencs
+        # Generate images from latent space vencs
+        if args.mode_gen:
             genims = ae.gen_random(args.num_samples)
             plot_genims(genims, extract_filename(args.model_path), args.showgenims)
 
-        elif args.mode_regen: # regenerate images from selected dataset samples
+        # Regenerate images from selected dataset samples
+        elif args.mode_regen:
             sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
  
             vencs, genims = ae.regen(sample_images)
