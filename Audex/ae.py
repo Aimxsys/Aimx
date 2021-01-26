@@ -96,7 +96,7 @@ class Autoencoder:
     def gen_random(self, n):
         vencs  = np.random.rand(n, self.dim_latent)  # n 1d arrays of size dim_latent
         genims = self.model_dec.predict(vencs)
-        return genims
+        return vencs, genims
 
     @classmethod
     def load_model(cls, model_path):

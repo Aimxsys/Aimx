@@ -66,7 +66,16 @@ def pick_from(images, labels, num_samples=10, randomize=True):
 
 def plot_vencs(vencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
-    deprint("vencs.shape", vencs.shape, "means generate", vencs.shape[0], "vencs of size", vencs.shape[1])
+    print(pinkred("vencs.shape"), vencs.shape, "means generate", vencs.shape[0], "latent space encodings of size", vencs.shape[1])
+
+    # Print encodings if not too many
+    if len(vencs) < 20:
+        for i in range(len(vencs)):
+            print(pinkred(i), np.around(vencs[i], 2), cyan(labels[i]))
+
+    # Scatterplot first two coordinates of the vencs in the latent space,
+    # which will be the exact representation in case the latent space is two-dimensional.
+    # Note that to map the venc to its digit, look at the corresponding color on the colormap.
     pt.scatter(vencs[:, 0], vencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
     pt.colorbar()
 
@@ -155,7 +164,9 @@ if __name__ == "__main__":
 
         # Generate images from latent space vencs             <| 
         if args.mode_gen:
-            genims = ae.gen_random(args.num_infers)
+            vencs, genims = ae.gen_random(args.num_infers)
+
+            plot_vencs(vencs, np.arange(args.num_infers), extract_filename(args.model_path), args.showvencs)
             plot_genims(genims, extract_filename(args.model_path), args.showgenims)
 
         # Regenerate images from selected dataset samples   |><|
