@@ -165,9 +165,9 @@ if __name__ == "__main__":
 
         # Generate images from latent space vencs             <| 
         if args.mode_gen:
-            vencs, genims = ae.gen_random(args.num_infers)
-
             labels = np.full((args.num_infers,), np.nan) # nan to signify "unknown" (whatever the genim turns out to be)
+
+            vencs, genims = ae.gen_random(args.num_infers)
 
             plot_vencs(vencs, labels, extract_filename(args.model_path), args.showvencs)
             plot_genims(genims,       extract_filename(args.model_path), args.showgenims)
