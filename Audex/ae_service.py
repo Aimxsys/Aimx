@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from tensorflow.keras.datasets import mnist
 import numpy as np
 import matplotlib.pyplot as pt
 import argparse
@@ -7,7 +8,7 @@ import sys
 import os
 
 from ae       import Autoencoder
-from ae_train import load_mnist
+from ae_train import normalize_traindata_pixels
 
 # Add this directory to path so that package is recognized.
 # Looks like a hack, but is ok for now to allow moving forward.
@@ -140,7 +141,8 @@ if __name__ == "__main__":
 
     ae = Autoencoder.load_model(args.model_path)
 
-    _, _, x_test, y_test = load_mnist()
+    (_, _), (x_test, y_test) = mnist.load_data() # traindata
+    _,  _,   x_test, y_test  = normalize_traindata_pixels(_, _, x_test, y_test)
 
     # x_test.shape == (10000, 28, 28, 1)
     # y_test.shape == (10000,)

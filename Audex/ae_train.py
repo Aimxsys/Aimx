@@ -98,8 +98,8 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    x_train, _, _, _ = mnist.load_data() # traindata
-    x_train, _, _, _ = normalize_traindata_pixels(x_train, _, _, _)
+    (x_train, _), _, _ = mnist.load_data() # traindata
+    x_train,  _,  _, _ = normalize_traindata_pixels(x_train, _, _, _)
 
     history = autoencoder.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
 
