@@ -66,6 +66,7 @@ def pick_images(images, labels, num_samples=10, randomize=True):
 
 def plot_gencs(gencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
+    deprint(gencs.shape, "gencs.shape means generate", gencs.shape[0], "gencs of size", gencs.shape[1])
     pt.scatter(gencs[:, 0], gencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
     pt.colorbar()
 
@@ -151,11 +152,11 @@ if __name__ == "__main__":
 
     while repeat > 0:
         repeat -= 1
-        if args.mode_gen:
+        if args.mode_gen: # generate images from latent space
             genims = ae.gen_random(args.num_samples)
             plot_genims(genims, extract_filename(args.model_path), args.showgenims)
 
-        elif args.mode_regen:
+        elif args.mode_regen: # regenerate images from selected dataset samples
             sample_images, sample_labels = pick_images(x_test, y_test, args.num_samples, args.randomize)
  
             gencs, genims = ae.regen(sample_images)
