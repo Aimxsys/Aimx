@@ -108,7 +108,7 @@ class Autoencoder:
                 params = pickle.load(p)
             ae = Autoencoder(*params)
             ae.load_weights(WEIGHTS_FULLPATH)
-            print_info("[DONE]")
+            print_info("[DONE (model loaded)]", quote_path(model_path))
         except Exception as e:
             print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
             print(pinkred("Exception message: ") + red(str(e)))

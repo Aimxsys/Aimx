@@ -166,7 +166,7 @@ def CreateAsrService(model_path):
             print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
             _AsrService.model     = keras.models.load_model(model_path)
             _AsrService.modelType = extract_filename(model_path)[6:9] # from name: model_cnn_...
-            print_info("[DONE]")
+            print_info("[DONE (model loaded)]", quote_path(model_path))
         except Exception as e:
             print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
             print(pinkred("Exception message: ") + red(str(e)))
