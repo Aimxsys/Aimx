@@ -66,8 +66,6 @@ def pick_from(images, labels, num_samples=10, randomize=True):
 
 def plot_vencs(vencs, labels, modelname, showinteractive):
     pt.figure(figsize=(10, 10))
-    print(pinkred("vencs.shape"), vencs.shape, "means generate", vencs.shape[0], "latent space encodings of size", vencs.shape[1])
-    print_info("Genims in", quote_path(Aimx.Paths.GEN_PLOTS_GENIMS))
 
     # Print encodings if not too many
     if len(vencs) < 20:
@@ -77,6 +75,7 @@ def plot_vencs(vencs, labels, modelname, showinteractive):
     # Scatterplot first two coordinates of the vencs in the latent space,
     # which will be the exact representation in case the latent space is two-dimensional.
     # Note that to map the venc to its digit, look at the corresponding color on the colormap.
+    print_info("Scatter-plotting first two coordinates of the {}-d vencs...".format(vencs.shape[1]))
     pt.scatter(vencs[:, 0], vencs[:, 1], cmap="rainbow", c=labels, alpha=0.5, s=2)
     if labels is not None:
         pt.colorbar()
@@ -84,7 +83,7 @@ def plot_vencs(vencs, labels, modelname, showinteractive):
     # save the plot as most recent (often useful when comparing to a next NN run)
     Path(Aimx.Paths.GEN_PLOTS_VENCS).mkdir(parents=True, exist_ok=True)
     VENCS_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_VENCS, modelname + ".png")
-    print_info("|||||| Saving file ", quote_path(VENCS_FULLPATH), "... ", end="")
+    print_info("|||||| Saving file", quote_path(VENCS_FULLPATH), "... ", end="")
     pt.savefig(VENCS_FULLPATH)
     print_info("[DONE]")
 
