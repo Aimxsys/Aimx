@@ -2,7 +2,6 @@
 
 import tensorflow as tf
 from tensorflow.keras.layers     import Input, Conv2D, ReLU, BatchNormalization, Flatten, Dense, Reshape, Conv2DTranspose, Activation
-from tensorflow.keras            import backend as K
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses     import MeanSquaredError
 
@@ -168,7 +167,7 @@ class Autoencoder:
         """ Flatten data and add bottleneck (Dense layer). """
         # Save the shape just before flattening
         # to be able to restore it later in the decoder
-        self._shape_before_bottleneck = K.int_shape(x)[1:] # first dimension is batch size, ignore it and take only width, height and number of channels
+        self._shape_before_bottleneck = tf.keras.backend.int_shape(x)[1:] # first dimension is batch size, ignore it and take only width, height and number of channels
         
         x = tf.keras.layers.Flatten()(x)
         x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output")(x)
