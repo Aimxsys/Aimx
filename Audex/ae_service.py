@@ -155,6 +155,7 @@ if __name__ == "__main__":
     (_, _), (x_test, y_test) = mnist.load_data() # traindata
     _,  _,   x_test, y_test  = normalize_traindata_pixels(_, _, x_test, y_test)
 
+    # MNIST traindata values:
     # x_test.shape == (10000, 28, 28, 1)
     # y_test.shape == (10000,)
 
