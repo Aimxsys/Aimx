@@ -65,13 +65,14 @@ def pick_from(images, labels, num_samples=10, randomize=True):
     return sample_images, sample_labels
 
 def plot_vencs(vencs, labels, modelname, showinteractive):
+    dim_latent = vencs.shape[1]
     pt.figure(figsize=(10, 10))
 
     # Print encodings if not too many
     if len(vencs) < 20:
-        print_info("Vencs and their corresponding digits:")
+        print_info("Digits and their corresponding {}-d vencs:".format(vencs.shape[1]))
         for i in range(len(vencs)):
-            print(pinkred(i), np.around(vencs[i], 2), cyan(labels[i] if labels is not None else "None"))
+            print(cyan(labels[i] if labels is not None else "None"), np.around(vencs[i], 2))
 
     # Scatterplot first two coordinates of the vencs in the latent space,
     # which will be the exact representation in case the latent space is two-dimensional.
