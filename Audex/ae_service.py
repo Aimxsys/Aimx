@@ -69,6 +69,7 @@ def plot_vencs(vencs, labels, modelname, showinteractive):
 
     # Print encodings if not too many
     if len(vencs) < 20:
+        print_info("Vencs and their corresponding digits:")
         for i in range(len(vencs)):
             print(pinkred(i), np.around(vencs[i], 2), cyan(labels[i] if labels is not None else "None"))
 
