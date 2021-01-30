@@ -64,13 +64,6 @@ dotslash =                                './' if os.name == 'posix' else ''
 
 start_time = time.time()
 
-# IMPORTANT: TODO: Note for later resolution from official Python documentation
-# https://docs.python.org/2/library/subprocess.html#frequently-used-arguments:
-# Warning Executing shell commands that incorporate unsanitized input from an untrusted
-# source makes a program vulnerable to shell injection, a serious security flaw
-# which can result in arbitrary command execution. For this reason, the use of shell=True
-# is strongly discouraged in cases where the command string is constructed from external input
-
 ####################################################### ASR-related pipeline
 
 if not args.skip_dataprep:
