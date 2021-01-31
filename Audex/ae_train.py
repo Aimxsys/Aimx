@@ -88,7 +88,7 @@ if __name__ == "__main__":
     args = process_clargs()
 
     inputshape = (28, 28, 1)
-    ae = Autoencoder(
+    model = Autoencoder(
         input_shape  = inputshape,
         conv_filters = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
@@ -96,15 +96,15 @@ if __name__ == "__main__":
         conv_strides = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
         dim_latent   = args.dim_latent
     )
-    ae.summary()
-    ae.compile(args.learning_rate)
+    model.summary()
+    model.compile(args.learning_rate)
 
     start_time = time.time()
 
     (x_train, _), (_, _) = mnist.load_data() # traindata
     x_train,  _,   _, _ = normalize_traindata_pixels(x_train, _, _, _)
 
-    history = ae.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
+    history = model.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
@@ -119,6 +119,6 @@ if __name__ == "__main__":
     save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.dim_latent, args.savemodel)
 
     if (args.savemodel):
-        ae.save_model(trainid)
+        model.save_model(trainid)
 
     plot_history_ae(history, trainid, args.showplot) # loss as a function of epochs

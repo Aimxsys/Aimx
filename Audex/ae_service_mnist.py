@@ -152,7 +152,7 @@ def plot_genims(genims, modelname, showinteractive):
 if __name__ == "__main__":
     args, parser = process_clargs()
 
-    ae = Autoencoder.load_model(args.model_path)
+    model = Autoencoder.load_model(args.model_path)
 
     (_, _), (x_test, y_test) = mnist.load_data() # traindata
     _,  _,   x_test, y_test  = normalize_traindata_pixels(_, _, x_test, y_test)
@@ -170,7 +170,7 @@ if __name__ == "__main__":
         if args.mode_gen:
             labels = None # signify "unknown" (whatever the genim turns out to be)
 
-            vencs, genims = ae.gen_random(args.num_infers)
+            vencs, genims = model.gen_random(args.num_infers)
 
             plot_vencs(vencs, labels, extract_filename(args.model_path), args.showvencs)
             plot_genims(genims,       extract_filename(args.model_path), args.showgenims)
@@ -179,7 +179,7 @@ if __name__ == "__main__":
         elif args.mode_regen:
             sample_images, sample_labels = pick_from(x_test, y_test, args.num_infers, args.randomize)
  
-            vencs, genims = ae.regen(sample_images)
+            vencs, genims = model.regen(sample_images)
  
             plot_vencs(vencs,     sample_labels, extract_filename(args.model_path), args.showvencs)
             plot_regenims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
