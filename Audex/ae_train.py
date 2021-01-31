@@ -1,10 +1,11 @@
 #!/usr/bin/env python
   
 from tensorflow.keras.datasets import mnist
-from ae import Autoencoder
-
+from ae       import Autoencoder
 from pathlib  import Path
 from datetime import timedelta
+
+import librosa
 import time
 import argparse
 import numpy as np
@@ -22,6 +23,7 @@ import tensorflow.keras as keras
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_audex import *
+from asr_train import prepare_traindata
 
 def process_clargs():
     # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
@@ -75,21 +77,15 @@ def process_clargs():
 
     return args
 
-def normalize_traindata_pixels(x_train, y_train, x_test, y_test):
-
-    x_train = x_train.astype("float32") / 255
-    x_train = x_train.reshape(x_train.shape + (1,))
-    x_test  = x_test.astype("float32") / 255
-    x_test  = x_test.reshape(x_test.shape + (1,))
-
-    return x_train, y_train, x_test, y_test
-
 if __name__ == "__main__":
     args = process_clargs()
 
-    inputshape = (28, 28, 1)
+    # get train, validation, test splits
+    x_train, _, _, _, _, _ = prepare_traindata(args.ann_type, args.traindata_path, test_size = 0.25, valid_size = 0.2)
+    inputshape = (x_train.shape[1], x_train.shape[2], 1) # x_train.shape == (11, 44, 13, 1) for (signals, mfccvectors, mfccs, depth)
+
     model = Autoencoder(
-        input_shape  = inputshape,
+        input_shape  = inputshape,       # (44, 13, 1)
         conv_filters = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
         conv_kernels = (3, 3, 3, 3),
@@ -101,10 +97,12 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    (x_train, _), (_, _) = mnist.load_data() # traindata
-    x_train,  _,   _, _ = normalize_traindata_pixels(x_train, _, _, _)
+    deprint(x_train.shape, "x_train.shape")
+    x_train = librosa.util.normalize(x_train)
+    x_train = x_train.reshape(x_train.shape + (1,))
+    deprint(x_train.shape, "x_train.shape - goes into ae train()")
 
-    history = model.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
+    history = model.train(x_train, args.batch_size, args.epochs)
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
@@ -113,7 +111,7 @@ if __name__ == "__main__":
                                                                     lightyellow(timestamp),
                                                                     lightyellow(training_duration)))
 
-    trainid = args.ann_type + "_x" + str(args.dim_latent) + "_e" + str(args.epochs) + "_" + str(args.mnist_size) + "d_" + "mnist"
+    trainid = args.ann_type + "_x" + str(args.dim_latent) + "_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
     save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.dim_latent, args.savemodel)
