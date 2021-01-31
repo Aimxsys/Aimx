@@ -80,6 +80,9 @@ class Autoencoder:
         # Save assets
         ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
         Path(ASSETS_FULLPATH).mkdir(parents=True, exist_ok=True) # create model assets directory (similar to TF2.x default's)
+        print_info("|||||| Copying file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
+        copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
+        print_info("[DONE]")
         print_info("|||||| Copying file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
         copy2(Aimx.Training.RESULT_METADATA_FULLPATH, ASSETS_FULLPATH)
         print_info("[DONE]")
