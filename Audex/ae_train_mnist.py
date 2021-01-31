@@ -35,10 +35,11 @@ def process_clargs():
     parser.add_argument("-verbose",       default =  1,     type=int,   help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                                ' or 2 (one line per epoch). Default is 1.')
 
-    parser.add_argument("-dim_latent", default = 10, type=int, help = 'Dimension of the latent space.')
-    parser.add_argument("-showplot",   action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
-    parser.add_argument("-savemodel",  action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
-    parser.add_argument("-example",    action ='store_true',   help = 'Show a working example on how to call the script.')
+    parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
+    parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
+    parser.add_argument("-savemodel",   action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
+    parser.add_argument("-noquestions", action ='store_true',   help = 'Don\'t ask any questions.')
+    parser.add_argument("-example",     action ='store_true',   help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
 
@@ -48,10 +49,11 @@ def process_clargs():
         print_info(nameofthis(__file__) + " -epochs 5")
         exit()
 
-    if not args.savemodel and args.mnist_size * args.epochs > 10_000:
-        args.savemodel = prompt_user_warning("Attempting a likely long training session without '-savemodel',"
-                                             " would you rather save the final model? [yes / no] ")
-        print_info("As requested, proceeding with -savemodel =", args.savemodel)
+    if not args.noquestions:
+        if not args.savemodel and args.mnist_size * args.epochs > 10_000:
+            args.savemodel = prompt_user_warning("Attempting a likely long training session without '-savemodel',"
+                                                 " would you rather save the final model? [yes / no] ")
+            print_info("As requested, proceeding with -savemodel =", args.savemodel)
     
     ###########################################################################################
     
