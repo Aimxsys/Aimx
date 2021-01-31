@@ -167,8 +167,9 @@ def deprint(s, *args, **kwargs):
     print(pinkred(s), *args, **kwargs)
 
 # print-function for debugging, columnizes
-def decolprint(x, xname):
-    deprint("{:<15}".format("{}".format(x)), xname)
+def decolprint(x, xname, n=15):
+    left_align = "{:<" + str(n) + "}"
+    deprint(left_align.format("{}".format(x)), xname)
 
 ################################ PROTOTYPE / UNTESTED / NON-PRODUCTION FUNCTIONS BELOW THIS LINE
 ################################ May likely be useful in the future.
