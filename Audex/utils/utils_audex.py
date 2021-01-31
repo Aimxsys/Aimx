@@ -201,10 +201,12 @@ def save_model(model, trainid):
       or convert them to run on mobile devices using TensorFlow Lite.
     This method uses the TensorFlow SavedModel format which is the default file format in TF2.x as quoted above.
     """
+    # Save the model
     MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
     model.save(MODEL_FULLPATH)
     print_info("[DONE (model saved)]", quote_path(MODEL_FULLPATH)) # double mention since TF's warnings interfere
+    # Save assets
     print_info("|||||| Copying file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
     copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
     print_info("[DONE]")
