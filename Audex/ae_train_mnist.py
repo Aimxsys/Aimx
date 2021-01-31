@@ -24,12 +24,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from Audex.utils.utils_audex import *
 
 def process_clargs():
-    # Calling with "-traindata_path /to/file" will expect to find the file in ./to directory.
     parser = argparse.ArgumentParser(description = '[TODO: Script description].')
-
-    parser.add_argument("-traindata_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path,
-                        help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
-                               ', which by design is the output of the previous step of dataset preprocessing.')
 
     parser.add_argument("-ann_type",      default = "aen",  type=str,   help = 'ANN type. Default is aen (autoencoder network).')
     parser.add_argument("-batch_size",    default = 32,     type=int,   help = 'Batch size.')
@@ -53,21 +48,10 @@ def process_clargs():
         print_info(nameofthis(__file__) + " -epochs 5")
         exit()
 
-    if provided(args.traindata_path) and not args.traindata_path.exists():
-        if str(args.traindata_path) is not Aimx.MOST_RECENT_OUTPUT:
-            raise FileNotFoundError("Directory " + quote(pinkred(os.getcwd())) + " does not contain requested path " + quote(pinkred(args.traindata_path)))
-
-    # path to the traindata file that stores MFCCs and genre labels for each processed segment
-    args.traindata_path = get_actual_traindata_path(args.traindata_path)
-
-    if not args.savemodel:
-       if os.path.getsize(args.traindata_path) > 50_000_000: # > 50 Mb
-            args.savemodel = prompt_user_warning("Attempting to train on a large >50Mb traindata without '-savemodel',"
-                                                 " would you rather save the final model? [yes / no] ")
-       if args.mnist_size * args.epochs > 10_000:
-            args.savemodel = prompt_user_warning("Attempting a likely long training session without '-savemodel',"
-                                                 " would you rather save the final model? [yes / no] ")
-       print_info("As requested, proceeding with -savemodel =", args.savemodel)
+    if not args.savemodel and args.mnist_size * args.epochs > 10_000:
+        args.savemodel = prompt_user_warning("Attempting a likely long training session without '-savemodel',"
+                                             " would you rather save the final model? [yes / no] ")
+        print_info("As requested, proceeding with -savemodel =", args.savemodel)
     
     ###########################################################################################
     
