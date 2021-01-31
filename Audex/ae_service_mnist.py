@@ -7,8 +7,8 @@ import argparse
 import sys
 import os
 
-from ae       import Autoencoder
-from ae_train import normalize_traindata_pixels
+from ae             import Autoencoder
+from ae_train_mnist import normalize_traindata_pixels
 
 # Add this directory to path so that package is recognized.
 # Looks like a hack, but is ok for now to allow moving forward.

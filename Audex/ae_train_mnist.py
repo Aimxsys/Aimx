@@ -76,12 +76,13 @@ def process_clargs():
     return args
 
 def normalize_traindata_pixels(x_train, y_train, x_test, y_test):
-
     x_train = x_train.astype("float32") / 255
-    x_train = x_train.reshape(x_train.shape + (1,))
-    x_test  = x_test.astype("float32") / 255
-    x_test  = x_test.reshape(x_test.shape + (1,))
+    x_test  =  x_test.astype("float32") / 255
+    return x_train, y_train, x_test, y_test
 
+def reshape_traindata(x_train, y_train, x_test, y_test):
+    x_train = x_train.reshape(x_train.shape + (1,))
+    x_test  =  x_test.reshape(x_test.shape  + (1,))
     return x_train, y_train, x_test, y_test
 
 if __name__ == "__main__":
@@ -101,8 +102,9 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    (x_train, _), (_, _) = mnist.load_data() # traindata                 x_train.shape == (60000, 28, 28)
-    x_train,  _,   _, _ = normalize_traindata_pixels(x_train, _, _, _) # x_train.shape == (60000, 28, 28, 1)
+    (x_train, _), (_, _) = mnist.load_data() # traindata                x_train.shape == (60000, 28, 28)
+    x_train,  _,   _, _  = normalize_traindata_pixels(x_train, _, _, _)
+    x_train,  _,   _, _  = reshape_traindata(x_train, _, _, _) #        x_train.shape == (60000, 28, 28, 1)
 
     history = model.train(x_train[:args.mnist_size], args.batch_size, args.epochs)
 
