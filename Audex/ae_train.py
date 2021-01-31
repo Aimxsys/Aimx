@@ -97,10 +97,10 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    deprint(x_train.shape, "x_train.shape")
+    decolprint(x_train.shape, "x_train.shape", 17)
     x_train = librosa.util.normalize(x_train)
     x_train = x_train.reshape(x_train.shape + (1,))
-    deprint(x_train.shape, "x_train.shape - goes into ae train()")
+    decolprint(x_train.shape, "x_train.shape - goes into ae train()")
 
     history = model.train(x_train, args.batch_size, args.epochs)
 
