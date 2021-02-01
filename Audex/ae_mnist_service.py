@@ -163,10 +163,8 @@ if __name__ == "__main__":
     # x_test.shape == (10000, 28, 28, 1)
     # y_test.shape == (10000,)
 
-    repeat = args.repeat
-
-    while repeat > 0:
-        repeat -= 1
+    while args.repeat > 0:
+        args.repeat -= 1
 
         # Generate images from latent space vencs             <| 
         if args.mode_gen:
