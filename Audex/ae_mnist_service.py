@@ -31,8 +31,8 @@ def process_clargs():
     parser.add_argument("-num_infers",  default = 10,                   type = int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-randomize",  action ='store_true',                         help = 'Randomize picking from the dataset.')
     parser.add_argument("-showvencs",  action ='store_true',                         help = 'At the end, will show vencs in an interactive window.')
-    parser.add_argument("-showgenims", action ='store_true',                         help = 'At the end, will show genims in an interactive window.')
-    parser.add_argument("-mode_gen",   action ='store_true',                         help = 'This mode will generate a genim from latent space.')
+    parser.add_argument("-showgenums", action ='store_true',                         help = 'At the end, will show genums in an interactive window.')
+    parser.add_argument("-mode_gen",   action ='store_true',                         help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen", action ='store_true',                         help = 'This mode will regenerate an image.')
 
     parser.add_argument("-example",    action ='store_true',                         help = 'Show a working example on how to call the script.')
@@ -95,12 +95,12 @@ def plot_vencs(vencs, labels, modelname, showinteractive):
     else:
         pt.close()
 
-def plot_regenims(genims, origimages, modelname, showinteractive):
+def plot_regenums(genums, origimages, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
     num_images = len(origimages)
-    if num_images > 100: return # too many genims, takes long to plot and indistinguishable to human eye
-    for i, (origimage, genim) in enumerate(zip(origimages, genims)):
+    if num_images > 100: return # too many genums, takes long to plot and indistinguishable to human eye
+    for i, (origimage, genum) in enumerate(zip(origimages, genums)):
         
         # Original image
         origimage = origimage.squeeze()
@@ -108,17 +108,17 @@ def plot_regenims(genims, origimages, modelname, showinteractive):
         ax.axis("off")
         ax.imshow(origimage, cmap="gray_r")
 
-        # Genim
-        genim = genim.squeeze() # (28, 28, 1) ===> (28, 28)
+        # Genum
+        genum = genum.squeeze() # (28, 28, 1) ===> (28, 28)
         ax = fig.add_subplot(2, num_images, i + num_images + 1)
         ax.axis("off")
-        ax.imshow(genim, cmap="gray_r")
+        ax.imshow(genum, cmap="gray_r")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_PLOTS_GENIMS).mkdir(parents=True, exist_ok=True)
-    GENIM_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENIMS, modelname + ".png")
-    print_info("|||||| Saving file", quote_path(GENIM_FULLPATH), "... ", end="")
-    pt.savefig(GENIM_FULLPATH)
+    Path(Aimx.Paths.GEN_PLOTS_GENUM).mkdir(parents=True, exist_ok=True)
+    GENUM_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENUM, modelname + ".png")
+    print_info("|||||| Saving file", quote_path(GENUM_FULLPATH), "... ", end="")
+    pt.savefig(GENUM_FULLPATH)
     print_info("[DONE]")
 
     if showinteractive:
@@ -126,23 +126,23 @@ def plot_regenims(genims, origimages, modelname, showinteractive):
     else:
         pt.close()
 
-def plot_genims(genims, modelname, showinteractive):
+def plot_genums(genums, modelname, showinteractive):
     fig = pt.figure(figsize=(15, 3))
 
-    num_genims = len(genims)
-    if num_genims > 100: return # too many genims, takes long to plot and indistinguishable to human eye
-    for i, genim in enumerate(genims):
+    num_genums = len(genums)
+    if num_genums > 100: return # too many genums, takes long to plot and indistinguishable to human eye
+    for i, genum in enumerate(genums):
         
-        genim = genim.squeeze()
-        ax = fig.add_subplot(2, num_genims, i + num_genims + 1)
+        genum = genum.squeeze()
+        ax = fig.add_subplot(2, num_genums, i + num_genums + 1)
         ax.axis("off")
-        ax.imshow(genim, cmap="gray_r")
+        ax.imshow(genum, cmap="gray_r")
 
     # save the plot as most recent (often useful when comparing to a next NN run)
-    Path(Aimx.Paths.GEN_PLOTS_GENIMS).mkdir(parents=True, exist_ok=True)
-    GENIM_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENIMS, modelname + ".png")
-    print_info("|||||| Saving file ", quote_path(GENIM_FULLPATH), "... ", end="")
-    pt.savefig(GENIM_FULLPATH)
+    Path(Aimx.Paths.GEN_PLOTS_GENUM).mkdir(parents=True, exist_ok=True)
+    GENUM_FULLPATH = os.path.join(Aimx.Paths.GEN_PLOTS_GENUM, modelname + ".png")
+    print_info("|||||| Saving file ", quote_path(GENUM_FULLPATH), "... ", end="")
+    pt.savefig(GENUM_FULLPATH)
     print_info("[DONE]")
 
     if showinteractive:
@@ -170,18 +170,18 @@ if __name__ == "__main__":
 
         # Generate images from latent space vencs             <| 
         if args.mode_gen:
-            labels = None # signify "unknown" (whatever the genim turns out to be)
+            labels = None # signify "unknown" (whatever the genum turns out to be)
 
-            vencs, genims = model.gen_random(args.num_infers)
+            vencs, genums = model.gen_random(args.num_infers)
 
             plot_vencs(vencs, labels, extract_filename(args.model_path), args.showvencs)
-            plot_genims(genims,       extract_filename(args.model_path), args.showgenims)
+            plot_genums(genums,       extract_filename(args.model_path), args.showgenums)
 
         # Regenerate images from selected dataset samples   |><|
         elif args.mode_regen:
             sample_images, sample_labels = pick_from(x_test, y_test, args.num_infers, args.randomize)
  
-            vencs, genims = model.regen(sample_images)
+            vencs, genums = model.regen(sample_images)
  
             plot_vencs(vencs,     sample_labels, extract_filename(args.model_path), args.showvencs)
-            plot_regenims(genims, sample_images, extract_filename(args.model_path), args.showgenims)
+            plot_regenums(genums, sample_images, extract_filename(args.model_path), args.showgenums)

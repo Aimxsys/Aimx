@@ -92,13 +92,13 @@ class Autoencoder:
 
     def regen(self, images):
         vencs  = self.model_enc.predict(images) # encode into latent space
-        genims = self.model_dec.predict(vencs)  # decode from latent space into genim
-        return vencs, genims
+        genums = self.model_dec.predict(vencs)  # decode from latent space into genum
+        return vencs, genums
 
     def gen_random(self, n):
         vencs  = np.random.rand(n, self.dim_latent)  # n 1d arrays of size dim_latent
-        genims = self.model_dec.predict(vencs)
-        return vencs, genims
+        genums = self.model_dec.predict(vencs)
+        return vencs, genums
 
     @classmethod
     def load_model(cls, model_path):
