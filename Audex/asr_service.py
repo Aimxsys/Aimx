@@ -162,10 +162,10 @@ def CreateAsrService(model_path):
     # ensure an instance is created only on first call
     if  _AsrService._instance is None:
         _AsrService._instance = _AsrService()
+        _AsrService.modelType = extract_filename(model_path)[6:9] # from name: model_cnn_...
         try:
             print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
             _AsrService.model     = keras.models.load_model(model_path)
-            _AsrService.modelType = extract_filename(model_path)[6:9] # from name: model_cnn_...
             print_info("[DONE (model loaded)]", quote_path(model_path))
         except Exception as e:
             print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
