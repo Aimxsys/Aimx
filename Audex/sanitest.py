@@ -46,7 +46,7 @@ args = parser.parse_args()
 print_script_start_preamble(nameofthis(__file__), vars(args))
 
 ARG_TEST_PLOT_SOUND      = args.all or args.plot_sound
-ARG_TEST_ASR             = args.all
+ARG_TEST_ASR             = args.all or args.asr
 
 ARG_TEST_DATAPREP_ASR    = args.all or args.dataprep or args.dataprep_asr   or args.asr
 ARG_TEST_DATAPREP_GENRE  = args.all or args.dataprep or args.dataprep_genre or args.genre
