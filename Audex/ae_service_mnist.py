@@ -109,7 +109,7 @@ def plot_regenims(genims, origimages, modelname, showinteractive):
         ax.imshow(origimage, cmap="gray_r")
 
         # Genim
-        genim = genim.squeeze()
+        genim = genim.squeeze() # (28, 28, 1) ===> (28, 28)
         ax = fig.add_subplot(2, num_images, i + num_images + 1)
         ax.axis("off")
         ax.imshow(genim, cmap="gray_r")
