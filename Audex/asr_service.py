@@ -20,6 +20,8 @@ from Audex.utils.utils_audex  import get_dataprep_result_meta
 from Audex.utils.utils_audex  import get_training_result_meta
 from Audex.utils.utils_audex  import get_actual_model_path
 
+from ae import Autoencoder
+
 def process_clargs():
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
     parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with inference on audio files.')
@@ -165,7 +167,10 @@ def CreateAsrService(model_path):
         _AsrService.modelType = extract_filename(model_path)[6:9] # from name: model_cnn_...
         try:
             print_info("|||||| Loading model " + quote_path(model_path) + "... ", end="")
-            _AsrService.model = keras.models.load_model(model_path)
+            if _AsrService.modelType == "aen": # autoencoder
+                _AsrService.model = Autoencoder.load_model(model_path)
+            else:
+                _AsrService.model = keras.models.load_model(model_path)
             print_info("[DONE (model loaded)]", quote_path(model_path))
         except Exception as e:
             print(pinkred("\nException caught while trying to load the model: " + quote_path(model_path)))
