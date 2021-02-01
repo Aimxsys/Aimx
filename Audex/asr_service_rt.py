@@ -41,19 +41,19 @@ class _AsrServiceRT:
         :return mfccs (ndarray): 2-d numpy array with MFCC data of shape (# time steps, # coefficients)
         """
         # extract mfccs (mfcc() does FFT under the hood)
-        features = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
-        #features = librosa.feature.melspectrogram(audio_signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
+        signums = librosa.feature.mfcc(audio_signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
+        #signums = librosa.feature.melspectrogram(audio_signal, sample_rate, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn':
             # convert the 2d MFCC array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
             # (# samples, # segments, # coefficients, # channels)
-            features = features[np.newaxis, ..., np.newaxis] # shape for CNN model
+            signums = signums[np.newaxis, ..., np.newaxis] # shape for CNN model
         elif self.modelType == 'rnn' or self.modelType == 'ann':
-            features = features[..., np.newaxis]             # shape for RNN model
+            signums = signums[..., np.newaxis]             # shape for RNN model
         else:
             raise Exception(pinkred("ASR received an unknown model type: " + quote(self.modelType)))
 
-        return features.T
+        return signums.T
 
     def predict(self, mfccs):
         # make a prediction and get the predicted label and confidence

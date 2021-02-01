@@ -120,19 +120,19 @@ class _AsrService:
         self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # (22050,) next undergo mfcc-ing
 
         # extract mfccs (mfcc() does FFT under the hood)
-        features = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
-        #features = librosa.feature.melspectrogram(self.af_signal, self.af_sr, n_fft=n_fft, hop_length=hop_length)
+        signums = librosa.feature.mfcc(self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
+        #signums = librosa.feature.melspectrogram(self.af_signal, self.af_sr, n_fft=n_fft, hop_length=hop_length)
         if self.modelType == 'cnn' or self.modelType == 'aen':
             # convert the 2d feature array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
             # (# samples, # segments, # coefficients, # channels)
-            features = features[np.newaxis, ..., np.newaxis] # shape for CNN model
+            signums = signums[np.newaxis, ..., np.newaxis] # shape for CNN model
         elif self.modelType == 'rnn' or self.modelType == 'ann':
-            features = features[..., np.newaxis]             # shape for RNN model
+            signums = signums[..., np.newaxis]             # shape for RNN model
         else:
             raise Exception(pinkred("ASR received an unknown model type: " + quote(self.modelType)))
 
-        return features.T
+        return signums.T
 
     def predict(self, mfccs):
         # make a prediction and get the predicted label and confidence
@@ -199,6 +199,6 @@ if __name__ == "__main__":
             print_info("skipped a short (< 1s) signal")
             continue
         for i in range(int(asr.af_loaded_duration)):
-            features = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
-            w, c     = asr.predict(features)
+            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+            w, c    = asr.predict(signums)
             asr.report(w, c, args.confidence_threshold)
