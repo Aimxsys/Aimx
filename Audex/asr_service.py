@@ -192,6 +192,7 @@ if __name__ == "__main__":
     START = args.inferdata_range[0]; # of the range in -inferdata_path on which to do inference
     END   = args.inferdata_range[1]; # of the range in -inferdata_path on which to do inference
 
+    # Process audio files starting from START until END
     for i, afname in enumerate(islice(afnames, START, END)):
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
