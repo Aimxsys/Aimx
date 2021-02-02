@@ -89,14 +89,6 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
        Aimx.TrainData.MFCC     : []
     }
 
-    print_info("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv dataprep()")
-    print_info("traindata_id   =", traindata_id)
-    print_info("n_mfcc         =", n_mfcc)
-    print_info("n_fft          =", n_fft)
-    print_info("hop_length     =", hop_length)
-    print_info("sample_rate    =", sample_rate)
-    print_info("load_duration  =", load_duration)
-
     label_id = 0
 
     # loop through all subfolders
