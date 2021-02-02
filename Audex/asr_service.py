@@ -97,7 +97,7 @@ class _AsrService:
         self.af_signal, self.af_sr = librosa.load(af_fullpath, duration=load_duration)
         self.af_loaded_duration    = librosa.get_duration(self.af_signal, self.af_sr)
 
-    # This dataprep is for ASR CNN inference
+    # This dataprep is for inference
     def numerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Extract mfccs from an audio file.
