@@ -198,7 +198,7 @@ if __name__ == "__main__":
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
             continue
-        for i in range(int(asr.af_loaded_duration)):
+        for i in range(int(asr.af_loaded_duration)): # numerize and infer on each second of the loaded file
             signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
             w, c    = asr.predict(signums)
             asr.report(w, c, args.confidence_threshold)
