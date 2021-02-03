@@ -184,26 +184,23 @@ if __name__ == "__main__":
     for i, afname in enumerate(islice(afnames, START, END)):
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
-        
-        # Play original sound
-        print_info(cyan("Playing shape {} original sound {}".format(asr.af_signal.shape, quote(afname))))
-        play(asr.af_signal, asr.af_sr)
 
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
-            continue
- 
+            continue 
+        
+        # Play original sound
+        play(asr.af_signal, asr.af_sr, "Playing original audio signal {} of shape {}".format(quote(cyan(afname)), asr.af_signal.shape))
+                
         # Numerize original sound for inference
         signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # (44, 16)
+
+        print_info("Numerization signums[0][0] (not playable, but only after being immediately restored):\n", pinkred(np.around(signums[0][0], 2).T))
 
         # Restore and play back immediately to compare with the original playback
         # by transforming numerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
         signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
-        print_info(cyan("Playing shape {} immediate restoration after numerization of the original sound...".format(signal_restored.shape)))
-        play(signal_restored, signal_restored.shape[0]) # signal_restored.shape == (22016,) # distorted intelligible restored sound
-        
-        print_info("Numerization signums[0][0]:")
-        deprint(np.around(signums[0][0], 2).T)
+        play(signal_restored, signal_restored.shape[0], "Playing immediately restored audio signal of shape {}".format(signal_restored.shape)) # signal_restored.shape == (22016,) # distorted intelligible restored sound
 
         # Normalize
         #signums = librosa.util.normalize(signums)
