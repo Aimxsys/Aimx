@@ -26,7 +26,7 @@ init() # colorama
 def play(signal, sr, message, waitforanykey=True):
     print_info(message + "\n", cyan(np.around(signal, 2).T))
     sd.play(signal, sr)
-    sd.wait()
+    sd.wait() # this wait is not necessary for hearing the sound if waitforanykey == False
     if waitforanykey:
         input(yellow("Continue?"))
 
