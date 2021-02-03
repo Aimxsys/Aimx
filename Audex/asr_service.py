@@ -120,16 +120,16 @@ class _AsrService:
         self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # (22050,) next undergo mfcc-ing
 
         # extract mfccs (mfcc() does FFT under the hood)
-        signums = librosa.feature.mfcc(           self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
+        signums = librosa.feature.mfcc(           self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (44, 13)
         #signums = librosa.feature.melspectrogram(self.af_signalsec, self.af_sr,                n_fft=n_fft, hop_length=hop_length)
 
         if self.modelType == 'cnn' or self.modelType == 'aen':
             # convert the 2d feature array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
             # (# samples, # segments, # coefficients, # channels)
-            signums = signums[np.newaxis, ..., np.newaxis] # shape for CNN model
+            signums = signums[np.newaxis, ..., np.newaxis] # shape for CNN model: # (1, 44, 13, 1)
         elif self.modelType == 'rnn' or self.modelType == 'ann':
-            signums = signums[..., np.newaxis]             # shape for RNN model
+            signums = signums[..., np.newaxis]             # shape for RNN model  #    (44, 13, 1)
         else:
             raise Exception(pinkred("ASR received an unknown model type: " + quote(self.modelType)))
 
