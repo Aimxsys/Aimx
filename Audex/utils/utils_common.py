@@ -6,6 +6,7 @@ from pathlib   import Path
 from pathlib   import PurePath
 from datetime  import datetime
 
+import numpy       as np
 import sounddevice as sd
 import pprint
 import json
@@ -22,8 +23,9 @@ init() # colorama
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
-def play(*args, waitforanykey=True, **kwargs):
-    sd.play(*args, **kwargs)
+def play(signal, sr, message, waitforanykey=True):
+    print_info(message + "\n", cyan(np.around(signal, 2).T))
+    sd.play(signal, sr)
     sd.wait()
     if waitforanykey:
         input(yellow("Continue?"))
