@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sounddevice as sd
 import librosa
 import numpy as np
 import matplotlib.pyplot as pt
@@ -183,6 +184,9 @@ if __name__ == "__main__":
     for i, afname in enumerate(islice(afnames, START, END)):
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
+        
+        sd.play(asr.af_signal, asr.af_sr)
+        
         print(cyan(afname))
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
@@ -206,3 +210,5 @@ if __name__ == "__main__":
             print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
             for j in range(len(vencs)):
                 print(cyan(i), np.around(vencs[j], 2))
+
+    sd.wait()
