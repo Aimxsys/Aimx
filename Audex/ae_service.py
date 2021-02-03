@@ -194,9 +194,12 @@ if __name__ == "__main__":
         for i in range(int(asr.af_loaded_duration)):
 
             signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # numerize for inference
+            
             print_info("Numerization for signums[0][0]:")
             deprint(np.around(signums[0][0], 2).T)
+
             signums = librosa.util.normalize(signums)
+
             print_info("Numerization for signums[0][0] normalized:")
             deprint(np.around(signums[0][0], 2).T)
             decolprint(signums.shape, "signums.shape")
