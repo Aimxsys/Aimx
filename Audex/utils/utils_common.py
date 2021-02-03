@@ -26,7 +26,7 @@ def play(*args, waitforanykey=True, **kwargs):
     sd.play(*args, **kwargs)
     sd.wait()
     if waitforanykey:
-        input(yellow("Press any key to continue..."))
+        input(yellow("Continue?"))
 
 def int_or_str(text):
     """Helper function for argument parsing."""
