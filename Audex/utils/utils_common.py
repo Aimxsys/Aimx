@@ -22,9 +22,11 @@ init() # colorama
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
-def play(*args, **kwargs):
+def play(*args, waitforanykey=True, **kwargs):
     sd.play(*args, **kwargs)
     sd.wait()
+    if waitforanykey:
+        input(yellow("Press any key to continue..."))
 
 def int_or_str(text):
     """Helper function for argument parsing."""
