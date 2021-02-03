@@ -5,6 +5,8 @@ from colorama  import init
 from pathlib   import Path
 from pathlib   import PurePath
 from datetime  import datetime
+
+import sounddevice as sd
 import pprint
 import json
 import glob
@@ -19,6 +21,10 @@ init() # colorama
 # Tested in VS by running a regexp search with the
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
+
+def play(*args, **kwargs):
+    sd.play(*args, **kwargs)
+    sd.wait()
 
 def int_or_str(text):
     """Helper function for argument parsing."""
