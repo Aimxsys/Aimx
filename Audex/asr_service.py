@@ -122,6 +122,7 @@ class _AsrService:
         # extract mfccs (mfcc() does FFT under the hood)
         signums = librosa.feature.mfcc(           self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (1, 44, 13, 1)
         #signums = librosa.feature.melspectrogram(self.af_signalsec, self.af_sr,                n_fft=n_fft, hop_length=hop_length)
+
         if self.modelType == 'cnn' or self.modelType == 'aen':
             # convert the 2d feature array into a 4d array to feed to the model for prediction:
             #            (# segments, # coefficients)
