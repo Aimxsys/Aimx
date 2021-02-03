@@ -185,34 +185,41 @@ if __name__ == "__main__":
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
         
-        sd.play(asr.af_signal, asr.af_sr)
-        
-        print(cyan(afname))
+        # Play original sound
+        print_info(cyan("Playing shape {} original sound {}".format(asr.af_signal.shape, quote(afname))))
+        play(asr.af_signal, asr.af_sr)
+
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
             continue
-        for i in range(int(asr.af_loaded_duration)):
+ 
+        # Numerize original sound for inference
+        signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # (44, 16)
 
-            # numerize for inference
-            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
-            
-            print_info("Numerization for signums[0][0]:")
-            deprint(np.around(signums[0][0], 2).T)
+        # Restore and play back immediately to compare with the original playback
+        # by transforming numerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
+        signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
+        print_info(cyan("Playing shape {} immediate restoration after numerization of the original sound...".format(signal_restored.shape)))
+        play(signal_restored, signal_restored.shape[0]) # signal_restored.shape == (22016,) # distorted intelligible restored sound
+        
+        print_info("Numerization signums[0][0]:")
+        deprint(np.around(signums[0][0], 2).T)
 
-            signums = librosa.util.normalize(signums)
+        # Normalize
+        #signums = librosa.util.normalize(signums)
+        #print_info("Numerization for signums[0][0] normalized:")
+        #deprint(np.around(signums[0][0], 2).T)
+        #decolprint(signums.shape, "signums.shape")
 
-            print_info("Numerization for signums[0][0] normalized:")
-            deprint(np.around(signums[0][0], 2).T)
-            decolprint(signums.shape, "signums.shape")
+        vencs, genums = asr.model.regen(signums)
 
-            vencs, genums = asr.model.regen(signums)
+        genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
+        #play(genum_restored, genum_restored.shape[0])
 
-            decolprint( vencs.shape,  "vencs.shape")
-            decolprint(genums.shape, "genums.shape")
-            print_info("Inference genums for signums[0][0]:")
-            deprint(np.around(genums[0][0], 2).T, "genums[0][0]")
-            print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
-            for j in range(len(vencs)):
-                print(cyan(i), np.around(vencs[j], 2))
+        decolprint( vencs.shape,  "vencs.shape")
+        decolprint(genums.shape, "genums.shape")
+        print_info("Inference genums for signum[0][0]:")
+        deprint(np.around(genums[0][0], 2).T, "genums[0][0]")
+        print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
 
-    sd.wait()
+        print(cyan(0), np.around(vencs[0], 2))
