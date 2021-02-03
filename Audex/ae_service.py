@@ -193,7 +193,8 @@ if __name__ == "__main__":
             continue
         for i in range(int(asr.af_loaded_duration)):
 
-            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # numerize for inference
+            # numerize for inference
+            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
             
             print_info("Numerization for signums[0][0]:")
             deprint(np.around(signums[0][0], 2).T)
