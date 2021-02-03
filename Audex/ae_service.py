@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import librosa
 import numpy as np
 import matplotlib.pyplot as pt
 import argparse
@@ -37,7 +38,7 @@ def process_clargs():
     parser.add_argument("-mode_gen",   action ='store_true',                         help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen", action ='store_true',                         help = 'This mode will regenerate an image.')
 
-    parser.add_argument("-n_mfcc",        type=int, default = 13,                    help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_mfcc",        type=int, default = 16,                    help = 'Number of MFCC to extract.')
     parser.add_argument("-n_fft",         type=int, default = 2048,                  help = 'Length of the FFT window.   Measured in # of samples.')
     parser.add_argument("-hop_length",    type=int, default = 512,                   help = 'Sliding window for the FFT. Measured in # of samples.')
     parser.add_argument("-sample_rate",   type=int, default = 22050,                 help = 'Sample rate at which to read the audio files.')
@@ -167,43 +168,8 @@ def plot_genums(genums, modelname, showinteractive):
 if __name__ == "__main__":
     args, parser = process_clargs()
 
-#####################################################################################################
-
-#    model = Autoencoder.load_model(args.model_path)
-#
-#    (_, _), (x_test, y_test) = mnist.load_data() # traindata                      x_train.shape == (60000, 28, 28)
-#    _,  _,   x_test, y_test  = reshape_traindata(         _, _, x_test, y_test) # x_train.shape == (60000, 28, 28, 1)
-#    _,  _,   x_test, y_test  = normalize_traindata_pixels(_, _, x_test, y_test)
-#
-#    # MNIST traindata values:
-#    # x_test.shape == (10000, 28, 28, 1)
-#    # y_test.shape == (10000,)
-#
-#    while args.repeat > 0:
-#        args.repeat -= 1
-#
-#        # Generate images from latent space vencs             <| 
-#        if args.mode_gen:
-#            labels = None # signify "unknown" (whatever the genum turns out to be)
-#
-#            vencs, genums = model.gen_random(args.num_infers)
-#
-#            plot_vencs(vencs, labels, extract_filename(args.model_path), args.showvencs)
-#            plot_genums(genums,       extract_filename(args.model_path), args.showgenums)
-#
-#        # Regenerate images from selected dataset samples   |><|
-#        elif args.mode_regen:
-#            sample_images, sample_labels = pick_from(x_test, y_test, args.num_infers, args.randomize)
-# 
-#            vencs, genums = model.regen(sample_images)
-# 
-#            plot_vencs(vencs,     sample_labels, extract_filename(args.model_path), args.showvencs)
-#            plot_regenums(genums, sample_images, extract_filename(args.model_path), args.showgenums)
-
-#####################################################################################################
-
     asr = CreateAsrService(args.model_path)
-    
+
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
     print_info("On files in:", args.inferdata_path)
     print_info(asr.inference_report_headers.format("Loaded Sec", "Con", "Filename", "Inference"))
@@ -213,15 +179,30 @@ if __name__ == "__main__":
     START = args.inferdata_range[0]; # of the range in -inferdata_path on which to do inference
     END   = args.inferdata_range[1]; # of the range in -inferdata_path on which to do inference
 
+    # Process audio files starting from START until END
     for i, afname in enumerate(islice(afnames, START, END)):
         af_fullpath = os.path.join(args.inferdata_path, afname)
         asr.load_audiofile(af_fullpath, args.load_duration)
+        print(cyan(afname))
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
             continue
         for i in range(int(asr.af_loaded_duration)):
-            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
-            deprint(signums.shape, yellow("signums.shape"))
-            deprint(signums[0][0], yellow("signums[0][0]"))
-            w, c = asr.predict(signums)
-            asr.report(w, c, 0.9)
+
+            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # numerize for inference
+            print_info("Numerization for signums[0][0]:")
+            deprint(np.around(signums[0][0], 2).T)
+            signums = librosa.util.normalize(signums)
+            print_info("Numerization for signums[0][0] normalized:")
+            deprint(np.around(signums[0][0], 2).T)
+            decolprint(signums.shape, "signums.shape")
+
+            vencs, genums = asr.model.regen(signums)
+
+            decolprint( vencs.shape,  "vencs.shape")
+            decolprint(genums.shape, "genums.shape")
+            print_info("Inference genums for signums[0][0]:")
+            deprint(np.around(genums[0][0], 2).T, "genums[0][0]")
+            print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
+            for j in range(len(vencs)):
+                print(cyan(i), np.around(vencs[j], 2))
