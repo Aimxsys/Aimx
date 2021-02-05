@@ -206,6 +206,7 @@ if __name__ == "__main__":
         #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
         signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         signal_restored = np.pad(signal_restored, pad_width=(0, len(asr.af_signal) - len(signal_restored)))
+        print_info("Euclidean distance between original and immediately restored (& zero end-padded) signals:", np.linalg.norm(asr.af_signal - signal_restored))
         play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
              "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)))
 
