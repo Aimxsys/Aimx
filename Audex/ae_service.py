@@ -199,8 +199,8 @@ if __name__ == "__main__":
 
         # Restore and play back immediately to compare with the original playback
         # by transforming numerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
-        signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
-        #signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
+        #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
+        signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         play(signal_restored, signal_restored.shape[0], "Playing immediately restored audio signal of shape {}".format(signal_restored.shape)) # signal_restored.shape == (22016,) # distorted intelligible restored sound
 
         # Normalize
