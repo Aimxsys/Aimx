@@ -191,17 +191,17 @@ if __name__ == "__main__":
         
         # Play original sound
         play(asr.af_signal, asr.af_sr, "Playing original audio signal {} of shape {} and numerical content:".format(quote(cyan(afname)), asr.af_signal.shape))
-                
-        # Numerize original sound for inference
-        signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # (44, 16)
-
-        print_info("Numerization signums[0][0] (not playable, but only after being immediately restored):\n", pinkred(np.around(signums[0][0], 2).T))
 
         # Restore and play back immediately to compare with the original playback
         # by transforming numerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
         #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
         signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         play(signal_restored, signal_restored.shape[0], "Playing immediately restored audio signal of shape {}  and numerical content:".format(signal_restored.shape)) # signal_restored.shape == (22016,) # distorted intelligible restored sound
+                
+        # Numerize original sound for inference
+        signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # (44, 16)
+
+        print_info("Numerization signums[0][0] (not playable, but only after being immediately restored):\n", pinkred(np.around(signums[0][0], 2).T))
 
         # Normalize
         #signums = librosa.util.normalize(signums)
