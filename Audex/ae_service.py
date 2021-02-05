@@ -192,8 +192,10 @@ if __name__ == "__main__":
         # Play original sound
         play(asr.af_signal, asr.af_sr, "Playing original audio signal {} of shape {} and numerical content:".format(quote(cyan(afname)), cyan(asr.af_signal.shape)))
                 
-        # Numerize original sound for inference
-        signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length) # (44, 16)
+        # Numerize original sound for inference. signums.shape will be:
+        # (1, 44,  16, 1) if MFCC
+        # (1, 44, 128, 1) if Mel
+        signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
         print_info("Numerization signums[0][0] (not playable, but only after being immediately restored):\n", pinkred(np.around(signums[0][0], 2).T))
 
