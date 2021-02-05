@@ -23,12 +23,12 @@ init() # colorama
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
-def play(signal, sr, message, waitforanykey=True):
+def play(signal, sr, message, continuemessage="Continue?", waitforanykey=True):
     print_info(message + "\n", cyan(np.around(signal, 2).T))
     sd.play(signal, sr)
     sd.wait() # this wait is not necessary for hearing the sound if waitforanykey == False
     if waitforanykey:
-        input(yellow("Continue?"))
+        input(yellow(continuemessage))
 
 def int_or_str(text):
     """Helper function for argument parsing."""
