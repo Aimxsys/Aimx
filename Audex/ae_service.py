@@ -198,7 +198,7 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
-        print_info("Numerization signums[0][0] (not playable, but only after being immediately restored):\n", pinkred(np.around(signums[0][0], 2).T))
+        print_info("Numerization signums[0][0] being immediately restored for playback:\n", pinkred(np.around(signums[0][0], 2).T))
 
         # Restore and play back immediately to compare with the original playback
         # by transforming numerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
