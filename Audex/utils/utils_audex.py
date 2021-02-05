@@ -136,6 +136,9 @@ def save_training_result_meta_ae(history, trainid, timestamp, training_duration,
     meta = {
         Aimx.MOST_RECENT_OUTPUT:                  model_fullpath,
         Aimx.Training.INPUT_SHAPE:                str(inputshape),
+        Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS: get_dataprep_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS], # extract from dataprep metadata & forward to training metadata
+        Aimx.Dataprep.DATASET_VIEW:               get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW],               # extract from dataprep metadata & forward to training metadata
+        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH],        # extract from dataprep metadata & forward to training metadata
         Aimx.TIMESTAMP:                           timestamp,
         Aimx.DURATION:                            training_duration,
         Aimx.Training.LOSS:                       list(np.around(history.history["loss"], 2)),
