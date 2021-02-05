@@ -218,7 +218,8 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
-        genum = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
+        #genum = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
+        genum = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         play(genum, genum.shape[0], "Playing restored genum of shape " + str(genum.shape))
 
         decolprint( vencs.shape,  "vencs.shape")
