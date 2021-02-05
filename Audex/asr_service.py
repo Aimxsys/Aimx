@@ -31,6 +31,7 @@ def process_clargs():
     parser.add_argument("-inferdata_range", type=int, nargs='*', default=[0, 50],    help = 'Range in -inferdata_path on which to do inference.')
     parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
+    parser.add_argument("-signum_type",   type=str, default = "mel", help = 'Signal numerization type.')
     parser.add_argument("-n_mfcc",        type=int, default = 13,    help = 'Number of MFCC to extract.')
     parser.add_argument("-n_fft",         type=int, default = 2048,  help = 'Length of the FFT window.   Measured in # of samples.')
     parser.add_argument("-hop_length",    type=int, default = 512,   help = 'Sliding window for the FFT. Measured in # of samples.')
@@ -52,6 +53,7 @@ def process_clargs():
 
     args.model_path = get_actual_model_path(args.model_path)
 
+    args.signum_type   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["type"]          if not provided(args.signum_type)   else args.signum_type
     args.n_mfcc        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]        if not provided(args.n_mfcc)        else args.n_mfcc
     args.n_fft         = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]         if not provided(args.n_fft)         else args.n_fft
     args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else args.hop_length
@@ -98,7 +100,7 @@ class _AsrService:
         self.af_loaded_duration    = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for inference
-    def signumerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
+    def signumerize(self, signum_type="mel", startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Extract mfccs from an audio file.
         :param   startsec (int): second in the signal from which signumerization starts
@@ -119,9 +121,11 @@ class _AsrService:
         LENGTH_SEC = 1
         self.af_signalsec = self.af_signal[startsec*self.af_sr : (startsec + LENGTH_SEC)*self.af_sr] # (22050,) next undergo mfcc-ing
 
-        # extract mfccs (mfcc() does FFT under the hood)
-        #signums = librosa.feature.mfcc(           self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (44, 13)
-        signums = librosa.feature.melspectrogram(self.af_signalsec, self.af_sr,                n_fft=n_fft, hop_length=hop_length)
+        # signumerize into spectrograms (FFT is done under the hood of melspectrogram() and mfcc())
+        if signum_type == "mel":
+            signums = librosa.feature.melspectrogram(self.af_signalsec, self.af_sr,                n_fft=n_fft, hop_length=hop_length)
+        else: # MFCC
+            signums = librosa.feature.mfcc(          self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (44, 13)
 
         if self.modelType == 'cnn' or self.modelType == 'aen':
             # convert the 2d feature array into a 4d array to feed to the model for prediction:
@@ -201,6 +205,6 @@ if __name__ == "__main__":
             print_info("skipped a short (< 1s) signal")
             continue
         for i in range(int(asr.af_loaded_duration)): # signumerize and infer on each second of the loaded file
-            signums = asr.signumerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+            signums = asr.signumerize(signum_type=args.signum_type, startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
             w, c    = asr.predict(signums)
             asr.report(w, c, args.confidence_threshold)

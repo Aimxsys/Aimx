@@ -39,6 +39,7 @@ def process_clargs():
     parser.add_argument("-mode_gen",   action ='store_true',                         help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen", action ='store_true',                         help = 'This mode will regenerate an image.')
 
+    parser.add_argument("-signum_type",   type=str, default = "mel",                 help = 'Signal numerization type.')
     parser.add_argument("-n_mfcc",        type=int, default = 16,                    help = 'Number of MFCC to extract.')
     parser.add_argument("-n_fft",         type=int, default = 2048,                  help = 'Length of the FFT window.   Measured in # of samples.')
     parser.add_argument("-hop_length",    type=int, default = 512,                   help = 'Sliding window for the FFT. Measured in # of samples.')
@@ -60,6 +61,7 @@ def process_clargs():
 
     args.model_path = get_actual_model_path(args.model_path)
 
+    args.signum_type   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["type"]          if not provided(args.signum_type)   else args.signum_type
     args.n_mfcc        = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_mfcc"]        if not provided(args.n_mfcc)        else args.n_mfcc
     args.n_fft         = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["n_fft"]         if not provided(args.n_fft)         else args.n_fft
     args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else args.hop_length
@@ -197,7 +199,7 @@ if __name__ == "__main__":
         # Numerize original sound for inference. signums.shape will be:
         # (1, 44,  16, 1) if MFCC
         # (1, 44, 128, 1) if Mel
-        signums = asr.signumerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+        signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
         print_info("Numerization signums[0][0] being immediately restored for playback:\n", pinkred(np.around(signums[0][0], 2).T))
 

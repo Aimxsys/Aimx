@@ -43,6 +43,7 @@ parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
 parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
 parser.add_argument("-load_duration",  default =     1, type=int, help = 'Only load up to this much audio (in seconds).')
+parser.add_argument("-signum_type",    default = "mel", type=str, help = 'Signal numerization type.')
 parser.add_argument("-cutname",        action ='store_true',      help = 'Generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Print more detailed output messages.')
 parser.add_argument("-example",        action ='store_true',      help = 'Show a working example on how to call the script.')
@@ -130,9 +131,11 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
                 # ensure strict consistency of the length of the signal (exactly 1 second)
                 signal = signal[:args.sample_rate]
 
-                # extract MFCCs (mfcc() does FFT under the hood)
-                signums  = librosa.feature.mfcc(          signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
-                #signums = librosa.feature.melspectrogram(signal, sample_rate,                n_fft=n_fft, hop_length=hop_length)
+                # signumerize into spectrograms (FFT is done under the hood of melspectrogram() and mfcc())
+                if args.signum_type == "mel":
+                    signums = librosa.feature.melspectrogram(signal, sample_rate,                n_fft=n_fft, hop_length=hop_length)
+                else: # MFCC
+                    signums = librosa.feature.mfcc(          signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
                 # store data for analysed track
                 traindata[Aimx.TrainData.MFCC  ].append(signums.T.tolist())
@@ -148,12 +151,15 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
 if __name__ == "__main__":
 
     signal_numerization_params = {
+        "type"          : args.signum_type,
         "n_mfcc"        : args.n_mfcc,
         "n_fft"         : args.n_fft,
         "hop_length"    : args.hop_length,
         "sample_rate"   : args.sample_rate, 
         "load_duration" : args.load_duration
     }
+    # add-then-delete is hacky, but has easy implementation and keeps n_mfcc second above
+    if args.signum_type == "mel": del signal_numerization_params['n_mfcc']
     
     start_time = time.time()
 
