@@ -67,7 +67,7 @@ def predict():
     
     asr.load_audiofile(local_temp_af_path, load_duration=1)
     if len(asr.af_signal) >= asr.af_sr: # process only signals of at least 1 sec
-        mfccs = asr.numerize()
+        mfccs = asr.signumerize()
         w, c  = asr.predict(mfccs)
         asr.report(w, c)
                 

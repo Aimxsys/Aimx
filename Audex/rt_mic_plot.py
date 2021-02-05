@@ -111,13 +111,13 @@ def do_asr(audio_signal):
     dB = int(np.average(librosa.core.amplitude_to_db(audio_signal)))
     if dB > -71:
         audio_signal_squeezed = np.squeeze(audio_signal)
-        mfccs = asr.numerize(audio_signal_squeezed, args.sample_rate, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+        mfccs = asr.signumerize(audio_signal_squeezed, args.sample_rate, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
         w, c  = asr.predict(mfccs)
-        if previously_silence: # show numerization params as a reminder
+        if previously_silence: # show signumerization params as a reminder
             print('') # just so next text starts from a new line
             decolprint(audio_signal.shape,          "audio_signal")          # (114, 1) while (22050, 1) in the static working ASR
             decolprint(audio_signal_squeezed.shape, "audio_signal_squeezed") # (114,)   while (22050,) in the static working ASR
-            decolprint(mfccs.shape, "audio_signal_squeezed numerized into mfccs (transposed) with arg.sample_rate " + str(args.sample_rate)) # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
+            decolprint(mfccs.shape, "audio_signal_squeezed signumerized into mfccs (transposed) with arg.sample_rate " + str(args.sample_rate)) # (1,  1, 13, 1) with default args, working ASR has (1, 44, 13, 1)
             previously_silence = False
         asr.report(w, c, args.confidence_threshold, str(dB) + " dB")
     else: # silence

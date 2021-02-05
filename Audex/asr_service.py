@@ -77,7 +77,7 @@ class _AsrService:
     af_signalsec       = None # which second
     af_sr              = None 
     af_loaded_duration = None # seconds
-    af_currsec         = None # the second currently being processed (numerized)
+    af_currsec         = None # the second currently being processed (signumerized)
 
     _instance = None
 
@@ -98,10 +98,10 @@ class _AsrService:
         self.af_loaded_duration    = librosa.get_duration(self.af_signal, self.af_sr)
 
     # This dataprep is for inference
-    def numerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
+    def signumerize(self, startsec=0, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Extract mfccs from an audio file.
-        :param   startsec (int): second in the signal from which numerization starts
+        :param   startsec (int): second in the signal from which signumerization starts
         :param     n_mfcc (int): # of coefficients to extract
         :param      n_fft (int): Interval we consider to apply STFT. Measured in # of samples
         :param hop_length (int): Sliding window for STFT. Measured in # of samples
@@ -200,7 +200,7 @@ if __name__ == "__main__":
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
             continue
-        for i in range(int(asr.af_loaded_duration)): # numerize and infer on each second of the loaded file
-            signums = asr.numerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+        for i in range(int(asr.af_loaded_duration)): # signumerize and infer on each second of the loaded file
+            signums = asr.signumerize(startsec=i, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
             w, c    = asr.predict(signums)
             asr.report(w, c, args.confidence_threshold)

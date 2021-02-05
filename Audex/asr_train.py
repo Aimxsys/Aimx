@@ -81,7 +81,7 @@ def prepare_traindata(ann_type, traindata_path, test_size, valid_size):
         y_valid (ndarray): Target valid set
         y_test  (ndarray): Target test set
     """
-    x, y = load_traindata(traindata_path) # x = inputs, y = labels/target (numerized, for example in MFCCs)
+    x, y = load_traindata(traindata_path) # x = inputs, y = labels/target (signumerized, for example in MFCCs)
 
     # create train, validation and test split
     x_train, x_test,  y_train, y_test  = train_test_split(x,       y,       test_size = test_size)

@@ -192,18 +192,18 @@ if __name__ == "__main__":
         # Play original sound
         play(asr.af_signal, asr.af_sr,
              "Playing original audio signal {} of shape {} and numerical content:".format(quote(cyan(afname)), cyan(asr.af_signal.shape)),
-             "Continue on to numerize?")
+             "Continue on to signumerize?")
                 
         # Numerize original sound for inference. signums.shape will be:
         # (1, 44,  16, 1) if MFCC
         # (1, 44, 128, 1) if Mel
-        signums = asr.numerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
+        signums = asr.signumerize(n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
         print_info("Numerization signums[0][0] being immediately restored for playback:\n", pinkred(np.around(signums[0][0], 2).T))
 
         # Restore and play back immediately to compare with the original playback
         #                                    squeeze() transpose()  to_audio()
-        # by transforming numerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
+        # by transforming signumerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
         #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
         signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         signal_restored = np.pad(signal_restored, pad_width=(0, len(asr.af_signal) - len(signal_restored)))

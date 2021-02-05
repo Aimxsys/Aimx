@@ -32,7 +32,7 @@ class _AsrServiceRT:
     inference_report_columns = "{:<4}  {:<15} {:<5}"
 
     # This dataprep is for ASR CNN inference
-    def numerize(self, audio_signal, sample_rate, n_mfcc=13, n_fft=2048, hop_length=512):
+    def signumerize(self, audio_signal, sample_rate, n_mfcc=13, n_fft=2048, hop_length=512):
         """
         # Extract mfccs from an audio signal.
         :param     n_mfcc (int): # of coefficients to extract
