@@ -53,7 +53,8 @@ def process_clargs():
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
-        print_info(nameofthis(__file__) + "[TODO: REPLACE THIS WITH AN ACTUAL EXAMPLE]")
+        print_info(nameofthis(__file__) + "-inferdata_path ../workdir/infer/signal_down_backnoise_five_TRIMMED -inferdata_range 35 36")
+        print_info("The command above should say", "seven")
         exit()
 
     if provided(args.inferdata_path) and not args.inferdata_path.exists():
