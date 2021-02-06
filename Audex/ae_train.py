@@ -38,7 +38,6 @@ def process_clargs():
     parser.add_argument("-epochs",        default =  1,     type=int,   help = 'Number of epochs to train.')
     parser.add_argument("-learning_rate", default = 0.0005, type=float, help = 'Number of epochs to train.')
     parser.add_argument("-patience",      default = 10,     type=int,   help = 'Number of epochs with no improvement after which training will be stopped.')
-    parser.add_argument("-mnist_size",    default = 10,     type=int,   help = 'Number of images to train on from the MNIST dataset.')
     parser.add_argument("-verbose",       default =  1,     type=int,   help = 'Verbosity modes: 0 (silent), 1 (will show progress bar),'
                                                                                ' or 2 (one line per epoch). Default is 1.')
 
@@ -68,9 +67,7 @@ def process_clargs():
             if os.path.getsize(args.traindata_path) > 50_000_000: # > 50 Mb
                  args.savemodel = prompt_user_warning("Attempting to train on a large >50Mb traindata without '-savemodel',"
                                                       " would you rather save the final model? [yes / no] ")
-            if args.mnist_size * args.epochs > 10_000:
-                 args.savemodel = prompt_user_warning("Attempting a likely long training session without '-savemodel',"
-                                                      " would you rather save the final model? [yes / no] ")
+
             print_info("As requested, proceeding with -savemodel =", args.savemodel)
     
     ###########################################################################################
