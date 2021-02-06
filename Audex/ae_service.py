@@ -213,7 +213,8 @@ if __name__ == "__main__":
         print_info("\nEuclidean distance between original and immediately restored (& zero end-padded) signals /_\:",
                    np.linalg.norm(asr.af_signal - signal_restored), "\n") # for some reason, not identical from run to run
         play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
-             "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)))
+             "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
+             "Continue on to play genums?")
 
         # Normalize
         #signums = librosa.util.normalize(signums)
@@ -225,7 +226,7 @@ if __name__ == "__main__":
 
         #genum = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
-        play(genum, genum.shape[0], "Playing restored genum of shape " + str(genum.shape))
+        play(genum, genum.shape[0], "Playing restored genum of shape " + str(genum.shape), "Continue with final print info?")
 
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
