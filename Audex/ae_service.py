@@ -226,7 +226,12 @@ if __name__ == "__main__":
 
         #genum = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
-        play(genum, genum.shape[0], "Playing restored genum of shape " + str(genum.shape), "Continue with final print info?")
+        genum = np.pad(genum, pad_width=(0, len(asr.af_signal) - len(genum)))
+
+        print_info("\nEuclidean distance between original and genum (& zero end-padded) signals /_\:",
+                   np.linalg.norm(asr.af_signal - genum), "\n") # for some reason, not identical from run to run
+
+        play(genum, genum.shape[0], "Playing genum of shape " + cyan(genum.shape), "Continue with final print info?")
 
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
