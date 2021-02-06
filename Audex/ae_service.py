@@ -210,7 +210,7 @@ if __name__ == "__main__":
         #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
         signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         signal_restored = np.pad(signal_restored, pad_width=(0, len(asr.af_signal) - len(signal_restored)))
-        print_info("\nEuclidean distance between original and immediately restored (& zero end-padded) signals /_\:",
+        print_info("\nEuclidean distance between original and immediately restored (zero-padded) signals /_\:",
                    np.linalg.norm(asr.af_signal - signal_restored), "\n") # for some reason, not identical from run to run
         play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
              "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
@@ -228,7 +228,7 @@ if __name__ == "__main__":
         genum = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum = np.pad(genum, pad_width=(0, len(asr.af_signal) - len(genum)))
 
-        print_info("\nEuclidean distance between original and genum (& zero end-padded) signals /_\:",
+        print_info("\nEuclidean distance between original and genum (zero-padded) signals /_\:",
                    np.linalg.norm(asr.af_signal - genum), "\n") # for some reason, not identical from run to run
 
         play(genum, genum.shape[0], "Playing genum of shape " + cyan(genum.shape), "Continue with final print info?")
