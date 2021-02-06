@@ -88,7 +88,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
        Aimx.TrainData.MAPPING  : [],
        Aimx.TrainData.LABELS   : [],
        Aimx.TrainData.FILES    : [],
-       Aimx.TrainData.MFCC     : []
+       Aimx.TrainData.SIGNUMS  : []
     }
 
     label_id = 0
@@ -139,9 +139,9 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
                     signums = librosa.feature.mfcc(          signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
 
                 # store data for analysed track
-                traindata[Aimx.TrainData.MFCC  ].append(signums.T.tolist())
-                traindata[Aimx.TrainData.LABELS].append(label_id)
-                traindata[Aimx.TrainData.FILES ].append(af_path)
+                traindata[Aimx.TrainData.SIGNUMS].append(signums.T.tolist())
+                traindata[Aimx.TrainData.LABELS ].append(label_id)
+                traindata[Aimx.TrainData.FILES  ].append(af_path)
                 print_info("{}: {}".format(cyansky(af_path), label_id), verbose = args.verbose)
 
         label_id += 1

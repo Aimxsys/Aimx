@@ -87,7 +87,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
         Aimx.DURATION           : [],
         Aimx.TrainData.MAPPING  : [],
         Aimx.TrainData.LABELS   : [],
-        Aimx.TrainData.MFCC     : []
+        Aimx.TrainData.SIGNUMS  : []
     }
 
     samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
@@ -149,7 +149,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, num_segm
 
                 # store only mfcc feature with expected number of vectors
                 if len(signums) == exact_num_of_mfcc_vectors_per_segment:
-                    traindata[Aimx.TrainData.MFCC  ].append(signums.tolist())
+                    traindata[Aimx.TrainData.SIGNUMS].append(signums.tolist())
                     traindata[Aimx.TrainData.LABELS].append(label_id)
                     print_info("{}, si:{}".format(cyansky(af_path), si+1), verbose = args.verbose)
 
