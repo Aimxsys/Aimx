@@ -235,8 +235,6 @@ if __name__ == "__main__":
 
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
-        print_info("Inference genums for signum[0][0]:")
-        deprint(np.around(genums[0][0], 2).T, "genums[0][0]")
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
 
         print(cyan(0), np.around(vencs[0], 2))
