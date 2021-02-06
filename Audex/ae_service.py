@@ -214,13 +214,15 @@ if __name__ == "__main__":
                    np.linalg.norm(asr.af_signal - signal_restored), "\n") # for some reason, not identical from run to run
         play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
              "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
-             "Continue on to play genums?")
+             "Continue on to play genums?\n")
 
         # Normalize
         #signums = librosa.util.normalize(signums)
         #print_info("Numerization for signums[0][0] normalized:")
         #deprint(np.around(signums[0][0], 2).T)
         #decolprint(signums.shape, "signums.shape")
+
+        print_info("/\/\\" * 20, " SENDING signums INTO NN")
 
         vencs, genums = asr.model.regen(signums)
 
