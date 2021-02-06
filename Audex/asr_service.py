@@ -26,17 +26,17 @@ def process_clargs():
     # Calling with "-inferdata_path /to/file" will expect to find the file in ./to directory.
     parser = argparse.ArgumentParser(description = 'This utility script allows you to experiment with inference on audio files.')
 
-    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
-    parser.add_argument("-inferdata_path",  type = Path,                             help = 'Path to the audio files on which model inference is to be tested.')
-    parser.add_argument("-inferdata_range", type=int, nargs='*', default=[0, 50],    help = 'Range in -inferdata_path on which to do inference.')
-    parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
+    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path,         help = 'Path to the model to be loaded.')
+    parser.add_argument("-inferdata_path",                              type=Path,           help = 'Path to the audio files on which model inference is to be tested.')
+    parser.add_argument("-inferdata_range",      default = [0, 50],     type=int, nargs='*', help = 'Range in -inferdata_path on which to do inference.')
+    parser.add_argument("-confidence_threshold", default = 0.9,         type=float,          help = 'Highlight results if confidence is higher than this threshold.')
 
-    parser.add_argument("-signum_type",   type=str, default = "mel", help = 'Signal numerization type.')
-    parser.add_argument("-n_mfcc",        type=int, default = 13,    help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",         type=int, default = 2048,  help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length",    type=int, default = 512,   help = 'Sliding window for the FFT. Measured in # of samples.')
-    parser.add_argument("-sample_rate",   type=int, default = 22050, help = 'Sample rate at which to read the audio files.')
-    parser.add_argument("-load_duration", type=int, default = 1,     help = 'Only load up to this much audio (in seconds).')
+    parser.add_argument("-signum_type",          default = "mel",       type=str,            help = 'Signal numerization type.')
+    parser.add_argument("-n_mfcc",               default =    13,       type=int,            help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",                default =  2048,       type=int,            help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length",           default =   512,       type=int,            help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-sample_rate",          default = 22050,       type=int,            help = 'Sample rate at which to read the audio files.')
+    parser.add_argument("-load_duration",        default =     1,       type=int,            help = 'Only load up to this much audio (in seconds).')
 
     parser.add_argument("-example",       action ='store_true',      help = 'Show a working example on how to call the script.')
 

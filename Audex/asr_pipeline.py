@@ -32,15 +32,15 @@ parser.add_argument("-wenv", default = '../venv_aimx_win', type=str, help = 'Rel
 
 parser.add_argument("-ann_type",       default = "cnn", type=str, help = 'ANN type (CNN, RNN, etc).')
 parser.add_argument("-dataset_view",   nargs='*', default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
-parser.add_argument("-dataset_path",   type = Path,           help = 'Path to a dataset of sound files.')
-parser.add_argument("-dataset_depth",  default = 5, type=int, help = 'Number of files to consider from each category.')
-parser.add_argument("-epochs",         default = 5, type=int, help = 'Number of epochs to train.')
-parser.add_argument("-inferdata_path", type = Path,           help = 'Path to the audio files on which model inference is to be tested.')
-parser.add_argument("-example",        action ='store_true',  help = 'Show a working example on how to call the script.')
-
-parser.add_argument("-skip_dataprep",  action ='store_true',  help = 'Skip the dataprep stage.')
-parser.add_argument("-skip_training",  action ='store_true',  help = 'Skip the training stage.')
-parser.add_argument("-skip_inference", action ='store_true',  help = 'Skip the inference stage.')
+parser.add_argument("-dataset_path",                type = Path,  help = 'Path to a dataset of sound files.')
+parser.add_argument("-dataset_depth",  default = 5, type = int,   help = 'Number of files to consider from each category.')
+parser.add_argument("-epochs",         default = 5, type = int,   help = 'Number of epochs to train.')
+parser.add_argument("-inferdata_path",              type = Path,  help = 'Path to the audio files on which model inference is to be tested.')
+parser.add_argument("-example",        action ='store_true',      help = 'Show a working example on how to call the script.')
+                                                                  
+parser.add_argument("-skip_dataprep",  action ='store_true',      help = 'Skip the dataprep stage.')
+parser.add_argument("-skip_training",  action ='store_true',      help = 'Skip the training stage.')
+parser.add_argument("-skip_inference", action ='store_true',      help = 'Skip the inference stage.')
 
 args = parser.parse_args()
 

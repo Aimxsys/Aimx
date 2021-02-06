@@ -28,12 +28,12 @@ except AttributeError:
 
 parser = argparse.ArgumentParser(description=__doc__ + '\n\nSupported keys:' + usage_line, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-parser.add_argument('-list_devices',   action='store_true',                                      help='Show the list of audio devices and exits')
-parser.add_argument('-block_duration', type=float, metavar='DURATION',      default=50,          help='Block size (default %(default)s milliseconds)')
-parser.add_argument('-columns',        type=int,                            default=columns,     help='Width of spectrogram')
-parser.add_argument('-device',         type=int_or_str,                                          help='Input device (numeric ID or substring)')
-parser.add_argument('-gain',           type=float, default=120,                                  help='Initial gain factor (default %(default)s)')
-parser.add_argument('-range', type=float, nargs=2, metavar=('LOW', 'HIGH'), default=[100, 2000], help='Frequency range (default %(default)s Hz)')
+parser.add_argument('-list_devices',   action='store_true',                                               help='Show the list of audio devices and exits')
+parser.add_argument('-block_duration', default=50,          type=float, metavar='DURATION',               help='Block size (default %(default)s milliseconds)')
+parser.add_argument('-columns',        default=columns,     type=int,                                     help='Width of spectrogram')
+parser.add_argument('-device',                              type=int_or_str,                              help='Input device (numeric ID or substring)')
+parser.add_argument('-gain',           default=120,         type=float,                                   help='Initial gain factor (default %(default)s)')
+parser.add_argument('-range',          default=[100, 2000], type=float, nargs=2, metavar=('LOW', 'HIGH'), help='Frequency range (default %(default)s Hz)')
 
 args = parser.parse_args()
 

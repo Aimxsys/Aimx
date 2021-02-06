@@ -20,10 +20,10 @@ from Audex.utils.utils_common import print_info
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-parser.add_argument('-list_devices', action='store_true',             help='Show the list of audio devices and exits')
-parser.add_argument('-frequency', nargs='?', type=float, default=500, help='Frequency in Hz (default: %(default)s)')
-parser.add_argument('-device',               type=int_or_str,         help='Output device (numeric ID or substring)')
-parser.add_argument('-amplitude',            type=float, default=0.2, help='Amplitude (default: %(default)s)')
+parser.add_argument('-list_devices', action='store_true',                  help='Show the list of audio devices and exits')
+parser.add_argument('-frequency', nargs='?', default=500, type=float,      help='Frequency in Hz (default: %(default)s)')
+parser.add_argument('-device',                            type=int_or_str, help='Output device (numeric ID or substring)')
+parser.add_argument('-amplitude',            default=0.2, type=float,      help='Amplitude (default: %(default)s)')
 
 args = parser.parse_args()
 

@@ -34,23 +34,23 @@ def process_clargs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
 
     # ANN-related arguments
-    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type = Path, help = 'Path to the model to be loaded.')
-    parser.add_argument("-inferdata_path",       type = Path,                        help = 'Path to the audio files on which model inference is to be tested.')
-    parser.add_argument("-confidence_threshold", default = 0.9, type=float,          help = 'Highlight results if confidence is higher than this threshold.')
+    parser.add_argument("-model_path", default=Aimx.MOST_RECENT_OUTPUT, type=Path,  help = 'Path to the model to be loaded.')
+    parser.add_argument("-inferdata_path",                              type=Path,  help = 'Path to the audio files on which model inference is to be tested.')
+    parser.add_argument("-confidence_threshold", default = 0.9,         type=float, help = 'Highlight results if confidence is higher than this threshold.')
     
-    parser.add_argument("-n_mfcc",     type=int, default = 13,   help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",      type=int, default = 2048, help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length", type=int, default = 512,  help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-n_mfcc",     default =   13, type=int, help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",      default = 2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length", default =  512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
     
     # Original, mic-related arguments
-    parser.add_argument('-list_devices',    action='store_true',                                    help='Show the list of audio devices and exits')
-    parser.add_argument('-channels',        type=int,   default=[1], nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
-    parser.add_argument('-device',          type=int_or_str,                                        help='Input device (numeric ID or substring)')
-    parser.add_argument('-duration_window', type=float, default=200,            metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
-    parser.add_argument('-interval',        type=float, default=30,                                 help='Minimum time between plot updates (default: %(default)s ms)')
-    parser.add_argument('-blocksize',       type=int,                                               help='Block size (in samples)')
-    parser.add_argument('-sample_rate',     type=int,                                               help='Sampling rate of audio device')
-    parser.add_argument('-downsample',      type=int,   default=1,              metavar='N',        help='Display every Nth sample (default: %(default)s)')
+    parser.add_argument('-list_devices',    action='store_true',                                  help='Show the list of audio devices and exits')
+    parser.add_argument('-channels',        default=[1], type=int, nargs='*', metavar='CHANNEL',  help='Input channels to plot (default: the first)')
+    parser.add_argument('-device',                       type=int_or_str,                         help='Input device (numeric ID or substring)')
+    parser.add_argument('-duration_window', default=200, type=float,          metavar='DURATION', help='Visible time slot (default: %(default)s ms)')
+    parser.add_argument('-interval',        default= 30, type=float,                              help='Minimum time between plot updates (default: %(default)s ms)')
+    parser.add_argument('-blocksize',                    type=int,                                help='Block size (in samples)')
+    parser.add_argument('-sample_rate',                  type=int,                                help='Sampling rate of audio device')
+    parser.add_argument('-downsample',      default=1,   type=int,            metavar='N',        help='Display every Nth sample (default: %(default)s)')
     
     args = parser.parse_args()
     
