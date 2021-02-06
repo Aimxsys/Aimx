@@ -43,7 +43,6 @@ parser.add_argument("-hop_length",     default =   512, type=int, help = 'Slidin
 parser.add_argument("-num_segments",   default =     5, type=int, help = 'Number of segments we want to divide sample tracks into.')
 parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
 parser.add_argument("-load_duration",  default =    30, type=int, help = 'Only load up to this much audio (in seconds).')
-parser.add_argument("-cutname",        action ='store_true',      help = 'Generate a json name with no details (cut).')
 parser.add_argument("-verbose",        action ='store_true',      help = 'Print more detailed output messages.')
 parser.add_argument("-example",        action ='store_true',      help = 'Show a working example on how to call the script.')
 
