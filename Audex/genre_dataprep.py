@@ -191,7 +191,7 @@ if __name__ == "__main__":
 
     # save as most recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], timestamp, str(dataprep_duration), total_audios_length_sec,
-                              signal_numerization_params)
+                              signal_numerization_params, cmdline = nameofthis(__file__) + " " + " ".join(sys.argv[1:]))
 
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp),

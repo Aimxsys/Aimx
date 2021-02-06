@@ -38,7 +38,7 @@ parser = argparse.ArgumentParser(description = 'This utility script allows you t
 parser.add_argument("-dataset_view",   nargs='*',   default = DATASET_VIEW_DEFAULT, help = 'Specific directories (labels) to go through.')
 parser.add_argument("-dataset_path",   type = Path, default = DATASET_DIR_DEFAULT,  help = 'Path to a dataset of sound files.')
 parser.add_argument("-dataset_depth",  default =     5, type=int, help = 'Number of files to consider from each category.')
-parser.add_argument("-n_mfcc",         default =    13, type=int, help = 'Number of MFCC to extract.')
+parser.add_argument("-n_mfcc",         default =  None, type=int, help = 'Number of MFCC to extract. 13 is a good default.')
 parser.add_argument("-n_fft",          default =  2048, type=int, help = 'Length of the FFT window.   Measured in # of samples.')
 parser.add_argument("-hop_length",     default =   512, type=int, help = 'Sliding window for the FFT. Measured in # of samples.')
 parser.add_argument("-sample_rate",    default = 22050, type=int, help = 'Sample rate at which to read the audio files.')
@@ -64,6 +64,8 @@ if not provided(args.dataset_path) and not Path(DATASET_DIR_DEFAULT).exists():
 
 if Aimx.Dataprep.ALL_DIR_LABELS in args.dataset_view: # special value ok for now, may need to be rewritten in a better way
     args.dataset_view = get_all_dirnames_in(args.dataset_path)
+
+args.signum_type = "mfcc" if provided(args.n_mfcc) else "mel"
 
 ###########################################################################################
 
@@ -132,7 +134,7 @@ def dataprep(dataset_path, n_mfcc = 13, n_fft = 2048, hop_length = 512, sample_r
                 signal = signal[:args.sample_rate]
 
                 # signumerize into spectrograms (FFT is done under the hood of melspectrogram() and mfcc())
-                if args.signum_type == "mel":
+                if args.n_mfcc is None:
                     signums = librosa.feature.melspectrogram(signal, sample_rate,                n_fft=n_fft, hop_length=hop_length)
                 else: # MFCC
                     signums = librosa.feature.mfcc(          signal, sample_rate, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length)
@@ -159,7 +161,7 @@ if __name__ == "__main__":
         "load_duration" : args.load_duration
     }
     # add-then-delete is hacky, but has easy implementation and keeps n_mfcc second above
-    if args.signum_type == "mel": del signal_numerization_params['n_mfcc']
+    if args.n_mfcc is None: del signal_numerization_params['n_mfcc']
     
     start_time = time.time()
 
@@ -181,7 +183,7 @@ if __name__ == "__main__":
 
     # save as most recent data preprocess result metadata
     save_dataprep_result_meta(traindata_filename, traindata[Aimx.TrainData.MAPPING], timestamp, str(dataprep_duration), total_audios_length_sec,
-                              signal_numerization_params)
+                              signal_numerization_params, cmdline = nameofthis(__file__) + " " + " ".join(sys.argv[1:]))
     
     print_info("Finished {} at {} with wall clock time: {} ".format(cyansky(nameofthis(__file__)),
                                                                     lightyellow(timestamp),

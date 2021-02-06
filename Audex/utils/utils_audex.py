@@ -50,6 +50,7 @@ class Aimx:
     MOST_RECENT_OUTPUT  = "most_recent_output"
     TIMESTAMP           = "timestamp"
     DURATION            = "duration"
+    CMDLINE             = "cmdline"
     NOTES               = "notes"
 
 def to_genre_name(label_id):
@@ -96,11 +97,12 @@ def get_actual_model_path(arg):
         return get_training_result_meta()[Aimx.MOST_RECENT_OUTPUT]
     return arg # no special requests, return pristine
 
-def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration, total_audios_length_sec, signal_numerization_params):
+def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, dataprep_duration, total_audios_length_sec, signal_numerization_params, cmdline):
     meta = {
         Aimx.MOST_RECENT_OUTPUT:                  os.path.join(Aimx.Paths.GEN_TRAINDATA, traindata_filename),
         Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS: signal_numerization_params,
         Aimx.Dataprep.DATASET_VIEW:               dataset_view,
+        Aimx.CMDLINE:                             cmdline,
         Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        round(total_audios_length_sec),
         Aimx.TIMESTAMP:                           timestamp,
         Aimx.DURATION:                            dataprep_duration,
@@ -218,11 +220,11 @@ def save_model(model, trainid):
     print_info("[DONE]")
     
 def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, load_duration):
-    traindata_id =  str(len(dataset_view)) + "v_"
-    traindata_id += str(dataset_depth)     + "d_"
-    traindata_id += extract_filename(dataset_path) # the traindata file name
-    traindata_id += "_" + str(n_mfcc)        + "m" \
-                 +  "_" + str(n_fft)         + "w" \
+    traindata_id =  str(len(dataset_view))   + "v_" \
+                 +  str(dataset_depth)       + "d_" \
+                 +  extract_filename(dataset_path) # the traindata file name
+    traindata_id += "_" + str(n_mfcc)        + "m" if n_mfcc is not None else "" # not mfcc means mel
+    traindata_id += "_" + str(n_fft)         + "w" \
                  +  "_" + str(hop_length)    + "h" \
                  +  "_" + str(num_segments)  + "i" \
                  +  "_" + str(sample_rate)   + "r" \
