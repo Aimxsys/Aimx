@@ -227,14 +227,14 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
-        #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
-        genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
-        genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
-
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
+
+        #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
+        genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
+        genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
         print_info("\nEuclidean distance between original and genum (zero-padded) signals:",
                    np.linalg.norm(asr.af_signal - genum_restored), "\n") # for some reason, not identical from run to run
