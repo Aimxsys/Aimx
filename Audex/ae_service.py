@@ -205,8 +205,8 @@ if __name__ == "__main__":
         specshow_mel(signums.squeeze().T)
 
         # Restore and play back immediately to compare with the original playback
-        #                                    squeeze() transpose()  to_audio()
-        # by transforming signumerization: (1, 44, 16, 1) => (44, 16) => (16, 44) => (22016,)
+        #                                            squeeze()  transpose()   to_audio()
+        # by transforming mel-signumerization: (1, 44, 128, 1) => (44, 128) => (128, 44) => (22016,)
         #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
         signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         signal_restored = np.pad(signal_restored, pad_width=(0, len(asr.af_signal) - len(signal_restored)))
