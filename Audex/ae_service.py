@@ -176,7 +176,6 @@ if __name__ == "__main__":
 
     print_info("\nPredicting with dataset view (labels):", asr.label_mapping)
     print_info("On files in:", args.inferdata_path)
-    print_info(asr.inference_report_headers.format("Loaded Sec", "Con", "Filename", "Inference"))
 
     (_, _, afnames) = next(os.walk(args.inferdata_path))
     
