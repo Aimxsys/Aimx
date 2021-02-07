@@ -227,9 +227,9 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
-        #genum = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
-        genum = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
-        genum = np.pad(genum, pad_width=(0, len(asr.af_signal) - len(genum)))
+        #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
+        genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
+        genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
@@ -237,7 +237,7 @@ if __name__ == "__main__":
         print(cyan(afname), np.around(vencs[0], 2))
 
         print_info("\nEuclidean distance between original and genum (zero-padded) signals:",
-                   np.linalg.norm(asr.af_signal - genum), "\n") # for some reason, not identical from run to run
+                   np.linalg.norm(asr.af_signal - genum_restored), "\n") # for some reason, not identical from run to run
 
         input(yellow("Continue on to play genums?"))
-        play(genum, genum.shape[0], "Playing genum of shape " + cyan(genum.shape), waitforanykey=False)
+        play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
