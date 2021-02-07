@@ -222,7 +222,7 @@ if __name__ == "__main__":
         #deprint(np.around(signums[0][0], 2).T)
         #decolprint(signums.shape, "signums.shape")
 
-        print_info("/\/\\" * 20, " SENDING signums INTO NN")
+        print_info("/\/\\" * 20, " SENDING signums of shape {} INTO NN".format(signums.shape))
 
         vencs, genums = asr.model.regen(signums)
 
