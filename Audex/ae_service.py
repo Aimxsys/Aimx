@@ -208,6 +208,7 @@ if __name__ == "__main__":
         #                                            squeeze()  transpose()   to_audio()
         # by transforming mel-signumerization: (1, 44, 128, 1) => (44, 128) => (128, 44) => (22016,)
         #signal_restored = librosa.feature.inverse.mfcc_to_audio(signums.squeeze().T)
+        deprint(signums.shape, "<========== next restoring signums of shape")
         signal_restored = librosa.feature.inverse.mel_to_audio(signums.squeeze().T)
         signal_restored = np.pad(signal_restored, pad_width=(0, len(asr.af_signal) - len(signal_restored)))
         print_info("\nEuclidean distance between original and immediately restored (zero-padded) signals:",
