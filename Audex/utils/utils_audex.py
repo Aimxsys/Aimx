@@ -320,3 +320,4 @@ def specshow_mel(melspec, afname):
     librosa.display.specshow(log_mel_spectrogram, x_axis = "time", y_axis = "mel")
     pt.colorbar()
     pt.show()
+    pt.close()
