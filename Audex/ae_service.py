@@ -236,7 +236,7 @@ if __name__ == "__main__":
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
-        print_info("\nEuclidean distance between original and genum (zero-padded) signals:",
+        print_info("\nEuclidean distance between original and restored genum (zero-padded) signals:",
                    np.linalg.norm(asr.af_signal - genum_restored), "\n") # for some reason, not identical from run to run
 
         input(yellow("Continue on to play genums?"))
