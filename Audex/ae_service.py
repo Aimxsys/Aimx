@@ -201,7 +201,7 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
-        specshow_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+        #specshow_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
         #                                            squeeze()  transpose()   to_audio()
@@ -231,7 +231,7 @@ if __name__ == "__main__":
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
 
-        specshow_mel(genums.squeeze().T, quote(afname) + " genum") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+        #specshow_mel(genums.squeeze().T, quote(afname) + " genum") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
