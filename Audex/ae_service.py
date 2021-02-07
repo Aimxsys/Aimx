@@ -201,7 +201,7 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
-        print_info("Shape of signumerization immediately restored for playback:\n", pinkred(signums.shape))
+        print_info("Shape of signumerization immediately restored for playback:", pinkred(signums.shape))
         specshow_mel(signums.squeeze().T)
 
         # Restore and play back immediately to compare with the original playback
