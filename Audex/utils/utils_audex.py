@@ -3,6 +3,9 @@
 from pathlib import Path
 from shutil  import copy2
 
+import librosa
+import librosa.display
+
 import tensorflow as tf
 import numpy as np
 import time
@@ -308,3 +311,12 @@ def plot_history_ae(history, trainid, show_interactive):
 
     if show_interactive:
         pt.show()
+
+def specshow_mel(melspec):
+    print_info("Plotting melspec...")
+    log_mel_spectrogram = librosa.power_to_db(melspec)
+    pt.figure(figsize = (15, 10)).canvas.set_window_title("MEL Spectrogram")
+    pt.title("MEL Spec of " + str("[TODO:FILENAME]"))
+    librosa.display.specshow(log_mel_spectrogram, x_axis = "time", y_axis = "mel")
+    pt.colorbar()
+    pt.show()

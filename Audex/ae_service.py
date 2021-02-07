@@ -203,7 +203,7 @@ if __name__ == "__main__":
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
         print_info("Shape of signumerization immediately restored for playback:\n", pinkred(signums.shape))
-        print_info("Signumerization being immediately restored for playback:\n", pinkred(np.around(signums[0][0], 2).T))
+        specshow_mel(signums.squeeze().T)
 
         # Restore and play back immediately to compare with the original playback
         #                                    squeeze() transpose()  to_audio()
