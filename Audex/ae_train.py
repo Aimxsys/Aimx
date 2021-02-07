@@ -33,12 +33,12 @@ def process_clargs():
                         help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
                                ', which by design is the output of the previous step of dataset preprocessing.')
 
-    parser.add_argument("-ann_type",      default = "aen",  type=str,   help = 'ANN type. Default is aen (autoencoder network).')
-    parser.add_argument("-batch_size",    default = 32,     type=int,   help = 'Batch size.')
-    parser.add_argument("-epochs",        default =  1,     type=int,   help = 'Number of epochs to train.')
-    parser.add_argument("-learning_rate", default = 0.0005, type=float, help = 'Number of epochs to train.')
-    parser.add_argument("-patience",      default = 10,     type=int,   help = 'Number of epochs with no improvement after which training will be stopped.')
-    parser.add_argument("-verbose",       default =  1,     type=int,   help = 'Verbosity modes: 0 (silent), 1 (will show progress bar), or 2 (one line per epoch). Default is 1.')
+    parser.add_argument("-ann_type",      default = "aen",   type=str,   help = 'ANN type. Default is aen (autoencoder network).')
+    parser.add_argument("-batch_size",    default = 32,      type=int,   help = 'Batch size.')
+    parser.add_argument("-epochs",        default =  1,      type=int,   help = 'Number of epochs to train.')
+    parser.add_argument("-learning_rate", default =  0.0005, type=float, help = 'Number of epochs to train.')
+    parser.add_argument("-patience",      default = 10,      type=int,   help = 'Number of epochs with no improvement after which training will be stopped.')
+    parser.add_argument("-verbose",       default =  1,      type=int,   help = 'Verbosity modes: 0 (silent), 1 (will show progress bar), or 2 (one line per epoch). Default is 1.')
 
     parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
     parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
