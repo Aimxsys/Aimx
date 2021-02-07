@@ -63,6 +63,9 @@ ARG_TEST_TRAIN_GENRE_RNN = args.all or args.nns or args.rnn or args.genre
 interp   = [args.wenv + '/Scripts/python.exe'] if os.name == 'nt'    else []
 dotslash =                                './' if os.name == 'posix' else ''
 
+os.replace(Aimx.Dataprep.RESULT_METADATA_FULLPATH, Aimx.Dataprep.RESULT_METADATA_FULLPATH + ".stbkp")
+os.replace(Aimx.Training.RESULT_METADATA_FULLPATH, Aimx.Training.RESULT_METADATA_FULLPATH + ".stbkp")
+
 start_time = time.time()
 
 ####################################################### Sound plotting
@@ -119,3 +122,6 @@ print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ�
 print_info("Finished {} at {} with wall clock time (total): {} ".format(cyansky(nameofthis(__file__)),
                                                                 lightyellow(timestamp_now()),
                                                                 lightyellow(timedelta(seconds = round(time.time() - start_time)))))
+
+os.replace(Aimx.Dataprep.RESULT_METADATA_FULLPATH + ".stbkp", Aimx.Dataprep.RESULT_METADATA_FULLPATH)
+os.replace(Aimx.Training.RESULT_METADATA_FULLPATH + ".stbkp", Aimx.Training.RESULT_METADATA_FULLPATH)
