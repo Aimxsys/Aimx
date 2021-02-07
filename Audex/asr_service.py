@@ -123,7 +123,7 @@ class _AsrService:
 
         # signumerize into spectrograms (FFT is done under the hood of melspectrogram() and mfcc())
         if signum_type == "mel":
-            signums = librosa.feature.melspectrogram(self.af_signalsec, self.af_sr,                n_fft=n_fft, hop_length=hop_length)
+            signums = librosa.feature.melspectrogram(self.af_signalsec, self.af_sr,                n_fft=n_fft, hop_length=hop_length) # (44, 128)
         else: # MFCC
             signums = librosa.feature.mfcc(          self.af_signalsec, self.af_sr, n_mfcc=n_mfcc, n_fft=n_fft, hop_length=hop_length) # (44, 13)
 
