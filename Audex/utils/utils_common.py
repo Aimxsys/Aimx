@@ -68,6 +68,9 @@ def provided(cmd_arg):
 def quote(s):
     return '\'' + str(s) + '\''
 
+def dquote(s):
+    return '\"' + str(s) + '\"'
+
 def quote_path(path, frompoint='workdir'):
     s = str(path)
     return '\'' + cyansky(s[s.find(frompoint):]) + '\''
