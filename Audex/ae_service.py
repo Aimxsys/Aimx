@@ -31,6 +31,13 @@ def process_clargs():
     parser.add_argument("-inferdata_path",                              type=Path, help = 'Path to the audio files on which model inference is to be tested.')
     parser.add_argument("-inferdata_range", default=[0, 50], nargs='*', type=int,  help = 'Range in -inferdata_path on which to do inference.')
 
+    parser.add_argument("-signum_type",   default = "mel",              type=str,  help = 'Signal numerization type.')
+    parser.add_argument("-n_mfcc",        default = 16,                 type=int,  help = 'Number of MFCC to extract.')
+    parser.add_argument("-n_fft",         default = 2048,               type=int,  help = 'Length of the FFT window.   Measured in # of samples.')
+    parser.add_argument("-hop_length",    default = 512,                type=int,  help = 'Sliding window for the FFT. Measured in # of samples.')
+    parser.add_argument("-sample_rate",   default = 22050,              type=int,  help = 'Sample rate at which to read the audio files.')
+    parser.add_argument("-load_duration", default = 1,                  type=int,  help = 'Only load up to this much audio (in seconds).')
+
     parser.add_argument("-repeat",        default =  1,                 type=int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_infers",    default = 10,                 type=int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-randomize",     action ='store_true',                    help = 'Randomize picking from the dataset.')
@@ -38,13 +45,6 @@ def process_clargs():
     parser.add_argument("-showgenums",    action ='store_true',                    help = 'At the end, will show genums in an interactive window.')
     parser.add_argument("-mode_gen",      action ='store_true',                    help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action ='store_true',                    help = 'This mode will regenerate an image.')
-
-    parser.add_argument("-signum_type",   default = "mel",              type=str,  help = 'Signal numerization type.')
-    parser.add_argument("-n_mfcc",        default = 16,                 type=int,  help = 'Number of MFCC to extract.')
-    parser.add_argument("-n_fft",         default = 2048,               type=int,  help = 'Length of the FFT window.   Measured in # of samples.')
-    parser.add_argument("-hop_length",    default = 512,                type=int,  help = 'Sliding window for the FFT. Measured in # of samples.')
-    parser.add_argument("-sample_rate",   default = 22050,              type=int,  help = 'Sample rate at which to read the audio files.')
-    parser.add_argument("-load_duration", default = 1,                  type=int,  help = 'Only load up to this much audio (in seconds).')
 
     parser.add_argument("-example",       action ='store_true',                    help = 'Show a working example on how to call the script.')
 
