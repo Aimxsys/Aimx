@@ -14,6 +14,9 @@ import glob
 import sys
 import os
 
+def windows():
+    return os.name == 'nt'
+
 # On Windows, calling init() will filter ANSI escape sequences out of any text
 # On other platforms, calling init() has no effect
 init() # colorama
