@@ -18,6 +18,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import Aimx
+from Audex.utils.utils_audex  import WORKDIR
 
 parser = argparse.ArgumentParser(description = 'This utility script test scripts in the solution.')
 
@@ -122,6 +123,8 @@ print(magenta("ꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕꓕ�
 print_info("Finished {} at {} with wall clock time (total): {} ".format(cyansky(nameofthis(__file__)),
                                                                 lightyellow(timestamp_now()),
                                                                 lightyellow(timedelta(seconds = round(time.time() - start_time)))))
-
+# Restore prior setup and cleanup sanitest artifacts
 os.replace(Aimx.Dataprep.RESULT_METADATA_FULLPATH + ".stbkp", Aimx.Dataprep.RESULT_METADATA_FULLPATH)
 os.replace(Aimx.Training.RESULT_METADATA_FULLPATH + ".stbkp", Aimx.Training.RESULT_METADATA_FULLPATH)
+for f in Path(WORKDIR).glob("*_e{}_*_{}d_*".format(args.epochs, args.dataset_depth)):
+    os.remove(f)
