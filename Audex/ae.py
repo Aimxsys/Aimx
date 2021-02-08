@@ -81,11 +81,14 @@ class Autoencoder:
         print_info("[DONE]")
 
         # Save model quicksetup
-        MODEL_QUICKSETUP_FULLPATH = os.path.join(WORKDIR, trainid + ".bat")
+        MODEL_QUICKSETUP_FULLPATH = os.path.join(WORKDIR, trainid + (".bat" if windows() else ".sh"))
         with open(MODEL_QUICKSETUP_FULLPATH, "w") as f:
             print_info("|||||| Writing file", quote_path(MODEL_QUICKSETUP_FULLPATH), "... ", end="")
             MODEL_METAS_FULLPATH = os.path.join(MODEL_ASSETS_FULLPATH, "*.json")
-            content = "xcopy " + dquote(MODEL_METAS_FULLPATH) + "^\n\t  " + dquote(WORKDIR) + "^\n\t" + "/K /H /Y"
+            if windows():
+                content = "xcopy " + dquote(MODEL_METAS_FULLPATH) + "^\n\t  " + dquote(WORKDIR) + "^\n\t" + "/K /H /Y"
+            else: # Linux
+                content = "cp " + MODEL_METAS_FULLPATH + " \\\n   " + WORKDIR
             f.write(content)
             print_info("[DONE]")
         
