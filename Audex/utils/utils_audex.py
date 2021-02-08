@@ -210,19 +210,34 @@ def save_model(model, trainid):
       or convert them to run on mobile devices using TensorFlow Lite.
     This method uses the TensorFlow SavedModel format which is the default file format in TF2.x as quoted above.
     """
+    MODEL_FULLPATH        = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
+    MODEL_ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
+    
     # Save the model
-    MODEL_FULLPATH = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
     print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
     model.save(MODEL_FULLPATH)
     print_info("[DONE (model saved)]", quote_path(MODEL_FULLPATH)) # double mention since TF's warnings interfere
+
+    # Save model quicksetup
+    MODEL_QUICKSETUP_FULLPATH = os.path.join(WORKDIR, trainid + ".bat")
+    with open(MODEL_QUICKSETUP_FULLPATH, "w") as f:
+        print_info("|||||| Writing file", quote_path(MODEL_QUICKSETUP_FULLPATH), "... ", end="")
+        MODEL_METAS_FULLPATH = os.path.join(MODEL_ASSETS_FULLPATH, "*.json")
+        content = "xcopy " + dquote(MODEL_METAS_FULLPATH) + "^\n\t  " + dquote(WORKDIR) + "^\n\t" + "/K /H /Y"
+        f.write(content)
+        print_info("[DONE]")
+    
     # Save assets
     print_info("|||||| Copying file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
-    copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
+    copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, MODEL_ASSETS_FULLPATH)
     print_info("[DONE]")
     print_info("|||||| Copying file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
-    copy2(Aimx.Training.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
+    copy2(Aimx.Training.RESULT_METADATA_FULLPATH, MODEL_ASSETS_FULLPATH)
     print_info("[DONE]")
-    
+    print_info("|||||| Copying file", quote_path(MODEL_QUICKSETUP_FULLPATH), "into model assets... ", end="")
+    copy2(MODEL_QUICKSETUP_FULLPATH, MODEL_ASSETS_FULLPATH)
+    print_info("[DONE]")
+
 def compose_traindata_id(dataset_depth, dataset_view, dataset_path, n_mfcc, n_fft, hop_length, num_segments, sample_rate, load_duration):
     traindata_id =  str(len(dataset_view))   + "v_" \
                  +  str(dataset_depth)       + "d_" \

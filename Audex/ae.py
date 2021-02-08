@@ -60,8 +60,9 @@ class Autoencoder:
         return history
 
     def save_model(self, trainid):
-        MODEL_FULLPATH  = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
-        PARAMS_FULLPATH = os.path.join(MODEL_FULLPATH, self.FILENAME_HYPARAMS)
+        MODEL_FULLPATH        = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
+        PARAMS_FULLPATH       = os.path.join(MODEL_FULLPATH, self.FILENAME_HYPARAMS)
+        MODEL_ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
         Path(MODEL_FULLPATH).mkdir(parents=True, exist_ok=True)
         params = [
             self.input_shape,
@@ -74,17 +75,30 @@ class Autoencoder:
         print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
         with open(PARAMS_FULLPATH, "wb") as f:
             pickle.dump(params, f)
+        
         # Save weights
         self.model_ae.save_weights(os.path.join(MODEL_FULLPATH, self.FILENAME_WEIGHTS))
         print_info("[DONE]")
+
+        # Save model quicksetup
+        MODEL_QUICKSETUP_FULLPATH = os.path.join(WORKDIR, trainid + ".bat")
+        with open(MODEL_QUICKSETUP_FULLPATH, "w") as f:
+            print_info("|||||| Writing file", quote_path(MODEL_QUICKSETUP_FULLPATH), "... ", end="")
+            MODEL_METAS_FULLPATH = os.path.join(MODEL_ASSETS_FULLPATH, "*.json")
+            content = "xcopy " + dquote(MODEL_METAS_FULLPATH) + "^\n\t  " + dquote(WORKDIR) + "^\n\t" + "/K /H /Y"
+            f.write(content)
+            print_info("[DONE]")
+        
         # Save assets
-        ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
-        Path(ASSETS_FULLPATH).mkdir(parents=True, exist_ok=True) # create model assets directory (similar to TF2.x default's)
+        Path(MODEL_ASSETS_FULLPATH).mkdir(parents=True, exist_ok=True) # create model assets directory (similar to TF2.x default's)
         print_info("|||||| Copying file", quote_path(Aimx.Dataprep.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
-        copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, os.path.join(MODEL_FULLPATH, "assets"))
+        copy2(Aimx.Dataprep.RESULT_METADATA_FULLPATH, MODEL_ASSETS_FULLPATH)
         print_info("[DONE]")
         print_info("|||||| Copying file", quote_path(Aimx.Training.RESULT_METADATA_FULLPATH), "into model assets... ", end="")
-        copy2(Aimx.Training.RESULT_METADATA_FULLPATH, ASSETS_FULLPATH)
+        copy2(Aimx.Training.RESULT_METADATA_FULLPATH, MODEL_ASSETS_FULLPATH)
+        print_info("[DONE]")
+        print_info("|||||| Copying file", quote_path(MODEL_QUICKSETUP_FULLPATH), "into model assets... ", end="")
+        copy2(MODEL_QUICKSETUP_FULLPATH, MODEL_ASSETS_FULLPATH)
         print_info("[DONE]")
 
     def load_weights(self, weights_path):
