@@ -61,7 +61,7 @@ class Autoencoder:
 
     def save_model(self, trainid):
         MODEL_FULLPATH        = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid)
-        PARAMS_FULLPATH       = os.path.join(MODEL_FULLPATH, self.FILENAME_HYPARAMS)
+        MODEL_PARAMS_FULLPATH = os.path.join(MODEL_FULLPATH, self.FILENAME_HYPARAMS)
         MODEL_ASSETS_FULLPATH = os.path.join(MODEL_FULLPATH, "assets")
         Path(MODEL_FULLPATH).mkdir(parents=True, exist_ok=True)
         params = [
@@ -73,7 +73,7 @@ class Autoencoder:
         ]
         # Save parameters
         print_info("|||||| Saving model", quote_path(MODEL_FULLPATH), "... ", end="")
-        with open(PARAMS_FULLPATH, "wb") as f:
+        with open(MODEL_PARAMS_FULLPATH, "wb") as f:
             pickle.dump(params, f)
         
         # Save weights
