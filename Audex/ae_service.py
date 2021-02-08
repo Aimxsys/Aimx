@@ -40,11 +40,12 @@ def process_clargs():
 
     parser.add_argument("-repeat",        default =  1,                 type=int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_infers",    default = 10,                 type=int,  help = 'Number of images to generate. If small, will also plot latent space points.')
-    parser.add_argument("-randomize",     action ='store_true',                    help = 'Randomize picking from the dataset.')
-    parser.add_argument("-mode_gen",      action ='store_true',                    help = 'This mode will generate a genum from latent space.')
-    parser.add_argument("-mode_regen",    action ='store_true',                    help = 'This mode will regenerate an image.')
-    parser.add_argument("-showvencs",     action ='store_true',                    help = 'At the end, will show vencs in an interactive window.')
-    parser.add_argument("-showgenums",    action ='store_true',                    help = 'At the end, will show genums in an interactive window.')
+    parser.add_argument("-randomize",     action  ='store_true',                   help = 'Randomize picking from the dataset.')
+    parser.add_argument("-mode_gen",      action  ='store_true',                   help = 'This mode will generate a genum from latent space.')
+    parser.add_argument("-mode_regen",    action  ='store_true',                   help = 'This mode will regenerate an image.')
+    parser.add_argument("-showvencs",     action  ='store_true',                   help = 'At the end, will show vencs in an interactive window.')
+    parser.add_argument("-showgenums",    action  ='store_true',                   help = 'At the end, will show genums in an interactive window.')
+    parser.add_argument("-showspec",                                               help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
 
     parser.add_argument("-example",       action ='store_true',                    help = 'Show a working example on how to call the script.')
 
@@ -201,7 +202,8 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
-        #showspec_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+        if args.showspec == 'signum':
+            showspec_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
         #                                            squeeze()  transpose()   to_audio()
@@ -231,7 +233,8 @@ if __name__ == "__main__":
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
 
-        #showspec_mel(genums.squeeze().T, quote(afname) + " genum") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+        if args.showspec == 'genum':
+            showspec_mel(genums.squeeze().T, quote(afname) + " genum") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
