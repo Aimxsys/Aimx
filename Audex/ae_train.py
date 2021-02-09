@@ -100,6 +100,7 @@ if __name__ == "__main__":
     x_train = x_train.reshape(x_train.shape + (1,)) # (1660, 44, 16, 1) that goes into AE train()
     decolprint(x_train.shape, "x_train.shape - goes into ae train()")
 
+    # Train
     history = model.train(x_train, args.batch_size, args.epochs)
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
