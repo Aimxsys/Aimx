@@ -191,7 +191,7 @@ if __name__ == "__main__":
         if len(asr.af_signal) < args.sample_rate: # process only signals of at least 1 sec
             print_info("skipped a short (< 1s) signal")
             continue 
-        
+
         # Play original sound
         play(asr.af_signal, asr.af_sr,
              "Playing original audio signal {} of shape {} and numerical content:".format(quote(cyan(afname)), cyan(asr.af_signal.shape)),
@@ -220,7 +220,7 @@ if __name__ == "__main__":
 
         # Normalize
         #signums = librosa.util.normalize(signums)
-        #print_info("Numerization for signums[0][0] normalized:")
+        #print_info("Normalized signums[0][0]:")
         #deprint(np.around(signums[0][0], 2).T)
         #decolprint(signums.shape, "signums.shape")
 
