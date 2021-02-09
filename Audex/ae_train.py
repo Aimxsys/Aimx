@@ -93,7 +93,7 @@ if __name__ == "__main__":
     model.summary()
     model.compile(args.learning_rate)
 
-    earlystop_callback = keras.callbacks.EarlyStopping(monitor="accuracy", min_delta=0.001, patience=args.patience)
+    earlystop_callback = keras.callbacks.EarlyStopping(monitor="loss", min_delta=0.001, patience=args.patience)
 
     start_time = time.time()
 
