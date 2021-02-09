@@ -240,11 +240,11 @@ if __name__ == "__main__":
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
-        signal_distance = np.linalg.norm(asr.af_signal - genum_restored) # default is Euclidean
+        signal_distance_original_from_genum = np.linalg.norm(asr.af_signal - genum_restored) # default is Euclidean
 
         print_info("\nEuclidean distance between original and restored genum (zero-padded)"
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape),
-                   signal_distance, "\n") # for some reason, not identical from run to run
+                   signal_distance_original_from_genum, "\n") # for some reason, not identical from run to run
 
         input(yellow("Continue on to play genums?"))
         play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
