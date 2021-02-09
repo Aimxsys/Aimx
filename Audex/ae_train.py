@@ -93,6 +93,8 @@ if __name__ == "__main__":
     model.summary()
     model.compile(args.learning_rate)
 
+    earlystop_callback = keras.callbacks.EarlyStopping(monitor="accuracy", min_delta=0.001, patience=args.patience)
+
     start_time = time.time()
 
     decolprint(x_train.shape, "x_train.shape", 17)
@@ -101,7 +103,7 @@ if __name__ == "__main__":
     decolprint(x_train.shape, "x_train.shape - goes into ae train()")
 
     # Train
-    history = model.train(x_train, args.batch_size, args.epochs)
+    history = model.train(x_train, args.batch_size, args.epochs, [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()

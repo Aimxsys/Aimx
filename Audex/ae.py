@@ -53,10 +53,10 @@ class Autoencoder:
         mse = MeanSquaredError()
         self.model_ae.compile(optimizer=opt, loss=mse)
 
-    def train(self, x_train, batch_size, epochs):
+    def train(self, x_train, batch_size, epochs, callbacks):
         # Passing x_train as target data is essentially the trick to make this NN generative
         # For NC, pass noisy audio as x (input data) and clean audio as y (target data)
-        history = self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=epochs, shuffle=True)
+        history = self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=epochs, shuffle=True, callbacks=callbacks)
         return history
 
     def save_model(self, trainid):
