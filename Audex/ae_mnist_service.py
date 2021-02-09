@@ -42,7 +42,7 @@ def process_clargs():
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
-        print_info(nameofthis(__file__) + "[TODO: REPLACE THIS WITH AN ACTUAL EXAMPLE]")
+        print_info(nameofthis(__file__) + "-model_path ../workdir/gen_models/model_aen_x10_e10_5000d_mnist -mode_regen-randomize")
         exit()
 
     if provided(args.inferdata_path) and not args.inferdata_path.exists():
