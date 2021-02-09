@@ -219,10 +219,10 @@ if __name__ == "__main__":
              "Continue on to sending the above signums to NN?\n")
 
         # Normalize
-        #signums = librosa.util.normalize(signums)
-        #print_info("Normalized signums[0][0]:")
-        #deprint(np.around(signums[0][0], 2).T)
-        #decolprint(signums.shape, "signums.shape")
+        signums = librosa.util.normalize(signums)
+        print_info("Normalized signums[0][0]:")
+        deprint(np.around(signums[0][0], 2).T)
+        decolprint(signums.shape, "signums.shape")
 
         print_info("/\/\\" * 20, " SENDING signums of shape {} INTO NN".format(signums.shape))
 
@@ -240,7 +240,8 @@ if __name__ == "__main__":
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
-        print_info("\nEuclidean distance between original and restored genum (zero-padded) signals:",
+        print_info("\nEuclidean distance between original and restored genum (zero-padded)"
+                   " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape),
                    np.linalg.norm(asr.af_signal - genum_restored), "\n") # for some reason, not identical from run to run
 
         input(yellow("Continue on to play genums?"))
