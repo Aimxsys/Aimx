@@ -243,7 +243,7 @@ if __name__ == "__main__":
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
-        plot_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
+        plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
 
         signal_distance_original_from_genum = np.linalg.norm(asr.af_signal - genum_restored) # default is Euclidean
 
