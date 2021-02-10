@@ -353,3 +353,21 @@ def plot_signal(signal, signal_filename, ylim=None):
     librosa.display.waveplot(signal, alpha = 0.5)
     pt.show()
     pt.close()
+
+def plot_signals_single_chart(signals, original_filename, ylim=None):
+    fig = pt.figure(figsize=(20, 12))
+    fig.canvas.set_window_title("Signals")
+    fig.suptitle(original_filename, fontsize=12)
+    titles = ["Original", "Immediately Restored", "Genum"]
+    for i, sig in enumerate(signals, start = 0):
+        deprint("{:.2f}".format(np.max(sig)), "sig {} max".format(i))
+        if ylim is None:
+            ylim = 1 if np.max(sig) < 1 else np.max(sig)
+        ax = pt.subplot(len(signals), 1, i+1)
+        ax.set_title(titles[i], loc='right') # loc='right' is to avoid overlapping titles; x=1 arg in place of loc also works
+        librosa.display.waveplot(sig, alpha = 0.5)
+        pt.ylim((-ylim, ylim))
+        pt.ylabel("Amplitude")
+        if i!=2: pt.xlabel("")
+    pt.show()
+    pt.close()

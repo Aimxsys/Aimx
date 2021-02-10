@@ -237,11 +237,13 @@ if __name__ == "__main__":
         print(cyan(afname), np.around(vencs[0], 2))
 
         if args.showspec == 'genum':
-            showspec_mel(genums.squeeze().T, quote(afname) + " genum") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+            showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
+
+        plot_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
 
         signal_distance_original_from_genum = np.linalg.norm(asr.af_signal - genum_restored) # default is Euclidean
 
