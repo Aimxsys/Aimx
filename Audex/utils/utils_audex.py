@@ -360,7 +360,7 @@ def plot_ae_signals_single_chart(signals, original_filename, ylim=None):
     fig.suptitle(original_filename, fontsize=12)
     titles = ["Original", "Immediately Restored", "Genum"]
     for i, sig in enumerate(signals, start = 0):
-        deprint("{:.2f}".format(np.max(sig)), "sig {} max".format(i))
+        print_info(pinkred("{:.2f}").format(np.max(sig)), "signal max of {}".format(yellow(titles[i])))
         if ylim is None:
             ylim = 1 if np.max(sig) < 1 else np.max(sig)
         ax = pt.subplot(len(signals), 1, i+1)
