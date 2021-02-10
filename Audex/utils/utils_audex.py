@@ -368,6 +368,6 @@ def plot_signals_single_chart(signals, original_filename, ylim=None):
         librosa.display.waveplot(sig, alpha = 0.5)
         pt.ylim((-ylim, ylim))
         pt.ylabel("Amplitude")
-        if i!=2: pt.xlabel("")
+        if i!=2: pt.xlabel("") # keep "Time" only on last subplot
     pt.show()
     pt.close()
