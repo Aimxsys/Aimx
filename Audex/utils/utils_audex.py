@@ -21,6 +21,9 @@ from Audex.utils.utils_common import *
 # TODO: Perhaps can or should be made more launch-dir agnostic.
 WORKDIR = os.path.join(Path().resolve().parent, "workdir")
 
+def workdir(filename):
+    return os.path.join(WORKDIR, filename)
+
 total_audios_length_sec = 0.0
 
 class Aimx:
