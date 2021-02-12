@@ -243,8 +243,6 @@ if __name__ == "__main__":
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
 
-        plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
-
         signal_distance_original_from_genum = np.linalg.norm(asr.af_signal - genum_restored) # default is Euclidean
 
         closeness_color = green if (signal_distance_original_from_genum < signal_distance_original_from_immediatelyrestored + 2) else red
@@ -252,6 +250,8 @@ if __name__ == "__main__":
         print_info("\nEuclidean distance between original and restored genum (zero-padded)"
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
+
+        plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
 
         input(yellow("Continue on to play genums?"))
         play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
