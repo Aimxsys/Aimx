@@ -248,7 +248,7 @@ if __name__ == "__main__":
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape)),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
 
-        plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
+        plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
 
         #input(yellow("Continue on to play genums?"))
         play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)

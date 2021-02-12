@@ -354,9 +354,9 @@ def plot_signal(signal, signal_filename, ylim=None):
     pt.show()
     pt.close()
 
-def plot_ae_signals_single_chart(signals, original_filename, ylim=None):
+def plot_ae_signals_single_chart(signals, original_filename, modelname, ylim=None):
     fig = pt.figure(figsize=(20, 12))
-    fig.canvas.set_window_title("Signals")
+    fig.canvas.set_window_title("signals_" + modelname)
     fig.suptitle(original_filename, fontsize=12)
     titles = ["Original Audio", "Immediately Restored Audio", "Genum Restored Audio"]
     for i, sig in enumerate(signals, start = 0):
