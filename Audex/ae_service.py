@@ -231,6 +231,8 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
+        #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target")
+
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
