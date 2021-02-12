@@ -43,8 +43,6 @@ def process_clargs():
     parser.add_argument("-randomize",     action  ='store_true',                   help = 'Randomize picking from the dataset.')
     parser.add_argument("-mode_gen",      action  ='store_true',                   help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action  ='store_true',                   help = 'This mode will regenerate an image.')
-    parser.add_argument("-showvencs",     action  ='store_true',                   help = 'At the end, will show vencs in an interactive window.')
-    parser.add_argument("-showgenums",    action  ='store_true',                   help = 'At the end, will show genums in an interactive window.')
     parser.add_argument("-showspec",                                               help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
 
     parser.add_argument("-example",       action ='store_true',                    help = 'Show a working example on how to call the script.')
