@@ -219,11 +219,8 @@ if __name__ == "__main__":
              "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
              "Continue on to sending the above signums to NN?\n")
 
-        # Normalize
+        # Normalize signums
         signums = librosa.util.normalize(signums)
-        print_info("Normalized signums[0][0]:")
-        deprint(np.around(signums[0][0], 2).T)
-        decolprint(signums.shape, "signums.shape")
 
         print_info("/\/\\" * 20, " SENDING signums of shape {} INTO NN".format(signums.shape))
 
