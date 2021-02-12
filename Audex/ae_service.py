@@ -213,7 +213,7 @@ if __name__ == "__main__":
         
         signal_distance_original_from_immediatelyrestored = np.linalg.norm(asr.af_signal - signal_restored) # default is Euclidean
 
-        print_info("\nEuclidean distance between original and immediately restored (zero-padded) signals:",
+        print_info(purple("\nEuclidean distance between original and immediately restored (zero-padded) signals:"),
                    signal_distance_original_from_immediatelyrestored, "\n") # for some reason, not identical from run to run
         play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
              "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
@@ -247,8 +247,8 @@ if __name__ == "__main__":
 
         closeness_color = green if (signal_distance_original_from_genum < signal_distance_original_from_immediatelyrestored + 2) else red
 
-        print_info("\nEuclidean distance between original and restored genum (zero-padded)"
-                   " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape),
+        print_info(purple("\nEuclidean distance between original and restored genum (zero-padded)"
+                   " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape)),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
 
         plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
