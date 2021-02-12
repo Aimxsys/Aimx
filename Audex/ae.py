@@ -54,6 +54,7 @@ class Autoencoder:
         self.model_ae.compile(optimizer=opt, loss=mse)
 
     def train(self, x_train, batch_size, epochs, callbacks):
+        # Example x_train.shape == (1660, 44, 16, 1)
         # Passing x_train as target data is essentially the trick to make this NN generative
         # For NC, pass noisy audio as x (input data) and clean audio as y (target data)
         # x = np.full_like(x_train, 0.3) # experimentation with a fixed target
