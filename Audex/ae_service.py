@@ -253,5 +253,5 @@ if __name__ == "__main__":
 
         plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname)
 
-        input(yellow("Continue on to play genums?"))
+        #input(yellow("Continue on to play genums?"))
         play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
