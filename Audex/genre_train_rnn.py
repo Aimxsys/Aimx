@@ -33,9 +33,12 @@ def process_clargs():
     parser.add_argument("-epochs",     default = 50, type=int, help = 'Number of epochs to train.')
     parser.add_argument("-patience",   default =  5, type=int, help = 'Number of epochs with no improvement after which training will be stopped.')
     parser.add_argument("-verbose",    default =  1, type=int, help = 'Verbosity modes: 0 (silent), 1 (will show progress bar), or 2 (one line per epoch). Default is 1.')
+    parser.add_argument("-note",       default = "", type=str, help = 'Short note to appear inside trainid.')
+
     parser.add_argument("-showplot",    action ='store_true',  help = 'At the end, show an interactive plot of the training history.')
     parser.add_argument("-savemodel",   action ='store_true',  help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
     parser.add_argument("-noquestions", action ='store_true',  help = 'Don\'t ask any questions.')
+
     parser.add_argument("-example",     action ='store_true',  help = 'Show a working example on how to call the script.')
 
     args = parser.parse_args()
@@ -163,7 +166,7 @@ if __name__ == "__main__":
     # predict sample
     predict(model, x_to_predict, y_to_predict)
 
-    trainid = "rnn_e" + str(args.epochs) + "_" + extract_filename(args.traindata_path)
+    trainid = "rnn_e" + str(args.epochs) + "_" + args.note + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
     save_training_result_meta(history, trainid, timestamp, str(training_duration), inputshape, args.savemodel)
