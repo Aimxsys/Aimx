@@ -215,6 +215,7 @@ if __name__ == "__main__":
 
         print_info(purple("\nEuclidean distance between original and immediately restored (zero-padded) signals:"),
                    signal_distance_original_from_immediatelyrestored, "\n") # for some reason, not identical from run to run
+
         play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
              "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
              "Continue on to sending the above signums to NN?\n")
@@ -233,6 +234,8 @@ if __name__ == "__main__":
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
 
+        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums - genums), "\n")
+
         if args.showspec == 'genum':
             showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
@@ -243,7 +246,7 @@ if __name__ == "__main__":
         signal_distance_original_from_genum = np.linalg.norm(asr.af_signal - genum_restored) # default is Euclidean
 
         closeness_color = green if (signal_distance_original_from_genum < signal_distance_original_from_immediatelyrestored + 2) else red
-
+        
         print_info(purple("\nEuclidean distance between original and restored genum (zero-padded)"
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape)),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
