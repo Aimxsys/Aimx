@@ -172,6 +172,9 @@ if __name__ == "__main__":
 
             vencs, genums = model.gen_random(args.num_infers)
 
+            for s, g in zip(sample_images, genums):
+                print_info(purple("Euclidean distance between signum and genum"), np.linalg.norm(s - g))
+
             plot_vencs(vencs, labels, extract_filename(args.model_path), args.showvencs)
             plot_genums(genums,       extract_filename(args.model_path), args.showgenums)
 
@@ -180,6 +183,9 @@ if __name__ == "__main__":
             sample_images, sample_labels = pick_from(x_test, y_test, args.num_infers, args.randomize)
  
             vencs, genums = model.regen(sample_images)
+
+            for s, g in zip(sample_images, genums):
+                print_info(purple("Euclidean distance between signum and genum"), np.linalg.norm(s - g))
  
             plot_vencs(vencs,     sample_labels, extract_filename(args.model_path), args.showvencs)
             plot_regenums(genums, sample_images, extract_filename(args.model_path), args.showgenums)
