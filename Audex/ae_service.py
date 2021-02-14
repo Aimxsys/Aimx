@@ -234,7 +234,7 @@ if __name__ == "__main__":
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
 
-        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums - genums), "\n")
+        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums - genums))
 
         if args.showspec == 'genum':
             showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
