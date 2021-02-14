@@ -226,7 +226,7 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
-        #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target")
+        #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target", "genum_" + extract_filename(args.model_path))
 
         decolprint( vencs.shape,  "vencs.shape")
         decolprint(genums.shape, "genums.shape")
