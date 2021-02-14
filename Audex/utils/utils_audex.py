@@ -343,10 +343,10 @@ def showspec_mel(melspec, afname):
     pt.show()
     pt.close()
 
-def plot_signal(signal, signal_filename, ylim=None):
+def plot_signal(signal, signal_filename, windowtitle, ylim=None):
     if ylim is None:
         ylim = 1 if np.max(signal) < 1 else np.max(signal)
-    pt.figure(figsize=(20, 12)).canvas.set_window_title("Signal")
+    pt.figure(figsize=(20, 12)).canvas.set_window_title(windowtitle)
     pt.title(signal_filename)
     pt.ylim((-ylim, ylim))
     pt.ylabel("Amplitude")
