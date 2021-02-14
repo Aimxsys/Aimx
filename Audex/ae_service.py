@@ -44,6 +44,7 @@ def process_clargs():
     parser.add_argument("-mode_gen",      action  ='store_true',                   help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action  ='store_true',                   help = 'This mode will regenerate an image.')
     parser.add_argument("-showspec",                                               help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
+    parser.add_argument("-play_all",      action ='store_true',                    help = 'Play all sounds.')
 
     parser.add_argument("-example",       action ='store_true',                    help = 'Show a working example on how to call the script.')
 
@@ -191,9 +192,10 @@ if __name__ == "__main__":
             continue 
 
         # Play original sound
-        play(asr.af_signal, asr.af_sr,
-             "Playing original audio signal {} of shape {} and numerical content:".format(quote(cyan(afname)), cyan(asr.af_signal.shape)),
-             "Continue on to signumerize?")
+        if args.play_all:
+            play(asr.af_signal, asr.af_sr,
+                 "Playing original audio signal {} of shape {} and numerical content:".format(quote(cyan(afname)), cyan(asr.af_signal.shape)),
+                 "Continue on to signumerize?")
                 
         # Numerize original sound for inference. signums.shape will be:
         # (1, 44,  16, 1) if MFCC
@@ -216,9 +218,10 @@ if __name__ == "__main__":
         print_info(purple("\nEuclidean distance between original and immediately restored (zero-padded) signals:"),
                    signal_distance_original_from_immediatelyrestored, "\n") # for some reason, not identical from run to run
 
-        play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
-             "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
-             "Continue on to sending the above signums to NN?\n")
+        if args.play_all:
+            play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
+                 "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
+                 "Continue on to sending the above signums to NN?\n")
 
         # Normalize signums
         signums = librosa.util.normalize(signums)
@@ -254,4 +257,5 @@ if __name__ == "__main__":
         plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
 
         #input(yellow("Continue on to play genums?"))
-        play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
+        if args.play_all:
+            play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
