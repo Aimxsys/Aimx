@@ -58,6 +58,11 @@ class Autoencoder:
         # Passing x_train as target data is essentially the trick to make this NN generative
         # For NC, pass noisy audio as x (input data) and clean audio as y (target data)
         # x = np.full_like(x_train, 0.3) # experimentation with a fixed target
+        
+        # Fixed audio signum target
+        #x = x_train[40]
+        #x = np.repeat(x[np.newaxis, :, :, :], x_train.shape[0], axis=0) # repeated array
+
         history = self.model_ae.fit(x_train, x_train, batch_size=batch_size, epochs=epochs, shuffle=True, callbacks=callbacks)
         return history
 
