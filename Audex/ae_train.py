@@ -82,10 +82,10 @@ if __name__ == "__main__":
 
     # get train, validation, test splits
     x_train, _, _, _, _, _ = prepare_traindata(args.ann_type, args.traindata_path, test_size = 0.25, valid_size = 0.2)
-    inputshape = (x_train.shape[1], x_train.shape[2], 1) # x_train.shape == (11, 44, 13, 1) for (signals, mfccvectors, mfccs, depth)
+    inputshape = (x_train.shape[1], x_train.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
     model = Autoencoder(
-        input_shape  = inputshape,       # (44, 13, 1)
+        input_shape  = inputshape,       # (44, 128, 1)
         conv_filters = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
         # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
         conv_kernels = (3, 3, 3, 3),
@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     decolprint(x_train.shape, "x_train.shape", 17)
     x_train = librosa.util.normalize(x_train)
-    x_train = x_train.reshape(x_train.shape + (1,)) # (1660, 44, 16, 1) that goes into AE train()
+    x_train = x_train.reshape(x_train.shape + (1,)) # (1660, 44, 128, 1) that goes into AE train()
     decolprint(x_train.shape, "x_train.shape - goes into ae train()")
 
     # Train
