@@ -64,6 +64,9 @@ class Autoencoder:
         #x = inputs[40]
         #x = np.repeat(x[np.newaxis, :, :, :], inputs.shape[0], axis=0) # repeated array
 
+        print_info("Training AE on data of shapes:")
+        print_info("Inputs: ", inputs.shape)
+        print_info("Targets:", targets.shape)
         history = self.model_ae.fit(inputs, targets, batch_size=batch_size, epochs=epochs, shuffle=True, callbacks=callbacks)
         return history
 
