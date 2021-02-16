@@ -98,8 +98,8 @@ if __name__ == "__main__":
         print_info("No target data provided, will use input data as target data...")
         x_targets = x_inputs
 
+    x_inputs = librosa.util.normalize(x_inputs)
     #x_targets = librosa.util.normalize(x_targets)
-    deprint(x_targets.shape, "x_targets repeated & final shape")
 
     inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
@@ -115,8 +115,6 @@ if __name__ == "__main__":
     model.compile(args.learning_rate)
 
     earlystop_callback = keras.callbacks.EarlyStopping(monitor="loss", min_delta=0.001, patience=args.patience)
-
-    x_inputs = librosa.util.normalize(x_inputs)
 
     start_time = time.time()
 
