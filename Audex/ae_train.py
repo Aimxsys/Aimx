@@ -78,20 +78,20 @@ def process_clargs():
     return args
 
 def prepare_traindata(traindata_path):
-    inputs, _ = load_traindata(traindata_path) # x = inputs, y = labels (here ignored)
-    inputs = inputs[..., np.newaxis] # example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
-    print_info("Final prepared traindata inputs shape: " + str(inputs.shape))
-    return inputs
+    x_inputs, _ = load_traindata(traindata_path) # x = inputs, y = labels (here ignored)
+    x_inputs = x_inputs[..., np.newaxis] # example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
+    print_info("Final prepared traindata inputs shape: " + str(x_inputs.shape))
+    return x_inputs
 
 if __name__ == "__main__":
     args = process_clargs()
 
     # get train, validation, test splits
-    inputs = prepare_traindata(args.traindata_path)
-    inputshape = (inputs.shape[1], inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
+    x_inputs = prepare_traindata(args.traindata_path)
+    inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
     x_targets = prepare_traindata("../workdir/gen_traindata/1v_1d_one_2048w_512h_1i_22050r_1s.json")
-    x_targets = np.repeat(x_targets, inputs.shape[0], axis=0) # repeated array
+    x_targets = np.repeat(x_targets, x_inputs.shape[0], axis=0) # repeated array
     #x_targets = librosa.util.normalize(x_targets)
     deprint(x_targets.shape, "x_targets repeated & final shape")
 
@@ -108,12 +108,12 @@ if __name__ == "__main__":
 
     earlystop_callback = keras.callbacks.EarlyStopping(monitor="loss", min_delta=0.001, patience=args.patience)
 
-    inputs = librosa.util.normalize(inputs)
+    x_inputs = librosa.util.normalize(x_inputs)
 
     start_time = time.time()
 
     # Train
-    history = model.train(inputs, x_targets, args.batch_size, args.epochs, [earlystop_callback])
+    history = model.train(x_inputs, x_targets, args.batch_size, args.epochs, [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
