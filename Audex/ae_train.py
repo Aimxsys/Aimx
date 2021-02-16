@@ -88,12 +88,13 @@ if __name__ == "__main__":
 
     # get train, validation, test splits
     x_inputs = prepare_traindata(args.traindata_path)
-    inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
     x_targets = prepare_traindata("../workdir/gen_traindata/1v_1d_one_2048w_512h_1i_22050r_1s.json")
     x_targets = np.repeat(x_targets, x_inputs.shape[0], axis=0) # repeated array
     #x_targets = librosa.util.normalize(x_targets)
     deprint(x_targets.shape, "x_targets repeated & final shape")
+
+    inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
     model = Autoencoder(
         input_shape  = inputshape,       # (44, 128, 1)
