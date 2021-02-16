@@ -90,10 +90,10 @@ if __name__ == "__main__":
     inputs = prepare_traindata(args.traindata_path)
     inputshape = (inputs.shape[1], inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
-    x_target = prepare_traindata("../workdir/gen_traindata/1v_1d_one_2048w_512h_1i_22050r_1s.json")
-    x_target = np.repeat(x_target, inputs.shape[0], axis=0) # repeated array
-    #x_target = librosa.util.normalize(x_target)
-    deprint(x_target.shape, "x_target repeated & final shape")
+    x_targets = prepare_traindata("../workdir/gen_traindata/1v_1d_one_2048w_512h_1i_22050r_1s.json")
+    x_targets = np.repeat(x_targets, inputs.shape[0], axis=0) # repeated array
+    #x_targets = librosa.util.normalize(x_targets)
+    deprint(x_targets.shape, "x_targets repeated & final shape")
 
     model = Autoencoder(
         input_shape  = inputshape,       # (44, 128, 1)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     # Train
-    history = model.train(inputs, x_target, args.batch_size, args.epochs, [earlystop_callback])
+    history = model.train(inputs, x_targets, args.batch_size, args.epochs, [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
