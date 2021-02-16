@@ -33,6 +33,7 @@ def process_clargs():
                         help = 'Path to the data file to be fed to the NN. Or use ' + Aimx.MOST_RECENT_OUTPUT +
                                ', which by design is the output of the previous step of dataset preprocessing.')
 
+    parser.add_argument("-targetdata_path",                  type=Path,  help = 'Path to the data file to be used as AE\'s target output.')
     parser.add_argument("-ann_type",      default = "aen",   type=str,   help = 'ANN type. Default is aen (autoencoder network).')
     parser.add_argument("-batch_size",    default = 32,      type=int,   help = 'Batch size.')
     parser.add_argument("-epochs",        default =  1,      type=int,   help = 'Number of epochs to train.')
@@ -89,8 +90,14 @@ if __name__ == "__main__":
     # get train, validation, test splits
     x_inputs = prepare_traindata(args.traindata_path)
 
-    x_targets = prepare_traindata("../workdir/gen_traindata/1v_1d_one_2048w_512h_1i_22050r_1s.json")
-    x_targets = np.repeat(x_targets, x_inputs.shape[0], axis=0) # repeated array
+    if provided(args.targetdata_path):
+        print_info("Preparing provided target data for NN input...")
+        x_targets = prepare_traindata(args.targetdata_path)
+        x_targets = np.repeat(x_targets, x_inputs.shape[0], axis=0) # repeated array
+    else:
+        print_info("No target data provided, will use input data as target data...")
+        x_targets = x_inputs
+
     #x_targets = librosa.util.normalize(x_targets)
     deprint(x_targets.shape, "x_targets repeated & final shape")
 
