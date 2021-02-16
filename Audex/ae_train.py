@@ -87,11 +87,11 @@ if __name__ == "__main__":
     args = process_clargs()
 
     # get train, validation, test splits
-    x_train = prepare_traindata(args.traindata_path)
-    inputshape = (x_train.shape[1], x_train.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
+    inputs = prepare_traindata(args.traindata_path)
+    inputshape = (inputs.shape[1], inputs.shape[2], 1) # x_train.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 
     x_target = prepare_traindata("../workdir/gen_traindata/1v_1d_one_2048w_512h_1i_22050r_1s.json")
-    x_target = np.repeat(x_target, x_train.shape[0], axis=0) # repeated array
+    x_target = np.repeat(x_target, inputs.shape[0], axis=0) # repeated array
     #x_target = librosa.util.normalize(x_target)
     deprint(x_target.shape, "x_target repeated & final shape")
 
@@ -108,12 +108,12 @@ if __name__ == "__main__":
 
     earlystop_callback = keras.callbacks.EarlyStopping(monitor="loss", min_delta=0.001, patience=args.patience)
 
-    x_train = librosa.util.normalize(x_train)
+    inputs = librosa.util.normalize(inputs)
 
     start_time = time.time()
 
     # Train
-    history = model.train(x_train, x_target, args.batch_size, args.epochs, [earlystop_callback])
+    history = model.train(inputs, x_target, args.batch_size, args.epochs, [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
