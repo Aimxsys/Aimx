@@ -45,6 +45,7 @@ def process_clargs():
     parser.add_argument("-mode_regen",    action  ='store_true',                   help = 'This mode will regenerate an image.')
     parser.add_argument("-showspec",                                               help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
     parser.add_argument("-play_all",      action ='store_true',                    help = 'Play all sounds.')
+    parser.add_argument("-play_output",   action ='store_true',                    help = 'Play only the final output (genum restoration).')
 
     parser.add_argument("-example",       action ='store_true',                    help = 'Show a working example on how to call the script.')
 
@@ -257,5 +258,5 @@ if __name__ == "__main__":
         plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
 
         #input(yellow("Continue on to play genums?"))
-        if args.play_all:
+        if args.play_all or args.play_output:
             play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
