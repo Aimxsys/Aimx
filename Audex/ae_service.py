@@ -247,7 +247,7 @@ if __name__ == "__main__":
             showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         plot_matrix(genums.squeeze(), "Genums of " + quote(afname))
-        exit()
+
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
