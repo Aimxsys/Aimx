@@ -37,6 +37,23 @@ def plot_matrix(m, message=""):
     pt.colorbar(im, shrink=0.5)
     pt.show()
 
+def plot_matrices_single_chart(matrices, original_filename, modelname):
+    fig = pt.figure(figsize=(20, 12))
+    fig.canvas.set_window_title("signum_and_genum_" + modelname)
+    fig.suptitle("Signum and genum of " + original_filename, fontsize=12)
+    titles = ["Signum", "Genum"]
+    for i, m in enumerate(matrices, start = 0):
+        print_info(pinkred("{:.2f}").format(np.amax(m)), "Max in matrix {}".format(yellow(titles[i])))
+        ax = pt.subplot(len(matrices), 1, i+1)
+        ax.set_title(titles[i], loc='right') # loc='right' is to avoid overlapping titles; x=1 arg in place of loc also works
+        pt.rcParams['xtick.bottom'] = pt.rcParams['xtick.labelbottom'] = False
+        pt.rcParams['xtick.top']    = pt.rcParams['xtick.labeltop']    = True
+        im = pt.imshow(m)
+        pt.colorbar(im, shrink=0.9)
+        if i!=2: pt.xlabel("") # keep "Time" only on last subplot
+    pt.show()
+    pt.close()
+
 def play(signal, sr, message, continuemessage="Continue?", waitforanykey=True):
     print_info(message + "\n", cyan(np.around(signal, 2).T))
     sd.play(signal, sr)
