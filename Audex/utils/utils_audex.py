@@ -358,7 +358,7 @@ def plot_ae_signals_single_chart(signals, original_filename, modelname, ylim=Non
     fig = pt.figure(figsize=(20, 12))
     fig.canvas.set_window_title("signals_" + modelname)
     fig.suptitle(original_filename, fontsize=12)
-    titles = ["Original Audio", "Immediately Restored Audio", "Genum Restored Audio"]
+    titles = ["Original Audio", "Signum Restored Audio", "Genum Restored Audio"]
     for i, sig in enumerate(signals, start = 0):
         print_info(pinkred("{:.2f}").format(np.max(sig)), "signal max of {}".format(yellow(titles[i])))
         if ylim is None:
