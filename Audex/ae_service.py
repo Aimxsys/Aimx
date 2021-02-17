@@ -226,11 +226,11 @@ if __name__ == "__main__":
                  "Continue on to sending the above signums to NN?\n")
 
         # Normalize signums
-        signums_normalized = librosa.util.normalize(signums) # because traindata signums is always normalized, inference must be too
+        #signums = librosa.util.normalize(signums)
 
-        print_info("/\/\\" * 20, " SENDING signums_normalized of shape {} INTO NN".format(signums_normalized.shape))
+        print_info("/\/\\" * 20, " SENDING signums of shape {} INTO NN".format(signums.shape))
 
-        vencs, genums = asr.model.regen(signums_normalized)
+        vencs, genums = asr.model.regen(signums)
 
         #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target", "genum_" + extract_filename(args.model_path))
 
@@ -239,7 +239,7 @@ if __name__ == "__main__":
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
 
-        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums_normalized - genums))
+        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums - genums))
 
         if args.showspec == 'genum':
             showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
