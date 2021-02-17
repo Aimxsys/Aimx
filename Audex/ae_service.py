@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
         closeness_color = green if (signal_distance_original_from_genum < signal_distance_original_from_immediatelyrestored + 2) else red
         
-        print_info(purple("\nEuclidean distance between original and restored genum (zero-padded)"
+        print_info(purple("Euclidean distance between original and restored genum (zero-padded)"
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape)),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
 
