@@ -46,8 +46,7 @@ def plot_matrices_single_chart(matrices, original_filename, modelname):
         print_info(pinkred("{:.2f}").format(np.amax(m)), "Max in matrix {}".format(yellow(titles[i])))
         ax = pt.subplot(len(matrices), 1, i+1)
         ax.set_title(titles[i], loc='right') # loc='right' is to avoid overlapping titles; x=1 arg in place of loc also works
-        pt.rcParams['xtick.bottom'] = pt.rcParams['xtick.labelbottom'] = False
-        pt.rcParams['xtick.top']    = pt.rcParams['xtick.labeltop']    = True
+        ax.xaxis.tick_top()
         im = pt.imshow(m)
         pt.colorbar(im, shrink=0.9)
         if i!=2: pt.xlabel("") # keep "Time" only on last subplot
