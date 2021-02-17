@@ -225,6 +225,8 @@ if __name__ == "__main__":
                  "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
                  "Continue on to sending the above signums to NN?\n")
 
+        plot_matrix(signums.squeeze(), "Signums of " + quote(afname))
+
         # Normalize signums
         signums = librosa.util.normalize(signums) # because traindata was normalized, inference must be too
 
@@ -244,6 +246,8 @@ if __name__ == "__main__":
         if args.showspec == 'genum':
             showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
+        plot_matrix(genums.squeeze(), "Genums of " + quote(afname))
+        exit()
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))

@@ -28,8 +28,9 @@ init() # colorama
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
-def plot_matrix(m):
+def plot_matrix(m, message=""):
     pt.figure(figsize=(12, 8)).canvas.set_window_title("Matrix Visualization")
+    pt.title(message)
     pt.rcParams['xtick.bottom'] = pt.rcParams['xtick.labelbottom'] = False
     pt.rcParams['xtick.top']    = pt.rcParams['xtick.labeltop']    = True
     im = pt.imshow(m)
