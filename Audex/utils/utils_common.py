@@ -14,6 +14,8 @@ import glob
 import sys
 import os
 
+import matplotlib.pyplot as pt
+
 def windows():
     return os.name == 'nt'
 
@@ -25,6 +27,11 @@ init() # colorama
 # Tested in VS by running a regexp search with the
 # string below on Python files in the entire solution:
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
+
+def plot_matrix(m):
+    pt.imshow(m)
+    pt.colorbar()
+    pt.show()
 
 def play(signal, sr, message, continuemessage="Continue?", waitforanykey=True):
     print_info(message + "\n", cyan(np.around(signal, 2).T))
