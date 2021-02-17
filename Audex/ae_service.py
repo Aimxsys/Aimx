@@ -226,7 +226,7 @@ if __name__ == "__main__":
                  "Continue on to sending the above signums to NN?\n")
 
         # Normalize signums
-        signums_normalized = librosa.util.normalize(signums) # because traindata was normalized, inference must be too
+        signums_normalized = librosa.util.normalize(signums) # because traindata signums is always normalized, inference must be too
 
         print_info("/\/\\" * 20, " SENDING signums_normalized of shape {} INTO NN".format(signums_normalized.shape))
 
