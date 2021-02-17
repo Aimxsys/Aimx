@@ -43,7 +43,7 @@ def plot_matrices_single_chart(matrices, original_filename, modelname):
     fig.suptitle("Signum and genum of " + original_filename, fontsize=12)
     titles = ["Signum", "Genum"]
     for i, m in enumerate(matrices, start = 0):
-        print_info(pinkred("{:.2f}").format(np.amax(m)), "Max in matrix {}".format(yellow(titles[i])))
+        print("Max in matrix {}:".format(yellow(titles[i])), pinkred("{:>5.2f}").format(np.amax(m)))
         ax = pt.subplot(len(matrices), 1, i+1)
         ax.set_title(titles[i], loc='right') # loc='right' is to avoid overlapping titles; x=1 arg in place of loc also works
         ax.xaxis.tick_top()
