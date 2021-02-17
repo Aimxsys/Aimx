@@ -225,14 +225,12 @@ if __name__ == "__main__":
                  "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
                  "Continue on to sending the above signums to NN?\n")
 
-        plot_matrix(signums.squeeze(), "Signums of " + quote(afname))
-
         # Normalize signums
-        signums = librosa.util.normalize(signums) # because traindata was normalized, inference must be too
+        signums_normalized = librosa.util.normalize(signums) # because traindata was normalized, inference must be too
 
-        print_info("/\/\\" * 20, " SENDING signums of shape {} INTO NN".format(signums.shape))
+        print_info("/\/\\" * 20, " SENDING signums_normalized of shape {} INTO NN".format(signums_normalized.shape))
 
-        vencs, genums = asr.model.regen(signums)
+        vencs, genums = asr.model.regen(signums_normalized)
 
         #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target", "genum_" + extract_filename(args.model_path))
 
@@ -241,12 +239,10 @@ if __name__ == "__main__":
         print_info("Sound files and their corresponding {}-d vencs:".format(vencs.shape[1]))
         print(cyan(afname), np.around(vencs[0], 2))
 
-        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums - genums))
+        print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums_normalized - genums))
 
         if args.showspec == 'genum':
             showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
-
-        plot_matrix(genums.squeeze(), "Genums of " + quote(afname))
 
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
@@ -262,6 +258,8 @@ if __name__ == "__main__":
 
         if args.plot_signals:
             plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
+    
+        plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], afname, extract_filename(args.model_path))
 
         #input(yellow("Continue on to play genums?"))
         if args.play_all or args.play_output:
