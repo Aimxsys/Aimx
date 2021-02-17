@@ -257,11 +257,11 @@ if __name__ == "__main__":
         print_info(purple("Euclidean distance between original and restored genum (zero-padded)"
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape)),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
+        
+        plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], afname, extract_filename(args.model_path))
 
         if args.plot_signals:
             plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
-    
-        plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], afname, extract_filename(args.model_path))
 
         #input(yellow("Continue on to play genums?"))
         if args.play_all or args.play_output:
