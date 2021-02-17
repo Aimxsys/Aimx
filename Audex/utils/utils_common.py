@@ -29,8 +29,11 @@ init() # colorama
 # ^(?([^\r\n])\s)*[^\s+?/]+[^\n]*$
 
 def plot_matrix(m):
-    pt.imshow(m)
-    pt.colorbar()
+    pt.figure(figsize=(12, 8)).canvas.set_window_title("Matrix Visualization")
+    pt.rcParams['xtick.bottom'] = pt.rcParams['xtick.labelbottom'] = False
+    pt.rcParams['xtick.top']    = pt.rcParams['xtick.labeltop']    = True
+    im = pt.imshow(m)
+    pt.colorbar(im, shrink=0.5)
     pt.show()
 
 def play(signal, sr, message, continuemessage="Continue?", waitforanykey=True):
