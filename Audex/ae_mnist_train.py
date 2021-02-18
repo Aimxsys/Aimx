@@ -45,7 +45,7 @@ def process_clargs():
     ########################## Command Argument Handling & Verification #######################
 
     if args.example:
-        print_info(nameofthis(__file__) + " -epochs 5")
+        print_info(nameofthis(__file__) + " -mnist_size 5000 -dim_latent 10 -epochs 5")
         exit()
 
     if not args.noquestions:
