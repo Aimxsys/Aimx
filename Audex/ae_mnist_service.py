@@ -186,6 +186,8 @@ if __name__ == "__main__":
 
             for s, g in zip(sample_images, genums):
                 print_info(purple("Euclidean distance between signum and genum"), np.linalg.norm(s - g))
+
+            #plot_matrices_single_chart([sample_images[0].squeeze(), genums[0].squeeze()], "MNIST", extract_filename(args.model_path))
  
             plot_vencs(vencs,     sample_labels, extract_filename(args.model_path), args.showvencs)
             plot_regenums(genums, sample_images, extract_filename(args.model_path), args.showgenums)
