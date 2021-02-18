@@ -209,6 +209,10 @@ def print_info(s, *args, verbose = True, **kwargs):
 def deprint(s, *args, **kwargs):
     print(pinkred(s), *args, **kwargs)
 
+def deprintex(s, *args, **kwargs):
+    deprint(s, *args, **kwargs)
+    exit()
+
 # print-function for debugging, columnizes
 def decolprint(x, xname, n=15):
     left_align = "{:<" + str(n) + "}"
