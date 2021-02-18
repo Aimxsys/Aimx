@@ -232,7 +232,7 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
-        genums *= 8
+        #genums *= 8
 
         #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target", "genum_" + extract_filename(args.model_path))
 
