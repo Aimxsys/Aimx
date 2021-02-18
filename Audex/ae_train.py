@@ -79,11 +79,11 @@ def process_clargs():
     return args
 
 def prepare_traindata(traindata_path):
-    x_inputs, _ = load_traindata(traindata_path)   # x = inputs, y = labels (here ignored)
-    x_inputs    = x_inputs[..., np.newaxis]        # example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
-    x_inputs    = librosa.util.normalize(x_inputs) # normalize (like MNIST is normalized)
-    print_info("Final prepared traindata inputs shape: " + str(x_inputs.shape))
-    return x_inputs
+    traindata, _ = load_traindata(traindata_path)    # inputs, labels (here ignored)
+    traindata    = traindata[..., np.newaxis]        # example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
+    traindata    = librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
+    print_info("Final prepared traindata inputs shape: " + str(traindata.shape))
+    return traindata
 
 if __name__ == "__main__":
     args = process_clargs()
