@@ -33,6 +33,7 @@ def process_clargs():
     parser.add_argument("-patience",      default = 10,     type=int,   help = 'Number of epochs with no improvement after which training will be stopped.')
     parser.add_argument("-mnist_size",    default = 10,     type=int,   help = 'Number of images to train on from the MNIST dataset.')
     parser.add_argument("-verbose",       default =  1,     type=int,   help = 'Verbosity modes: 0 (silent), 1 (will show progress bar), or 2 (one line per epoch). Default is 1.')
+    parser.add_argument("-note",          default = "",     type=str,   help = 'Short note to appear inside trainid.')
 
     parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
     parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
@@ -105,7 +106,7 @@ if __name__ == "__main__":
                                                                     lightyellow(timestamp),
                                                                     lightyellow(training_duration)))
 
-    trainid = args.ann_type + "_x" + str(args.dim_latent) + "_e" + str(args.epochs) + "_" + str(args.mnist_size) + "d_" + "mnist"
+    trainid = args.ann_type + "_x" + str(args.dim_latent) + "_e" + str(args.epochs) + "_" + args.note + "_" + str(args.mnist_size) + "d_" + "mnist"
 
     # save as most recent training result metadata
     save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.dim_latent,
