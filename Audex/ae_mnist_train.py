@@ -89,11 +89,14 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    (x_train, _), (_, _) = mnist.load_data() # traindata                x_train.shape == (60000, 28, 28)
-    x_train,  _,   _, _  = reshape_traindata(x_train, _, _, _) #        x_train.shape == (60000, 28, 28, 1)
-    x_train,  _,   _, _  = normalize_traindata_pixels(x_train, _, _, _)
+    (x_inputs, _), (_, _) = mnist.load_data() # traindata                x_train.shape == (60000, 28, 28)
+    x_inputs,  _,   _, _  = reshape_traindata(x_inputs, _, _, _) #        x_train.shape == (60000, 28, 28, 1)
+    x_inputs,  _,   _, _  = normalize_traindata_pixels(x_inputs, _, _, _)
 
-    history = model.train(x_train[:args.mnist_size], args.batch_size, args.epochs, [earlystop_callback])
+    x_inputs = x_inputs[:args.mnist_size]
+    x_targets = x_inputs
+
+    history = model.train(x_inputs, x_targets, args.batch_size, args.epochs, [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
     timestamp = timestamp_now()
