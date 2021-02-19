@@ -37,11 +37,10 @@ def plot_matrix(m, message=""):
     pt.colorbar(im, shrink=0.5)
     pt.show()
 
-def plot_matrices_single_chart(matrices, original_filename, modelname):
+def plot_matrices_single_chart(matrices, titles, modelname):
     fig = pt.figure(figsize=(20, 12))
-    fig.canvas.set_window_title("signum_and_genum_" + modelname)
-    fig.suptitle("Signum and genum of " + original_filename, fontsize=12)
-    titles = ["Signum", "Genum"]
+    fig.canvas.set_window_title("_".join(titles) + "_" + modelname)
+    fig.suptitle(" ".join(titles), fontsize=12)
     for i, m in enumerate(matrices, start = 0):
         print("Max in matrix {}:".format(yellow(titles[i])), pinkred("{:>5.2f}").format(np.amax(m)))
         ax = pt.subplot(len(matrices), 1, i+1)
