@@ -91,8 +91,8 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    (x_inputs, _), (_, _) = mnist.load_data() # traindata                x_train.shape == (60000, 28, 28)
-    x_inputs,  _,   _, _  = reshape_traindata(x_inputs, _, _, _) #       x_train.shape == (60000, 28, 28, 1)
+    (x_inputs, _), (_, _) = mnist.load_data() # traindata                x_inputs.shape == (60000, 28, 28)
+    x_inputs,  _,   _, _  = reshape_traindata(x_inputs, _, _, _) #       x_inputs.shape == (60000, 28, 28, 1)
     x_inputs,  _,   _, _  = normalize_traindata_pixels(x_inputs, _, _, _)
 
     x_inputs = x_inputs[:args.mnist_size]
