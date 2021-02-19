@@ -103,6 +103,8 @@ if __name__ == "__main__":
     else:
         x_targets = x_inputs
 
+    #plot_matrices_single_chart([x_inputs.squeeze()[0], x_targets.squeeze()[0]], ["input", "target"], "mnist")
+
     history = model.train(x_inputs, x_targets, args.batch_size, args.epochs, [earlystop_callback])
 
     training_duration = timedelta(seconds = round(time.time() - start_time))
