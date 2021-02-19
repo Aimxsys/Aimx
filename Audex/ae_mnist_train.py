@@ -36,6 +36,7 @@ def process_clargs():
     parser.add_argument("-note",          default = "",     type=str,   help = 'Short note to appear inside trainid.')
 
     parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
+    parser.add_argument("-fixtarget",   action ='store_true',   help = 'Will train on a fixed target.')
     parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
     parser.add_argument("-savemodel",   action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
     parser.add_argument("-noquestions", action ='store_true',   help = 'Don\'t ask any questions.')
@@ -95,7 +96,12 @@ if __name__ == "__main__":
     x_inputs,  _,   _, _  = normalize_traindata_pixels(x_inputs, _, _, _)
 
     x_inputs = x_inputs[:args.mnist_size]
-    x_targets = x_inputs
+    if args.fixtarget:
+        x_targets = x_inputs[0]
+        x_targets = x_targets[np.newaxis, ...]                      # turn into      (1, 28, 28, 1)
+        x_targets = np.repeat(x_targets, x_inputs.shape[0], axis=0) # replicate into (n, 28, 28, 1) to match the x_inputs stack
+    else:
+        x_targets = x_inputs
 
     history = model.train(x_inputs, x_targets, args.batch_size, args.epochs, [earlystop_callback])
 
