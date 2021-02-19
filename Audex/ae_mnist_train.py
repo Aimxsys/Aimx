@@ -120,7 +120,6 @@ if __name__ == "__main__":
     save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.dim_latent,
                                  cmdline   = nameofthis(__file__) + " " + " ".join(sys.argv[1:]),
                                  savemodel = args.savemodel)
-
     if (args.savemodel):
         model.save_model(trainid)
 
