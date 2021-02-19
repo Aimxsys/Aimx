@@ -40,6 +40,7 @@ def process_clargs():
 
     parser.add_argument("-repeat",        default =  1,                 type=int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_infers",    default = 10,                 type=int,  help = 'Number of images to generate. If small, will also plot latent space points.')
+    parser.add_argument("-normalize",     action ='store_true',                    help = 'Normalize data.')
     parser.add_argument("-randomize",     action  ='store_true',                   help = 'Randomize picking from the dataset.')
     parser.add_argument("-mode_gen",      action  ='store_true',                   help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action  ='store_true',                   help = 'This mode will regenerate an image.')
@@ -204,6 +205,10 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
+        # Normalize signums
+        if args.normalize:
+            signums = librosa.util.normalize(signums) # for cases when model was trained on normalized signums
+
         if args.showspec == 'signum':
             showspec_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
@@ -224,9 +229,6 @@ if __name__ == "__main__":
             play(signal_restored, signal_restored.shape[0], # signal_restored.shape == (22016,)
                  "Playing immediately restored audio signal of shape {}  and numerical content:".format(cyan(signal_restored.shape)),
                  "Continue on to sending the above signums to NN?\n")
-
-        # Normalize signums
-        signums = librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
         print_info("/\/\\" * 20, " SENDING signums of shape {} INTO NN".format(signums.shape))
 
