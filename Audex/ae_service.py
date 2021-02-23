@@ -208,7 +208,7 @@ if __name__ == "__main__":
             signums /= args.downscale # librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
         if args.showspec == 'signum':
-            showspec_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+            interpret_as_melspec(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
         #                                            squeeze()  transpose()   to_audio()
@@ -255,11 +255,14 @@ if __name__ == "__main__":
                    " signals of shapes {} and {}:".format(asr.af_signal.shape, genum_restored.shape)),
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
         
+        # Plot signum & genum matrices as raw numbers
         plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], ["signum", "genum"], extract_filename(args.model_path))
 
+        # Plot signum & genum matrices as mel spectrogram
         if args.showspec == 'genum':
-            showspec_mel(genums.squeeze().T, quote(afname) + " GENUM")
+            interpret_as_melspec(genums.squeeze().T, quote(afname) + " GENUM")
 
+        # Plot the original signal, its immediate signum restoration and its genum restoration
         if args.plot_signals:
             plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
 
