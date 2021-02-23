@@ -84,7 +84,7 @@ def prepare_traindata(traindata_path):
     traindata     = traindata[..., np.newaxis]        # example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
     if args.normalize:
         print_info("Normalizing traindata...", end="")
-        traindata = librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
+        traindata /= 50# librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
         print_info("[DONE]")
     print_info("Final prepared traindata inputs shape: " + str(traindata.shape))
     return traindata
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     # TODO:NEXT When -targetdata_path is NOT provided, the chart shows the target correctly, but the genum is completely messed up.
     normalized = " (normalized)" if args.normalize else ""
     plot_matrices_single_chart([x_inputs.squeeze()[0], x_targets.squeeze()[0]], ["input", "target" + normalized], extract_filename(args.traindata_path))
-    exit()
+    #exit()
 
     inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_inputs.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
 

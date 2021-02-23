@@ -41,9 +41,9 @@ def process_clargs():
     parser.add_argument("-repeat",        default =  1,                 type=int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_infers",    default = 10,                 type=int,  help = 'Number of images to generate. If small, will also plot latent space points.')
     parser.add_argument("-normalize",     action ='store_true',                    help = 'Normalize data.')
-    parser.add_argument("-randomize",     action  ='store_true',                   help = 'Randomize picking from the dataset.')
-    parser.add_argument("-mode_gen",      action  ='store_true',                   help = 'This mode will generate a genum from latent space.')
-    parser.add_argument("-mode_regen",    action  ='store_true',                   help = 'This mode will regenerate an image.')
+    parser.add_argument("-randomize",     action ='store_true',                    help = 'Randomize picking from the dataset.')
+    parser.add_argument("-mode_gen",      action ='store_true',                    help = 'This mode will generate a genum from latent space.')
+    parser.add_argument("-mode_regen",    action ='store_true',                    help = 'This mode will regenerate an image.')
     parser.add_argument("-showspec",                                               help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
     parser.add_argument("-plot_signals",  action ='store_true',                    help = 'Plot all signals in a single chart.')
     parser.add_argument("-play_all",      action ='store_true',                    help = 'Play all sounds.')
@@ -207,7 +207,7 @@ if __name__ == "__main__":
 
         # Normalize signums
         if args.normalize:
-            signums = librosa.util.normalize(signums) # for cases when model was trained on normalized signums
+            signums /= 50# librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
         if args.showspec == 'signum':
             showspec_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
