@@ -333,9 +333,9 @@ def plot_history_ae(history, trainid, show_interactive):
     if show_interactive:
         pt.show()
 
-def showspec_mel(melspec, plot_title):
-    print_info("Plotting melspec of shape {}...".format(pinkred(melspec.shape)))
-    log_mel_spectrogram = librosa.power_to_db(melspec)
+def showspec_mel(data, plot_title):
+    print_info("Plotting melspec of shape {}...".format(pinkred(data.shape)))
+    log_mel_spectrogram = librosa.power_to_db(data)
     pt.figure(figsize = (15, 10)).canvas.set_window_title("MEL Spectrogram")
     pt.title("MEL Spec of " + plot_title)
     librosa.display.specshow(log_mel_spectrogram, x_axis = "time", y_axis = "mel")
