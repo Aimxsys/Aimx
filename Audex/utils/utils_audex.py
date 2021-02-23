@@ -5,6 +5,7 @@ from shutil  import copy2
 
 import librosa
 import librosa.display
+from datetime import timedelta
 
 import tensorflow as tf
 import numpy as np
@@ -36,7 +37,7 @@ class Aimx:
     
     class Dataprep:
         RESULT_METADATA_FULLPATH   = os.path.join(WORKDIR, "dataprep_result_meta.json")
-        TOTAL_AUDIOS_LENGTH        = "total_audio_files_length_sec"
+        TOTAL_AUDIOS_LENGTH        = "total_audio_files_length"
         DATASET_VIEW               = "dataset_view"
         SIGNAL_NUMERIZATION_PARAMS = "signal_numerization_params"
         ALL_DIR_LABELS             = "alldirlabs"
@@ -109,7 +110,7 @@ def save_dataprep_result_meta(traindata_filename, dataset_view, timestamp, datap
         Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS: signal_numerization_params,
         Aimx.Dataprep.DATASET_VIEW:               dataset_view,
         Aimx.CMDLINE:                             cmdline,
-        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        round(total_audios_length_sec),
+        Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        str(timedelta(seconds = round(total_audios_length_sec))),
         Aimx.TIMESTAMP:                           timestamp,
         Aimx.DURATION:                            dataprep_duration,
         Aimx.NOTES:                               ""
