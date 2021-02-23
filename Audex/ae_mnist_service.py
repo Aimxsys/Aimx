@@ -155,6 +155,7 @@ if __name__ == "__main__":
 
     model = Autoencoder.load_model(args.model_path)
 
+    # load, reshape, downscale
     (_, _), (x_test, y_test) = mnist.load_data() # traindata                      x_train.shape == (60000, 28, 28)
     _,  _,   x_test, y_test  = reshape_traindata(         _, _, x_test, y_test) # x_train.shape == (60000, 28, 28, 1)
     _,  _,   x_test, y_test  = downscale_traindata_pixels(_, _, x_test, y_test)
