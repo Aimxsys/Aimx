@@ -40,7 +40,7 @@ def process_clargs():
 
     parser.add_argument("-repeat",        default =  1,                 type=int,  help = 'Repeat the run of the service specified number of times.')
     parser.add_argument("-num_infers",    default = 10,                 type=int,  help = 'Number of images to generate. If small, will also plot latent space points.')
-    parser.add_argument("-normalize",     action ='store_true',                    help = 'Normalize data.')
+    parser.add_argument("-normalize",     default = 10,                 type=int,  help = 'Normalize data.')
     parser.add_argument("-randomize",     action ='store_true',                    help = 'Randomize picking from the dataset.')
     parser.add_argument("-mode_gen",      action ='store_true',                    help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action ='store_true',                    help = 'This mode will regenerate an image.')
@@ -206,8 +206,8 @@ if __name__ == "__main__":
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
         # Normalize signums
-        if args.normalize:
-            signums /= 50# librosa.util.normalize(signums) # for cases when model was trained on normalized signums
+        if provided(args.normalize):
+            signums /= args.normalize # librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
         if args.showspec == 'signum':
             showspec_mel(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
