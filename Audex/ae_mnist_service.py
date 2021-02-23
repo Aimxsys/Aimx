@@ -8,7 +8,7 @@ import sys
 import os
 
 from ae             import Autoencoder
-from ae_mnist_train import normalize_traindata_pixels
+from ae_mnist_train import downscale_traindata_pixels
 from ae_mnist_train import reshape_traindata
 
 # Add this directory to path so that package is recognized.
@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     (_, _), (x_test, y_test) = mnist.load_data() # traindata                      x_train.shape == (60000, 28, 28)
     _,  _,   x_test, y_test  = reshape_traindata(         _, _, x_test, y_test) # x_train.shape == (60000, 28, 28, 1)
-    _,  _,   x_test, y_test  = normalize_traindata_pixels(_, _, x_test, y_test)
+    _,  _,   x_test, y_test  = downscale_traindata_pixels(_, _, x_test, y_test)
 
     # MNIST traindata values:
     # x_test.shape == (10000, 28, 28, 1)
