@@ -43,7 +43,7 @@ def process_clargs():
     parser.add_argument("-note",          default = "",      type=str,   help = 'Short note to appear inside trainid.')
 
     parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
-    parser.add_argument("-normalize",   default = 10, type=int, help = 'Normalize data.')
+    parser.add_argument("-downscale",   default = 10, type=int, help = 'Factor by which to scale down the data.')
     parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
     parser.add_argument("-savemodel",   action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
     parser.add_argument("-noquestions", action ='store_true',   help = 'Don\'t ask any questions.')
@@ -82,9 +82,9 @@ def process_clargs():
 def prepare_traindata(traindata_path):
     traindata, _  = load_traindata(traindata_path)    # inputs, labels (here ignored)
     traindata     = traindata[..., np.newaxis]        # example resulting shape: (89, 259, 13, 1) for (signals, mfccvectors, mfccs, depth)
-    if provided(args.normalize):
+    if provided(args.downscale):
         print_info("Normalizing traindata...", end="")
-        traindata /= args.normalize # librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
+        traindata /= args.downscale # librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
         print_info("[DONE]")
     print_info("Final prepared traindata inputs shape: " + str(traindata.shape))
     return traindata
@@ -106,8 +106,8 @@ if __name__ == "__main__":
     # TODO:NEXT When -targetdata_path is provided and normalization is on, the chart shows targets all green,
     #           which on the colormap corresponds to value 1.0 Why?
     # TODO:NEXT When -targetdata_path is NOT provided, the chart shows the target correctly, but the genum is completely messed up.
-    normalized = " (normalized)" if provided(args.normalize) else ""
-    plot_matrices_single_chart([x_inputs.squeeze()[0], x_targets.squeeze()[0]], ["input", "target" + normalized], extract_filename(args.traindata_path))
+    downscaled = " (downscaled)" if provided(args.downscale) else ""
+    plot_matrices_single_chart([x_inputs.squeeze()[0], x_targets.squeeze()[0]], ["input", "target" + downscaled], extract_filename(args.traindata_path))
     #exit()
 
     inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_inputs.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
