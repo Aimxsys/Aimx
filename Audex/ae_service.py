@@ -10,9 +10,7 @@ import os
 
 from itertools import islice
 
-from ae             import Autoencoder
-from ae_mnist_train import normalize_traindata_pixels
-from ae_mnist_train import reshape_traindata
+from ae import Autoencoder
 
 # Add this directory to path so that package is recognized.
 # Looks like a hack, but is ok for now to allow moving forward.
