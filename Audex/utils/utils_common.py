@@ -40,7 +40,7 @@ def plot_matrix(m, message=""):
 def plot_matrices_single_chart(matrices, titles, modelname):
     fig = pt.figure(figsize=(20, 12))
     fig.canvas.set_window_title("_".join(titles) + "_" + modelname)
-    fig.suptitle("Raw Numerical Matrices", fontsize=12)
+    fig.suptitle("Raw Numbers Matrices", fontsize=12)
     for i, m in enumerate(matrices, start = 0):
         print("Max in matrix {}:".format(yellow(titles[i])), pinkred("{:>5.2f}").format(np.amax(m)))
         ax = pt.subplot(len(matrices), 1, i+1)
