@@ -208,7 +208,7 @@ if __name__ == "__main__":
             signums /= args.downscale # librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
         if args.showspec == 'signum':
-            interpret_as_melspec(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+            plot_interpret_as_melspec(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
         #                                            squeeze()  transpose()   to_audio()
@@ -260,7 +260,7 @@ if __name__ == "__main__":
 
         # Plot signum & genum matrices as mel spectrogram
         if args.showspec == 'genum':
-            interpret_as_melspec(genums.squeeze().T, quote(afname) + " GENUM")
+            plot_interpret_as_melspec(genums.squeeze().T, quote(afname) + " GENUM")
 
         # Plot the original signal, its immediate signum restoration and its genum restoration
         if args.plot_signals:
