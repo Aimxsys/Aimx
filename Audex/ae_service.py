@@ -243,9 +243,6 @@ if __name__ == "__main__":
 
         print_info(purple("\nEuclidean distance between signum and genum"), np.linalg.norm(signums - genums))
 
-        if args.showspec == 'genum':
-            showspec_mel(genums.squeeze().T, quote(afname) + " GENUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
-
         #genum_restored = librosa.feature.inverse.mfcc_to_audio(genums.squeeze().T)
         genum_restored = librosa.feature.inverse.mel_to_audio(genums.squeeze().T)
         genum_restored = np.pad(genum_restored, pad_width=(0, len(asr.af_signal) - len(genum_restored)))
@@ -259,6 +256,9 @@ if __name__ == "__main__":
                    closeness_color(signal_distance_original_from_genum), "\n") # for some reason, not identical from run to run
         
         plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], ["signum", "genum"], extract_filename(args.model_path))
+
+        if args.showspec == 'genum':
+            showspec_mel(genums.squeeze().T, quote(afname) + " GENUM")
 
         if args.plot_signals:
             plot_ae_signals_single_chart([asr.af_signal, signal_restored, genum_restored], afname, extract_filename(args.model_path))
