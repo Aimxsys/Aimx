@@ -209,7 +209,7 @@ if __name__ == "__main__":
             signums /= args.downscale # librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
         if args.plot_spec == 'signum':
-            plot_interpret_as_melspec(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
+            plot_interpret_as_melspec(signums.squeeze().T, quote(afname) + " SIGNUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
         #                                            squeeze()  transpose()   to_audio()
