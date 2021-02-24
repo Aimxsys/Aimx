@@ -42,7 +42,7 @@ def process_clargs():
     parser.add_argument("-randomize",     action ='store_true',                    help = 'Randomize picking from the dataset.')
     parser.add_argument("-mode_gen",      action ='store_true',                    help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action ='store_true',                    help = 'This mode will regenerate an image.')
-    parser.add_argument("-showspec",                                               help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
+    parser.add_argument("-plot_spec",                                              help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
     parser.add_argument("-plot_sgrawmat", action ='store_true',                    help = 'Plot raw matrices of signum and genum.')
     parser.add_argument("-plot_signals",  action ='store_true',                    help = 'Plot all signals in a single chart.')
     parser.add_argument("-play_all",      action ='store_true',                    help = 'Play all sounds.')
@@ -208,7 +208,7 @@ if __name__ == "__main__":
         if provided(args.downscale):
             signums /= args.downscale # librosa.util.normalize(signums) # for cases when model was trained on normalized signums
 
-        if args.showspec == 'signum':
+        if args.plot_spec == 'signum':
             plot_interpret_as_melspec(signums.squeeze().T, afname) # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
@@ -261,7 +261,7 @@ if __name__ == "__main__":
             plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], ["signum", "genum"], extract_filename(args.model_path))
 
         # Plot signum & genum matrices as mel spectrogram
-        if args.showspec == 'genum':
+        if args.plot_spec == 'genum':
             plot_interpret_as_melspec(genums.squeeze().T, quote(afname) + " GENUM")
 
         # Plot the original signal, its immediate signum restoration and its genum restoration
