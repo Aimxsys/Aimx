@@ -7,6 +7,7 @@ from tensorflow.keras.losses     import MeanSquaredError
 
 import pickle
 import numpy as np
+import argparse
 
 import sys
 import os
@@ -18,6 +19,14 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import *
+
+def process_clargs():
+    parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
+    
+    parser.add_argument("-archsum", action  ='store_true', help='Preview model architecture summary.')
+    
+    args = parser.parse_args()
+    return args
 
 class Autoencoder:
     FILENAME_WEIGHTS  = "weights.h5"
@@ -263,13 +272,16 @@ class Autoencoder:
         output_layer = tf.keras.layers.Activation("sigmoid", name="sigmoid_layer")(x)
         return output_layer
 
-#if __name__ == "__main__":
-#    autoencoder = Autoencoder(
-#        input_shape      = (28, 28, 1),
-#        conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
-#        # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
-#        conv_kernels     = (3, 3, 3, 3),
-#        conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
-#        dim_latent = 10
-#    )
-#    autoencoder.summary()
+if __name__ == "__main__":
+    args = process_clargs()
+
+    if args.archsum:
+        autoencoder = Autoencoder(
+            input_shape      = (28, 28, 1),
+            conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
+            # len() of tuples below must be at least that of the above, like here they are both of len() 4. Otherwise you'll get an error.
+            conv_kernels     = (3, 3, 3, 3),
+            conv_strides     = (1, 2, 2, 1),     # stride 2 in conv layers means downsampling (halving) at that point
+            dim_latent = 10
+        )
+        autoencoder.summary()
