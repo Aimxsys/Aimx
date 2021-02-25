@@ -201,7 +201,11 @@ class Autoencoder:
         self._shape_before_bottleneck = tf.keras.backend.int_shape(x)[1:] # first dimension is batch size, ignore it and take only width, height and number of channels
         
         x = tf.keras.layers.Flatten()(x)
-        x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output")(x)
+        #n = np.prod(self._shape_before_bottleneck)
+        #x = tf.keras.layers.Dense(n/2)(x)
+        #x = tf.keras.layers.Dense(n/4)(x)
+        #x = tf.keras.layers.Dense(n/8)(x)
+        x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output")(x)        
         return x
 
     def _add_decoder_input(self):
@@ -211,6 +215,11 @@ class Autoencoder:
         # Here we want the same number of neurons as there are in the layer before the bottleneck,
         # but flattened. So for a shape of (1, 2, 4) we need 8 (which is the product of dimensions).
         num_neurons = np.prod(self._shape_before_bottleneck)
+        #n = np.prod(self._shape_before_bottleneck)
+        #dense_layer = tf.keras.layers.Dense(n/8)(decoder_input)
+        #dense_layer = tf.keras.layers.Dense(n/4)(dense_layer)
+        #dense_layer = tf.keras.layers.Dense(n/2)(dense_layer)
+        #dense_layer = tf.keras.layers.Dense(num_neurons, name="decoder_dense")(dense_layer)
         dense_layer = tf.keras.layers.Dense(num_neurons, name="decoder_dense")(decoder_input)
         return dense_layer
 
