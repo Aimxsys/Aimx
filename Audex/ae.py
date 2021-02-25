@@ -205,7 +205,11 @@ class Autoencoder:
         #x = tf.keras.layers.Dense(n/2)(x)
         #x = tf.keras.layers.Dense(n/4)(x)
         #x = tf.keras.layers.Dense(n/8)(x)
-        x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output")(x)        
+        x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output")(x)
+        #x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output2")(x)
+        #x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output3")(x)
+        #x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output4")(x)
+        #x = tf.keras.layers.Dense(self.dim_latent, name="encoder_output5")(x)
         return x
 
     def _add_decoder_input(self):
