@@ -43,7 +43,7 @@ def process_clargs():
     parser.add_argument("-note",          default = "",      type=str,   help = 'Short note to appear inside trainid.')
 
     parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
-    parser.add_argument("-downscale",   default = 10, type=int, help = 'Factor by which to scale down the data.')
+    parser.add_argument("-downscale",                 type=int, help = 'Factor by which to scale down the data.')
     parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
     parser.add_argument("-savemodel",   action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
     parser.add_argument("-noquestions", action ='store_true',   help = 'Don\'t ask any questions.')
