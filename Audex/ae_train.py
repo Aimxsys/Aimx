@@ -85,6 +85,8 @@ def prepare_traindata(traindata_path):
     if provided(args.downscale):
         print_info("Normalizing traindata...", end="")
         traindata /= args.downscale # librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
+        #for i in range(traindata.shape[0]): # scale each audio clip according to its own max (ignore overall -downscale)
+        #    traindata[i] /= np.amax(traindata[i]) # librosa.util.normalize(traindata) # normalize (like MNIST is normalized)
         print_info("[DONE]")
     print_info("Final prepared traindata inputs shape: " + str(traindata.shape))
     return traindata
@@ -107,7 +109,8 @@ if __name__ == "__main__":
     #           which on the colormap corresponds to value 1.0 Why?
     # TODO:NEXT When -targetdata_path is NOT provided, the chart shows the target correctly, but the genum is completely messed up.
     downscaled = " (downscaled)" if provided(args.downscale) else ""
-    plot_matrices_single_chart([x_inputs.squeeze()[0], x_targets.squeeze()[0]], ["input", "target" + downscaled], extract_filename(args.traindata_path))
+    for i in range(0):
+        plot_matrices_single_chart([x_inputs.squeeze()[i], x_targets.squeeze()[i]], ["input", "target" + downscaled], extract_filename(args.traindata_path))
     #exit()
 
     inputshape = (x_inputs.shape[1], x_inputs.shape[2], 1) # x_inputs.shape == (11, 44, 128, 1) for (signals, mfccvectors, mfccs, depth)
