@@ -23,7 +23,7 @@ from Audex.utils.utils_audex  import *
 def process_clargs():
     parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
     
-    parser.add_argument("-archsum", action  ='store_true', help='Preview model architecture summary.')
+    parser.add_argument("-sample_arch", action  ='store_true', help='Show an example model architecture summary.')
     
     args = parser.parse_args()
     return args
@@ -275,7 +275,7 @@ class Autoencoder:
 if __name__ == "__main__":
     args = process_clargs()
 
-    if args.archsum:
+    if args.sample_arch:
         autoencoder = Autoencoder(
             input_shape      = (28, 28, 1),
             conv_filters     = (32, 64, 64, 64), # 4 conv layers each with the corresponding number of filters
