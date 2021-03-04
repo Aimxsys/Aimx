@@ -175,7 +175,7 @@ def load_traindata(arg_traindata_path):
             traindata = json.load(file)
             print_info("[DONE]")            
     except FileNotFoundError:
-        print_info("Data file " + quote(actual_traindata_path) + " not provided or not found. Exiting...")
+        print("Data file " + quote(pinkred(actual_traindata_path)) + " not provided or not found. Exiting...")
         exit() # cannot proceed without traindata file
     
     print_info("Reading traindata into numpy arrays... ", end="")
