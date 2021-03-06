@@ -35,7 +35,8 @@ def process_clargs():
     parser.add_argument("-verbose",       default =  1,     type=int,   help = 'Verbosity modes: 0 (silent), 1 (will show progress bar), or 2 (one line per epoch). Default is 1.')
     parser.add_argument("-note",          default = "",     type=str,   help = 'Short note to appear inside trainid.')
 
-    parser.add_argument("-dim_latent",  default = 10, type=int, help = 'Dimension of the latent space.')
+    parser.add_argument("-dim_latent",  default =  10, type=int, help = 'Dimension of the latent space.')
+    parser.add_argument("-downscale",   default = 255, type=int, help = 'Factor by which to scale down the data.')
     parser.add_argument("-fixtarget",   action ='store_true',   help = 'Will train on a fixed target.')
     parser.add_argument("-showplot",    action ='store_true',   help = 'At the end, will show an interactive plot of the training history.')
     parser.add_argument("-savemodel",   action ='store_true',   help = 'Save a trained model in directory ' + quote(Aimx.Paths.GEN_SAVED_MODELS))
@@ -62,9 +63,9 @@ def process_clargs():
 
     return args
 
-def downscale_traindata_pixels(x_train, y_train, x_test, y_test):
-    x_train = x_train.astype("float32") / 255
-    x_test  =  x_test.astype("float32") / 255
+def downscale_traindata_pixels(x_train, y_train, x_test, y_test, downscale):
+    x_train = x_train.astype("float32") / downscale
+    x_test  =  x_test.astype("float32") / downscale
     return x_train, y_train, x_test, y_test
 
 def reshape_traindata(x_train, y_train, x_test, y_test):
@@ -94,7 +95,7 @@ if __name__ == "__main__":
     # load, reshape, downscale
     (x_inputs, _), (_, _) = mnist.load_data() # traindata                x_inputs.shape == (60000, 28, 28)
     x_inputs,  _,   _, _  = reshape_traindata(x_inputs, _, _, _) #       x_inputs.shape == (60000, 28, 28, 1)
-    x_inputs,  _,   _, _  = downscale_traindata_pixels(x_inputs, _, _, _)
+    x_inputs,  _,   _, _  = downscale_traindata_pixels(x_inputs, _, _, _, args.downscale)
 
     x_inputs = x_inputs[:args.mnist_size]
     if args.fixtarget:
