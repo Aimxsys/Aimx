@@ -3,7 +3,7 @@
 import tensorflow as tf
 from tensorflow.keras.layers     import Input, Conv2D, ReLU, BatchNormalization, Flatten, Dense, Reshape, Conv2DTranspose, Activation
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses     import MeanSquaredError
+from tensorflow.keras.losses     import MeanSquaredError, Huber
 
 import pickle
 import numpy as np
@@ -60,6 +60,7 @@ class Autoencoder:
     def compile(self, learning_rate=0.0001):
         opt = Adam(learning_rate=learning_rate)
         mse = MeanSquaredError()
+        hub = Huber()
         self.model_ae.compile(optimizer=opt, loss=mse)
 
     def train(self, inputs, targets, batch_size, epochs, callbacks):
