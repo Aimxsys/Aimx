@@ -70,7 +70,8 @@ def process_clargs():
     args.n_hop_length  = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["hop_length"]    if not provided(args.hop_length)    else args.hop_length
     args.sample_rate   = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["sample_rate"]   if not provided(args.hop_length)    else args.sample_rate
     args.load_duration = get_training_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS]["load_duration"] if not provided(args.load_duration) else args.load_duration
-    
+    args.downscale     = get_training_result_meta()[Aimx.Training.DOWNSCALE]                                   if not provided(args.downscale)     else args.downscale
+        
     ###########################################################################################
     
     print_script_start_preamble(nameofthis(__file__), vars(args))

@@ -143,7 +143,7 @@ if __name__ == "__main__":
     trainid = args.ann_type + "_x" + str(args.dim_latent) + "_e" + str(args.epochs) + "_" + args.note + "_" + extract_filename(args.traindata_path)
 
     # save as most recent training result metadata
-    save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.dim_latent,
+    save_training_result_meta_ae(history, trainid, timestamp, str(training_duration), inputshape, args.dim_latent, args.downscale,
                                  cmdline   = nameofthis(__file__) + " " + " ".join(sys.argv[1:]),
                                  savemodel = args.savemodel)
     if (args.savemodel):

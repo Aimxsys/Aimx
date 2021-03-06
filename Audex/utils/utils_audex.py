@@ -50,6 +50,7 @@ class Aimx:
 
     class Training:
         RESULT_METADATA_FULLPATH = os.path.join(WORKDIR, "training_result_meta.json")
+        DOWNSCALE                = "downscale"
         INPUT_SHAPE              = "input_shape"
         VAL_ACCURACY             = "val_accuracy"
         LOSS                     = "loss"
@@ -139,13 +140,14 @@ def save_training_result_meta(history, trainid, timestamp, training_duration, in
         json.dump(meta, file, indent=4)
         print_info("[DONE]")
 
-def save_training_result_meta_ae(history, trainid, timestamp, training_duration, inputshape, dim_latent, cmdline, savemodel=False):
+def save_training_result_meta_ae(history, trainid, timestamp, training_duration, inputshape, dim_latent, downscale, cmdline, savemodel=False):
     
     model_fullpath = os.path.join(Aimx.Paths.GEN_SAVED_MODELS, "model_" + trainid) if savemodel else ""
     meta = {
         Aimx.MOST_RECENT_OUTPUT:                  model_fullpath,
         Aimx.Training.INPUT_SHAPE:                str(inputshape),
         Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS: get_dataprep_result_meta()[Aimx.Dataprep.SIGNAL_NUMERIZATION_PARAMS], # extract from dataprep metadata & forward to training metadata
+        Aimx.Training.DOWNSCALE:                  downscale,
         Aimx.Dataprep.DATASET_VIEW:               get_dataprep_result_meta()[Aimx.Dataprep.DATASET_VIEW],               # extract from dataprep metadata & forward to training metadata
         Aimx.CMDLINE:                             cmdline,
         Aimx.Dataprep.TOTAL_AUDIOS_LENGTH:        get_dataprep_result_meta()[Aimx.Dataprep.TOTAL_AUDIOS_LENGTH],        # extract from dataprep metadata & forward to training metadata
