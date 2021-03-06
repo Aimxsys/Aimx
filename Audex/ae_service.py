@@ -204,12 +204,13 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
+        if 'signum' in args.plot_spec:
+            # Without proper downscaling, the line below causes mel_to_audio() below throw numpy.linalg.LinAlgError
+            plot_interpret_as_melspec(signums.squeeze().T, quote(afname) + " SIGNUM before downscaling")
+
         # Downscale signums
         if provided(args.downscale):
             signums /= args.downscale # librosa.util.normalize(signums) # for cases when model was trained on normalized signums
-
-        if args.plot_spec == 'signum':
-            plot_interpret_as_melspec(signums.squeeze().T, quote(afname) + " SIGNUM") # TODO: This line causes mel_to_audio() below throw numpy.linalg.LinAlgError
 
         # Restore and play back immediately to compare with the original playback
         #                                            squeeze()  transpose()   to_audio()
@@ -233,7 +234,7 @@ if __name__ == "__main__":
 
         vencs, genums = asr.model.regen(signums)
 
-        #genums *= 8
+        genums *= args.downscale
 
         #plot_signal(np.around(genums.squeeze(), 2), "genums of fixed target", "genum_" + extract_filename(args.model_path))
 
@@ -261,7 +262,7 @@ if __name__ == "__main__":
             plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], ["signum", "genum"], extract_filename(args.model_path))
 
         # Plot signum & genum matrices as mel spectrogram
-        if args.plot_spec == 'genum':
+        if 'genum' in args.plot_spec:
             plot_interpret_as_melspec(genums.squeeze().T, quote(afname) + " GENUM")
 
         # Plot the original signal, its immediate signum restoration and its genum restoration
@@ -270,4 +271,5 @@ if __name__ == "__main__":
 
         #input(yellow("Continue on to play genums?"))
         if args.play_all or args.play_output:
-            play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
+            for i in range(5):
+                play(genum_restored, genum_restored.shape[0], "Playing genum of shape " + cyan(genum_restored.shape), waitforanykey=False)
