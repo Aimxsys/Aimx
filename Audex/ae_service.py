@@ -42,7 +42,7 @@ def process_clargs():
     parser.add_argument("-randomize",     action ='store_true',                    help = 'Randomize picking from the dataset.')
     parser.add_argument("-mode_gen",      action ='store_true',                    help = 'This mode will generate a genum from latent space.')
     parser.add_argument("-mode_regen",    action ='store_true',                    help = 'This mode will regenerate an image.')
-    parser.add_argument("-plot_spec",                                              help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
+    parser.add_argument("-plot_spec",                                   type=str,  help = '\'signum\' or \'genum\'. At the end, will show the corresponding spectrogram.')
     parser.add_argument("-plot_sgrawmat", action ='store_true',                    help = 'Plot raw matrices of signum and genum.')
     parser.add_argument("-plot_signals",  action ='store_true',                    help = 'Plot all signals in a single chart.')
     parser.add_argument("-play_all",      action ='store_true',                    help = 'Play all sounds.')
@@ -205,7 +205,7 @@ if __name__ == "__main__":
         # (1, 44, 128, 1) if Mel
         signums = asr.signumerize(signum_type=args.signum_type, n_mfcc=args.n_mfcc, n_fft=args.n_fft, hop_length=args.hop_length)
 
-        if 'signum' in args.plot_spec:
+        if provided(args.plot_spec) and 'signum' in args.plot_spec:
             # Without proper downscaling, the line below causes mel_to_audio() below throw numpy.linalg.LinAlgError
             plot_interpret_as_melspec(signums.squeeze().T, quote(afname) + " SIGNUM before downscaling")
 
@@ -263,7 +263,7 @@ if __name__ == "__main__":
             plot_matrices_single_chart([signums.squeeze(), genums.squeeze()], ["signum", "genum"], extract_filename(args.model_path))
 
         # Plot signum & genum matrices as mel spectrogram
-        if 'genum' in args.plot_spec:
+        if provided(args.plot_spec) and 'genum' in args.plot_spec:
             plot_interpret_as_melspec(genums.squeeze().T, quote(afname) + " GENUM")
 
         # Plot the original signal, its immediate signum restoration and its genum restoration
