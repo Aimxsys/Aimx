@@ -21,7 +21,7 @@ from Audex.utils.utils_common import *
 from Audex.utils.utils_audex  import *
 
 def process_clargs():
-    parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
+    parser = argparse.ArgumentParser(description = 'This script launches an ASR client.')
     
     parser.add_argument("-sample_arch", action  ='store_true', help='Show an example model architecture summary.')
     

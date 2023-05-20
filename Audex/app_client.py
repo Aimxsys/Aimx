@@ -15,7 +15,7 @@ from Audex.utils.utils_common import *
 
 DEFAULT_FLASK_APP_PORT = ":5000"
 
-parser = argparse.ArgumentParser(description = 'This scrip launches an ASR client.')
+parser = argparse.ArgumentParser(description = 'This script launches an ASR client.')
 
 parser.add_argument("-inferdata_path", type = Path, help='Path to the audio files on which model inference is to be tested.')
 parser.add_argument("-server_endpoint", default = "http://127.0.0.1" + DEFAULT_FLASK_APP_PORT, type=str, help='Server URL.')
