@@ -1,3 +1,3 @@
 # Aimx
 
-Various AI / DL audio experiments & exploration.
+Various AI / DL audio experiments & exploration with TensorFlow.
